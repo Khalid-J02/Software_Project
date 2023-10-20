@@ -21,20 +21,20 @@ class Login extends StatelessWidget {
                 child: Container(
                   decoration: const BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage("images/Reg_Log_back.jpg"),
+                      image: AssetImage("images/Log_Reg_back.jpg"),
                       fit: BoxFit.cover,
                     ),
                   ),
                   alignment: Alignment.topCenter,
                   child: const Image(
-                    image: AssetImage('images/Proj_Logo_title.png'),
+                    image: AssetImage('images/Logo_title.png'),
                   ),
                 ),
               ),
               Expanded(
                 flex: 2,
                 child: Container(
-                  color: const Color(0xFFabcdd2),
+                  color: const Color(0xFF122247),
                   child: const _LoginPage(),
                 ),
               ),
@@ -79,24 +79,26 @@ class _LoginPageState extends State<_LoginPage> {
           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
           child: TextFormField(
             controller: _emailController,
+            style: TextStyle(color: Color(0xFFF3D69B)),
             decoration: InputDecoration(
               hintText: 'Enter your email here ...',
+              hintStyle: TextStyle(color: Color(0xFFF3D69B)),
               filled: true,
-              fillColor: Color(0xFFcce2e6),
+              fillColor: Color(0xFF2F4771),
               labelText: 'Email Address',
               labelStyle: const TextStyle(
-                color: Colors.black,
+                color: Color(0xFFF3D69B),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10.0),
                 borderSide: const BorderSide(
-                  color: Colors.black45,
+                  color: Color(0xFFF3D69B),
                 ),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10.0),
                 borderSide: const BorderSide(
-                  color: Colors.black,
+                  color: Color(0xFFF3D69B),
                   width: 1.0,
                 ),
               ),
@@ -108,24 +110,26 @@ class _LoginPageState extends State<_LoginPage> {
           child: TextFormField(
             controller: _passwordController,
             obscureText: _obsecPass,
+            style: TextStyle(color: Color(0xFFF3D69B)),
             decoration: InputDecoration(
               hintText: 'Enter your password here ...',
+              hintStyle: TextStyle(color: Color(0xFFF3D69B)),
               filled: true,
-              fillColor: Color(0xFFcce2e6),
+              fillColor: Color(0xFF2F4771),
               labelText: 'Password',
               labelStyle: const TextStyle(
-                color: Colors.black,
+                color: Color(0xFFF3D69B),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10.0),
                 borderSide: const BorderSide(
-                  color: Colors.black45,
+                  color: Color(0xFFF3D69B),
                 ),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10.0),
                 borderSide: const BorderSide(
-                  color: Colors.black,
+                  color: Color(0xFFF3D69B),
                   width: 1.0,
                 ),
               ),
@@ -137,7 +141,7 @@ class _LoginPageState extends State<_LoginPage> {
                   _obsecPass
                       ? Icons.visibility_off_rounded
                       : Icons.visibility_rounded,
-                  color: Colors.black45,
+                  color: Color(0xFFF3D69B),
                 ),
               ),
             ),
@@ -159,8 +163,8 @@ class _LoginPageState extends State<_LoginPage> {
             child: const Text(
               'Login',
               style: TextStyle(
-                fontSize: 15,
-                color: Colors.black,
+                fontSize: 16,
+                color: Color(0xFF122247),
               ),
             ),
           ),
@@ -168,7 +172,7 @@ class _LoginPageState extends State<_LoginPage> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text('Don\'t have an account yet?,'),
+            const Text('Don\'t have an account yet?,' , style: TextStyle(color: Color(0xFFF3D69B)),),
             TextButton(
               onPressed: () {
                 Get.toNamed('/Register');
@@ -178,7 +182,7 @@ class _LoginPageState extends State<_LoginPage> {
                 'Register',
                 style: TextStyle(
                   fontSize: 15,
-                  color: Colors.black,
+                  color: Color(0xFFF3D69B),
                 ),
               ),
             ),
@@ -187,7 +191,7 @@ class _LoginPageState extends State<_LoginPage> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text('Forget Your Password?,'),
+            const Text('Forget Your Password?,' , style: TextStyle(color: Color(0xFFF3D69B)),),
             TextButton(
               onPressed: () {
 
@@ -197,7 +201,7 @@ class _LoginPageState extends State<_LoginPage> {
                 'Reset Password',
                 style: TextStyle(
                   fontSize: 15,
-                  color: Colors.black,
+                  color: Color(0xFFF3D69B),
                 ),
               ),
             ),

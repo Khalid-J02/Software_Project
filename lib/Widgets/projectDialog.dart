@@ -22,68 +22,109 @@ class _ProjectDialogState extends State<ProjectDialog> {
   String _projectCity = "Project City";
   String _projectEntryPoint = "Entry Point";
 
+  ButtonStyle ElevatedButtonStyle(){
+    return ButtonStyle(
+        backgroundColor: MaterialStateProperty.all(Color(0xFF6781A6)),
+        elevation: MaterialStateProperty.all(0),
+        side: MaterialStateProperty.all(BorderSide(color: Color(0xFFF3D69B), width: 1)),
+        alignment: Alignment.center
+    ) ;
+  }
+
+  TextStyle ElevatedButtonTextStyle(){
+    return TextStyle(
+        color: Color(0xFFF3D69B),
+        fontSize: 16,
+        fontWeight: FontWeight.normal
+    );
+  }
   void chooseCityBottomSheet(){
     showModalBottomSheet(
         context: context,
         builder: (BuildContext context){
-          return SizedBox(
-            height: 350,
+          return Container(
+            color: Color(0xFF2F4771),
+            height: MediaQuery.of(context).size.height/3,
             child: Center(
               child: Column(
                 children: <Widget>[
-                  ElevatedButton(
-                  onPressed: (){
-                    setState(() {
-                      _projectCity = "Nablus" ;
-                    });
-                    Navigator.pop(context);
-                  },
-                  child: const Text("Nablus"),
-                  ),
-                  ElevatedButton(
+                  SizedBox(
+                    width: 120,
+                    child: ElevatedButton(
                     onPressed: (){
                       setState(() {
-                        _projectCity = "Ramallah" ;
+                        _projectCity = "Nablus" ;
                       });
                       Navigator.pop(context);
                     },
-                    child: const Text("Ramallah"),
+                    style: ElevatedButtonStyle(),
+                    child: Text("Nablus" , style: ElevatedButtonTextStyle(),),
+                    ),
                   ),
-                  ElevatedButton(
-                    onPressed: (){
-                      setState(() {
-                        _projectCity = "Tulkarm" ;
-                      });
-                      Navigator.pop(context);
-                    },
-                    child: const Text("Tulkarm"),
+                  SizedBox(
+                    width: 120,
+                    child: ElevatedButton(
+                      onPressed: (){
+                        setState(() {
+                          _projectCity = "Ramallah" ;
+                        });
+                        Navigator.pop(context);
+                      },
+                      style: ElevatedButtonStyle(),
+                      child: Text("Ramallah" , style: ElevatedButtonTextStyle()),
+                    ),
                   ),
-                  ElevatedButton(
-                    onPressed: (){
-                      setState(() {
-                        _projectCity = "Qalqilya" ;
-                      });
-                      Navigator.pop(context);
-                    },
-                    child: const Text("Qalqilya"),
+                  SizedBox(
+                    width: 120,
+                    child: ElevatedButton(
+                      onPressed: (){
+                        setState(() {
+                          _projectCity = "Tulkarm" ;
+                        });
+                        Navigator.pop(context);
+                      },
+                      style: ElevatedButtonStyle(),
+                      child: Text("Tulkarm" , style: ElevatedButtonTextStyle()),
+                    ),
                   ),
-                  ElevatedButton(
-                    onPressed: (){
-                      setState(() {
-                        _projectCity = "Jenin" ;
-                      });
-                      Navigator.pop(context);
-                    },
-                    child: const Text("Jenin"),
+                  SizedBox(
+                    width: 120,
+                    child: ElevatedButton(
+                      onPressed: (){
+                        setState(() {
+                          _projectCity = "Qalqilya" ;
+                        });
+                        Navigator.pop(context);
+                      },
+                      style: ElevatedButtonStyle(),
+                      child: Text("Qalqilya" , style: ElevatedButtonTextStyle()),
+                    ),
                   ),
-                  ElevatedButton(
-                    onPressed: (){
-                      setState(() {
-                        _projectCity = "Jericho" ;
-                      });
-                      Navigator.pop(context);
-                    },
-                    child: const Text("Jericho"),
+                  SizedBox(
+                    width: 120,
+                    child: ElevatedButton(
+                      onPressed: (){
+                        setState(() {
+                          _projectCity = "Jenin" ;
+                        });
+                        Navigator.pop(context);
+                      },
+                      style: ElevatedButtonStyle(),
+                      child: Text("Jenin" , style: ElevatedButtonTextStyle()),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 120,
+                    child: ElevatedButton(
+                      onPressed: (){
+                        setState(() {
+                          _projectCity = "Jericho" ;
+                        });
+                        Navigator.pop(context);
+                      },
+                      style: ElevatedButtonStyle(),
+                      child: Text("Jericho" , style: ElevatedButtonTextStyle()),
+                    ),
                   ),
                 ],
               ),
@@ -97,30 +138,39 @@ class _ProjectDialogState extends State<ProjectDialog> {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext context){
-          return SizedBox(
-            height: 350,
+          return Container(
+            height: MediaQuery.of(context).size.height/4,
+            color: Color(0xFF2F4771),
             child: Center(
-              child: Column(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   ElevatedButton(
+                    style: ElevatedButtonStyle(),
                     onPressed: (){
                       setState(() {
                         _projectEntryPoint = "From Scratch" ;
                       });
                       Navigator.pop(context);
-                    },
-                    child: const Text("From Scratch"),
+                      },
+                    child: Text("From Scratch" , style: ElevatedButtonTextStyle(),),
                   ),
+                  const VerticalDivider(
+                    color: Color(0xFFF3D69B),
+                    thickness: 1,
+                    indent: 10,
+                  ),
+
                   ElevatedButton(
+                    style: ElevatedButtonStyle(),
                     onPressed: (){
                       setState(() {
                         _projectEntryPoint = "From Middle" ;
                       });
                       Navigator.pop(context);
-                    },
-                    child: const Text("From Middle"),
+                      },
+                    child: Text("From Middle" , style: ElevatedButtonTextStyle()),
                   ),
-
                 ],
               ),
             ),
@@ -133,7 +183,7 @@ class _ProjectDialogState extends State<ProjectDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: Color(0xFFabcdd2),
+      backgroundColor: Color(0xFF2F4771),
       content: Container(
         height: 400,
         width: 300,
@@ -143,7 +193,8 @@ class _ProjectDialogState extends State<ProjectDialog> {
               padding: EdgeInsets.only(bottom: 8.0),
               child: Text("Add a New Project:",
               style: TextStyle(
-                fontSize: 20
+                fontSize: 20,
+                color: Color(0xFFF3D69B)
               ),),
             ),
             Padding(
@@ -161,14 +212,14 @@ class _ProjectDialogState extends State<ProjectDialog> {
                 child: ElevatedButton(
                   onPressed: chooseCityBottomSheet,
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Color(0xFFcce2e6)),
+                    backgroundColor: MaterialStateProperty.all(Color(0xFF6781A6)),
                     elevation: MaterialStateProperty.all(0),
-                    side: MaterialStateProperty.all(BorderSide(color: Colors.black, width: 1)),
+                    side: MaterialStateProperty.all(BorderSide(color: Color(0xFFF3D69B), width: 1)),
                     alignment: Alignment.centerLeft
                   ),
                   child: Text(_projectCity,
                   style: const TextStyle(
-                    color: Colors.black,
+                    color: Color(0xFFF3D69B),
                     fontSize: 16,
                     fontWeight: FontWeight.normal
                   ),
@@ -191,14 +242,14 @@ class _ProjectDialogState extends State<ProjectDialog> {
                 child: ElevatedButton(
                   onPressed: chooseProjectEntryPoint,
                   style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Color(0xFFcce2e6)),
+                      backgroundColor: MaterialStateProperty.all(Color(0xFF6781A6)),
                       elevation: MaterialStateProperty.all(0),
-                      side: MaterialStateProperty.all(BorderSide(color: Colors.black, width: 1)),
+                      side: MaterialStateProperty.all(BorderSide(color: Color(0xFFF3D69B), width: 1)),
                       alignment: Alignment.centerLeft
                   ),
                   child: Text(_projectEntryPoint,
                     style: const TextStyle(
-                        color: Colors.black,
+                        color: Color(0xFFF3D69B),
                         fontSize: 16,
                         fontWeight: FontWeight.normal
                     ),
@@ -214,7 +265,7 @@ class _ProjectDialogState extends State<ProjectDialog> {
                   Container(
                     width: 100,
                     decoration: const BoxDecoration(
-                      color: Color(0xFF42747B),
+                      color: Color(0xFFF3D69B),
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
                     ),
                     child: TextButton(
@@ -225,7 +276,7 @@ class _ProjectDialogState extends State<ProjectDialog> {
                         'Save',
                         style: TextStyle(
                           fontSize: 20,
-                          color: Colors.black,
+                          color: Color(0xFF122247),
                         ),
                       ),
                     ),
@@ -233,7 +284,7 @@ class _ProjectDialogState extends State<ProjectDialog> {
                   Container(
                     width: 100,
                     decoration: const BoxDecoration(
-                      color: Color(0xFF42747B),
+                      color: Color(0xFFF3D69B),
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
                     ),
                     child: TextButton(
@@ -244,7 +295,7 @@ class _ProjectDialogState extends State<ProjectDialog> {
                         'Cancel',
                         style: TextStyle(
                           fontSize: 20,
-                          color: Colors.black,
+                          color: Color(0xFF122247),
                         ),
                       ),
                     ),

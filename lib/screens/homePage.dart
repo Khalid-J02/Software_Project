@@ -38,10 +38,10 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: Colors.white, //#abcdd2 chose this color instead
+        // backgroundColor: Colors.white, //#abcdd2 chose this color instead
 
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Color(0xFF42747B),
+          backgroundColor: Color(0xFFF3D69B),
           onPressed: () async {
             String? newProject = await addNewProject();
             setState(() {
@@ -50,14 +50,14 @@ class _HomePageState extends State<HomePage> {
               }
             });
           },
-          child: const Icon(Icons.add),
+          child: const Icon(Icons.add , color: Color(0xFF122247),),
         ),
         appBar: AppBar(
-          leading: Icon(Icons.house_outlined),
+          leading: Icon(Icons.house_outlined , color: Color(0xFFF3D69B),),
           title: const Text(
             'Your Projects',
             style: TextStyle(
-              color: Colors.white
+              color: Color(0xFFF3D69B)
             ),
           ),
           actions: const [
@@ -69,12 +69,12 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
           elevation: 0,
-          backgroundColor: Color(0xFF42747B),//Colors.white,
+          backgroundColor: Color(0xFF122247),//Colors.white,
         ),
 
         body: SafeArea(
           child: Container(
-            color: Color(0xFFabcdd2), // 0xFF42747B
+            color: Color(0xFF2F4771), // 0xFF42747B
             child: ListView.builder(
               itemCount: usersProject.length,
               itemBuilder: (context, index) {

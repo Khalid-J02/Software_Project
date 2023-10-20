@@ -37,13 +37,13 @@ class _WelcomePageState extends State<WelcomePage> {
 
      return MaterialApp(
       home: Scaffold(
-        backgroundColor: Color(0xFFaad0d6), //#abcdd2 chose this color instead
+        backgroundColor: Color(0xFF122247), //#abcdd2 chose this color instead
         body: SafeArea(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               const Image(
-                image: AssetImage('images/Proj_Logo_title.png'),
+                image: AssetImage('images/Logo_title.png'),
               ),
               const SizedBox(
                 height: 20,
@@ -66,7 +66,7 @@ class _WelcomePageState extends State<WelcomePage> {
                     'Login',
                     style: TextStyle(
                       fontSize: 20,
-                      color: Colors.black,
+                      color: Color(0xFF122247),
                     ),
                   ),
                 ),
@@ -76,7 +76,7 @@ class _WelcomePageState extends State<WelcomePage> {
                 width: 200,
                 margin: const EdgeInsets.all(5),
                 decoration: const BoxDecoration(
-                  color: Color(0xFF42747B),
+                  color: Color(0xFFF3D69B),
                   borderRadius: BorderRadius.all(Radius.circular(10.0)),
                 ),
                 child: TextButton(
@@ -88,7 +88,7 @@ class _WelcomePageState extends State<WelcomePage> {
                     'Register',
                     style: TextStyle(
                       fontSize: 20,
-                      color: Colors.white,
+                      color: Color(0xFF122247),
                     ),
                   ),
                 ),

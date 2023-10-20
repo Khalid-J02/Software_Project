@@ -21,20 +21,20 @@ class Reset_Password extends StatelessWidget {
                 child: Container(
                   decoration: const BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage("images/Reg_Log_back.jpg"),
+                      image: AssetImage("images/Log_Reg_back.jpg"),
                       fit: BoxFit.cover,
                     ),
                   ),
                   alignment: Alignment.topCenter,
                   child: const Image(
-                    image: AssetImage('images/Proj_Logo_title.png'),
+                    image: AssetImage('images/Logo_title.png'),
                   ),
                 ),
               ),
               Expanded(
                 flex: 2,
                 child: Container(
-                  color: const Color(0xFFabcdd2),
+                  color: const Color(0xFF122247),
                   child: const SingleChildScrollView(
                     scrollDirection: Axis.vertical,
                     child: _Reset_PasswordPage(),
@@ -106,6 +106,7 @@ class _Reset_PasswordPageState extends State<_Reset_PasswordPage> {
             "Resetting Your account Password",
             style: TextStyle(
                 fontSize: 25,
+                color: Color(0xFFF3D69B),
                 fontWeight: FontWeight.w700
             ),
           ),
@@ -115,24 +116,26 @@ class _Reset_PasswordPageState extends State<_Reset_PasswordPage> {
           child: TextFormField(
             controller: _passwordController,
             obscureText: _obsecPass,
+            style: TextStyle(color: Color(0xFFF3D69B)),
             decoration: InputDecoration(
               hintText: 'Enter your password here ...',
+              hintStyle: TextStyle(color: Color(0xFFF3D69B)),
               filled: true,
-              fillColor: Color(0xFFcce2e6),
+              fillColor: Color(0xFF2F4771),
               labelText: 'Password',
               labelStyle: const TextStyle(
-                color: Colors.black,
+                color: Color(0xFFF3D69B),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10.0),
                 borderSide: const BorderSide(
-                  color: Colors.black45,
+                  color: Color(0xFFF3D69B),
                 ),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10.0),
                 borderSide: const BorderSide(
-                  color: Colors.black,
+                  color: Color(0xFFF3D69B),
                   width: 1.0,
                 ),
               ),
@@ -144,7 +147,7 @@ class _Reset_PasswordPageState extends State<_Reset_PasswordPage> {
                   _obsecPass
                       ? Icons.visibility_off_rounded
                       : Icons.visibility_rounded,
-                  color: Colors.black45,
+                  color: Color(0xFFF3D69B),
                 ),
               ),
             ),
@@ -155,24 +158,26 @@ class _Reset_PasswordPageState extends State<_Reset_PasswordPage> {
           child: TextFormField(
             controller: _confirmPasswordController,
             obscureText: _obsecConfPass,
+            style: TextStyle(color: Color(0xFFF3D69B)),
             decoration: InputDecoration(
               hintText: 'confirm your password ...',
+              hintStyle: TextStyle(color: Color(0xFFF3D69B)),
               filled: true,
-              fillColor: Color(0xFFcce2e6),
+              fillColor: Color(0xFF2F4771),
               labelText: 'Confirm Password',
               labelStyle: const TextStyle(
-                color: Colors.black,
+                color: Color(0xFFF3D69B),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10.0),
                 borderSide: const BorderSide(
-                  color: Colors.black45,
+                  color: Color(0xFFF3D69B),
                 ),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10.0),
                 borderSide: const BorderSide(
-                  color: Colors.black,
+                  color: Color(0xFFF3D69B),
                   width: 1.0,
                 ),
               ),
@@ -184,7 +189,7 @@ class _Reset_PasswordPageState extends State<_Reset_PasswordPage> {
                   _obsecConfPass
                       ? Icons.visibility_off_rounded
                       : Icons.visibility_rounded,
-                  color: Colors.black45,
+                  color: Color(0xFFF3D69B),
                 ),
               ),
             ),
@@ -206,8 +211,8 @@ class _Reset_PasswordPageState extends State<_Reset_PasswordPage> {
             child: const Text(
               'Reset Password',
               style: TextStyle(
-                fontSize: 15,
-                color: Colors.black,
+                fontSize: 16,
+                color: Color(0xFF122247),
               ),
             ),
           ),

@@ -12,8 +12,11 @@ class UserProjects extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(20),
         decoration: BoxDecoration(
-          color: Color(0xFFcce2e6),
-          borderRadius: BorderRadius.circular(12)
+          color: Color(0xFF6781A6),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: Color(0xFFF3D69B)
+          )
         ),
         child: GestureDetector(
           onTap: (){
@@ -21,7 +24,8 @@ class UserProjects extends StatelessWidget {
           },
           child: Text(projectName,
             style: const TextStyle(
-              fontSize: 18
+              fontSize: 18,
+              color: Color(0xFFF3D69B)
             ),
           ),
         ),
