@@ -36,7 +36,7 @@ class _ProfileDataState extends State<ProfileData> {
           padding: const EdgeInsets.only(top: 60.0),
           child: Text(widget.userName,
           style: const TextStyle(
-            color: Color(0xFFF3D69B),
+            color: Color(0xFFF9FAFB),
             fontSize: 30,
             fontWeight: FontWeight.w500
           ),
@@ -46,7 +46,7 @@ class _ProfileDataState extends State<ProfileData> {
           padding: const EdgeInsets.only(top: 10.0),
           child: Text(widget.userRole,
             style: const TextStyle(
-                color: Color(0xFFF3D69B),
+                color: Color(0xFFF9FAFB),
                 fontSize: 22,
                 fontWeight: FontWeight.w500
             ),
@@ -59,14 +59,14 @@ class _ProfileDataState extends State<ProfileData> {
             children: <Widget>[
               const Text('Phone Number',
                 style: TextStyle(
-                    color: Color(0xFFF3D69B),
+                    color: Color(0xFFF9FAFB),
                     fontSize: 18,
                     fontWeight: FontWeight.w400
                 ),
               ),
               Text(widget.userPhone,
                 style: const TextStyle(
-                    color: Color(0xFFF3D69B),
+                    color: Color(0xFFF9FAFB),
                     fontSize: 18,
                     fontWeight: FontWeight.w400
                 ),
@@ -81,14 +81,14 @@ class _ProfileDataState extends State<ProfileData> {
             children: <Widget>[
               const Text('E-Mail',
               style: TextStyle(
-                color: Color(0xFFF3D69B),
+                color: Color(0xFFF9FAFB),
                 fontSize: 18,
                 fontWeight: FontWeight.w400
               ),
               ),
               Text(widget.userEmail,
                 style: const TextStyle(
-                    color: Color(0xFFF3D69B),
+                    color: Color(0xFFF9FAFB),
                     fontSize: 18,
                     fontWeight: FontWeight.w400
                 ),
@@ -104,7 +104,7 @@ class _ProfileDataState extends State<ProfileData> {
             children: <Widget>[
               const Text('Bio: ',
                 style: TextStyle(
-                    color: Color(0xFFF3D69B),
+                    color: Color(0xFFF9FAFB),
                     fontSize: 20,
                     fontWeight: FontWeight.w500
                 ),
@@ -113,7 +113,7 @@ class _ProfileDataState extends State<ProfileData> {
                 padding: const EdgeInsets.only(top: 8.0),
                 child: Text(widget.userBio,
                   style: const TextStyle(
-                      color: Color(0xFFF3D69B),
+                      color: Color(0xFFF9FAFB),
                       fontSize: 15,
                       fontWeight: FontWeight.w400
                   ),

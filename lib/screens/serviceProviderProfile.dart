@@ -1,5 +1,6 @@
-import 'package:buildnex/Widgets/profileData.dart';
-import 'package:buildnex/Widgets/userProfileDataDialog.dart';
+
+import 'package:buildnex/Widgets/serviceProviderData.dart';
+import 'package:buildnex/Widgets/serviceProviderProfileDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -29,7 +30,7 @@ class _ServiceProviderProfilePageState extends State<ServiceProviderProfilePage>
   Future <List<String>?> editProfile()=> showDialog <List<String>>(
       context: context,
       builder: (BuildContext context){
-        return UserProfileDataDialog(phoneNumber: userPhoneNum, eMail: userEmail, bio: userBio,);
+        return ServiceProviderProfileDataDialog(phoneNumber: userPhoneNum, eMail: userEmail, bio: userBio, pricePerHour: userPrice);
       }
   );
 
@@ -61,6 +62,7 @@ class _ServiceProviderProfilePageState extends State<ServiceProviderProfilePage>
                                   userPhoneNum = UpdatedData![0];
                                   userEmail = UpdatedData![1];
                                   userBio = UpdatedData![2];
+                                  userPrice = int.parse(UpdatedData![3]);
                                 }
                               });
                             },
@@ -75,7 +77,10 @@ class _ServiceProviderProfilePageState extends State<ServiceProviderProfilePage>
                     child: Container(
                       color: const Color(0xFF2F4771),
                       width: MediaQuery.of(context).size.width,
-                      child: ProfileData(userName: userName, userEmail: userEmail , userRole: userRole, userBio: userBio, userPhone: userPhoneNum,),
+                      child:SingleChildScrollView(
+                        child: ServiceProviderData(userName: userName, userEmail: userEmail , userRole: userRole, userBio: userBio, userPhone: userPhoneNum, userPrice: userPrice, userRating: userRating,),
+                        scrollDirection: Axis.vertical,
+                      ),
                     ),
                   ),
                 ],
