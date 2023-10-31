@@ -78,8 +78,8 @@ class _ServiceProviderProfilePageState extends State<ServiceProviderProfilePage>
                       color: const Color(0xFF2F4771),
                       width: MediaQuery.of(context).size.width,
                       child:SingleChildScrollView(
-                        child: ServiceProviderData(userName: userName, userEmail: userEmail , userRole: userRole, userBio: userBio, userPhone: userPhoneNum, userPrice: userPrice, userRating: userRating,),
                         scrollDirection: Axis.vertical,
+                        child: ServiceProviderData(userName: userName, userEmail: userEmail , userRole: userRole, userBio: userBio, userPhone: userPhoneNum, userPrice: userPrice, userRating: userRating,),
                       ),
                     ),
                   ),
