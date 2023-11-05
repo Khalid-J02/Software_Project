@@ -4,16 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 void main() {
-  runApp(ProjectNavBar(projectName: "NewProject",));
+  runApp(ProjectNavBar());
 }
 
 class ProjectNavBar extends StatefulWidget {
-  String? projectName ; // = 'ProjectName';
 
-  ProjectNavBar(
+  const ProjectNavBar(
       {
         super.key,
-        required this.projectName
       }
       );
 

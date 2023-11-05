@@ -31,6 +31,7 @@ Widget build(BuildContext context) {
       '/ForgotPass':(context) => Forget_Password(),
       '/ForgotPassCode':(context) => Forget_PasswordCode(),
       '/ResetPass':(context) => Reset_Password(),
+
     },
 
   );
