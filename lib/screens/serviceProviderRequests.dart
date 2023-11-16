@@ -17,6 +17,12 @@ class _ServiceProviderRequestsState extends State<ServiceProviderRequests> {
     "New Project",
   ];
 
+  void _removeproject(String projectName) {
+    setState(() {
+      serviceProviderRequests_projectName.remove(projectName) ;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +32,7 @@ class _ServiceProviderRequestsState extends State<ServiceProviderRequests> {
           child: ListView.builder(
             itemCount: serviceProviderRequests_projectName.length,
             itemBuilder: (context, index) {
-              return SPRequestDetails(taskProjectName: serviceProviderRequests_projectName[index], taskName: 'Window Installation',) ;
+              return SPRequestDetails(taskProjectName: serviceProviderRequests_projectName[index], taskName: 'Window Installation', removeProject: _removeproject, ) ;
               // return SPTasksDetails(taskProjectName: serviceProviderTasks_projectName[index], taskProjectOwner: 'Unknown', taskStatus: 'Not Started',) ;
               // return ProjectTasks(taskName: userProjectTasks[index], taskStatus: 'Not Started');
             },

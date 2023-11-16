@@ -57,7 +57,12 @@ class _ServiceProviderDataState extends State<ServiceProviderData> {
         ),
         Padding(
           padding: const EdgeInsets.only(top: 10.0),
-          child: RatingBarSB(rating: 3.7, ratingCount: 12,)
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+              children: [
+                RatingBarSB(rating: 3.7, size: 20)
+              ],
+          ),
         ),
         Container(
           padding: const EdgeInsets.only(top: 35, right: 20, left: 20),

@@ -1,11 +1,13 @@
+import 'package:buildnex/screens/serviceProviderCatalog.dart';
 import 'package:buildnex/screens/serviceProviderProfile.dart';
 import 'package:buildnex/screens/serviceProviderRequests.dart';
 import 'package:buildnex/screens/serviceProviderTasks.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 void main() {
-  runApp(MaterialApp(home: NavBarServiceProvider(),));
+  runApp(GetMaterialApp(home: NavBarServiceProvider(),));
 }
 
 class NavBarServiceProvider extends StatefulWidget {
@@ -21,9 +23,8 @@ class _NavBarServiceProviderState extends State<NavBarServiceProvider> {
   final screens = [
     ServiceProviderTasks(),
     ServiceProviderRequests(),
-    // here should go the page for catalog we will design it tmw, this will bring the catalog of products sp have and will give him ability to edit it by adding a new pic new item and remove and also update.
+    ServiceProviderCatalog(),
     ServiceProviderProfilePage(),
-
   ];
 
 
@@ -45,7 +46,7 @@ class _NavBarServiceProviderState extends State<NavBarServiceProvider> {
         backgroundColor: Color(0xFF122247), //Colors.white,
       ),
 
-      body: ServiceProviderRequests() ,//ServiceProviderTasks() ,//screens[pageIndex],
+      body: screens[pageIndex],
 
       bottomNavigationBar: Container(
         color: const Color(0xFF122247),

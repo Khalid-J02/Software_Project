@@ -1,6 +1,6 @@
 import 'package:buildnex/screens/Profile.dart';
-import 'package:buildnex/screens/forgot_Password.dart';
 import 'package:buildnex/screens/homePage.dart';
+import 'package:buildnex/screens/searchPage_HO.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
@@ -20,7 +20,7 @@ class _NavBarHomeOwnerState extends State<NavBarHomeOwner> {
   int pageIndex = 0 ;
   final screens = [
     HomePage(),
-    Forget_Password(),
+    SearchPage(),
     ProfilePage(),
   ];
 

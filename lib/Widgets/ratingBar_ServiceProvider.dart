@@ -3,14 +3,12 @@ import 'package:flutter/material.dart';
 class RatingBarSB extends StatelessWidget {
   final double rating ;
   final double size ;
-  int? ratingCount ;
 
   RatingBarSB(
       {
         super.key,
         required this.rating,
-        this.size = 20,
-        required this.ratingCount
+        required this.size,
       }
       );
 
@@ -30,7 +28,7 @@ class RatingBarSB extends StatelessWidget {
           height: size,
           width: size,
           child: Stack(
-            fit: StackFit.expand,
+            // fit: StackFit.expand,
             children: [
               Icon(Icons.star , color: Color(0xFFF3D69B), size: size,),
               ClipRect(
@@ -45,7 +43,8 @@ class RatingBarSB extends StatelessWidget {
       }
     }
     return Row(
-      mainAxisSize: MainAxisSize.min,
+      // mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: _starList,
     );
   }

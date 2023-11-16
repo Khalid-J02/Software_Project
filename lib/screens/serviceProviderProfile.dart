@@ -37,8 +37,7 @@ class _ServiceProviderProfilePageState extends State<ServiceProviderProfilePage>
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         body: SafeArea(
           child: Stack(
             children: [
@@ -73,7 +72,7 @@ class _ServiceProviderProfilePageState extends State<ServiceProviderProfilePage>
                     ),
                   ),
                   Expanded(
-                    flex: 4,
+                    flex: 5,
                     child: Container(
                       color: const Color(0xFF2F4771),
                       width: MediaQuery.of(context).size.width,
@@ -86,7 +85,7 @@ class _ServiceProviderProfilePageState extends State<ServiceProviderProfilePage>
                 ],
               ),
               Positioned(
-                top: MediaQuery.of(context).size.width / 5,
+                top: MediaQuery.of(context).size.width / 12,
                 left: MediaQuery.of(context).size.width / 3 ,
                 right: MediaQuery.of(context).size.width / 3 ,
                 child: Container(
@@ -106,7 +105,6 @@ class _ServiceProviderProfilePageState extends State<ServiceProviderProfilePage>
             ],
           ),
         ),
-      ),
     );
   }
 }

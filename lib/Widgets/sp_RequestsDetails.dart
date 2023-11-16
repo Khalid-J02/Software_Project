@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SPRequestDetails extends StatelessWidget {
   final String taskProjectName ;
   final String taskName ;
+  final Function (String name) removeProject ;
 
   const SPRequestDetails(
       {
         super.key,
         required this.taskProjectName,
         required this.taskName,
+        required this.removeProject
       }
   );
 
@@ -65,7 +68,9 @@ class SPRequestDetails extends StatelessWidget {
                   margin: const EdgeInsets.only(bottom: 5 , top: 5),
                   child: TextButton(
                     onPressed: (){
-                      // here he should go to the project description screen
+
+                      // Get.toNamed('/ProjectDescribtion') ;
+
                     },
                     child: const Text("See Details",
                       style: TextStyle(
@@ -82,7 +87,12 @@ class SPRequestDetails extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(right: 8.0),
                         child: ElevatedButton(
-                            onPressed: (){},
+                            onPressed: (){
+                              /*
+                                here will accept the task request and link the task with the service provider id
+                               */
+
+                            },
                             style: ElevatedButton.styleFrom(
                             primary: Color(0xFF2F4771),
                             minimumSize: Size(50, 35),  // Change width and height
@@ -98,7 +108,9 @@ class SPRequestDetails extends StatelessWidget {
                         ),
                       ),
                       ElevatedButton(
-                          onPressed: (){},
+                          onPressed: (){
+                            removeProject(taskProjectName) ;
+                          },
                           style: ElevatedButton.styleFrom(
                             primary: Color(0xFF2F4771),
                             minimumSize: Size(50, 35),  // Change width and height

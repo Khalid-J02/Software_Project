@@ -59,7 +59,7 @@ class _RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<_RegisterPage> {
 
   String _dropDownValue = 'Your Role';
-
+  String serviceType = "Service Type" ;
 
   final _fncontroller = TextEditingController();
   final _emailController = TextEditingController();
@@ -81,12 +81,194 @@ class _RegisterPageState extends State<_RegisterPage> {
     });
   }
 
+  TextStyle ElevatedButtonTextStyle(){
+    return TextStyle(
+        color: Color(0xFFF3D69B),
+        fontSize: 16,
+        fontWeight: FontWeight.normal
+    );
+  }
+  ButtonStyle ElevatedButtonStyle(){
+    return ButtonStyle(
+        backgroundColor: MaterialStateProperty.all(Color(0xFF6781A6)),
+        elevation: MaterialStateProperty.all(0),
+        side: MaterialStateProperty.all(BorderSide(color: Color(0xFFF3D69B), width: 1)),
+        alignment: Alignment.center
+    ) ;
+  }
+
+  void chooseCityBottomSheet(){
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context){
+          return Container(
+            color: Color(0xFF2F4771),
+            height: MediaQuery.of(context).size.height/3,
+            child: SingleChildScrollView(
+              child: Container(
+                child: Center(
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 250,
+                        child: ElevatedButton(
+                          onPressed: (){
+                            setState(() {
+                              serviceType = "Surveyor" ;
+                            });
+                            Navigator.pop(context);
+                          },
+                          style: ElevatedButtonStyle(),
+                          child: Text("Surveyor" , style: ElevatedButtonTextStyle(),),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 250,
+                        child: ElevatedButton(
+                          onPressed: (){
+                            setState(() {
+                              serviceType = "Engineering Office" ;
+                            });
+                            Navigator.pop(context);
+                          },
+                          style: ElevatedButtonStyle(),
+                          child: Text("Engineering Office" , style: ElevatedButtonTextStyle()),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 250,
+                        child: ElevatedButton(
+                          onPressed: (){
+                            setState(() {
+                              serviceType = "Constructor" ;
+                            });
+                            Navigator.pop(context);
+                          },
+                          style: ElevatedButtonStyle(),
+                          child: Text("Constructor" , style: ElevatedButtonTextStyle()),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 250,
+                        child: ElevatedButton(
+                          onPressed: (){
+                            setState(() {
+                              serviceType = "Plumbing Technician" ;
+                            });
+                            Navigator.pop(context);
+                          },
+                          style: ElevatedButtonStyle(),
+                          child: Text("Plumbing Technician" , style: ElevatedButtonTextStyle()),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 250,
+                        child: ElevatedButton(
+                          onPressed: (){
+                            setState(() {
+                              serviceType = "Electrical Technician" ;
+                            });
+                            Navigator.pop(context);
+                          },
+                          style: ElevatedButtonStyle(),
+                          child: Text("Electrical Technician" , style: ElevatedButtonTextStyle()),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 250,
+                        child: ElevatedButton(
+                          onPressed: (){
+                            setState(() {
+                              serviceType = "Insulation & HVAC Contractors" ;
+                            });
+                            Navigator.pop(context);
+                          },
+                          style: ElevatedButtonStyle(),
+                          child: Text("Insulation & HVAC Contractors" , style: ElevatedButtonTextStyle()),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 250,
+                        child: ElevatedButton(
+                          onPressed: (){
+                            setState(() {
+                              serviceType = "Plasterer" ;
+                            });
+                            Navigator.pop(context);
+                          },
+                          style: ElevatedButtonStyle(),
+                          child: Text("Plasterer" , style: ElevatedButtonTextStyle()),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 250,
+                        child: ElevatedButton(
+                          onPressed: (){
+                            setState(() {
+                              serviceType = "Carpenter" ;
+                            });
+                            Navigator.pop(context);
+                          },
+                          style: ElevatedButtonStyle(),
+                          child: Text("Carpenter" , style: ElevatedButtonTextStyle()),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 250,
+                        child: ElevatedButton(
+                          onPressed: (){
+                            setState(() {
+                              serviceType = "Tile Contractor" ;
+                            });
+                            Navigator.pop(context);
+                          },
+                          style: ElevatedButtonStyle(),
+                          child: Text("Tile Contractor" , style: ElevatedButtonTextStyle()),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 250,
+                        child: ElevatedButton(
+                          onPressed: (){
+                            setState(() {
+                              serviceType = "Painter" ;
+                            });
+                            Navigator.pop(context);
+                          },
+                          style: ElevatedButtonStyle(),
+                          child: Text("Painter" , style: ElevatedButtonTextStyle()),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 250,
+                        child: ElevatedButton(
+                          onPressed: (){
+                            setState(() {
+                              serviceType = "Window Installer" ;
+                            });
+                            Navigator.pop(context);
+                          },
+                          style: ElevatedButtonStyle(),
+                          child: Text("Window Installer" , style: ElevatedButtonTextStyle()),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+        }
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        Padding(
+        Container(
+          height:70,
           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
           child: TextFormField(
             controller: _fncontroller,
@@ -116,7 +298,8 @@ class _RegisterPageState extends State<_RegisterPage> {
             ),
           ),
         ),
-        Padding(
+        Container(
+          height: 70,
           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
           child: Container(
             decoration: BoxDecoration(
@@ -151,13 +334,6 @@ class _RegisterPageState extends State<_RegisterPage> {
                   ),
                 ),
                 DropdownMenuItem<String>(
-                  value: 'Engineering Office',
-                  child: Container(
-                    margin: const EdgeInsets.all(12.0),
-                    child: const Text('Engineering Office'),
-                  ),
-                ),
-                DropdownMenuItem<String>(
                   value: 'Service Provider',
                   child: Container(
                     margin: const EdgeInsets.all(12.0),
@@ -165,10 +341,37 @@ class _RegisterPageState extends State<_RegisterPage> {
                   ),
                 )
               ],
+              dropdownColor: const Color(0xFF2F4771),
             ),
           ),
         ),
-        Padding(
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 8),
+          height: 70,
+          child: ElevatedButton(
+            onPressed: chooseCityBottomSheet,
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Color(0xFF2F4771)),
+              elevation: MaterialStateProperty.all(0),
+              side: MaterialStateProperty.all(BorderSide(color: Color(0xFFF3D69B), width: 1)),
+              alignment: Alignment.centerLeft,
+              shape: MaterialStateProperty.all(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
+            ),
+            child: Text(serviceType,
+              style: const TextStyle(
+                  color: Color(0xFFF3D69B),
+                  fontSize: 16,
+                  fontWeight: FontWeight.normal
+              ),
+            ),
+          ),
+        ),
+        Container(
+          height: 70,
           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
           child: TextFormField(
             controller: _emailController,
@@ -198,7 +401,8 @@ class _RegisterPageState extends State<_RegisterPage> {
             ),
           ),
         ),
-        Padding(
+        Container(
+          height: 70,
           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
           child: TextFormField(
             controller: _passwordController,
@@ -240,7 +444,8 @@ class _RegisterPageState extends State<_RegisterPage> {
             ),
           ),
         ),
-        Padding(
+        Container(
+          height: 70,
           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
           child: TextFormField(
             controller: _confirmPasswordController,
