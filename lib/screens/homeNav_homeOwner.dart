@@ -36,14 +36,14 @@ class _NavBarHomeOwnerState extends State<NavBarHomeOwner> {
         bottomNavigationBar: Container(
           color: const Color(0xFF122247),
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12.0 , vertical: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 12.0 , vertical: 12),
             child: GNav(
               gap: 8,
-              backgroundColor: Color(0xFF122247),
-              color: Color(0xFFF3D69B),
-              activeColor: Color(0xFFF3D69B),
-              tabBackgroundColor: Color(0xFF2F4991),
-              padding: EdgeInsets.all(16),
+              backgroundColor: const Color(0xFF122247),
+              color: const Color(0xFFF3D69B),
+              activeColor: const Color(0xFFF3D69B),
+              tabBackgroundColor: const Color(0xFF2F4991),
+              padding: const EdgeInsets.all(16),
               onTabChange: (activeIndex) {
                 setState(() {
                   pageIndex = activeIndex ;

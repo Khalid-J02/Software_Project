@@ -1,5 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+
+import '../APIRequests/loginAPI.dart';
+
+
 
 // void main() {
 //   runApp(const Login());
@@ -55,8 +63,9 @@ class _LoginPage extends StatefulWidget {
 
 
 class _LoginPageState extends State<_LoginPage> {
-  String _emailAddress = '';
-  String _password = '';
+
+  late String _email = '' ;
+  late String _password = '' ;
 
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -157,8 +166,10 @@ class _LoginPageState extends State<_LoginPage> {
           child: TextButton(
             onPressed: () {
               // check if the creds equ to the data in the db
+              _signIn() ;
+              // Get.toNamed('/HomePage/HomeOwner');
+              // Get.toNamed('/HomePage/ServiceProvider') ;
 
-              Get.toNamed('/HomePage');
             },
             child: const Text(
               'Login',
@@ -209,5 +220,15 @@ class _LoginPageState extends State<_LoginPage> {
         ),
       ],
     );
+  }
+
+  void _signIn() async {
+    dotenv.load();
+    final loginAPI = LoginAPI();
+
+    final userData = await loginAPI.logIn(_emailController.text, _passwordController.text) as Map;
+    dotenv.env['userID'] = userData["userID"].toString() ;
+    dotenv.env['userType'] = userData["userType"] ;
+
   }
 }

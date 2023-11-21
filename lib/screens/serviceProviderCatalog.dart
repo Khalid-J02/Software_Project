@@ -2,6 +2,7 @@ import 'package:buildnex/screens/serviceProviderCatalogItemDetails.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../Widgets/addCatalogNewItem.dart';
 import '../Widgets/sp_CatalogItem.dart';
 
 class ServiceProviderCatalog extends StatefulWidget {
@@ -64,10 +65,26 @@ class _ServiceProviderCatalogState extends State<ServiceProviderCatalog> {
     },
   ];
 
+  Future <List<String>?> addNewItem () => showDialog <List<String>>(
+      context: context,
+      builder: (BuildContext context){
+        return CatalogNewItem() ;
+      }
+  ) ;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Color(0xFFF9FAFB),
+        onPressed: () {
+          addNewItem() ;
+        },
+        child: const Icon(
+          Icons.add , color: Color(0xFF122247),
+          size: 25,
+        ),
+      ),
       body: GridView.builder(
         itemCount: jsonList.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

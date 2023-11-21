@@ -2,9 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-// void main() {
-//   runApp(const Register());
-// }
+void main() {
+  runApp(const Register());
+}
 
 class Register extends StatelessWidget {
   const Register({super.key});
@@ -22,17 +22,18 @@ class Register extends StatelessWidget {
                   decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage("images/Log_Reg_back.jpg"),
-                      fit: BoxFit.cover,
+                      fit: BoxFit.fitWidth,
                     ),
                   ),
                   alignment: Alignment.topCenter,
                   child: const Image(
-                    image: AssetImage('images/Logo_title.png'),
+                    image: AssetImage('images/Logo_title.png',),
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
               Expanded(
-                flex: 2,
+                flex: 3,
                 child: Container(
                   color: const Color(0xFF122247), // 0xFFcce2e6
                   child: SingleChildScrollView(
@@ -60,6 +61,7 @@ class _RegisterPageState extends State<_RegisterPage> {
 
   String _dropDownValue = 'Your Role';
   String serviceType = "Service Type" ;
+  String providerLocation = "Your City" ;
 
   final _fncontroller = TextEditingController();
   final _emailController = TextEditingController();
@@ -262,11 +264,108 @@ class _RegisterPageState extends State<_RegisterPage> {
     );
   }
 
+  void providerCityBottomSheet(){
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context){
+          return Container(
+            color: Color(0xFF2F4771),
+            height: MediaQuery.of(context).size.height/3,
+            child: Center(
+              child: Column(
+                children: <Widget>[
+                  SizedBox(
+                    width: 120,
+                    child: ElevatedButton(
+                      onPressed: (){
+                        setState(() {
+                          providerLocation = "Nablus" ;
+                        });
+                        Navigator.pop(context);
+                      },
+                      style: ElevatedButtonStyle(),
+                      child: Text("Nablus" , style: ElevatedButtonTextStyle(),),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 120,
+                    child: ElevatedButton(
+                      onPressed: (){
+                        setState(() {
+                          providerLocation = "Ramallah" ;
+                        });
+                        Navigator.pop(context);
+                      },
+                      style: ElevatedButtonStyle(),
+                      child: Text("Ramallah" , style: ElevatedButtonTextStyle()),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 120,
+                    child: ElevatedButton(
+                      onPressed: (){
+                        setState(() {
+                          providerLocation = "Tulkarm" ;
+                        });
+                        Navigator.pop(context);
+                      },
+                      style: ElevatedButtonStyle(),
+                      child: Text("Tulkarm" , style: ElevatedButtonTextStyle()),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 120,
+                    child: ElevatedButton(
+                      onPressed: (){
+                        setState(() {
+                          providerLocation = "Qalqilya" ;
+                        });
+                        Navigator.pop(context);
+                      },
+                      style: ElevatedButtonStyle(),
+                      child: Text("Qalqilya" , style: ElevatedButtonTextStyle()),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 120,
+                    child: ElevatedButton(
+                      onPressed: (){
+                        setState(() {
+                          providerLocation = "Jenin" ;
+                        });
+                        Navigator.pop(context);
+                      },
+                      style: ElevatedButtonStyle(),
+                      child: Text("Jenin" , style: ElevatedButtonTextStyle()),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 120,
+                    child: ElevatedButton(
+                      onPressed: (){
+                        setState(() {
+                          providerLocation = "Jericho" ;
+                        });
+                        Navigator.pop(context);
+                      },
+                      style: ElevatedButtonStyle(),
+                      child: Text("Jericho" , style: ElevatedButtonTextStyle()),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
+        SizedBox(height: 30,),
         Container(
           height:70,
           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
@@ -362,6 +461,31 @@ class _RegisterPageState extends State<_RegisterPage> {
               ),
             ),
             child: Text(serviceType,
+              style: const TextStyle(
+                  color: Color(0xFFF3D69B),
+                  fontSize: 16,
+                  fontWeight: FontWeight.normal
+              ),
+            ),
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 8),
+          height: 70,
+          child: ElevatedButton(
+            onPressed: providerCityBottomSheet,
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Color(0xFF2F4771)),
+              elevation: MaterialStateProperty.all(0),
+              side: MaterialStateProperty.all(BorderSide(color: Color(0xFFF3D69B), width: 1)),
+              alignment: Alignment.centerLeft,
+              shape: MaterialStateProperty.all(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
+            ),
+            child: Text(providerLocation,
               style: const TextStyle(
                   color: Color(0xFFF3D69B),
                   fontSize: 16,
