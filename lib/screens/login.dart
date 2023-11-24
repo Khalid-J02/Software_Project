@@ -167,7 +167,8 @@ class _LoginPageState extends State<_LoginPage> {
             onPressed: () {
               // check if the creds equ to the data in the db
               _signIn() ;
-              // Get.toNamed('/HomePage/HomeOwner');
+
+              //
               // Get.toNamed('/HomePage/ServiceProvider') ;
 
             },
@@ -230,5 +231,9 @@ class _LoginPageState extends State<_LoginPage> {
     dotenv.env['userID'] = userData["userID"].toString() ;
     dotenv.env['userType'] = userData["userType"] ;
 
+    print(dotenv.env['userType']);
+    if(dotenv.env['userType'] == 'HomeOwner'){
+      Get.toNamed('/HomePage/HomeOwner');
+    }
   }
 }
