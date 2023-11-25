@@ -1,5 +1,7 @@
 import 'package:buildnex/Widgets/forgotPasswordCode.dart';
 import 'package:buildnex/Widgets/resetPassword.dart';
+import 'package:buildnex/screens/continueRegister_HO.dart';
+import 'package:buildnex/screens/continueRegister_SP.dart';
 import 'package:buildnex/screens/forgot_Password.dart';
 import 'package:buildnex/screens/homeNav_ServiceProvider.dart';
 import 'package:buildnex/screens/homeNav_homeOwner.dart';
@@ -31,6 +33,8 @@ Widget build(BuildContext context) {
       '/':(context) => WelcomePage(),
       '/Login':(context) => Login(),
       '/Register':(context) => Register(),
+      '/Register/HomeOwner':(context) => HomeOwnerRegister(),
+      '/Register/ServiceProvider':(context) => ServiceProviderRegister(),
       '/ForgotPass':(context) => Forget_Password(),
       '/ForgotPassCode':(context) => Forget_PasswordCode(),
       '/ResetPass':(context) => Reset_Password(),
