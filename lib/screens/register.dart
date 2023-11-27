@@ -64,6 +64,7 @@ class _RegisterPageState extends State<_RegisterPage> {
   String providerLocation = "Your City" ;
 
   final _fncontroller = TextEditingController();
+  final _lncontroller = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
@@ -373,11 +374,42 @@ class _RegisterPageState extends State<_RegisterPage> {
             controller: _fncontroller,
             style: TextStyle(color: Color(0xFFF3D69B)),
             decoration: InputDecoration(
-              hintText: 'Enter your name here',
+              hintText: 'Enter your first name here',
               hintStyle: TextStyle(color: Color(0xFFF3D69B)),
               filled: true,
               fillColor: Color(0xFF2F4771),
-              labelText: 'Full Name',
+              labelText: 'First Name',
+              labelStyle: const TextStyle(
+                color: Color(0xFFF3D69B),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: const BorderSide(
+                  color: Color(0xFFF3D69B),
+                ),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: const BorderSide(
+                  color: Color(0xFFF3D69B),
+                  width: 1.0,
+                ),
+              ),
+            ),
+          ),
+        ),
+        Container(
+          height:70,
+          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+          child: TextFormField(
+            controller: _lncontroller,
+            style: TextStyle(color: Color(0xFFF3D69B)),
+            decoration: InputDecoration(
+              hintText: 'Enter your last name here',
+              hintStyle: TextStyle(color: Color(0xFFF3D69B)),
+              filled: true,
+              fillColor: Color(0xFF2F4771),
+              labelText: 'Last Name',
               labelStyle: const TextStyle(
                 color: Color(0xFFF3D69B),
               ),
@@ -441,56 +473,6 @@ class _RegisterPageState extends State<_RegisterPage> {
                 )
               ],
               dropdownColor: const Color(0xFF2F4771),
-            ),
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 8),
-          height: 70,
-          child: ElevatedButton(
-            onPressed: chooseCityBottomSheet,
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Color(0xFF2F4771)),
-              elevation: MaterialStateProperty.all(0),
-              side: MaterialStateProperty.all(BorderSide(color: Color(0xFFF3D69B), width: 1)),
-              alignment: Alignment.centerLeft,
-              shape: MaterialStateProperty.all(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-              ),
-            ),
-            child: Text(serviceType,
-              style: const TextStyle(
-                  color: Color(0xFFF3D69B),
-                  fontSize: 16,
-                  fontWeight: FontWeight.normal
-              ),
-            ),
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 8),
-          height: 70,
-          child: ElevatedButton(
-            onPressed: providerCityBottomSheet,
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Color(0xFF2F4771)),
-              elevation: MaterialStateProperty.all(0),
-              side: MaterialStateProperty.all(BorderSide(color: Color(0xFFF3D69B), width: 1)),
-              alignment: Alignment.centerLeft,
-              shape: MaterialStateProperty.all(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-              ),
-            ),
-            child: Text(providerLocation,
-              style: const TextStyle(
-                  color: Color(0xFFF3D69B),
-                  fontSize: 16,
-                  fontWeight: FontWeight.normal
-              ),
             ),
           ),
         ),
@@ -620,14 +602,17 @@ class _RegisterPageState extends State<_RegisterPage> {
           ),
           child: TextButton(
             onPressed: () {
+              if(_dropDownValue == 'Home Owner'){
+                Get.toNamed('/Register/HomeOwner');
+              }else if(_dropDownValue == 'Service Provider'){
+                Get.toNamed('/Register/ServiceProvider');
+              }else{
+                // do nothin (stay in the same page)
+              }
 
-              // here will be post request to add new user to the system(DB)
-
-              Get.toNamed('/Login');
-              // Get.to(HomePage());
             },
             child: const Text(
-              'Create Account',
+              'Continue',
               style: TextStyle(
                 fontSize: 16,
                 color: Color(0xFF122247),
@@ -642,7 +627,7 @@ class _RegisterPageState extends State<_RegisterPage> {
             TextButton(
               onPressed: () {
                 // go to login page
-                Get.toNamed('/Login');
+                Get.offNamed('/Login');
               },
               child: const Text(
                 'Login',

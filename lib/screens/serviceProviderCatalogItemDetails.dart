@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:clippy_flutter/clippy_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:lorem_ipsum/lorem_ipsum.dart';
 
 
@@ -43,6 +46,18 @@ class _SPCatalogItemState extends State<SPCatalogItem> {
       }
   );
 
+  File? file ;
+  ImagePicker image = ImagePicker() ;
+
+  pickImageFromGallery() async{
+    var img = await image.pickImage(source: ImageSource.gallery) ;
+    setState(() {
+      if(img != null){
+        file =File(img!.path) ;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,12 +79,51 @@ class _SPCatalogItemState extends State<SPCatalogItem> {
       backgroundColor: Color(0xFFF9FAFB),
       body: ListView(
         children: <Widget>[
-          Padding(
-            padding: EdgeInsets.all(16),
-            child: Image(
-              image: AssetImage(widget.itemImage),
-              fit: BoxFit.cover,
-            ),
+          Stack(
+            children:[
+              Padding(
+                padding: EdgeInsets.all(16),
+                child: file == null ?
+                  Image(
+                    image: AssetImage(widget.itemImage),
+                    fit: BoxFit.cover,
+                  )
+                    :
+                  Image.file(
+                    file!,
+                    fit: BoxFit.fill,
+                  ),
+              ),
+              Align(
+                alignment: Alignment.topRight,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 25,horizontal: 25),
+                  child: FittedBox(
+                    child: SizedBox(
+                      height: 30.0,
+                      width: 30.0,
+                      child: FittedBox(
+                        child: FloatingActionButton(
+                          onPressed: () async{
+                            var imageName = await pickImageFromGallery() ;
+                          },
+                          elevation: 0,
+                          backgroundColor: const Color(0xfff3fbfe),
+
+                          child: const Icon(
+                            Icons.edit,
+                            color: Color(0xff435b83),
+                            size: 35.0,
+
+                          ),
+
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ]
           ),
           Arc(
             edge: Edge.TOP,

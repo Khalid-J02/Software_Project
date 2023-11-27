@@ -65,7 +65,7 @@ class _ServiceProviderCatalogState extends State<ServiceProviderCatalog> {
     },
   ];
 
-  Future <List<String>?> addNewItem () => showDialog <List<String>>(
+  Future <List<dynamic>?> addNewItem () => showDialog <List<dynamic>>(
       context: context,
       builder: (BuildContext context){
         return CatalogNewItem() ;
@@ -77,8 +77,19 @@ class _ServiceProviderCatalogState extends State<ServiceProviderCatalog> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color(0xFFF9FAFB),
-        onPressed: () {
-          addNewItem() ;
+        onPressed: () async {
+          List<dynamic>? newData = await addNewItem() ;
+          setState(() {
+            if(newData != null){
+              Map<String, dynamic> jsonObject = {
+                "image": "images/Testing/Tokyo.jpg",
+                "Name" : newData?[0],
+                "price": double.parse(newData?[2]),
+                "rating": 1.1
+              };
+              jsonList.add(jsonObject);
+            }
+          });
         },
         child: const Icon(
           Icons.add , color: Color(0xFF122247),
