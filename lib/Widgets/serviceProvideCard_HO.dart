@@ -17,7 +17,6 @@ class SPCard extends StatefulWidget {
 class _SPCardState extends State<SPCard> {
   @override
   Widget build(BuildContext context) {
-    print('Top Service Providers: ${widget.topServiceProviders}');
 
     return GridView.builder(
       itemCount: widget.topServiceProviders.length,

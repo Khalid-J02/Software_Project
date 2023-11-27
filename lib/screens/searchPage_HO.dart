@@ -85,7 +85,7 @@ class _SearchPageState extends State<SearchPage> {
 
   int filterRating = 1;
   int filterMinWage = 10;
-  int filterMaxWage = 400;
+  int filterMaxWage = 200;
   String filterSPLocation = "";
 
   Future<List<String>?> filterSearch() => showDialog<List<String>>(
@@ -162,7 +162,7 @@ class _SearchPageState extends State<SearchPage> {
 
       setState(() {
         serviceProviders = bestServiceProviders;
-        print('In the search: $serviceProviders');
+        // print('In the search: $serviceProviders');
       });
     } catch (e) {
       // Handle errors
@@ -330,19 +330,38 @@ class _SearchPageState extends State<SearchPage> {
                   ),
                 ),
               ),
-              const Padding(
-                padding:
-                    EdgeInsets.only(top: 12, bottom: 10, right: 15, left: 12),
-                child: Text(
-                  "Discover",
-                  style: TextStyle(
-                    color: Color(0xFF022D6B),
-                    fontSize: 21,
-                    fontWeight: FontWeight.w500,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Padding(
+                    padding:
+                        EdgeInsets.only(top: 12, bottom: 10, right: 15, left: 12),
+                    child: Text(
+                      "Discover",
+                      style: TextStyle(
+                        color: Color(0xFF022D6B),
+                        fontSize: 21,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
                   ),
-                ),
+                  GestureDetector(
+                    onTap: (){
+                      /*
+                        here we should do the refresh
+                       */
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.only(top: 5 , right: 12, ),
+                      child: const Icon(
+                        Icons.refresh,
+                        size: 25,
+                        color: Color(0xFF122247),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-
 
               Flexible(
                 child: SPCard(topServiceProviders: serviceProviders),

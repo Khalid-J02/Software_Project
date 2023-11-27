@@ -223,12 +223,12 @@ class _LoginPageState extends State<_LoginPage> {
   }
 
   void _signIn() async {
-    dotenv.load();
     final loginAPI = LoginAPI();
 
     final userData = await loginAPI.logIn(_emailController.text, _passwordController.text) as Map;
-    dotenv.env['userID'] = userData["userID"].toString() ;
-    dotenv.env['userType'] = userData["userType"] ;
+    if(dotenv.env['userType'] == 'HomeOwner'){
+      Get.toNamed('/HomePage/HomeOwner');
+    }
 
   }
 }
