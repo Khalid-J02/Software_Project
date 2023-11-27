@@ -33,13 +33,13 @@ class RatingBarSB extends StatelessWidget {
               Icon(Icons.star , color: Color(0xFFF3D69B), size: size,),
               ClipRect(
                 clipper: _Clipper(part: partNumber),
-                child: Icon(Icons.star, color: Color(0xFFF9FAFB), size: size,),
+                child: Icon(Icons.star, color: Colors.grey, size: size,),
               )
             ],
           ),
         ));
       }else{
-        _starList.add(Icon(Icons.star, color: Color(0xFFF9FAFB),size: size,)) ;
+        _starList.add(Icon(Icons.star, color: Colors.grey,size: size,)) ;
       }
     }
     return Row(
