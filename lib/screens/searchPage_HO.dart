@@ -1,9 +1,10 @@
 import 'package:buildnex/Widgets/serviceProvideCard_HO.dart';
 import 'package:flutter/material.dart';
-
 import '../Widgets/Categories_HO.dart';
 import '../Widgets/CustomSearchDelegate.dart';
 import '../Widgets/filterSearch_HO.dart';
+
+import '../APIRequests/homeOwnerSearchAPI.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -13,9 +14,12 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  late List<Map<String, dynamic>> serviceProviders =
+      []; // getBestFourServiceProviders
 
   final _searchController = TextEditingController();
-  String activeCategory = '' ;
+  String activeCategory = '';
+  String searchText=  "Search for Service Providers";
 
   final List<Map<String, dynamic>> categoryList = [
     {
@@ -31,7 +35,7 @@ class _SearchPageState extends State<SearchPage> {
       "Icon": Icons.construction,
     },
     {
-      "serviceName": "plumbing Technician",
+      "serviceName": "Plumbing Technician",
       "Icon": Icons.plumbing,
     },
     {
@@ -64,107 +68,133 @@ class _SearchPageState extends State<SearchPage> {
     },
   ];
 
-  List<Map<String, dynamic>> jsonList = [
-    {
-      "image": "images/Testing/Tokyo.jpg",
-      "Name": "Tokyo",
-      "service" : "Surveyor",
-      "price": 25.0,
-      "rating" : 2.8
-    },
-    {
-      "image": "images/Testing/tarabzon2.jpg",
-      "Name": "tarabzon2",
-      "service" : "Surveyor",
-      "price": 35.0,
-      "rating" : 4.8
-    },
-    {
-      "image": "images/Testing/Salalah2.jpg",
-      "Name": "Salalah2",
-      "service" : "Surveyor",
-      "price": 25.0,
-      "rating" : 3.5
-    },
-    {
-      "image": "images/Testing/Iceland2.jpg",
-      "Name": "Iceland2",
-      "service" : "Surveyor",
-      "price": 25.0,
-      "rating" : 2.1
-    },
-    {
-      "image": "images/Testing/Dubai2.jpg",
-      "Name": "Dubai2",
-      "service" : "Surveyor",
-      "price": 25.0,
-      "rating" : 1.9
-    },
-    {
-      "image": "images/Testing/Bali2.jpg",
-      "Name": "Bali2",
-      "service" : "Surveyor",
-      "price": 25.0,
-      "rating" : 3.2
-    },
-    {
-      "image": "images/Testing/Tokyo2.jpg",
-      "Name": "Tokyo",
-      "service" : "Surveyor",
-      "price": 25.0,
-      "rating" : 4.1
-    },
-    {
-      "image": "images/Testing/Salalah.jpg",
-      "Name": "Salalah",
-      "service" : "Surveyor",
-      "price": 25.0,
-      "rating" : 5.0
-    },
-  ];
-
-
   void selectedCategory(String selectedCategory) {
     setState(() {
-      activeCategory = selectedCategory ;
+      activeCategory = selectedCategory;
     });
-    // print('${activeCategory}') ;
+    if (activeCategory.isNotEmpty)
+    {
+      _getServiceProvidersByServiceType(activeCategory);
+    }
+    else
+      {
+        _getBestServiceProviders();
+
+      }
   }
 
-  int filterRating = 1 ;
-  int filterMinWage = 10 ;
-  int filterMaxWage = 400 ;
-  String filterSPLocation = "" ;
+  int filterRating = 1;
+  int filterMinWage = 10;
+  int filterMaxWage = 400;
+  String filterSPLocation = "";
 
-  Future <List<String>?> filterSearch()=> showDialog <List<String>>(
+  Future<List<String>?> filterSearch() => showDialog<List<String>>(
       context: context,
-      builder: (BuildContext context){
-        return FilterSearch(activeCategory: activeCategory, filterRating: filterRating, filterSPLocation: filterSPLocation, filterMinWage: filterMinWage, filterMaxWage: filterMaxWage,);
+      builder: (BuildContext context) {
+        return FilterSearch(
+          activeCategory: activeCategory,
+          filterRating: filterRating,
+          filterSPLocation: filterSPLocation,
+          filterMinWage: filterMinWage,
+          filterMaxWage: filterMaxWage,
+        );
+      });
+
+
+  Future<void> _filterServiceProviders() async {
+    try {
+      List<Map<String, dynamic>> filteredProviders;
+
+      // Check if an active category is selected
+      if (activeCategory.isNotEmpty) {
+        filteredProviders = await HomeOwnerSearchAPI.filterServiceProviders(
+          rating: filterRating.toDouble(),
+          minPrice: filterMinWage.toDouble(),
+          maxPrice: filterMaxWage.toDouble(),
+          city: filterSPLocation,
+          serviceType: activeCategory,
+        );
+      } else {
+        // If no active category, filter on all service providers
+        filteredProviders = await HomeOwnerSearchAPI.filterServiceProviders(
+          rating: filterRating.toDouble(),
+          minPrice: filterMinWage.toDouble(),
+          maxPrice: filterMaxWage.toDouble(),
+          city: filterSPLocation,
+        );
       }
-  );
+
+      setState(() {
+        serviceProviders = filteredProviders;
+      });
+    } catch (e) {
+      print('Error filtering service providers: $e');
+    }
+  }
+
+
+  @override
+  void initState() {
+    super.initState();
+    // Call the API to get the best service providers
+    _getBestServiceProviders();
+  }
+
+
+  Future<void> _getServiceProvidersByServiceType(String serviceType) async {
+    try {
+      final List<Map<String, dynamic>> providers =
+      await HomeOwnerSearchAPI.getServiceProvidersByServiceType(
+          serviceType);
+
+      setState(() {
+        serviceProviders = providers;
+      });
+    } catch (e) {
+      print('Error fetching service providers by service type: $e');
+    }
+  }
+
+  Future<void> _getBestServiceProviders() async {
+    try {
+      final List<Map<String, dynamic>> bestServiceProviders =
+          await HomeOwnerSearchAPI.getBestFourServiceProviders();
+
+      setState(() {
+        serviceProviders = bestServiceProviders;
+        print('In the search: $serviceProviders');
+      });
+    } catch (e) {
+      // Handle errors
+      print('Error fetching best service providers: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF9FAFB),//const Color(0xFFF9FAFB),
+      backgroundColor: Color(0xFFF9FAFB), //const Color(0xFFF9FAFB),
       appBar: AppBar(
-        leading: const Icon(Icons.house_outlined , color: Color(0xFFF3D69B), size: 27,),
+        leading: const Icon(
+          Icons.house_outlined,
+          color: Color(0xFFF3D69B),
+          size: 27,
+        ),
         title: const Text(
           'Home Page',
-          style: TextStyle(
-              color: Color(0xFFF3D69B)
-          ),
+          style: TextStyle(color: Color(0xFFF3D69B)),
         ),
         actions: const [
           Padding(
             padding: EdgeInsets.only(right: 12.0),
             child: CircleAvatar(
-              backgroundImage: AssetImage('images/Profile Icon.png'), // add gesturewidget on tap function
+              backgroundImage: AssetImage(
+                  'images/Profile Icon.png'), // add gesturewidget on tap function
             ),
           ),
         ],
         elevation: 0,
-        backgroundColor: Color(0xFF122247),//Colors.white,
+        backgroundColor: Color(0xFF122247), //Colors.white,
       ),
       body: SafeArea(
         child: SizedBox(
@@ -179,10 +209,9 @@ class _SearchPageState extends State<SearchPage> {
                 child: Text(
                   "Welcome Back !",
                   style: TextStyle(
-                    color: Color(0xFF022D6B),
-                    fontWeight: FontWeight.w500,
-                    fontSize: 25
-                  ),
+                      color: Color(0xFF022D6B),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 25),
                 ),
               ),
               Row(
@@ -193,34 +222,45 @@ class _SearchPageState extends State<SearchPage> {
                       height: 50,
                       width: 344,
                       child: GestureDetector(
-                        onTap: (){
+                        onTap: () async {
+                          List<String> suggestionNames = await HomeOwnerSearchAPI.getSuggestionNames();
                           showSearch(
                             context: context,
-                            delegate: CustomSearchDelegate(),
+                            delegate: CustomSearchDelegate(
+                              suggestionNames: suggestionNames,
+                              onSearchResults: (results, query) {
+                                Future.microtask(() {
+                                  setState(() {
+                                    serviceProviders = results;
+                                    searchText = query; // Update the search bar text
+                                  });
+                                });
+                              },
+                              initialQuery:'', // Pass the initial search query
+                            ),
                           );
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                            // add the decoration and add a new widget for the search no time to sleep
-                            color: Colors.grey[300],
-                            borderRadius: BorderRadius.circular(30),
-                            border: Border.all(
-                              color: const Color(0xFF022D6B),
-                              width: 1,
-                            )
-                          ),
-                          child: const Row(
+                              // add the decoration and add a new widget for the search no time to sleep
+                              color: Colors.grey[300],
+                              borderRadius: BorderRadius.circular(30),
+                              border: Border.all(
+                                color: const Color(0xFF022D6B),
+                                width: 1,
+                              )),
+                          child: Row(
                             children: [
-                              Padding(
+                              const Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 12.0),
                                 child: Icon(
-                                      Icons.search_outlined ,
-                                      size: 25,
-                                      color: Color(0xFF022D6B),
-                                    ),
+                                  Icons.search_outlined,
+                                  size: 25,
+                                  color: Color(0xFF022D6B),
+                                ),
                               ),
                               Text(
-                                "Search for Service Providers",
+                                  searchText,
                                 style: TextStyle(
                                   color: Color(0xFF022D6B),
                                   fontSize: 14,
@@ -239,11 +279,13 @@ class _SearchPageState extends State<SearchPage> {
                       onPressed: () async {
                         List<String>? UpdatedData = await filterSearch();
                         setState(() {
-                          if(UpdatedData != null){
+                          if (UpdatedData != null) {
                             filterRating = int.parse(UpdatedData![0]);
                             filterMinWage = int.parse(UpdatedData![1]);
                             filterMaxWage = int.parse(UpdatedData![2]);
                             filterSPLocation = UpdatedData![3];
+                            _filterServiceProviders();
+
                             // print('${filterRating} : ${filterMinWage} : ${filterMaxWage} : ${filterSPLocation} : ${activeCategory}') ;
                           }
                         });
@@ -257,8 +299,10 @@ class _SearchPageState extends State<SearchPage> {
                   ),
                 ],
               ),
+
               const Padding(
-                padding: EdgeInsets.only(top: 12, bottom: 10, right: 15 , left: 12),
+                padding:
+                    EdgeInsets.only(top: 12, bottom: 10, right: 15, left: 12),
                 child: Text(
                   "Services",
                   style: TextStyle(
@@ -271,20 +315,24 @@ class _SearchPageState extends State<SearchPage> {
               SizedBox(
                 height: 55,
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 8, bottom: 10, right: 15 , left: 15),
+                  padding: const EdgeInsets.only(
+                      top: 8, bottom: 10, right: 15, left: 15),
                   child: GestureDetector(
-                    onTap: (){
-                      /*
-                      here we should check which category is presses to send it to the api and
-                      get the data based on it.
-                       */
+                    onTap: () {
+
+                        selectedCategory(categoryList[0]["Usenname"]);
+
                     },
-                    child: CategoriesHo(categoryList: categoryList, selectedCategory: selectedCategory,),
+                    child: CategoriesHo(
+                      categoryList: categoryList,
+                      selectedCategory: selectedCategory,
+                    ),
                   ),
                 ),
               ),
               const Padding(
-                padding: EdgeInsets.only(top: 12, bottom: 10, right: 15 , left: 12),
+                padding:
+                    EdgeInsets.only(top: 12, bottom: 10, right: 15, left: 12),
                 child: Text(
                   "Discover",
                   style: TextStyle(
@@ -294,8 +342,10 @@ class _SearchPageState extends State<SearchPage> {
                   ),
                 ),
               ),
+
+
               Flexible(
-                child: SPCard(topServiceProviders: jsonList,),
+                child: SPCard(topServiceProviders: serviceProviders),
               ),
             ],
           ),

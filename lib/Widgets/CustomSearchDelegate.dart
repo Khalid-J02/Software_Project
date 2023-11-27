@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
-
+import '../APIRequests/homeOwnerSearchAPI.dart';
 
 class CustomSearchDelegate extends SearchDelegate {
-  List<String> searchTerms = [];  // here we will get random first names of the service providers (distinct names)
+  final List<String> suggestionNames;
+  final Function(List<Map<String, dynamic>>, String) onSearchResults;
+  final String initialQuery;
+
+  CustomSearchDelegate({
+    required this.suggestionNames,
+    required this.onSearchResults,
+    required this.initialQuery,
+  });
+
 
   @override
   List<Widget>? buildActions(BuildContext context) {
-    // TODO: implement buildActions
     return [
       IconButton(
-        onPressed: (){
-          query = '' ;
+        onPressed: () {
+          query = '';
         },
         icon: const Icon(Icons.clear),
       )
@@ -19,10 +27,9 @@ class CustomSearchDelegate extends SearchDelegate {
 
   @override
   Widget? buildLeading(BuildContext context) {
-    // TODO: implement buildLeading
     return IconButton(
-      onPressed: (){
-        close(context , null) ;
+      onPressed: () {
+        close(context, null);
       },
       icon: const Icon(Icons.arrow_back),
     );
@@ -30,42 +37,65 @@ class CustomSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    // TODO: implement buildResults
-    List<String> matchQuery = [] ;
-    for (var providerName in searchTerms){
-      if(providerName.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(providerName) ;
-      }
+    if (query.isEmpty) {
+      // If the query is empty, display suggestion names
+      return ListView.builder(
+        itemCount: suggestionNames.length,
+        itemBuilder: (context, index) {
+          var result = suggestionNames[index];
+          return ListTile(
+            title: Text(result),
+            onTap: () {
+              query = result;
+              showResults(context);
+            },
+          );
+        },
+      );
     }
-    return ListView.builder(
-      itemCount: matchQuery.length,
-      itemBuilder: (context , index){
-        var result = matchQuery[index] ;
-        return ListTile(
-          title: Text(result),
-        );
-      }
-    ) ;
+
+    // If there is a non-empty query, perform the search
+    return FutureBuilder(
+      future: HomeOwnerSearchAPI.searchServiceProvidersByName(query),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error ?? "Unknown error"}');
+        } else {
+          List<Map<String, dynamic>> searchResults =
+              snapshot.data as List<Map<String, dynamic>>;
+
+          Future.microtask(() {
+            close(context, null); // Close the search bar
+            onSearchResults(searchResults, query); // Pass the query
+          });
+
+          // Return an empty container as results are displayed in the SearchPage
+          return Container();
+        }
+      },
+    );
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    // TODO: implement buildSuggestions
-    List<String> matchQuery = [] ;
-    for (var providerName in searchTerms){
-      if(providerName.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(providerName) ;
-      }
-    }
+    List<String> matchQuery = suggestionNames
+        .where((name) => name.toLowerCase().contains(query.toLowerCase()))
+        .toList();
+
     return ListView.builder(
-        itemCount: matchQuery.length,
-        itemBuilder: (context , index){
-          var result = matchQuery[index] ;
-          return ListTile(
-            title: Text(result),
-          );
-        }
-    ) ;
+      itemCount: matchQuery.length,
+      itemBuilder: (context, index) {
+        var result = matchQuery[index];
+        return ListTile(
+          title: Text(result),
+          onTap: () {
+            query = result;
+            showResults(context);
+          },
+        );
+      },
+    );
   }
-  
 }

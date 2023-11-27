@@ -2,6 +2,7 @@ import 'package:buildnex/Widgets/profileData.dart';
 import 'package:buildnex/Widgets/userProfileDataDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:buildnex/APIRequests/profilePageHomeOwnerAPI.dart';
 
 void main() {
   runApp(MaterialApp(home: const ProfilePage()));
@@ -15,21 +16,20 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  String userName = '';
+  String userRole = '';
 
-  String userName = 'Khalid Ahmad Jabr';
-  String userRole = 'Home Owner' ;
+  String userEmail = '';
+  String userBio = '';
+  String userPhoneNum = '';
+  late String userPic = '';
 
-  String userEmail = 'khalid.asej6@gmail.com';
-  String userBio = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus id risus ac turpis vehicula lacinia. Proin auctor varius mi, ac auctor leo laoreet ac. Vestibulum quis felis nec odio rhoncus ullamcorper. Quisque tincidunt bibendum sapien, at scelerisque massa lacinia vel. Sed ac eros nec justo fermentum tincidunt. Suspendisse potenti. ' ;
-  String userPhoneNum = '+972 59-258-5190';
-
-  Future <List<String>?> editProfile()=> showDialog <List<String>>(
-      context: context,
-      builder: (BuildContext context){
-        return UserProfileDataDialog(phoneNumber: userPhoneNum, eMail: userEmail, bio: userBio,);
-      }
-  );
-
+  @override
+  void initState() {
+    super.initState();
+    // Load the profile data when the screen initializes
+    _loadProfile();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,23 +44,38 @@ class _ProfilePageState extends State<ProfilePage> {
                   flex: 1,
                   child: Container(
                     color: const Color(0xFF122247),
-                    padding: const EdgeInsets.symmetric(horizontal: 15 , vertical: 20),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 60),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         GestureDetector(
                           onTap: () async {
-                            List<String>? UpdatedData = await editProfile();
-                            setState(() {
-                              if(UpdatedData != null){
-                                userPhoneNum = UpdatedData![0];
-                                userEmail = UpdatedData![1];
-                                userBio = UpdatedData![2];
+                            List<String>? updatedData = await editProfile();
+                            if (updatedData != null) {
+                              try {
+                                // Call the API to update the profile in the database
+                                await HomeOwnerProfilePageAPI.editProfile({
+                                  'UserPhoneNumber': updatedData[0],
+                                  'Email': updatedData[1],
+                                  'UserProfileInfo': updatedData[2],
+                                });
+
+                                setState(() {
+                                  userPhoneNum = updatedData[0];
+                                  userEmail = updatedData[1];
+                                  userBio = updatedData[2];
+                                });
+                              } catch (e) {
+                                print('Error updating profile: $e');
                               }
-                            });
+                            }
                           },
-                          child: const Icon(Icons.edit, color: Color(0xFFF3D69B),),
+                          child: const Icon(
+                            Icons.edit,
+                            color: Color(0xFFF3D69B),
+                          ),
                         )
                       ],
                     ),
@@ -71,15 +86,21 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: Container(
                     color: const Color(0xFF2F4771),
                     width: MediaQuery.of(context).size.width,
-                    child: ProfileData(userName: userName, userEmail: userEmail , userRole: userRole, userBio: userBio, userPhone: userPhoneNum,),
+                    child: ProfileData(
+                      userName: userName,
+                      userRole: userRole,
+                      userPhone: userPhoneNum,
+                      userEmail: userEmail,
+                      userBio: userBio,
+                    ),
                   ),
                 ),
               ],
             ),
             Positioned(
               top: MediaQuery.of(context).size.width / 5,
-              left: MediaQuery.of(context).size.width / 3 ,
-              right: MediaQuery.of(context).size.width / 3 ,
+              left: MediaQuery.of(context).size.width / 3,
+              right: MediaQuery.of(context).size.width / 3,
               child: Container(
                 decoration: BoxDecoration(
                   border: Border.all(
@@ -88,9 +109,11 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   shape: BoxShape.circle,
                 ),
-                child: const CircleAvatar(
+                child:  CircleAvatar(
                   radius: 65,
-                  backgroundImage: NetworkImage('https://picsum.photos/200/300'),
+                  backgroundImage: userPic.isNotEmpty
+                      ? AssetImage(userPic)
+                      : AssetImage("images/profilePic96.png"),
                 ),
               ),
             ),
@@ -99,4 +122,39 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     );
   }
+
+
+  //Functions from Tala
+  Future<void> _loadProfile() async {
+    try {
+      final profile = await HomeOwnerProfilePageAPI.getProfile();
+      setState(() {
+        userName = profile['Username'];
+        userRole = profile['UserType'];
+        userEmail = profile['Email'];
+        userBio = profile['UserProfileInfo'];
+        userPhoneNum = profile['PhoneNumber'];
+        if(profile['UserPicture']==null) {
+          print("hello from userpic");
+          userPic = "images/profilePic96.png";
+        }
+        else {
+          userPic = profile['UserPicture'];
+        }
+        print(userPic);
+      });
+    } catch (e) {
+      print('Error loading profile: $e');
+    }
+  }
+
+  Future<List<String>?> editProfile() => showDialog<List<String>>(
+      context: context,
+      builder: (BuildContext context) {
+        return UserProfileDataDialog(
+          phoneNumber: userPhoneNum,
+          eMail: userEmail,
+          bio: userBio,
+        );
+      });
 }

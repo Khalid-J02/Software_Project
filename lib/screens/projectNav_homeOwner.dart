@@ -2,18 +2,14 @@ import 'package:buildnex/screens/projectDesc_HO.dart';
 import 'package:buildnex/screens/projectTasks_HO.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:get/get.dart';
 
 void main() {
-  runApp(ProjectNavBar());
+  runApp(const ProjectNavBar());
 }
 
 class ProjectNavBar extends StatefulWidget {
-
-  const ProjectNavBar(
-      {
-        super.key,
-      }
-      );
+  const ProjectNavBar({Key? key}) : super(key: key);
 
   @override
   State<ProjectNavBar> createState() => _ProjectNavBarState();
@@ -21,13 +17,22 @@ class ProjectNavBar extends StatefulWidget {
 
 class _ProjectNavBarState extends State<ProjectNavBar> {
 
+  late String projectId;
   int pageIndex = 0 ;
-  final screens = [
-    ProjectTasksHomeOwner(),
-    ProjectDescription(),
-  ];
 
+  late List<Widget> screens;
 
+  @override
+  void initState() {
+    super.initState();
+    final routeArguments = Get.arguments;
+    projectId = routeArguments?['projectId'] as String? ?? '';
+
+    screens = [
+      ProjectTasksHomeOwner(projectId: projectId),
+      ProjectDescription(projectId: projectId),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {

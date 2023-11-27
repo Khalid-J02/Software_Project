@@ -11,8 +11,10 @@ import 'package:buildnex/screens/register.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:buildnex/screens/welcomePage.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() {
+  dotenv.load();
   runApp(const MyApp());
 }
 
@@ -37,7 +39,7 @@ Widget build(BuildContext context) {
       '/HomePage/HomeOwner':(context) => NavBarHomeOwner(),
       '/HomePage/ServiceProvider':(context) => NavBarServiceProvider(),
       '/HomePage/HomeOwner/ProjectPage':(context) => ProjectNavBar(),
-      '/ProjectDescribtion':(context) => ProjectDescription(),
+      //'/ProjectDescribtion':(context) => ProjectDescription(),
     },
 
   );

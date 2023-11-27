@@ -58,7 +58,7 @@ class _SPCardDetailsState extends State<SPCardDetails> {
                   padding: EdgeInsets.only(left: 12 , bottom: 2),
                   child: Text(
                     widget.sPName,
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Color(0xFF022D6B)),
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Color(0xFF022D6B)),
                   ),
                 ),
                 Padding(
@@ -72,7 +72,7 @@ class _SPCardDetailsState extends State<SPCardDetails> {
                       ),
                       Text(
                         widget.sPServiceType,
-                        style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 14, color: Color(0xFF022D6B)),
+                        style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 12, color: Color(0xFF022D6B)),
                       ),
                     ],
                   ),

@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 class ProfileData extends StatefulWidget {
   String userName ;
   String userRole ;
-
   String userEmail ;
   String userBio  ;
   String userPhone ;

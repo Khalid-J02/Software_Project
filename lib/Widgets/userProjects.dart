@@ -6,13 +6,18 @@ import '../screens/projectNav_homeOwner.dart';
 class UserProjects extends StatelessWidget {
 
   final String projectName ;
-  const UserProjects({super.key, required this.projectName});
+  final String projectId;
+  //const UserProjects({super.key, required this.projectName});
+  const UserProjects({Key? key, required this.projectId, required this.projectName})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        Get.toNamed('/HomePage/HomeOwner/ProjectPage');
+        //Get.toNamed('/HomePage/HomeOwner/ProjectPage');
+        Get.toNamed('/HomePage/HomeOwner/ProjectPage', arguments: {'projectId': projectId});
+
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 25 , right: 25 , top: 25),

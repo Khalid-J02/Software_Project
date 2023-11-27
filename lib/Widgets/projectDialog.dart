@@ -1,5 +1,6 @@
 import 'package:buildnex/Widgets/TextField.dart';
 import 'package:flutter/material.dart';
+import 'package:buildnex/APIRequests/homePageHomeOwnerAPI.dart';
 
 
 class ProjectDialog extends StatefulWidget {
@@ -22,108 +23,113 @@ class _ProjectDialogState extends State<ProjectDialog> {
   String _projectCity = "Project City";
   String _projectEntryPoint = "Entry Point";
 
-  ButtonStyle ElevatedButtonStyle(){
+  ButtonStyle ElevatedButtonStyle() {
     return ButtonStyle(
         backgroundColor: MaterialStateProperty.all(Color(0xFF6781A6)),
         elevation: MaterialStateProperty.all(0),
-        side: MaterialStateProperty.all(BorderSide(color: Color(0xFFF3D69B), width: 1)),
+        side: MaterialStateProperty.all(
+            BorderSide(color: Color(0xFFF3D69B), width: 1)),
         alignment: Alignment.center
-    ) ;
+    );
   }
 
-  TextStyle ElevatedButtonTextStyle(){
+  TextStyle ElevatedButtonTextStyle() {
     return TextStyle(
         color: Color(0xFFF3D69B),
         fontSize: 16,
         fontWeight: FontWeight.normal
     );
   }
-  void chooseCityBottomSheet(){
+
+  void chooseCityBottomSheet() {
     showModalBottomSheet(
         context: context,
-        builder: (BuildContext context){
+        builder: (BuildContext context) {
           return Container(
             color: Color(0xFF2F4771),
-            height: MediaQuery.of(context).size.height/3,
+            height: MediaQuery
+                .of(context)
+                .size
+                .height / 3,
             child: Center(
               child: Column(
                 children: <Widget>[
                   SizedBox(
                     width: 120,
                     child: ElevatedButton(
-                    onPressed: (){
-                      setState(() {
-                        _projectCity = "Nablus" ;
-                      });
-                      Navigator.pop(context);
-                    },
-                    style: ElevatedButtonStyle(),
-                    child: Text("Nablus" , style: ElevatedButtonTextStyle(),),
+                      onPressed: () {
+                        setState(() {
+                          _projectCity = "Nablus";
+                        });
+                        Navigator.pop(context);
+                      },
+                      style: ElevatedButtonStyle(),
+                      child: Text("Nablus", style: ElevatedButtonTextStyle(),),
                     ),
                   ),
                   SizedBox(
                     width: 120,
                     child: ElevatedButton(
-                      onPressed: (){
+                      onPressed: () {
                         setState(() {
-                          _projectCity = "Ramallah" ;
+                          _projectCity = "Ramallah";
                         });
                         Navigator.pop(context);
                       },
                       style: ElevatedButtonStyle(),
-                      child: Text("Ramallah" , style: ElevatedButtonTextStyle()),
+                      child: Text("Ramallah", style: ElevatedButtonTextStyle()),
                     ),
                   ),
                   SizedBox(
                     width: 120,
                     child: ElevatedButton(
-                      onPressed: (){
+                      onPressed: () {
                         setState(() {
-                          _projectCity = "Tulkarm" ;
+                          _projectCity = "Tulkarm";
                         });
                         Navigator.pop(context);
                       },
                       style: ElevatedButtonStyle(),
-                      child: Text("Tulkarm" , style: ElevatedButtonTextStyle()),
+                      child: Text("Tulkarm", style: ElevatedButtonTextStyle()),
                     ),
                   ),
                   SizedBox(
                     width: 120,
                     child: ElevatedButton(
-                      onPressed: (){
+                      onPressed: () {
                         setState(() {
-                          _projectCity = "Qalqilya" ;
+                          _projectCity = "Qalqilya";
                         });
                         Navigator.pop(context);
                       },
                       style: ElevatedButtonStyle(),
-                      child: Text("Qalqilya" , style: ElevatedButtonTextStyle()),
+                      child: Text("Qalqilya", style: ElevatedButtonTextStyle()),
                     ),
                   ),
                   SizedBox(
                     width: 120,
                     child: ElevatedButton(
-                      onPressed: (){
+                      onPressed: () {
                         setState(() {
-                          _projectCity = "Jenin" ;
+                          _projectCity = "Jenin";
                         });
                         Navigator.pop(context);
                       },
                       style: ElevatedButtonStyle(),
-                      child: Text("Jenin" , style: ElevatedButtonTextStyle()),
+                      child: Text("Jenin", style: ElevatedButtonTextStyle()),
                     ),
                   ),
                   SizedBox(
                     width: 120,
                     child: ElevatedButton(
-                      onPressed: (){
+                      onPressed: () {
                         setState(() {
-                          _projectCity = "Jericho" ;
+                          _projectCity = "Jericho";
                         });
                         Navigator.pop(context);
                       },
                       style: ElevatedButtonStyle(),
-                      child: Text("Jericho" , style: ElevatedButtonTextStyle()),
+                      child: Text("Jericho", style: ElevatedButtonTextStyle()),
                     ),
                   ),
                 ],
@@ -134,12 +140,15 @@ class _ProjectDialogState extends State<ProjectDialog> {
     );
   }
 
-  void chooseProjectEntryPoint(){
+  void chooseProjectEntryPoint() {
     showModalBottomSheet(
         context: context,
-        builder: (BuildContext context){
+        builder: (BuildContext context) {
           return Container(
-            height: MediaQuery.of(context).size.height/4,
+            height: MediaQuery
+                .of(context)
+                .size
+                .height / 4,
             color: Color(0xFF2F4771),
             child: Center(
               child: Row(
@@ -147,13 +156,14 @@ class _ProjectDialogState extends State<ProjectDialog> {
                 children: <Widget>[
                   ElevatedButton(
                     style: ElevatedButtonStyle(),
-                    onPressed: (){
+                    onPressed: () {
                       setState(() {
-                        _projectEntryPoint = "From Scratch" ;
+                        _projectEntryPoint = "From Scratch";
                       });
                       Navigator.pop(context);
-                      },
-                    child: Text("From Scratch" , style: ElevatedButtonTextStyle(),),
+                    },
+                    child: Text(
+                      "From Scratch", style: ElevatedButtonTextStyle(),),
                   ),
                   const VerticalDivider(
                     color: Color(0xFFF3D69B),
@@ -163,13 +173,14 @@ class _ProjectDialogState extends State<ProjectDialog> {
 
                   ElevatedButton(
                     style: ElevatedButtonStyle(),
-                    onPressed: (){
+                    onPressed: () {
                       setState(() {
-                        _projectEntryPoint = "From Middle" ;
+                        _projectEntryPoint = "From Middle";
                       });
                       Navigator.pop(context);
-                      },
-                    child: Text("From Middle" , style: ElevatedButtonTextStyle()),
+                    },
+                    child: Text(
+                        "From Middle", style: ElevatedButtonTextStyle()),
                   ),
                 ],
               ),
@@ -192,17 +203,21 @@ class _ProjectDialogState extends State<ProjectDialog> {
             const Padding(
               padding: EdgeInsets.only(bottom: 8.0),
               child: Text("Add a New Project:",
-              style: TextStyle(
-                fontSize: 20,
-                color: Color(0xFFF3D69B)
-              ),),
+                style: TextStyle(
+                    fontSize: 20,
+                    color: Color(0xFFF3D69B)
+                ),),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 8.0 , right: 8.0 , top: 8.0 , bottom: 12.0),
-              child: Textfield(controller: _projectNameController, hintText: _projectNamehint, labelText: _projectNamelabel),
+              padding: const EdgeInsets.only(
+                  left: 8.0, right: 8.0, top: 8.0, bottom: 12.0),
+              child: Textfield(controller: _projectNameController,
+                  hintText: _projectNamehint,
+                  labelText: _projectNamelabel),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 8.0 , right: 8.0 , top: 8.0 , bottom: 12.0),
+              padding: const EdgeInsets.only(
+                  left: 8.0, right: 8.0, top: 8.0, bottom: 12.0),
               child: Container(
                 width: 270,
                 height: 55,
@@ -212,27 +227,33 @@ class _ProjectDialogState extends State<ProjectDialog> {
                 child: ElevatedButton(
                   onPressed: chooseCityBottomSheet,
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Color(0xFF6781A6)),
-                    elevation: MaterialStateProperty.all(0),
-                    side: MaterialStateProperty.all(BorderSide(color: Color(0xFFF3D69B), width: 1)),
-                    alignment: Alignment.centerLeft
+                      backgroundColor: MaterialStateProperty.all(
+                          Color(0xFF6781A6)),
+                      elevation: MaterialStateProperty.all(0),
+                      side: MaterialStateProperty.all(
+                          BorderSide(color: Color(0xFFF3D69B), width: 1)),
+                      alignment: Alignment.centerLeft
                   ),
                   child: Text(_projectCity,
-                  style: const TextStyle(
-                    color: Color(0xFFF3D69B),
-                    fontSize: 16,
-                    fontWeight: FontWeight.normal
-                  ),
+                    style: const TextStyle(
+                        color: Color(0xFFF3D69B),
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal
+                    ),
                   ),
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 8.0 , right: 8.0 , top: 8.0 , bottom: 12.0),
-              child: Textfield(controller: _projectStreetLocationController, hintText: _projectStreetLocationhint, labelText: _projectStreetlabel),
+              padding: const EdgeInsets.only(
+                  left: 8.0, right: 8.0, top: 8.0, bottom: 12.0),
+              child: Textfield(controller: _projectStreetLocationController,
+                  hintText: _projectStreetLocationhint,
+                  labelText: _projectStreetlabel),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 8.0 , right: 8.0 , top: 8.0 , bottom: 12.0),
+              padding: const EdgeInsets.only(
+                  left: 8.0, right: 8.0, top: 8.0, bottom: 12.0),
               child: Container(
                 width: 270,
                 height: 55,
@@ -242,9 +263,11 @@ class _ProjectDialogState extends State<ProjectDialog> {
                 child: ElevatedButton(
                   onPressed: chooseProjectEntryPoint,
                   style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Color(0xFF6781A6)),
+                      backgroundColor: MaterialStateProperty.all(
+                          Color(0xFF6781A6)),
                       elevation: MaterialStateProperty.all(0),
-                      side: MaterialStateProperty.all(BorderSide(color: Color(0xFFF3D69B), width: 1)),
+                      side: MaterialStateProperty.all(
+                          BorderSide(color: Color(0xFFF3D69B), width: 1)),
                       alignment: Alignment.centerLeft
                   ),
                   child: Text(_projectEntryPoint,
@@ -258,7 +281,7 @@ class _ProjectDialogState extends State<ProjectDialog> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top : 8.0),
+              padding: const EdgeInsets.only(top: 8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
@@ -269,8 +292,16 @@ class _ProjectDialogState extends State<ProjectDialog> {
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
                     ),
                     child: TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop(_projectNameController.text);
+                      onPressed: () async {
+                        if (isProjectDataValid()) {
+                          String? projectId = await _saveProjectData();
+                          Navigator.of(context).pop({
+                            'projectName': _projectNameController.text,
+                            'projectId': projectId
+                          });
+                        } else {
+                          Navigator.of(context).pop(null);
+                        }
                       },
                       child: const Text(
                         'Save',
@@ -308,7 +339,43 @@ class _ProjectDialogState extends State<ProjectDialog> {
       ),
     );
   }
+
+  //Functions from Tala
+  bool isProjectDataValid() {
+    return _projectNameController.text != "Project Name" &&
+        _projectStreetLocationController.text != "Project Address" &&
+        _projectCity != "Project City" &&
+        _projectEntryPoint != "Entry Point";
+  }
+
+  Future<String?> _saveProjectData() async {
+    try {
+      // Get the values from the text controllers
+      String projectName = _projectNameController.text;
+      String projectLocation = _projectStreetLocationController.text;
+
+      // Call the API to add a new project and get the project ID
+      String? projectId = await HomeOwnerHomePageAPI.addNewProject(
+        projectName: projectName,
+        projectCity: _projectCity,
+        projectLocation: projectLocation,
+        projectEntryPoint: _projectEntryPoint,
+      );
+
+      // Check if the project ID is available
+      if (projectId != null) {
+        // You can use the project ID as needed
+        print('Project added successfully. Project ID: $projectId');
+        return projectId; // Return the project ID
+      } else {
+        // Handle the case where the project ID is null (API call failed)
+        print('Failed to add a new project');
+        return null;
+      }
+    } catch (error) {
+      // Handle API call error
+      print('Error adding a new project: $error');
+      return null;
+    }
+  }
 }
-
-
-
