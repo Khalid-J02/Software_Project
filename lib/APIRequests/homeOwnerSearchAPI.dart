@@ -56,7 +56,7 @@ class HomeOwnerSearchAPI {
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = jsonDecode(response.body);
         final List<Map<String, dynamic>> searchResults = List<Map<String, dynamic>>.from(responseData['results']);
-        // print(searchResults);
+
         return searchResults;
       } else {
         throw http.ClientException(
@@ -84,7 +84,7 @@ class HomeOwnerSearchAPI {
       if (response.statusCode == 200) {
         final List<dynamic> serviceProvidersList = jsonDecode(response.body);
         final List<Map<String, dynamic>> serviceProviders = List<Map<String, dynamic>>.from(serviceProvidersList);
-        // print(serviceProviders);
+
         return serviceProviders;
       } else {
         throw http.ClientException(
@@ -112,7 +112,7 @@ class HomeOwnerSearchAPI {
       if (response.statusCode == 200) {
         final List<dynamic> providersList = jsonDecode(response.body);
         final List<Map<String, dynamic>> providers = List<Map<String, dynamic>>.from(providersList);
-        // print('In the API: $providers');
+
         return providers;
       } else {
         throw http.ClientException(
@@ -155,7 +155,7 @@ class HomeOwnerSearchAPI {
       if (response.statusCode == 200) {
         final List<dynamic> filteredServiceProvidersList = jsonDecode(response.body);
         final List<Map<String, dynamic>> filteredServiceProviders = List<Map<String, dynamic>>.from(filteredServiceProvidersList);
-        // print(filteredServiceProviders);
+
         return filteredServiceProviders;
       } else {
         throw http.ClientException(

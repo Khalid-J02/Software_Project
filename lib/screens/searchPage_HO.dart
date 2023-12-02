@@ -2,6 +2,7 @@ import 'package:buildnex/Widgets/serviceProvideCard_HO.dart';
 import 'package:flutter/material.dart';
 import '../Widgets/Categories_HO.dart';
 import '../Widgets/CustomSearchDelegate.dart';
+import '../Widgets/customAlertDialog.dart';
 import '../Widgets/filterSearch_HO.dart';
 
 import '../APIRequests/homeOwnerSearchAPI.dart';
@@ -107,21 +108,46 @@ class _SearchPageState extends State<SearchPage> {
 
       // Check if an active category is selected
       if (activeCategory.isNotEmpty) {
-        filteredProviders = await HomeOwnerSearchAPI.filterServiceProviders(
-          rating: filterRating.toDouble(),
-          minPrice: filterMinWage.toDouble(),
-          maxPrice: filterMaxWage.toDouble(),
-          city: filterSPLocation,
-          serviceType: activeCategory,
-        );
+
+        if (filterSPLocation.isNotEmpty) {
+          filteredProviders = await HomeOwnerSearchAPI.filterServiceProviders(
+            rating: filterRating.toDouble(),
+            minPrice: filterMinWage.toDouble(),
+            maxPrice: filterMaxWage.toDouble(),
+            city: filterSPLocation,
+            serviceType: activeCategory,
+          );
+           filterRating = 1;
+           filterMinWage = 10;
+           filterMaxWage = 200;
+           filterSPLocation = "";
+        }
+        else {
+          CustomAlertDialog.showErrorDialog(
+              context, 'Filter for Service Provider Location is Empty');
+          return;
+        }
       } else {
         // If no active category, filter on all service providers
-        filteredProviders = await HomeOwnerSearchAPI.filterServiceProviders(
-          rating: filterRating.toDouble(),
-          minPrice: filterMinWage.toDouble(),
-          maxPrice: filterMaxWage.toDouble(),
-          city: filterSPLocation,
-        );
+
+        // Ensure filterSPLocation is not empty before making the API call
+        if (filterSPLocation.isNotEmpty) {
+          filteredProviders = await HomeOwnerSearchAPI.filterServiceProviders(
+            rating: filterRating.toDouble(),
+            minPrice: filterMinWage.toDouble(),
+            maxPrice: filterMaxWage.toDouble(),
+            city: filterSPLocation,
+          );
+          filterRating = 1;
+          filterMinWage = 10;
+          filterMaxWage = 200;
+          filterSPLocation = "";
+
+        } else {
+          CustomAlertDialog.showErrorDialog(
+              context, 'Filter for Service Provider Location is Empty');
+          return;
+        }
       }
 
       setState(() {
@@ -131,6 +157,7 @@ class _SearchPageState extends State<SearchPage> {
       print('Error filtering service providers: $e');
     }
   }
+
 
 
   @override
@@ -319,9 +346,7 @@ class _SearchPageState extends State<SearchPage> {
                       top: 8, bottom: 10, right: 15, left: 15),
                   child: GestureDetector(
                     onTap: () {
-
-                        selectedCategory(categoryList[0]["Usenname"]);
-
+                        selectedCategory(categoryList[0]["serviceName"]);
                     },
                     child: CategoriesHo(
                       categoryList: categoryList,
@@ -350,6 +375,11 @@ class _SearchPageState extends State<SearchPage> {
                       /*
                         here we should do the refresh
                        */
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (BuildContext context) => super.widget),
+                      );
+
                     },
                     child: Container(
                       padding: const EdgeInsets.only(top: 5 , right: 12, ),

@@ -5,8 +5,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-import '../APIRequests/loginAPI.dart';
-
+import '../APIRequests/userRegAPI.dart';
+import '../Widgets/customAlertDialog.dart';
 
 
 // void main() {
@@ -223,12 +223,32 @@ class _LoginPageState extends State<_LoginPage> {
   }
 
   void _signIn() async {
-    final loginAPI = LoginAPI();
 
-    final userData = await loginAPI.logIn(_emailController.text, _passwordController.text) as Map;
-    if(dotenv.env['userType'] == 'HomeOwner'){
-      Get.toNamed('/HomePage/HomeOwner');
+    // Get the values from the text controllers
+    _email = _emailController.text;
+    _password = _passwordController.text;
+
+    // Check if email or password is not filled
+    if (_email.isEmpty || _password.isEmpty) {
+      CustomAlertDialog.showErrorDialog(context, 'Please fill in all the required fields.');
+      return;
     }
 
+    final loginAPI = userRegAPI();
+    final userData = await loginAPI.logIn(_email, _password) as Map;
+
+    if (userData.containsKey('error'))
+    {
+      CustomAlertDialog.showErrorDialog(context, userData['error']);}
+    else
+    {
+        if(dotenv.env['userType'] == 'HomeOwner'){
+          Get.toNamed('/HomePage/HomeOwner');
+        }
+        else{
+          Get.offNamed('/HomePage/HomeOwner');
+        }
+    }
   }
 }
+

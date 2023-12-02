@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:buildnex/APIRequests/profilePageHomeOwnerAPI.dart';
 
+import '../Widgets/customAlertDialog.dart';
+
 void main() {
   runApp(MaterialApp(home: const ProfilePage()));
 }
@@ -54,21 +56,22 @@ class _ProfilePageState extends State<ProfilePage> {
                           onTap: () async {
                             List<String>? updatedData = await editProfile();
                             if (updatedData != null) {
-                              try {
-                                // Call the API to update the profile in the database
-                                await HomeOwnerProfilePageAPI.editProfile({
-                                  'UserPhoneNumber': updatedData[0],
-                                  'Email': updatedData[1],
-                                  'UserProfileInfo': updatedData[2],
-                                });
-
+                              // Call the API to update the profile in the database
+                              final response = await HomeOwnerProfilePageAPI
+                                  .editProfile({
+                                'UserPhoneNumber': updatedData[0],
+                                'Email': updatedData[1],
+                                'UserProfileInfo': updatedData[2],
+                              });
+                              if (response.containsKey('message')) {
                                 setState(() {
                                   userPhoneNum = updatedData[0];
                                   userEmail = updatedData[1];
                                   userBio = updatedData[2];
                                 });
-                              } catch (e) {
-                                print('Error updating profile: $e');
+                              }
+                              else if (response.containsKey('error')) {
+                              CustomAlertDialog.showErrorDialog(context, response['error']);
                               }
                             }
                           },
@@ -134,14 +137,8 @@ class _ProfilePageState extends State<ProfilePage> {
         userEmail = profile['Email'];
         userBio = profile['UserProfileInfo'];
         userPhoneNum = profile['PhoneNumber'];
-        if(profile['UserPicture']==null) {
-          print("hello from userpic");
-          userPic = "images/profilePic96.png";
-        }
-        else {
-          userPic = profile['UserPicture'];
-        }
-        print(userPic);
+        userPic = profile['UserPicture'];
+
       });
     } catch (e) {
       print('Error loading profile: $e');

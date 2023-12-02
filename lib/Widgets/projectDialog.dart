@@ -2,6 +2,7 @@ import 'package:buildnex/Widgets/TextField.dart';
 import 'package:flutter/material.dart';
 import 'package:buildnex/APIRequests/homePageHomeOwnerAPI.dart';
 
+import 'customAlertDialog.dart';
 
 class ProjectDialog extends StatefulWidget {
   const ProjectDialog({super.key});
@@ -29,16 +30,12 @@ class _ProjectDialogState extends State<ProjectDialog> {
         elevation: MaterialStateProperty.all(0),
         side: MaterialStateProperty.all(
             BorderSide(color: Color(0xFFF3D69B), width: 1)),
-        alignment: Alignment.center
-    );
+        alignment: Alignment.center);
   }
 
   TextStyle ElevatedButtonTextStyle() {
     return TextStyle(
-        color: Color(0xFFF3D69B),
-        fontSize: 16,
-        fontWeight: FontWeight.normal
-    );
+        color: Color(0xFFF3D69B), fontSize: 16, fontWeight: FontWeight.normal);
   }
 
   void chooseCityBottomSheet() {
@@ -47,10 +44,7 @@ class _ProjectDialogState extends State<ProjectDialog> {
         builder: (BuildContext context) {
           return Container(
             color: Color(0xFF2F4771),
-            height: MediaQuery
-                .of(context)
-                .size
-                .height / 3,
+            height: MediaQuery.of(context).size.height / 3,
             child: Center(
               child: Column(
                 children: <Widget>[
@@ -64,7 +58,10 @@ class _ProjectDialogState extends State<ProjectDialog> {
                         Navigator.pop(context);
                       },
                       style: ElevatedButtonStyle(),
-                      child: Text("Nablus", style: ElevatedButtonTextStyle(),),
+                      child: Text(
+                        "Nablus",
+                        style: ElevatedButtonTextStyle(),
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -136,8 +133,7 @@ class _ProjectDialogState extends State<ProjectDialog> {
               ),
             ),
           );
-        }
-    );
+        });
   }
 
   void chooseProjectEntryPoint() {
@@ -145,10 +141,7 @@ class _ProjectDialogState extends State<ProjectDialog> {
         context: context,
         builder: (BuildContext context) {
           return Container(
-            height: MediaQuery
-                .of(context)
-                .size
-                .height / 4,
+            height: MediaQuery.of(context).size.height / 4,
             color: Color(0xFF2F4771),
             child: Center(
               child: Row(
@@ -163,14 +156,15 @@ class _ProjectDialogState extends State<ProjectDialog> {
                       Navigator.pop(context);
                     },
                     child: Text(
-                      "From Scratch", style: ElevatedButtonTextStyle(),),
+                      "From Scratch",
+                      style: ElevatedButtonTextStyle(),
+                    ),
                   ),
                   const VerticalDivider(
                     color: Color(0xFFF3D69B),
                     thickness: 1,
                     indent: 10,
                   ),
-
                   ElevatedButton(
                     style: ElevatedButtonStyle(),
                     onPressed: () {
@@ -179,17 +173,15 @@ class _ProjectDialogState extends State<ProjectDialog> {
                       });
                       Navigator.pop(context);
                     },
-                    child: Text(
-                        "From Middle", style: ElevatedButtonTextStyle()),
+                    child:
+                        Text("From Middle", style: ElevatedButtonTextStyle()),
                   ),
                 ],
               ),
             ),
           );
-        }
-    );
+        });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -202,16 +194,16 @@ class _ProjectDialogState extends State<ProjectDialog> {
           children: <Widget>[
             const Padding(
               padding: EdgeInsets.only(bottom: 8.0),
-              child: Text("Add a New Project:",
-                style: TextStyle(
-                    fontSize: 20,
-                    color: Color(0xFFF3D69B)
-                ),),
+              child: Text(
+                "Add a New Project:",
+                style: TextStyle(fontSize: 20, color: Color(0xFFF3D69B)),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.only(
                   left: 8.0, right: 8.0, top: 8.0, bottom: 12.0),
-              child: Textfield(controller: _projectNameController,
+              child: Textfield(
+                  controller: _projectNameController,
                   hintText: _projectNamehint,
                   labelText: _projectNamelabel),
             ),
@@ -227,19 +219,18 @@ class _ProjectDialogState extends State<ProjectDialog> {
                 child: ElevatedButton(
                   onPressed: chooseCityBottomSheet,
                   style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(
-                          Color(0xFF6781A6)),
+                      backgroundColor:
+                          MaterialStateProperty.all(Color(0xFF6781A6)),
                       elevation: MaterialStateProperty.all(0),
                       side: MaterialStateProperty.all(
                           BorderSide(color: Color(0xFFF3D69B), width: 1)),
-                      alignment: Alignment.centerLeft
-                  ),
-                  child: Text(_projectCity,
+                      alignment: Alignment.centerLeft),
+                  child: Text(
+                    _projectCity,
                     style: const TextStyle(
                         color: Color(0xFFF3D69B),
                         fontSize: 16,
-                        fontWeight: FontWeight.normal
-                    ),
+                        fontWeight: FontWeight.normal),
                   ),
                 ),
               ),
@@ -247,7 +238,8 @@ class _ProjectDialogState extends State<ProjectDialog> {
             Padding(
               padding: const EdgeInsets.only(
                   left: 8.0, right: 8.0, top: 8.0, bottom: 12.0),
-              child: Textfield(controller: _projectStreetLocationController,
+              child: Textfield(
+                  controller: _projectStreetLocationController,
                   hintText: _projectStreetLocationhint,
                   labelText: _projectStreetlabel),
             ),
@@ -263,19 +255,18 @@ class _ProjectDialogState extends State<ProjectDialog> {
                 child: ElevatedButton(
                   onPressed: chooseProjectEntryPoint,
                   style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(
-                          Color(0xFF6781A6)),
+                      backgroundColor:
+                          MaterialStateProperty.all(Color(0xFF6781A6)),
                       elevation: MaterialStateProperty.all(0),
                       side: MaterialStateProperty.all(
                           BorderSide(color: Color(0xFFF3D69B), width: 1)),
-                      alignment: Alignment.centerLeft
-                  ),
-                  child: Text(_projectEntryPoint,
+                      alignment: Alignment.centerLeft),
+                  child: Text(
+                    _projectEntryPoint,
                     style: const TextStyle(
                         color: Color(0xFFF3D69B),
                         fontSize: 16,
-                        fontWeight: FontWeight.normal
-                    ),
+                        fontWeight: FontWeight.normal),
                   ),
                 ),
               ),
@@ -301,6 +292,8 @@ class _ProjectDialogState extends State<ProjectDialog> {
                           });
                         } else {
                           Navigator.of(context).pop(null);
+                          CustomAlertDialog.showErrorDialog(context,
+                              'Please fill in all the fields');
                         }
                       },
                       child: const Text(
