@@ -56,7 +56,7 @@ class _ProjectDescriptionState extends State<ProjectDescription> {
                     child: Container(
                       color: const Color(0xFF122247),
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 20),
+                          horizontal: 15, vertical: 30),
                       //child: const Icon(Icons.edit, color: Color(0xFFF3D69B),),
                     ),
                   ),
@@ -70,6 +70,8 @@ class _ProjectDescriptionState extends State<ProjectDescription> {
                         projectOwner: projectData['ownerUserName'] ?? '',
                         projectCity: projectData['projectCity'] ?? '',
                         projectLocation: projectData['projectLocation'] ?? '',
+                        basinNumber: projectData['basinNumber'] ?? '',
+                        plotNumber: projectData['plotNumber'] ?? '',
                         projectStatus: projectData['projectStatus'] ?? '',
                         projectProgress: (projectData['projectProgress'] as int?)?.toDouble() ?? 0.0,
                         projectBuildArea: projectData['buildingArea']?.toDouble(),

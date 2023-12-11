@@ -1,11 +1,10 @@
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-
-//
+import '../APIRequests/userRegAPI.dart';
+import '../Widgets/customAlertDialog.dart';
 
 class HomeOwnerRegister extends StatelessWidget {
   const HomeOwnerRegister({super.key});
@@ -51,141 +50,169 @@ class HomeOwnerRegister extends StatelessWidget {
 }
 
 class _HomeOwnerRegisterPage extends StatefulWidget {
-
   const _HomeOwnerRegisterPage({super.key});
 
   @override
-  State<_HomeOwnerRegisterPage> createState() => _Forget_PasswordCodePageState();
+  State<_HomeOwnerRegisterPage> createState() =>
+      _Forget_PasswordCodePageState();
 }
 
 class _Forget_PasswordCodePageState extends State<_HomeOwnerRegisterPage> {
-
   final phoneNumberController = TextEditingController();
-  final bioController = TextEditingController() ;
-  String userLocation = "Your City" ;
+  final bioController = TextEditingController();
+  String userLocation = "Your City";
 
-  TextStyle ElevatedButtonTextStyle(){
+  TextStyle ElevatedButtonTextStyle() {
     return TextStyle(
-        color: Color(0xFFF3D69B),
-        fontSize: 16,
-        fontWeight: FontWeight.normal
-    );
+        color: Color(0xFFF3D69B), fontSize: 16, fontWeight: FontWeight.normal);
   }
-  ButtonStyle ElevatedButtonStyle(){
+
+  ButtonStyle ElevatedButtonStyle() {
     return ButtonStyle(
         backgroundColor: MaterialStateProperty.all(Color(0xFF6781A6)),
         elevation: MaterialStateProperty.all(0),
-        side: MaterialStateProperty.all(BorderSide(color: Color(0xFFF3D69B), width: 1)),
-        alignment: Alignment.center
-    ) ;
+        side: MaterialStateProperty.all(
+            BorderSide(color: Color(0xFFF3D69B), width: 1)),
+        alignment: Alignment.center);
   }
 
-  void chooseCityBottomSheet(){
+  void chooseCityBottomSheet() {
     showModalBottomSheet(
         context: context,
-        builder: (BuildContext context){
+        builder: (BuildContext context) {
           return Container(
             color: Color(0xFF2F4771),
-            height: MediaQuery.of(context).size.height/3,
+            height: MediaQuery.of(context).size.height / 3,
             child: Center(
               child: Column(
                 children: <Widget>[
                   SizedBox(
                     width: 120,
                     child: ElevatedButton(
-                      onPressed: (){
+                      onPressed: () {
                         setState(() {
-                          userLocation = "Nablus" ;
+                          userLocation = "Nablus";
                         });
                         Navigator.pop(context);
                       },
                       style: ElevatedButtonStyle(),
-                      child: Text("Nablus" , style: ElevatedButtonTextStyle(),),
+                      child: Text(
+                        "Nablus",
+                        style: ElevatedButtonTextStyle(),
+                      ),
                     ),
                   ),
                   SizedBox(
                     width: 120,
                     child: ElevatedButton(
-                      onPressed: (){
+                      onPressed: () {
                         setState(() {
-                          userLocation = "Ramallah" ;
+                          userLocation = "Ramallah";
                         });
                         Navigator.pop(context);
                       },
                       style: ElevatedButtonStyle(),
-                      child: Text("Ramallah" , style: ElevatedButtonTextStyle()),
+                      child: Text("Ramallah", style: ElevatedButtonTextStyle()),
                     ),
                   ),
                   SizedBox(
                     width: 120,
                     child: ElevatedButton(
-                      onPressed: (){
+                      onPressed: () {
                         setState(() {
-                          userLocation = "Tulkarm" ;
+                          userLocation = "Tulkarm";
                         });
                         Navigator.pop(context);
                       },
                       style: ElevatedButtonStyle(),
-                      child: Text("Tulkarm" , style: ElevatedButtonTextStyle()),
+                      child: Text("Tulkarm", style: ElevatedButtonTextStyle()),
                     ),
                   ),
                   SizedBox(
                     width: 120,
                     child: ElevatedButton(
-                      onPressed: (){
+                      onPressed: () {
                         setState(() {
-                          userLocation = "Qalqilya" ;
+                          userLocation = "Qalqilya";
                         });
                         Navigator.pop(context);
                       },
                       style: ElevatedButtonStyle(),
-                      child: Text("Qalqilya" , style: ElevatedButtonTextStyle()),
+                      child: Text("Qalqilya", style: ElevatedButtonTextStyle()),
                     ),
                   ),
                   SizedBox(
                     width: 120,
                     child: ElevatedButton(
-                      onPressed: (){
+                      onPressed: () {
                         setState(() {
-                          userLocation = "Jenin" ;
+                          userLocation = "Jenin";
                         });
                         Navigator.pop(context);
                       },
                       style: ElevatedButtonStyle(),
-                      child: Text("Jenin" , style: ElevatedButtonTextStyle()),
+                      child: Text("Jenin", style: ElevatedButtonTextStyle()),
                     ),
                   ),
                   SizedBox(
                     width: 120,
                     child: ElevatedButton(
-                      onPressed: (){
+                      onPressed: () {
                         setState(() {
-                          userLocation = "Jericho" ;
+                          userLocation = "Jericho";
                         });
                         Navigator.pop(context);
                       },
                       style: ElevatedButtonStyle(),
-                      child: Text("Jericho" , style: ElevatedButtonTextStyle()),
+                      child: Text("Jericho", style: ElevatedButtonTextStyle()),
                     ),
                   ),
                 ],
               ),
             ),
           );
-        }
-    );
+        });
   }
 
-  File? file ;
-  ImagePicker image = ImagePicker() ;
+  File? file;
+  ImagePicker image = ImagePicker();
 
-  pickImageFromGallery() async{
-    var img = await image.pickImage(source: ImageSource.gallery) ;
+  pickImageFromGallery() async {
+    var img = await image.pickImage(source: ImageSource.gallery);
     setState(() {
-      if(img != null){
-        file =File(img!.path) ;
+      if (img != null) {
+        file = File(img!.path);
       }
     });
+  }
+
+  // functions from tala
+  Map<String, dynamic> UserData_HO() {
+    return {
+      'image': file != null ? file!.path : null,
+      'phoneNumber': phoneNumberController.text,
+      'city': userLocation,
+      'bio': bioController.text,
+    };
+  }
+
+  bool _areFieldsFilled() {
+    Map<String, dynamic> userData = UserData_HO();
+
+    return userData['phoneNumber'].isNotEmpty &&
+        userData['city'] != "Your City";
+  }
+
+  void initState() {
+    super.initState();
+
+    // Receive the arguments
+    Map<String, dynamic> mergedData =
+        Get.arguments as Map<String, dynamic>? ?? {};
+
+    phoneNumberController.text = mergedData['phoneNumber'] ?? '';
+    userLocation = mergedData['city'] ?? "Your City";
+    bioController.text = mergedData['bio'] ?? '';
   }
 
   @override
@@ -194,7 +221,8 @@ class _Forget_PasswordCodePageState extends State<_HomeOwnerRegisterPage> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Container(
-            margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/4),
+            margin: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width / 4),
             height: 210,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
@@ -202,29 +230,30 @@ class _Forget_PasswordCodePageState extends State<_HomeOwnerRegisterPage> {
             child: ClipOval(
               child: SizedBox.fromSize(
                 size: Size.fromRadius(30),
-                child: file == null ?
-                const Icon(
-                  Icons.image,
-                  size: 35,
-                  color: Color(0xFFF3D69B),
-                )
+                child: file == null
+                    ? const Icon(
+                        Icons.image,
+                        size: 35,
+                        color: Color(0xFFF3D69B),
+                      )
                     : Image.file(
-                  file!,
-                  fit: BoxFit.fill,
-                ),
+                        file!,
+                        fit: BoxFit.fill,
+                      ),
               ),
-            )
-        ),
+            )),
         Container(
           // padding: const EdgeInsets.only(left: 8.0),
-          margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/4,),
+          margin: EdgeInsets.symmetric(
+            horizontal: MediaQuery.of(context).size.width / 4,
+          ),
           child: ElevatedButton(
-            onPressed: () async{
-              var imageName = await pickImageFromGallery() ;
+            onPressed: () async {
+              var imageName = await pickImageFromGallery();
             },
             style: ElevatedButtonStyle(),
             child: const Text(
-              "Pick Ptofile Picture",
+              "Pick Profile Picture",
               style: TextStyle(
                 color: Color(0xFFF3D69B),
                 fontSize: 16,
@@ -234,7 +263,7 @@ class _Forget_PasswordCodePageState extends State<_HomeOwnerRegisterPage> {
           ),
         ),
         Container(
-          height:70,
+          height: 70,
           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
           child: TextFormField(
             controller: phoneNumberController,
@@ -273,7 +302,8 @@ class _Forget_PasswordCodePageState extends State<_HomeOwnerRegisterPage> {
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(Color(0xFF2F4771)),
               elevation: MaterialStateProperty.all(0),
-              side: MaterialStateProperty.all(BorderSide(color: Color(0xFFF3D69B), width: 1)),
+              side: MaterialStateProperty.all(
+                  BorderSide(color: Color(0xFFF3D69B), width: 1)),
               alignment: Alignment.centerLeft,
               shape: MaterialStateProperty.all(
                 RoundedRectangleBorder(
@@ -281,17 +311,17 @@ class _Forget_PasswordCodePageState extends State<_HomeOwnerRegisterPage> {
                 ),
               ),
             ),
-            child: Text(userLocation,
+            child: Text(
+              userLocation,
               style: const TextStyle(
                   color: Color(0xFFF3D69B),
                   fontSize: 16,
-                  fontWeight: FontWeight.normal
-              ),
+                  fontWeight: FontWeight.normal),
             ),
           ),
         ),
         Container(
-          height:130,
+          height: 130,
           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
           child: TextFormField(
             textInputAction: TextInputAction.newline,
@@ -327,7 +357,9 @@ class _Forget_PasswordCodePageState extends State<_HomeOwnerRegisterPage> {
             ),
           ),
         ),
-        SizedBox(height: 70,),
+        SizedBox(
+          height: 70,
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -340,14 +372,16 @@ class _Forget_PasswordCodePageState extends State<_HomeOwnerRegisterPage> {
                 borderRadius: BorderRadius.all(Radius.circular(20.0)),
               ),
               child: TextButton(
-                onPressed: () {
-                  Get.toNamed('/Register');
+                onPressed: () async {
+                  Get.toNamed('/Register',
+                      arguments: Map<String, dynamic>.from(
+                          {...?Get.arguments, ...UserData_HO()}));
                 },
                 child: const Text(
                   'Back',
                   style: TextStyle(
                     fontSize: 16,
-                    color: Color(0xFF2F4771),//
+                    color: Color(0xFF2F4771), //
                   ),
                 ),
               ),
@@ -361,8 +395,48 @@ class _Forget_PasswordCodePageState extends State<_HomeOwnerRegisterPage> {
                 borderRadius: BorderRadius.all(Radius.circular(20.0)),
               ),
               child: TextButton(
-                onPressed: () {
-                  Get.offNamed('/Login');
+                onPressed: () async {
+                  if (_areFieldsFilled()) {
+                    Map<String, dynamic> mergedData =
+                        Get.arguments as Map<String, dynamic>? ?? {};
+
+                    Map<String, dynamic> userData = UserData_HO();
+
+                    print(mergedData['firstName']);
+                    print(mergedData['lastName']);
+                    print(mergedData['role']);
+                    print(mergedData['email']);
+                    print(mergedData['password']);
+                    print(mergedData['confirmPassword']);
+
+                    print(userData);
+
+                    userRegAPI regAPI = userRegAPI();
+
+                      final reguserData = await regAPI.register(
+                          mergedData['firstName'],
+                          mergedData['lastName'],
+                          "HomeOwner",
+                          mergedData['email'],
+                          mergedData['password'],
+                          mergedData['confirmPassword'],
+                          "", // Image
+                          userData['phoneNumber'],
+                          userData['city'],
+                          "Doesn'tExist", //service Type
+                          userData['bio']);
+
+                      if (reguserData.containsKey('error')) {
+                        CustomAlertDialog.showErrorDialog(context, reguserData['error']);}
+                      else {
+                        Get.offNamed('/HomePage/HomeOwner');}
+                  }
+
+                  else {
+                    // Show alert dialog to indicate that Required fields are not filled.
+                    CustomAlertDialog.showErrorDialog(context, 'Please fill in all the required fields');
+
+                  }
                 },
                 child: const Text(
                   'Finish',

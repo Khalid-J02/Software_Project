@@ -1,6 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../Widgets/customAlertDialog.dart';
 
 void main() {
   runApp(const Register());
@@ -27,7 +27,9 @@ class Register extends StatelessWidget {
                   ),
                   alignment: Alignment.topCenter,
                   child: const Image(
-                    image: AssetImage('images/Logo_title.png',),
+                    image: AssetImage(
+                      'images/Logo_title.png',
+                    ),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -58,10 +60,9 @@ class _RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<_RegisterPage> {
-
   String _dropDownValue = 'Your Role';
-  String serviceType = "Service Type" ;
-  String providerLocation = "Your City" ;
+  String serviceType = "Service Type";
+  String providerLocation = "Your City";
 
   final _fncontroller = TextEditingController();
   final _lncontroller = TextEditingController();
@@ -84,29 +85,27 @@ class _RegisterPageState extends State<_RegisterPage> {
     });
   }
 
-  TextStyle ElevatedButtonTextStyle(){
+  TextStyle ElevatedButtonTextStyle() {
     return TextStyle(
-        color: Color(0xFFF3D69B),
-        fontSize: 16,
-        fontWeight: FontWeight.normal
-    );
+        color: Color(0xFFF3D69B), fontSize: 16, fontWeight: FontWeight.normal);
   }
-  ButtonStyle ElevatedButtonStyle(){
+
+  ButtonStyle ElevatedButtonStyle() {
     return ButtonStyle(
         backgroundColor: MaterialStateProperty.all(Color(0xFF6781A6)),
         elevation: MaterialStateProperty.all(0),
-        side: MaterialStateProperty.all(BorderSide(color: Color(0xFFF3D69B), width: 1)),
-        alignment: Alignment.center
-    ) ;
+        side: MaterialStateProperty.all(
+            BorderSide(color: Color(0xFFF3D69B), width: 1)),
+        alignment: Alignment.center);
   }
 
-  void chooseCityBottomSheet(){
+  void chooseCityBottomSheet() {
     showModalBottomSheet(
         context: context,
-        builder: (BuildContext context){
+        builder: (BuildContext context) {
           return Container(
             color: Color(0xFF2F4771),
-            height: MediaQuery.of(context).size.height/3,
+            height: MediaQuery.of(context).size.height / 3,
             child: SingleChildScrollView(
               child: Container(
                 child: Center(
@@ -115,144 +114,157 @@ class _RegisterPageState extends State<_RegisterPage> {
                       SizedBox(
                         width: 250,
                         child: ElevatedButton(
-                          onPressed: (){
+                          onPressed: () {
                             setState(() {
-                              serviceType = "Surveyor" ;
+                              serviceType = "Surveyor";
                             });
                             Navigator.pop(context);
                           },
                           style: ElevatedButtonStyle(),
-                          child: Text("Surveyor" , style: ElevatedButtonTextStyle(),),
+                          child: Text(
+                            "Surveyor",
+                            style: ElevatedButtonTextStyle(),
+                          ),
                         ),
                       ),
                       SizedBox(
                         width: 250,
                         child: ElevatedButton(
-                          onPressed: (){
+                          onPressed: () {
                             setState(() {
-                              serviceType = "Engineering Office" ;
+                              serviceType = "Engineering Office";
                             });
                             Navigator.pop(context);
                           },
                           style: ElevatedButtonStyle(),
-                          child: Text("Engineering Office" , style: ElevatedButtonTextStyle()),
+                          child: Text("Engineering Office",
+                              style: ElevatedButtonTextStyle()),
                         ),
                       ),
                       SizedBox(
                         width: 250,
                         child: ElevatedButton(
-                          onPressed: (){
+                          onPressed: () {
                             setState(() {
-                              serviceType = "Constructor" ;
+                              serviceType = "Constructor";
                             });
                             Navigator.pop(context);
                           },
                           style: ElevatedButtonStyle(),
-                          child: Text("Constructor" , style: ElevatedButtonTextStyle()),
+                          child: Text("Constructor",
+                              style: ElevatedButtonTextStyle()),
                         ),
                       ),
                       SizedBox(
                         width: 250,
                         child: ElevatedButton(
-                          onPressed: (){
+                          onPressed: () {
                             setState(() {
-                              serviceType = "Plumbing Technician" ;
+                              serviceType = "Plumbing Technician";
                             });
                             Navigator.pop(context);
                           },
                           style: ElevatedButtonStyle(),
-                          child: Text("Plumbing Technician" , style: ElevatedButtonTextStyle()),
+                          child: Text("Plumbing Technician",
+                              style: ElevatedButtonTextStyle()),
                         ),
                       ),
                       SizedBox(
                         width: 250,
                         child: ElevatedButton(
-                          onPressed: (){
+                          onPressed: () {
                             setState(() {
-                              serviceType = "Electrical Technician" ;
+                              serviceType = "Electrical Technician";
                             });
                             Navigator.pop(context);
                           },
                           style: ElevatedButtonStyle(),
-                          child: Text("Electrical Technician" , style: ElevatedButtonTextStyle()),
+                          child: Text("Electrical Technician",
+                              style: ElevatedButtonTextStyle()),
                         ),
                       ),
                       SizedBox(
                         width: 250,
                         child: ElevatedButton(
-                          onPressed: (){
+                          onPressed: () {
                             setState(() {
-                              serviceType = "Insulation & HVAC Contractors" ;
+                              serviceType = "Insulation & HVAC Contractors";
                             });
                             Navigator.pop(context);
                           },
                           style: ElevatedButtonStyle(),
-                          child: Text("Insulation & HVAC Contractors" , style: ElevatedButtonTextStyle()),
+                          child: Text("Insulation & HVAC Contractors",
+                              style: ElevatedButtonTextStyle()),
                         ),
                       ),
                       SizedBox(
                         width: 250,
                         child: ElevatedButton(
-                          onPressed: (){
+                          onPressed: () {
                             setState(() {
-                              serviceType = "Plasterer" ;
+                              serviceType = "Plasterer";
                             });
                             Navigator.pop(context);
                           },
                           style: ElevatedButtonStyle(),
-                          child: Text("Plasterer" , style: ElevatedButtonTextStyle()),
+                          child: Text("Plasterer",
+                              style: ElevatedButtonTextStyle()),
                         ),
                       ),
                       SizedBox(
                         width: 250,
                         child: ElevatedButton(
-                          onPressed: (){
+                          onPressed: () {
                             setState(() {
-                              serviceType = "Carpenter" ;
+                              serviceType = "Carpenter";
                             });
                             Navigator.pop(context);
                           },
                           style: ElevatedButtonStyle(),
-                          child: Text("Carpenter" , style: ElevatedButtonTextStyle()),
+                          child: Text("Carpenter",
+                              style: ElevatedButtonTextStyle()),
                         ),
                       ),
                       SizedBox(
                         width: 250,
                         child: ElevatedButton(
-                          onPressed: (){
+                          onPressed: () {
                             setState(() {
-                              serviceType = "Tile Contractor" ;
+                              serviceType = "Tile Contractor";
                             });
                             Navigator.pop(context);
                           },
                           style: ElevatedButtonStyle(),
-                          child: Text("Tile Contractor" , style: ElevatedButtonTextStyle()),
+                          child: Text("Tile Contractor",
+                              style: ElevatedButtonTextStyle()),
                         ),
                       ),
                       SizedBox(
                         width: 250,
                         child: ElevatedButton(
-                          onPressed: (){
+                          onPressed: () {
                             setState(() {
-                              serviceType = "Painter" ;
+                              serviceType = "Painter";
                             });
                             Navigator.pop(context);
                           },
                           style: ElevatedButtonStyle(),
-                          child: Text("Painter" , style: ElevatedButtonTextStyle()),
+                          child:
+                              Text("Painter", style: ElevatedButtonTextStyle()),
                         ),
                       ),
                       SizedBox(
                         width: 250,
                         child: ElevatedButton(
-                          onPressed: (){
+                          onPressed: () {
                             setState(() {
-                              serviceType = "Window Installer" ;
+                              serviceType = "Window Installer";
                             });
                             Navigator.pop(context);
                           },
                           style: ElevatedButtonStyle(),
-                          child: Text("Window Installer" , style: ElevatedButtonTextStyle()),
+                          child: Text("Window Installer",
+                              style: ElevatedButtonTextStyle()),
                         ),
                       ),
                     ],
@@ -261,104 +273,145 @@ class _RegisterPageState extends State<_RegisterPage> {
               ),
             ),
           );
-        }
-    );
+        });
   }
 
-  void providerCityBottomSheet(){
+  void providerCityBottomSheet() {
     showModalBottomSheet(
         context: context,
-        builder: (BuildContext context){
+        builder: (BuildContext context) {
           return Container(
             color: Color(0xFF2F4771),
-            height: MediaQuery.of(context).size.height/3,
+            height: MediaQuery.of(context).size.height / 3,
             child: Center(
               child: Column(
                 children: <Widget>[
                   SizedBox(
                     width: 120,
                     child: ElevatedButton(
-                      onPressed: (){
+                      onPressed: () {
                         setState(() {
-                          providerLocation = "Nablus" ;
+                          providerLocation = "Nablus";
                         });
                         Navigator.pop(context);
                       },
                       style: ElevatedButtonStyle(),
-                      child: Text("Nablus" , style: ElevatedButtonTextStyle(),),
+                      child: Text(
+                        "Nablus",
+                        style: ElevatedButtonTextStyle(),
+                      ),
                     ),
                   ),
                   SizedBox(
                     width: 120,
                     child: ElevatedButton(
-                      onPressed: (){
+                      onPressed: () {
                         setState(() {
-                          providerLocation = "Ramallah" ;
+                          providerLocation = "Ramallah";
                         });
                         Navigator.pop(context);
                       },
                       style: ElevatedButtonStyle(),
-                      child: Text("Ramallah" , style: ElevatedButtonTextStyle()),
+                      child: Text("Ramallah", style: ElevatedButtonTextStyle()),
                     ),
                   ),
                   SizedBox(
                     width: 120,
                     child: ElevatedButton(
-                      onPressed: (){
+                      onPressed: () {
                         setState(() {
-                          providerLocation = "Tulkarm" ;
+                          providerLocation = "Tulkarm";
                         });
                         Navigator.pop(context);
                       },
                       style: ElevatedButtonStyle(),
-                      child: Text("Tulkarm" , style: ElevatedButtonTextStyle()),
+                      child: Text("Tulkarm", style: ElevatedButtonTextStyle()),
                     ),
                   ),
                   SizedBox(
                     width: 120,
                     child: ElevatedButton(
-                      onPressed: (){
+                      onPressed: () {
                         setState(() {
-                          providerLocation = "Qalqilya" ;
+                          providerLocation = "Qalqilya";
                         });
                         Navigator.pop(context);
                       },
                       style: ElevatedButtonStyle(),
-                      child: Text("Qalqilya" , style: ElevatedButtonTextStyle()),
+                      child: Text("Qalqilya", style: ElevatedButtonTextStyle()),
                     ),
                   ),
                   SizedBox(
                     width: 120,
                     child: ElevatedButton(
-                      onPressed: (){
+                      onPressed: () {
                         setState(() {
-                          providerLocation = "Jenin" ;
+                          providerLocation = "Jenin";
                         });
                         Navigator.pop(context);
                       },
                       style: ElevatedButtonStyle(),
-                      child: Text("Jenin" , style: ElevatedButtonTextStyle()),
+                      child: Text("Jenin", style: ElevatedButtonTextStyle()),
                     ),
                   ),
                   SizedBox(
                     width: 120,
                     child: ElevatedButton(
-                      onPressed: (){
+                      onPressed: () {
                         setState(() {
-                          providerLocation = "Jericho" ;
+                          providerLocation = "Jericho";
                         });
                         Navigator.pop(context);
                       },
                       style: ElevatedButtonStyle(),
-                      child: Text("Jericho" , style: ElevatedButtonTextStyle()),
+                      child: Text("Jericho", style: ElevatedButtonTextStyle()),
                     ),
                   ),
                 ],
               ),
             ),
           );
-        }
-    );
+        });
+  }
+
+  // functions from tala
+
+  Map<String, dynamic> UserData() {
+    return {
+      'firstName': _fncontroller.text,
+      'lastName': _lncontroller.text,
+      'role': _dropDownValue,
+      'email': _emailController.text,
+      'password': _passwordController.text,
+      'confirmPassword': _confirmPasswordController.text,
+    };
+  }
+
+  bool _areFieldsFilled() {
+    Map<String, dynamic> userData = UserData();
+
+    return userData['firstName'].isNotEmpty &&
+        userData['lastName'].isNotEmpty &&
+        userData['role'] != 'Your Role' &&
+        userData['email'].isNotEmpty &&
+        userData['password'].isNotEmpty &&
+        userData['confirmPassword'].isNotEmpty;
+  }
+
+  void initState() {
+    super.initState();
+
+    // Receive the arguments
+    Map<String, dynamic> mergedData =
+        Get.arguments as Map<String, dynamic>? ?? {};
+    print(mergedData);
+
+    _fncontroller.text = mergedData['firstName'] ?? '';
+    _lncontroller.text = mergedData['lastName'] ?? '';
+    _dropDownValue = mergedData['role'] ?? 'Your Role';
+    _emailController.text = mergedData['email'] ?? '';
+    _passwordController.text = mergedData['password'] ?? '';
+    _confirmPasswordController.text = mergedData['confirmPassword'] ?? '';
   }
 
   @override
@@ -366,9 +419,11 @@ class _RegisterPageState extends State<_RegisterPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        SizedBox(height: 30,),
+        SizedBox(
+          height: 30,
+        ),
         Container(
-          height:70,
+          height: 70,
           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
           child: TextFormField(
             controller: _fncontroller,
@@ -399,7 +454,7 @@ class _RegisterPageState extends State<_RegisterPage> {
           ),
         ),
         Container(
-          height:70,
+          height: 70,
           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
           child: TextFormField(
             controller: _lncontroller,
@@ -440,7 +495,10 @@ class _RegisterPageState extends State<_RegisterPage> {
             ),
             child: DropdownButton<String>(
               value: _dropDownValue,
-              icon: const Icon(Icons.arrow_downward , color: Color(0xFFF3D69B),),
+              icon: const Icon(
+                Icons.arrow_downward,
+                color: Color(0xFFF3D69B),
+              ),
               style: const TextStyle(
                 color: Color(0xFFF3D69B),
               ),
@@ -601,15 +659,41 @@ class _RegisterPageState extends State<_RegisterPage> {
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
           ),
           child: TextButton(
-            onPressed: () {
-              if(_dropDownValue == 'Home Owner'){
-                Get.toNamed('/Register/HomeOwner');
-              }else if(_dropDownValue == 'Service Provider'){
-                Get.toNamed('/Register/ServiceProvider');
-              }else{
-                // do nothin (stay in the same page)
-              }
+            onPressed: () async {
+              if (_areFieldsFilled()) {
+                // Print the data for testing
+                Map<String, dynamic> userData = UserData();
 
+                Map<String, dynamic> mergedData =
+                    Get.arguments as Map<String, dynamic>? ?? {};
+
+                if (_dropDownValue == 'Home Owner') {
+                  Get.toNamed('/Register/HomeOwner', arguments: {
+                    ...userData,
+                    'phoneNumber': mergedData['phoneNumber'],
+                    'city': mergedData['city'],
+                    'bio': mergedData['bio'],
+                    'image': mergedData['image'],
+                  });
+                }
+                else if (_dropDownValue == 'Service Provider') {
+                  Get.toNamed('/Register/ServiceProvider', arguments: {
+                    ...userData,
+                    'phoneNumber': mergedData['phoneNumber'],
+                    'city': mergedData['city'],
+                    'serviceType': mergedData['serviceType'],
+                    'bio': mergedData['bio'],
+                    'image': mergedData['image'],
+                  });
+                }
+                else {
+                  // do nothing (stay on the same page)
+                }
+              } else {
+                // Show alert dialog to indicate that Required fields are not filled.
+                CustomAlertDialog.showErrorDialog(
+                    context, 'Please fill in all the required fields');
+              }
             },
             child: const Text(
               'Continue',
@@ -623,7 +707,10 @@ class _RegisterPageState extends State<_RegisterPage> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text('Already have an account? ' , style: TextStyle(color: Color(0xFFF3D69B)),),
+            const Text(
+              'Already have an account? ',
+              style: TextStyle(color: Color(0xFFF3D69B)),
+            ),
             TextButton(
               onPressed: () {
                 // go to login page

@@ -191,7 +191,6 @@ class MainProjectDataAccordion extends StatelessWidget {
                   ),
                 ),
               ],
-
             )
           ),
           AccordionSection(

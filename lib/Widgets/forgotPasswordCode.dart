@@ -1,8 +1,8 @@
 import 'package:buildnex/screens/forgot_Password.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-//
+import '../APIRequests/userRegAPI.dart';
+import '../Widgets/customAlertDialog.dart';
 
 class Forget_PasswordCode extends StatelessWidget {
   const Forget_PasswordCode({super.key});
@@ -72,6 +72,43 @@ class _Forget_PasswordCodePageState extends State<_Forget_PasswordCodePage> {
       _obsecConfPass = !_obsecConfPass;
     });
   }
+
+
+  late String userId;
+  late String userEmail;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    final arguments = Get.arguments;
+    if (arguments != null && arguments is Map<String, dynamic>) {
+      userId = arguments['userId'];
+      userEmail= arguments['userEmail'];
+    }
+  }
+
+  Future<void> _verifyCode() async {
+    String providedCode = _passwordcodeController.text;
+
+    if (providedCode.isEmpty) {
+      // Show an alert dialog if the code is empty
+      CustomAlertDialog.showErrorDialog(context, 'Please enter the verification code');
+      return;
+    }
+
+    // Call the API to verify the code
+    final response = await userRegAPI().verifyCode(userId, providedCode);
+
+    if (response.containsKey('error')) {
+      // Handle error, show alert dialog with error message
+      CustomAlertDialog.showErrorDialog(context, response['error']);
+    } else {
+      // Code verification successful, navigate to ResetPass
+      Get.toNamed('/ResetPass', arguments: {'userId': userId});
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -144,8 +181,8 @@ class _Forget_PasswordCodePageState extends State<_Forget_PasswordCodePage> {
               ),
               child: TextButton(
                 onPressed: () {
-                  Get.toNamed('/ForgotPass');
-                  // Get.to(Forget_Password());
+                  Get.toNamed('/ForgotPass' , arguments: {'userEmail':userEmail});
+
                 },
                 child: const Text(
                   'Back',
@@ -165,9 +202,7 @@ class _Forget_PasswordCodePageState extends State<_Forget_PasswordCodePage> {
                 borderRadius: BorderRadius.all(Radius.circular(20.0)),
               ),
               child: TextButton(
-                onPressed: () {
-                  Get.toNamed('/ResetPass');
-                },
+                onPressed: _verifyCode,
                 child: const Text(
                   'Next',
                   style: TextStyle(

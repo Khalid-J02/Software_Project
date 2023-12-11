@@ -17,7 +17,6 @@ class HomeOwnerProjectPageNavbarAPI {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> projectData = jsonDecode(response.body);
-        print(projectData);
         return projectData;
       } else {
         throw http.ClientException(
@@ -44,7 +43,6 @@ class HomeOwnerProjectPageNavbarAPI {
       if (response.statusCode == 200) {
         final List<dynamic> tasksList = jsonDecode(response.body);
         final List<Map<String, dynamic>> tasks = List<Map<String, dynamic>>.from(tasksList);
-        print(tasks);
         return tasks;
       } else {
         throw http.ClientException(

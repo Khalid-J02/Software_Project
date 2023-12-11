@@ -1,10 +1,13 @@
 import 'package:buildnex/Widgets/forgotPasswordCode.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../APIRequests/userRegAPI.dart';
+import '../Widgets/customAlertDialog.dart';
 
 
 class Forget_Password extends StatelessWidget {
   const Forget_Password({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +80,48 @@ class _Forget_PasswordPageState extends State<_Forget_PasswordPage> {
       _obsecConfPass = !_obsecConfPass;
     });
   }
+  late String userEmailArg;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    final arguments = Get.arguments;
+    if (arguments != null && arguments is Map<String, dynamic>) {
+      userEmailArg= arguments['userEmail'];
+      if(_emailController.text.isEmpty)
+        {
+          _emailController.text=userEmailArg;
+        }
+    }
+  }
+
+
+  Future<void> _forgotPassword() async {
+    String email = _emailController.text;
+
+    if (email.isEmpty) {
+      // Show an alert dialog if the email is empty
+      CustomAlertDialog.showErrorDialog(context, 'Please enter your email');
+      return;
+    }
+
+    // Call the API to initiate the password reset
+      final response = await userRegAPI().forgotPassword(email);
+
+      if (response.containsKey('error')) {
+        // Handle error, show alert dialog with error message
+        CustomAlertDialog.showErrorDialog(context, response['error']);
+      }
+      else {
+        // Password reset initiated successfully, navigate to ForgotPassCode
+        print(response['userId']);
+
+        Get.toNamed('/ForgotPassCode', arguments: {'userId': response['userId'],'userEmail':email});
+      }
+
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -143,10 +188,7 @@ class _Forget_PasswordPageState extends State<_Forget_PasswordPage> {
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
           ),
           child: TextButton(
-            onPressed: () {
-              Get.toNamed('/ForgotPassCode');
-              // Get.to(Forget_PasswordCode());
-            },
+            onPressed: _forgotPassword,
             child: const Text(
               'Reset Password',
               style: TextStyle(

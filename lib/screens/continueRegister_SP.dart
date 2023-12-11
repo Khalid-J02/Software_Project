@@ -1,11 +1,13 @@
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-//
+import '../APIRequests/userRegAPI.dart';
+import '../Widgets/customAlertDialog.dart';
+
+
 
 class ServiceProviderRegister extends StatelessWidget {
   const ServiceProviderRegister({super.key});
@@ -352,6 +354,39 @@ class _ServiceProviderRegisterPageState extends State<_ServiceProviderRegisterPa
     });
   }
 
+  // functions from tala
+  Map<String, dynamic> UserData_SP() {
+    return {
+      'image': file != null ? file!.path : null,
+      'phoneNumber': phoneNumberController.text,
+      'city': userLocation,
+      'serviceType': serviceType,
+      'bio': bioController.text,
+    };
+  }
+
+  bool _areFieldsFilled() {
+    Map<String, dynamic> userData = UserData_SP();
+
+    return userData['phoneNumber'].isNotEmpty &&
+           userData['city'] != "Your City" &&
+           userData['serviceType']!= "Service Type";
+  }
+
+  void initState() {
+    super.initState();
+
+    // Receive the arguments
+    Map<String, dynamic> mergedData =
+        Get.arguments as Map<String, dynamic>? ?? {};
+
+    print(mergedData);
+    phoneNumberController.text = mergedData['phoneNumber'] ?? '';
+    userLocation = mergedData['city'] ?? "Your City";
+    serviceType =mergedData['serviceType'] ?? "Service Type";
+    bioController.text = mergedData['bio'] ?? '';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -529,8 +564,10 @@ class _ServiceProviderRegisterPageState extends State<_ServiceProviderRegisterPa
                 borderRadius: BorderRadius.all(Radius.circular(20.0)),
               ),
               child: TextButton(
-                onPressed: () {
-                  Get.toNamed('/Register');
+                onPressed: () async {
+                  Get.toNamed('/Register',
+                      arguments: Map<String, dynamic>.from(
+                          {...?Get.arguments, ...UserData_SP()}));
                 },
                 child: const Text(
                   'Back',
@@ -550,8 +587,48 @@ class _ServiceProviderRegisterPageState extends State<_ServiceProviderRegisterPa
                 borderRadius: BorderRadius.all(Radius.circular(20.0)),
               ),
               child: TextButton(
-                onPressed: () {
-                  Get.offNamed('/Login');
+                onPressed: () async {
+                  if (_areFieldsFilled()) {
+                    Map<String, dynamic> mergedData =
+                        Get.arguments as Map<String, dynamic>? ?? {};
+
+                    Map<String, dynamic> userData = UserData_SP();
+
+                    print(mergedData['firstName']);
+                    print(mergedData['lastName']);
+                    print(mergedData['role']);
+                    print(mergedData['email']);
+                    print(mergedData['password']);
+                    print(mergedData['confirmPassword']);
+
+                    print(userData);
+
+                    userRegAPI regAPI = userRegAPI();
+
+                    final reguserData = await regAPI.register(
+                        mergedData['firstName'],
+                        mergedData['lastName'],
+                        "ServiceProvider",
+                        mergedData['email'],
+                        mergedData['password'],
+                        mergedData['confirmPassword'],
+                        "", // Image
+                        userData['phoneNumber'],
+                        userData['city'],
+                        userData['serviceType'], //service Type
+                        userData['bio']);
+
+                    if (reguserData.containsKey('error')) {
+                      CustomAlertDialog.showErrorDialog(context, reguserData['error']);}
+                    else {
+                      Get.offNamed('/HomePage/ServiceProvider');}
+                  }
+
+                  else {
+                    // Show alert dialog to indicate that Required fields are not filled.
+                    CustomAlertDialog.showErrorDialog(context, 'Please fill in all the required fields');
+
+                  }
                 },
                 child: const Text(
                   'Finish',

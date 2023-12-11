@@ -52,7 +52,6 @@ class HomeOwnerHomePageAPI {
   }) async {
 
     try {
-      print('Hello from add project');
 
       final response = await http.post(
         Uri.parse('$baseUrl/homeowner/addProject'),
@@ -68,11 +67,8 @@ class HomeOwnerHomePageAPI {
         }),
       );
 
-      if (response.statusCode == 201) {
+      if (response.statusCode == 200) {
         // Project added successfully
-        print('Project added successfully with ID:');
-        print(response.body);
-
         return response.body;
 
       } else {

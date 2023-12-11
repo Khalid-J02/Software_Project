@@ -1,7 +1,8 @@
 import 'package:buildnex/screens/login.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import '../APIRequests/userRegAPI.dart';
+import '../Widgets/customAlertDialog.dart';
 void main() {
   runApp(const Reset_Password());
 }
@@ -58,7 +59,6 @@ class _Reset_PasswordPage extends StatefulWidget {
 
 class _Reset_PasswordPageState extends State<_Reset_PasswordPage> {
 
-
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
@@ -77,9 +77,41 @@ class _Reset_PasswordPageState extends State<_Reset_PasswordPage> {
     });
   }
 
+
+  late String userId;
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    final arguments = Get.arguments;
+    if (arguments != null && arguments is Map<String, dynamic>) {
+      userId = arguments['userId'];
+    }
+  }
+
+  Future<void> _resetPassword() async {
+    String newPassword = _passwordController.text;
+    String confirmPassword = _confirmPasswordController.text;
+
+    if (newPassword.isEmpty || confirmPassword.isEmpty) {
+      CustomAlertDialog.showErrorDialog(context, 'Please fill in all the required fields');
+      return;
+    }
+
+    // Call the API to reset the password
+    final response = await userRegAPI().resetPassword(userId, newPassword, confirmPassword);
+
+    if (response.containsKey('error')) {
+      // Handle error, show alert dialog with error message
+      CustomAlertDialog.showErrorDialog(context, response['error']);
+
+    } else if (response.containsKey('message')) {
+      CustomAlertDialog.showSuccessDialogforReset(context, response['message']);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -187,11 +219,7 @@ class _Reset_PasswordPageState extends State<_Reset_PasswordPage> {
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
           ),
           child: TextButton(
-            onPressed: () {
-              // here should be post request to the db to update the password
-
-              // Get.off(Login());
-            },
+            onPressed:_resetPassword,
             child: const Text(
               'Reset Password',
               style: TextStyle(
