@@ -59,7 +59,9 @@ class _Reset_PasswordPage extends StatefulWidget {
 class _Reset_PasswordPageState extends State<_Reset_PasswordPage> {
 
 
-  final _passwordcodeController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+
   bool _obsecPass = true;
   bool _obsecConfPass = true;
 
@@ -77,24 +79,6 @@ class _Reset_PasswordPageState extends State<_Reset_PasswordPage> {
 
   @override
   Widget build(BuildContext context) {
-
-    final _passwordController = TextEditingController();
-    final _confirmPasswordController = TextEditingController();
-
-    bool _obsecPass = true;
-    bool _obsecConfPass = true;
-
-    void _togglePassIcon() {
-      setState(() {
-        _obsecPass = !_obsecPass;
-      });
-    }
-
-    void _toggleConfirmPassIcon() {
-      setState(() {
-        _obsecConfPass = !_obsecConfPass;
-      });
-    }
 
 
     return Column(

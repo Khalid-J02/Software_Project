@@ -1,6 +1,6 @@
+import 'package:buildnex/Widgets/ratingBar_ServiceProvider.dart';
 import 'package:flutter/material.dart';
 
-import '../../../Widgets/ratingBar_ServiceProvider.dart';
 
 class TaskerProfileData extends StatelessWidget {
   final String userPicture;

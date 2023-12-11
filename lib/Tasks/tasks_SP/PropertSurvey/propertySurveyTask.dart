@@ -1,7 +1,11 @@
-import 'package:buildnex/tasks_SP/PropertSurvey/widgets/taskerProfile.dart';
-import 'package:buildnex/tasks_SP/PropertSurvey/widgets/textFieldTasks.dart';
+
+import 'package:buildnex/Tasks/taskWidgets/taskInformation.dart';
+import 'package:buildnex/Tasks/taskWidgets/taskProviderInformation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import 'widgets/taskerProfile.dart';
+import 'widgets/textFieldTasks.dart';
 
 
 void main() {
@@ -44,182 +48,13 @@ class _SpPropertySurveyState extends State<SpPropertySurvey> {
           margin: const EdgeInsets.only(top: 10),
           child: Column(
             children: [
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                height: MediaQuery.of(context).size.height/6,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20.0),
-                  border: Border.all(
-                    color: Color(0xFF2F4771),
-                    width: 1.0,
-                  ),
-                ),
-                child: Column(
-                  children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height/17 ,
-                      // color: Color(0xFF6781A6),
-                      decoration: BoxDecoration(
-                        color: Color(0xFF6781A6),
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(20.0),
-                          topRight: Radius.circular(20.0),
-                          bottomLeft: Radius.zero,
-                          bottomRight: Radius.zero,
-                        ),
-                        border: Border.all(
-                          color: Color(0xFF2F4771),
-                          width: 1.0,
-                        ),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          "Task #7777",
-                          style: TextStyle(
-                            color: Color(0xFFF9FAFB),
-                            fontSize: 19,
-                            fontWeight: FontWeight.bold
-                          ),
-                        ),
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(top: 20.0 , bottom: 10),
-                                child: Text(
-                                  "Task",
-                                  style: TextStyle(
-                                    color: Colors.grey[600],
-                                    fontSize: 16
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                "Property Survey",
-                                style: TextStyle(
-                                    color: Color(0xFF2F4771),
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(top: 20.0 , bottom: 10),
-                                child: Text(
-                                  "Project",
-                                  style: TextStyle(
-                                      color: Colors.grey[600],
-                                      fontSize: 16
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                "Nablus Project",
-                                style: TextStyle(
-                                    color: Color(0xFF2F4771),
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(top: 20.0 , bottom: 10),
-                                child: Text(
-                                  "Status",
-                                  style: TextStyle(
-                                    color: Colors.grey[600],
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                "Not Started",
-                                style: TextStyle(
-                                    color: Color(0xFF2F4771),
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 20 , vertical: 10),
-                height: MediaQuery.of(context).size.height/7,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20.0),
-                  border: Border.all(
-                    color: Color(0xFF2F4771),
-                    width: 1.0,
-                  ),
-                ),
-                child: Column(
-                  children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height/17 ,
-                      // color: Color(0xFF6781A6),
-                      decoration: BoxDecoration(
-                        color: Color(0xFF6781A6),
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(20.0),
-                          topRight: Radius.circular(20.0),
-                          bottomLeft: Radius.zero,
-                          bottomRight: Radius.zero,
-                        ),
-                        border: Border.all(
-                          color: Color(0xFF2F4771),
-                          width: 1.0,
-                        ),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          "Tasker",
-                          style: TextStyle(
-                              color: Color(0xFFF9FAFB),
-                              fontSize: 19,
-                              fontWeight: FontWeight.bold
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: const TaskerProfileData(userPicture: 'images/Testing/Tokyo.jpg', rating: 3, numReviews: 40,),
-                    ),
-                  ],
-                ),
-              ),
+              TaskInformation(taskID: 7777, taskName: 'Property Survey', projectName: 'Nablus Project', taskStatus: 'Not Started',),
+              TaskProviderInformation(rating: 3.5, numOfReviews: 55,),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 20 , vertical: 10),
                 height: MediaQuery.of(context).size.height/2.2,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20.0),
-                  border: Border.all(
-                    color: Color(0xFF2F4771),
-                    width: 1.0,
-                  ),
                 ),
                 child: Column(
                   children: [
