@@ -20,7 +20,7 @@ class SPProfileData extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20 , vertical: 10),
-      height: MediaQuery.of(context).size.height/7 + 5,
+      height: MediaQuery.of(context).size.height/7 + 10,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20.0),
       ),
