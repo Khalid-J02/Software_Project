@@ -1,16 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../APIRequests/serviceProviderRequestsAPI.dart';
+import 'customAlertDialog.dart';
+
 class SPRequestDetails extends StatelessWidget {
   final String taskProjectName ;
-  final String taskName ;
+  final String taskHomeOwnerName ;
+  final String taskProjectId;
+  final String taskHomeOwnerId;
+  final String requestId;
   final Function (String name) removeProject ;
 
   const SPRequestDetails(
       {
         super.key,
         required this.taskProjectName,
-        required this.taskName,
+        required this.taskHomeOwnerName,
+        required this.taskProjectId,
+        required this.taskHomeOwnerId,
+        required this.requestId,
         required this.removeProject
       }
   );
@@ -46,7 +55,7 @@ class SPRequestDetails extends StatelessWidget {
                     color: Color(0xFFF9FAFB),
                     size: 20,
                   ),
-                  Text(" $taskName",
+                  Text(" $taskHomeOwnerName",
                     style: const TextStyle(
                         fontSize: 14,
                         color: Color(0xFFF9FAFB)
@@ -69,7 +78,7 @@ class SPRequestDetails extends StatelessWidget {
                   child: TextButton(
                     onPressed: (){
 
-                      // Get.toNamed('/ProjectDescribtion') ;
+                     // Get.toNamed('/', arguments: {'': });
 
                     },
                     child: const Text("See Details",
@@ -87,11 +96,9 @@ class SPRequestDetails extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(right: 8.0),
                         child: ElevatedButton(
-                            onPressed: (){
-                              /*
-                                here will accept the task request and link the task with the service provider id
-                               */
-
+                            onPressed: () async {
+                              await RequestsAPI.acceptRequest(requestId);
+                              removeProject(taskProjectName) ;
                             },
                             style: ElevatedButton.styleFrom(
                             primary: Color(0xFF2F4771),
@@ -108,8 +115,19 @@ class SPRequestDetails extends StatelessWidget {
                         ),
                       ),
                       ElevatedButton(
-                          onPressed: (){
-                            removeProject(taskProjectName) ;
+                          onPressed: () async {
+                            final declineReason = await CustomAlertDialog.showDeclineReasonDialog(context);
+
+                            if (declineReason != null) {
+                              // User entered a decline reason, call the declineRequest API
+                              await RequestsAPI.declineRequest(requestId, declineReason);
+                              removeProject(taskProjectName);
+                            }
+                            else
+                              {
+                                await RequestsAPI.declineRequest(requestId, 'The Service Provider does not mention the decline reason ');
+                                removeProject(taskProjectName);
+                              }
                           },
                           style: ElevatedButton.styleFrom(
                             primary: Color(0xFF2F4771),

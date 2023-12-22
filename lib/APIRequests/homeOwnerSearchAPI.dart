@@ -36,7 +36,7 @@ class HomeOwnerSearchAPI {
         );
       }
     } catch (e) {
-      print('Exception during API call: $e');
+      print('Exception during getSuggestionNames API call: $e');
       throw e; // Rethrow the exception to let the caller handle it
     }
   }
@@ -65,7 +65,7 @@ class HomeOwnerSearchAPI {
         );
       }
     } catch (e) {
-      print('Exception during API call: $e');
+      print('Exception during searchServiceProvidersByName API call: $e');
       rethrow;
     }
   }
@@ -93,7 +93,7 @@ class HomeOwnerSearchAPI {
         );
       }
     } catch (e) {
-      print('Exception during API call: $e');
+      print('Exception during getServiceProvidersByServiceType API call: $e');
       rethrow; // Rethrow the exception to let the caller handle it
     }
   }
@@ -102,7 +102,7 @@ class HomeOwnerSearchAPI {
   static Future<List<Map<String, dynamic>>> getBestFourServiceProviders() async {
     try {
       final response = await http.get(
-        Uri.parse('$baseUrl/homeowner/bestFourServiceProviders'),
+        Uri.parse('$baseUrl/homeowner/bestServiceProviders'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': '${dotenv.env['token']}',
@@ -121,7 +121,7 @@ class HomeOwnerSearchAPI {
         );
       }
     } catch (e) {
-      print('Exception during API call: $e');
+      print('Exception during getBestFourServiceProviders API call: $e');
       rethrow; // Rethrow the exception to let the caller handle it
     }
   }
@@ -164,7 +164,7 @@ class HomeOwnerSearchAPI {
         );
       }
     } catch (e) {
-      print('Exception during API call: $e');
+      print('Exception during filterServiceProviders API call: $e');
       rethrow; // Rethrow the exception to let the caller handle it
     }
   }

@@ -390,6 +390,8 @@ class _ProjectDialogState extends State<ProjectDialog> {
       // Get the values from the text controllers
       String projectName = _projectNameController.text;
       String projectLocation = _projectStreetLocationController.text;
+      String basinNumber=  _basinNumberController.text;
+      String plotNumber=  _plotNumberController.text;
 
       // Call the API to add a new project and get the project ID
       String? projectId = await HomeOwnerHomePageAPI.addNewProject(
@@ -397,6 +399,8 @@ class _ProjectDialogState extends State<ProjectDialog> {
         projectCity: _projectCity,
         projectLocation: projectLocation,
         projectEntryPoint: _projectEntryPoint,
+        basinNumber:basinNumber,
+        plotNumber :plotNumber,
       );
 
       // Check if the project ID is available

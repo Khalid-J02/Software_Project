@@ -4,6 +4,9 @@ import 'package:buildnex/Widgets/serviceProviderProfileDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../APIRequests/profilePageServiceProviderAPI.dart';
+import '../Widgets/customAlertDialog.dart';
+
 void main() {
   runApp(MaterialApp(home: const ServiceProviderProfilePage()));
 }
@@ -17,22 +20,24 @@ class ServiceProviderProfilePage extends StatefulWidget {
 
 class _ServiceProviderProfilePageState extends State<ServiceProviderProfilePage> {
 
-  String userName = 'Khalid Ahmad Jabr';
-  String userRole = 'Electricity Service Provider' ;
+  String userName = '';
+  String userRole = '' ;
 
-  String userEmail = 'khalid.asej6@gmail.com';
-  String userBio = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus id risus ac turpis vehicula lacinia. Proin auctor varius mi, ac auctor leo laoreet ac. Vestibulum quis felis nec odio rhoncus ullamcorper. Quisque tincidunt bibendum sapien, at scelerisque massa lacinia vel. Sed ac eros nec justo fermentum tincidunt. Suspendisse potenti. ' ;
-  String userPhoneNum = '+972 59-258-5190';
+  String userEmail = '';
+  String userBio = '' ;
+  String userPhoneNum = '';
 
-  double userRating = 3.9 ;
-  int userPrice = 39 ;
+  double userRating = 0.0 ;
+  int userPrice = 0 ;
+  late String userPic = '';
 
-  Future <List<String>?> editProfile()=> showDialog <List<String>>(
-      context: context,
-      builder: (BuildContext context){
-        return ServiceProviderProfileDataDialog(phoneNumber: userPhoneNum, eMail: userEmail, bio: userBio, pricePerHour: userPrice);
-      }
-  );
+
+  @override
+  void initState() {
+    super.initState();
+    // Load the profile data when the screen initializes
+    _loadProfile();
+  }
 
 
   @override
@@ -54,17 +59,28 @@ class _ServiceProviderProfilePageState extends State<ServiceProviderProfilePage>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           GestureDetector(
-                            onTap: () async {
-                              List<String>? UpdatedData = await editProfile();
-                              setState(() {
-                                if(UpdatedData != null){
-                                  userPhoneNum = UpdatedData![0];
-                                  userEmail = UpdatedData![1];
-                                  userBio = UpdatedData![2];
-                                  userPrice = int.parse(UpdatedData![3]);
-                                }
-                              });
-                            },
+                             onTap: () async {
+                               List<String>? updatedData = await editProfile();
+                               if (updatedData != null) {
+                                 final response = await ServiceProviderProfilePageAPI.editProfile({
+                                   'UserPhoneNumber': updatedData[0],
+                                   'Email': updatedData[1],
+                                   'UserProfileInfo': updatedData[2],
+                                   'Price': int.parse(updatedData[3]),
+                                 });
+
+                                 if (response.containsKey('message')) {
+                                   setState(() {
+                                     userPhoneNum = updatedData[0];
+                                     userEmail = updatedData[1];
+                                     userBio = updatedData[2];
+                                     userPrice = int.parse(updatedData[3]);
+                                   });
+                                 } else if (response.containsKey('error')) {
+                                   CustomAlertDialog.showErrorDialog(context, response['error']);
+                                 }
+                               }
+                             },
                             child: const Icon(Icons.edit, color: Color(0xFFF3D69B),),
                           )
                         ],
@@ -96,9 +112,11 @@ class _ServiceProviderProfilePageState extends State<ServiceProviderProfilePage>
                     ),
                     shape: BoxShape.circle,
                   ),
-                  child: const CircleAvatar(
+                  child: CircleAvatar(
                     radius: 65,
-                    backgroundImage: NetworkImage('https://picsum.photos/200/300'),
+                    backgroundImage: userPic.isNotEmpty
+                        ? AssetImage(userPic)
+                        : AssetImage("images/profilePic96.png"),
                   ),
                 ),
               ),
@@ -107,4 +125,35 @@ class _ServiceProviderProfilePageState extends State<ServiceProviderProfilePage>
         ),
     );
   }
+
+  // Functions from Tala
+  Future<void> _loadProfile() async {
+    try {
+      final profile = await ServiceProviderProfilePageAPI.getProfile();
+      setState(() {
+        userName = profile['Username'];
+        userRole = profile['UserType'];
+        userEmail = profile['Email'];
+        userBio = profile['UserProfileInfo'];
+        userPhoneNum = profile['PhoneNumber'];
+        userRating = double.parse(profile['Rating'].toString());
+        userPrice = int.parse(profile['Price'].toString());
+        userPic = profile['UserPicture'];
+      });
+    } catch (e) {
+      print('Error loading profile: $e');
+    }
+  }
+  Future<List<String>?> editProfile() => showDialog<List<String>>(
+    context: context,
+    builder: (BuildContext context) {
+      return ServiceProviderProfileDataDialog(
+        phoneNumber: userPhoneNum,
+        eMail: userEmail,
+        bio: userBio,
+        pricePerHour: userPrice,
+      );
+    },
+  );
+
 }

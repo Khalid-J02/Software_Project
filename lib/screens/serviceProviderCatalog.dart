@@ -2,6 +2,7 @@ import 'package:buildnex/screens/serviceProviderCatalogItemDetails.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../APIRequests/serviceProviderCatalogAPI.dart';
 import '../Widgets/addCatalogNewItem.dart';
 import '../Widgets/sp_CatalogItem.dart';
 
@@ -14,56 +15,26 @@ class ServiceProviderCatalog extends StatefulWidget {
 
 class _ServiceProviderCatalogState extends State<ServiceProviderCatalog> {
 
-  List<Map<String, dynamic>> jsonList = [
-    {
-      "image": "images/Testing/Tokyo.jpg",
-      "Name": "Tokyo",
-      "price": 25.0,
-      "rating" : 2.8
-    },
-    {
-      "image": "images/Testing/tarabzon2.jpg",
-      "Name": "tarabzon2",
-      "price": 35.0,
-      "rating" : 4.8
-    },
-    {
-      "image": "images/Testing/Salalah2.jpg",
-      "Name": "Salalah2",
-      "price": 25.0,
-      "rating" : 3.5
-    },
-    {
-      "image": "images/Testing/Iceland2.jpg",
-      "Name": "Iceland2",
-      "price": 25.0,
-      "rating" : 2.1
-    },
-    {
-      "image": "images/Testing/Dubai2.jpg",
-      "Name": "Dubai2",
-      "price": 25.0,
-      "rating" : 1.9
-    },
-    {
-      "image": "images/Testing/Bali2.jpg",
-      "Name": "Bali2",
-      "price": 25.0,
-      "rating" : 3.2
-    },
-    {
-      "image": "images/Testing/Tokyo2.jpg",
-      "Name": "Tokyo",
-      "price": 25.0,
-      "rating" : 4.1
-    },
-    {
-      "image": "images/Testing/Salalah.jpg",
-      "Name": "Salalah",
-      "price": 25.0,
-      "rating" : 5.0
-    },
-  ];
+  List<Map<String, dynamic>> jsonList = [];
+
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCatalogItems();
+  }
+
+  Future<void> _loadCatalogItems() async {
+    try {
+      final fetchedCatalogItems = await CatalogAPI.getCatalogItems();
+      setState(() {
+        jsonList = fetchedCatalogItems;
+      });
+    } catch (e) {
+      // Handle API call errors
+      print('Error loading catalog items: $e');
+    }
+  }
 
   Future <List<dynamic>?> addNewItem () => showDialog <List<dynamic>>(
       context: context,
@@ -79,13 +50,15 @@ class _ServiceProviderCatalogState extends State<ServiceProviderCatalog> {
         backgroundColor: Color(0xFFF9FAFB),
         onPressed: () async {
           List<dynamic>? newData = await addNewItem() ;
+
           setState(() {
             if(newData != null){
               Map<String, dynamic> jsonObject = {
-                "image": "images/Testing/Tokyo.jpg",
-                "Name" : newData?[0],
-                "price": double.parse(newData?[2]),
-                "rating": 1.1
+                "ItemImage": newData[4], //"images/Testing/Tokyo.jpg",
+                "ItemName" : newData[0],
+                "ItemPrice": newData[2],
+                "ItemRating": 0.0,
+                "CatalogID":newData[5]
               };
               jsonList.add(jsonObject);
             }
@@ -105,9 +78,9 @@ class _ServiceProviderCatalogState extends State<ServiceProviderCatalog> {
           var ItemObject = jsonList[index];
           return GestureDetector(
               onTap: (){
-                Get.to(SPCatalogItem(itemImage: ItemObject["image"], itemName: ItemObject["Name"],));
+                Get.to(() => (SPCatalogItem(catalogID : ItemObject["CatalogID"].toString())));
               },
-              child: ServiceProvideCatalogItem(catalogItemImageURL: ItemObject["image"], catalogItemImageName: ItemObject["Name"], catalogItemPrice: ItemObject["price"], catalogItemRating: ItemObject["rating"],)
+              child: ServiceProvideCatalogItem(catalogItemImageURL: ItemObject["ItemImage"].toString(), catalogItemImageName: ItemObject["ItemName"], catalogItemPrice: ItemObject["ItemPrice"].toDouble(), catalogItemRating: ItemObject["ItemRating"].toDouble(),)
 
           );
         },

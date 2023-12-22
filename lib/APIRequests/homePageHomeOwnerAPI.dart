@@ -38,7 +38,7 @@ class HomeOwnerHomePageAPI {
         );
       }
     } catch (e) {
-      print('Exception during API call: $e');
+      print('Exception during getHomeOwnerProjects API call: $e');
       throw e; // Rethrow the exception to let the caller handle it
     }
   }
@@ -49,6 +49,8 @@ class HomeOwnerHomePageAPI {
     required String projectCity,
     required String projectLocation,
     required String projectEntryPoint,
+    required String basinNumber,
+    required String plotNumber,
   }) async {
 
     try {
@@ -64,6 +66,8 @@ class HomeOwnerHomePageAPI {
           'projectCity': projectCity,
           'projectLocation': projectLocation,
           'projectEntryPoint': projectEntryPoint,
+          'basinNumber':basinNumber,
+          'plotNumber':plotNumber,
         }),
       );
 
@@ -79,7 +83,7 @@ class HomeOwnerHomePageAPI {
       }
     } catch (e) {
       // Handle other exceptions, e.g., network issues
-      print('Exception during API call: $e');
+      print('Exception addNewProject during API call: $e');
       rethrow; // Rethrow the exception to let the caller handle it
     }
   }

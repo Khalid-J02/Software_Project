@@ -17,6 +17,7 @@ class HomeOwnerProjectPageNavbarAPI {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> projectData = jsonDecode(response.body);
+
         return projectData;
       } else {
         throw http.ClientException(
@@ -25,7 +26,7 @@ class HomeOwnerProjectPageNavbarAPI {
         );
       }
     } catch (e) {
-      print('Exception during API call: $e');
+      print('Exception during getProjectInformation API call: $e');
       rethrow; // Rethrow the exception to let the caller handle it
     }
   }
@@ -51,7 +52,7 @@ class HomeOwnerProjectPageNavbarAPI {
         );
       }
     } catch (e) {
-      print('Exception during API call: $e');
+      print('Exception during getProjectTasks API call: $e');
       rethrow; // Rethrow the exception to let the caller handle it
     }
   }

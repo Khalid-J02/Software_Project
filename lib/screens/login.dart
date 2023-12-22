@@ -246,7 +246,7 @@ class _LoginPageState extends State<_LoginPage> {
           Get.toNamed('/HomePage/HomeOwner');
         }
         else{
-          Get.offNamed('/HomePage/HomeOwner');
+          Get.offNamed('/HomePage/ServiceProvider');
         }
     }
   }

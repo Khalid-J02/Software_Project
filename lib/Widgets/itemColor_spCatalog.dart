@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 
 class SPItemColor extends StatefulWidget {
   Color itemColor ;
+  final ValueChanged<Color> onColorUpdated;
 
   SPItemColor(
       {
         super.key,
         required this.itemColor,
-
+        required this.onColorUpdated,
       }
       );
 
@@ -18,19 +19,29 @@ class SPItemColor extends StatefulWidget {
 
 class _SPItemColorState extends State<SPItemColor> {
 
-  Future <List<Color>?> editCatalogItemColor()=> showDialog <List<Color>>(
+  Future<List<Color>?> editCatalogItemColor() async {
+    List<Color>? UpdatedData = await showDialog<List<Color>>(
       context: context,
-      builder: (BuildContext context){
-        return ItemColorPicker(currentItemColor: widget.itemColor,);
-        // return ServiceProviderCatalogItemDataDialog(itemName: widget.itemName, itemDescription: itemDescription, itemColors: itemColors,);
-      }
-  );
+      builder: (BuildContext context) {
+        return ItemColorPicker(currentItemColor: widget.itemColor);
+      },
+    );
+
+    if (UpdatedData != null) {
+      // Call the callback to notify the parent about the updated color
+      widget.onColorUpdated(UpdatedData[0]);
+    }
+
+    return UpdatedData;
+  }
+
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
-      margin: const EdgeInsets.only(left: 8.0 , bottom: 8),
-      width: 100,
+      margin: const EdgeInsets.only(left: 8.0 , bottom: 12.0),
+      width: 80,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         color: widget.itemColor,
@@ -42,6 +53,7 @@ class _SPItemColorState extends State<SPItemColor> {
           GestureDetector(
             onTap: (){},
             child: Container(
+              margin: const EdgeInsets.only(bottom: 5),
               width: 25,
               height: 25,
               decoration: const BoxDecoration(
@@ -65,6 +77,7 @@ class _SPItemColorState extends State<SPItemColor> {
               });
             },
             child: Container(
+              margin: const EdgeInsets.only(bottom: 5),
               width: 25,
               height: 25,
               decoration: const BoxDecoration(

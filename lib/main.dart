@@ -15,6 +15,15 @@ import 'package:get/get.dart';
 import 'package:buildnex/screens/welcomePage.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+import 'package:buildnex/screens/serviceProviderTasks.dart';
+import 'Tasks/tasks_SP/PropertSurvey/propertySurveyTask.dart';
+import 'Tasks/tasks_SP/SoilTesting/soilTestingSP.dart';
+import 'Tasks/tasks_SP/LocalGovernorate_PermitsSP/localGovernoratePermitsSP.dart';
+import 'Tasks/tasks_SP/Task4/task4_SP.dart';
+import 'Tasks/tasks_SP/Task5/task5SP.dart';
+import 'Tasks/tasks_SP/Task6/task6SP.dart';
+
+
 void main() {
   dotenv.load();
   runApp(const MyApp());
@@ -41,8 +50,29 @@ Widget build(BuildContext context) {
       '/ForgotPassCode':(context) => Forget_PasswordCode(),
       '/ResetPass':(context) => Reset_Password(),
       '/HomePage/HomeOwner':(context) => NavBarHomeOwner(),
-      '/HomePage/ServiceProvider':(context) => NavBarServiceProvider(),
       '/HomePage/HomeOwner/ProjectPage':(context) => ProjectNavBar(),
+
+      '/HomePage/ServiceProvider':(context) => NavBarServiceProvider(),
+
+      '/ServiceProviderTasks/Task1':(context) => SpPropertySurvey(),
+      '/ServiceProviderTasks/Task2':(context) => SoilTestingSP(),
+      '/ServiceProviderTasks/Task3':(context) => LocalGovernoratePermitsSP(),
+      '/ServiceProviderTasks/Task4':(context) => DesignAndPlanningSP(),
+      '/ServiceProviderTasks/Task5':(context) => GovernemntalPermittiveSP(),
+      '/ServiceProviderTasks/Task6':(context) => ConstructionSP(),
+
+
+     // '/ServiceProviderTasks/Task7':(context) => ,
+     // '/ServiceProviderTasks/Task8':(context) => ,
+     //  '/ServiceProviderTasks/Task9':(context) => ,
+     // '/ServiceProviderTasks/Task10':(context) => ,
+     // '/ServiceProviderTasks/Task11':(context) => ,
+     // '/ServiceProviderTasks/Task12':(context) => ,
+     // '/ServiceProviderTasks/Task13':(context) => ,
+     // '/ServiceProviderTasks/Task14':(context) => ,
+     // '/ServiceProviderTasks/Task15':(context) => ,
+
+
       //'/ProjectDescribtion':(context) => ProjectDescription(),
     },
 

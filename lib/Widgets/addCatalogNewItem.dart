@@ -5,6 +5,9 @@ import 'package:buildnex/Widgets/newItemColorPicker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../APIRequests/serviceProviderCatalogAPI.dart';
+import 'customAlertDialog.dart';
+
 
 class CatalogNewItem extends StatefulWidget {
   const CatalogNewItem({super.key});
@@ -15,7 +18,7 @@ class CatalogNewItem extends StatefulWidget {
 
 class _CatalogNewItemState extends State<CatalogNewItem> {
 
-
+  late int catalogItemId;
   final _ItemName = TextEditingController();
   final _itemDescription = TextEditingController();
   final _itemPrice = TextEditingController();
@@ -76,15 +79,58 @@ class _CatalogNewItemState extends State<CatalogNewItem> {
     });
   }
 
-  void _saveData() {
-    List<dynamic> data = [
-      _ItemName.text,
-      _itemDescription.text,
-      _itemPrice.text,
-      itemColors,
-      file
-    ];
-    Navigator.of(context).pop(data);
+  Future<bool> _validateFields() async {
+
+    final String itemNameAPI = _ItemName.text;
+    final String itemDescriptionAPI = _itemDescription.text;
+    final String itemPriceAPI = _itemPrice.text;
+    List<String> itemColorsAPI = itemColors.map((color) {
+      return 'Color(0x${color.value.toRadixString(16)})';
+    }).toList();
+
+    final  File? itemImageAPI= file;
+
+    if (itemNameAPI.isEmpty || itemDescriptionAPI.isEmpty ||
+        itemPriceAPI.isEmpty || itemColorsAPI.isEmpty || itemImageAPI == null) {//|| itemImageAPI == null
+
+      CustomAlertDialog.showErrorDialog(context, 'Please fill in all required fields.');
+      return false;
+    }
+    else
+      {
+        // Check if itemPriceAPI is a valid numeric string
+        if (double.tryParse(itemPriceAPI) == null) {
+          CustomAlertDialog.showErrorDialog(context, 'Invalid item price.');
+          return false;
+        }
+
+
+          catalogItemId = await CatalogAPI.addItemToCatalog(
+          itemNameAPI,
+          itemImageAPI.path,
+          double.parse(itemPriceAPI),
+          itemDescriptionAPI,
+          itemColorsAPI,
+        );
+        return true;
+      }
+  }
+
+  Future<void> _saveData() async {
+    if(await _validateFields())
+    {
+      List<dynamic> data = [
+        _ItemName.text,
+        _itemDescription.text,
+        double.parse(_itemPrice.text),
+        itemColors,
+        file?.path,
+        catalogItemId
+      ];
+
+      Navigator.of(context).pop(data);
+    }
+
   }
   @override
   Widget build(BuildContext context) {

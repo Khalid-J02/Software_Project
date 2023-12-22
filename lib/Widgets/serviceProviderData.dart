@@ -60,7 +60,7 @@ class _ServiceProviderDataState extends State<ServiceProviderData> {
           child: Row(
             mainAxisSize: MainAxisSize.min,
               children: [
-                RatingBarSB(rating: 3.7, size: 20)
+                RatingBarSB(rating: widget.userRating, size: 20)
               ],
           ),
         ),

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SPTasksDetails extends StatelessWidget {
   final String taskProjectName ;
-  final String taskStatus ;
   final String taskProjectOwner ;
+  final String taskStatus ;
+  final String taskID ;
+  final String taskNumber ;
 
   const SPTasksDetails(
       {
@@ -11,6 +14,8 @@ class SPTasksDetails extends StatelessWidget {
         required this.taskProjectName,
         required this.taskProjectOwner,
         required this.taskStatus,
+        required this.taskID,
+        required this.taskNumber,
       }
   );
 
@@ -76,7 +81,7 @@ class SPTasksDetails extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 Container(
-                  height: 30,
+                  height: 35,
                   width: 170,
                   decoration: BoxDecoration(
                     color: const Color(0xFFF3D69B),
@@ -84,8 +89,13 @@ class SPTasksDetails extends StatelessWidget {
                   ),
                   margin: const EdgeInsets.only(bottom: 5 , top: 5),
                   child: TextButton(
-                    onPressed: (){},
-                    child: const Text("Mark As Done",
+                    onPressed: () async {
+                        String path = '/ServiceProviderTasks/Task' + taskNumber;
+                        Get.toNamed(path);
+
+                    },
+
+                    child: Text("Open Task ", //$taskID , $taskNumber
                       style: TextStyle(
                           fontSize: 15,
                           color: Color(0xFF122247)

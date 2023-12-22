@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 class ServiceProvideCatalogItem extends StatefulWidget {
@@ -49,7 +51,7 @@ class _ServiceProvideCatalogItemState extends State<ServiceProvideCatalogItem> {
                     child: ClipRRect(
                       borderRadius: const BorderRadius.all(Radius.circular(15)) ,
                       child: Image(
-                        image: AssetImage(widget.catalogItemImageURL),
+                        image: FileImage(File(widget.catalogItemImageURL)),
                         fit: BoxFit.cover,
                       ),
                     ),
