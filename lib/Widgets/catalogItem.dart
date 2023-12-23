@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:buildnex/Widgets/sp_CatalogItemDialogForReview.dart';
 import 'package:clippy_flutter/clippy_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -7,7 +8,6 @@ import 'package:lorem_ipsum/lorem_ipsum.dart';
 
 
 import '../Widgets/ratingBar_ServiceProvider.dart';
-import '../Widgets/sp_CatalogItemDialog.dart';
 
 
 class SPCatalogItem_HO extends StatefulWidget {
@@ -39,7 +39,7 @@ class _SPCatalogItemState extends State<SPCatalogItem_HO> {
   Future <List<String>?> editCatalogItem()=> showDialog <List<String>>(
       context: context,
       builder: (BuildContext context){
-        return ServiceProviderCatalogItemDataDialog(itemName: widget.itemName, itemDescription: itemDescription, itemColors: itemColors,);
+        return ServiceProviderCatalogItemDialog(itemName: widget.itemName, itemDescription: itemDescription, itemColors: itemColors,);
       }
   );
 
