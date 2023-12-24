@@ -20,7 +20,7 @@ class _NavBarHomeOwnerState extends State<NavBarHomeOwner> {
   int pageIndex = 0 ;
   final screens = [
     HomePage(),
-    SearchPage(),
+    SearchPage(askForRequest: false,),
     ProfilePage(),
   ];
 

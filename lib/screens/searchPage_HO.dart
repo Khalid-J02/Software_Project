@@ -8,7 +8,10 @@ import '../Widgets/filterSearch_HO.dart';
 import '../APIRequests/homeOwnerSearchAPI.dart';
 
 class SearchPage extends StatefulWidget {
-  const SearchPage({super.key});
+
+  final bool askForRequest ;
+
+  const SearchPage({super.key , required this.askForRequest});
 
   @override
   State<SearchPage> createState() => _SearchPageState();
@@ -323,7 +326,9 @@ class _SearchPageState extends State<SearchPage> {
                   ),
                 ],
               ),
-              const Padding(
+              widget.askForRequest    // this means if the ask for request was false then user has enter this page from the navbar and so we show him the services. BUT if its true then user won't need the service
+                  ? SizedBox(height: 0,)
+                  : const Padding(
                 padding:
                 EdgeInsets.only(top: 12, bottom: 10, right: 15, left: 12),
                 child: Text(
@@ -335,7 +340,9 @@ class _SearchPageState extends State<SearchPage> {
                   ),
                 ),
               ),
-              SizedBox(
+              widget.askForRequest
+                  ? SizedBox(height: 0,)
+                  : SizedBox(
                 height: 55,
                 child: Padding(
                   padding: const EdgeInsets.only(
@@ -388,7 +395,7 @@ class _SearchPageState extends State<SearchPage> {
                   ),
                 ],
               ),
-              SPCard(topServiceProviders: serviceProviders),
+              SPCard(topServiceProviders: serviceProviders, askForRequest: widget.askForRequest,),
             ],
           ),
         ),

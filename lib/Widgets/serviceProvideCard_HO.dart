@@ -1,13 +1,17 @@
+import 'package:buildnex/screens/sPProfilePage_HO.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'ho_serviceProviderCard.dart';
 
 class SPCard extends StatefulWidget {
   List<Map<String, dynamic>> topServiceProviders;
+  final bool askForRequest ;
 
   SPCard({
     super.key,
     required this.topServiceProviders,
+    required this.askForRequest
   });
 
   @override
@@ -31,7 +35,11 @@ class _SPCardState extends State<SPCard> {
         ),
         itemBuilder: (context, index) {
           return GestureDetector(
-            onTap: () {},
+            onTap: () {
+
+            Get.to(SPProfilePage(askForRequest: widget.askForRequest,)) ; // you should pass the service provider id
+                                                          // so we can retrieve his catalog and work exp and reviews
+            },
             child: SPCardDetails(
               sPImageURL: widget.topServiceProviders[index]["UserPicture"] ??
                   "images/profilePic96.png",

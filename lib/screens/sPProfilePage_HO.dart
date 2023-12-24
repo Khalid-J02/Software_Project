@@ -10,11 +10,13 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 
 void main() {
-  runApp(GetMaterialApp(home: SPProfilePage(),));
+  runApp(GetMaterialApp(home: SPProfilePage(askForRequest: true,),));
 }
 
 class SPProfilePage extends StatefulWidget {
-  const SPProfilePage({super.key});
+  final bool askForRequest ;
+  
+  const SPProfilePage({super.key , required this.askForRequest});
 
   @override
   State<SPProfilePage> createState() => _SPProfilePageState();
@@ -236,32 +238,35 @@ class _SPProfilePageState extends State<SPProfilePage> with ChangeNotifier{
 
                       ),
                       SizedBox(height: 10,),
-                      GestureDetector(
-                        onTap: (){
-                          /*
-                            here we will add the functionality of the request
-                           */
-                        },
-                        child: Container(
-                          width: 155,
-                          height: 30,
-                          margin: EdgeInsets.symmetric(horizontal: 10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: Color(0xFF122247),
-                          ),
-                          child: Center(
-                            child: Text(
-                              "Request Assign",
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white
+                      widget.askForRequest
+                      ? GestureDetector(
+                          onTap: (){
+                            /*
+                              here we will add the functionality of the request
+                            */
+                          },
+                          child: Container(
+                            width: 155,
+                            height: 30,
+                            margin: EdgeInsets.symmetric(horizontal: 10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: Color(0xFF122247),
+                            ),
+                            child: Center(
+                              child: Text(
+                                "Request Assign",
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
+                        )
+                      :
+                        SizedBox(width: 2,),
                     ],
                   ),
 

@@ -99,7 +99,7 @@ class MainProjectDataAccordion extends StatelessWidget {
                             fontWeight: FontWeight.w400
                         ),
                       ),
-                      Text( '${projectBuildArea} m2',
+                      Text( '${projectBuildArea ?? ' - '} m2',
                         style: const TextStyle(
                             color: Color(0xFFF9FAFB),
                             fontSize: 15,
@@ -121,7 +121,7 @@ class MainProjectDataAccordion extends StatelessWidget {
                             fontWeight: FontWeight.w400
                         ),
                       ),
-                      Text( projectRoomsNumber.toString(),
+                      Text( projectRoomsNumber.toString() ?? ' - ',
                         style: const TextStyle(
                             color: Color(0xFFF9FAFB),
                             fontSize: 15,
@@ -223,7 +223,7 @@ class MainProjectDataAccordion extends StatelessWidget {
                               fontWeight: FontWeight.w400
                           ),
                         ),
-                        Text( '$projectArchStyle',
+                        Text( '${projectArchStyle ?? ' - '}',
                           style: const TextStyle(
                               color: Color(0xFFF9FAFB),
                               fontSize: 16,
@@ -244,7 +244,7 @@ class MainProjectDataAccordion extends StatelessWidget {
                               fontWeight: FontWeight.w400
                           ),
                         ),
-                        Text( '$projectDoorMaterial',
+                        Text( '${projectDoorMaterial ?? ' - '}',
                           style: const TextStyle(
                               color: Color(0xFFF9FAFB),
                               fontSize: 16,
@@ -265,7 +265,7 @@ class MainProjectDataAccordion extends StatelessWidget {
                               fontWeight: FontWeight.w400
                           ),
                         ),
-                        Text( '$projectDoorColor',
+                        Text( '${projectDoorColor ?? ' - '}',
                           style: const TextStyle(
                               color: Color(0xFFF9FAFB),
                               fontSize: 16,
@@ -286,7 +286,7 @@ class MainProjectDataAccordion extends StatelessWidget {
                               fontWeight: FontWeight.w400
                           ),
                         ),
-                        Text( '$projectDoorDesign',
+                        Text( '${projectDoorDesign ?? ' - '}',
                           style: const TextStyle(
                               color: Color(0xFFF9FAFB),
                               fontSize: 16,
@@ -307,7 +307,7 @@ class MainProjectDataAccordion extends StatelessWidget {
                               fontWeight: FontWeight.w400
                           ),
                         ),
-                        Text( '$projectTileType',
+                        Text( '${projectTileType ?? ' - '}',
                           style: const TextStyle(
                               color: Color(0xFFF9FAFB),
                               fontSize: 16,
@@ -328,7 +328,7 @@ class MainProjectDataAccordion extends StatelessWidget {
                               fontWeight: FontWeight.w400
                           ),
                         ),
-                        Text( '$projectTileColor',
+                        Text( '${projectTileColor ?? ' - '}',
                           style: const TextStyle(
                               color: Color(0xFFF9FAFB),
                               fontSize: 16,
@@ -349,7 +349,7 @@ class MainProjectDataAccordion extends StatelessWidget {
                               fontWeight: FontWeight.w400
                           ),
                         ),
-                        Text( '$projectTileSize',
+                        Text( '${projectTileSize ?? ' - '}',
                           style: const TextStyle(
                               color: Color(0xFFF9FAFB),
                               fontSize: 16,
@@ -370,7 +370,7 @@ class MainProjectDataAccordion extends StatelessWidget {
                               fontWeight: FontWeight.w400
                           ),
                         ),
-                        Text( '$projectTilePattern',
+                        Text( '${projectTilePattern ?? ' - '}',
                           style: const TextStyle(
                               color: Color(0xFFF9FAFB),
                               fontSize: 16,
@@ -391,7 +391,7 @@ class MainProjectDataAccordion extends StatelessWidget {
                               fontWeight: FontWeight.w400
                           ),
                         ),
-                        Text( '$projectPaintType',
+                        Text( '${projectPaintType ?? ' - '}',
                           style: const TextStyle(
                               color: Color(0xFFF9FAFB),
                               fontSize: 16,
@@ -412,7 +412,7 @@ class MainProjectDataAccordion extends StatelessWidget {
                               fontWeight: FontWeight.w400
                           ),
                         ),
-                        Text( '$projectPaintColor',
+                        Text( '${projectPaintColor ?? ' - '}',
                           style: const TextStyle(
                               color: Color(0xFFF9FAFB),
                               fontSize: 16,
@@ -433,7 +433,7 @@ class MainProjectDataAccordion extends StatelessWidget {
                               fontWeight: FontWeight.w400
                           ),
                         ),
-                        Text( '$projectPaintFinish',
+                        Text( '${projectPaintFinish ?? ' - '}',
                           style: const TextStyle(
                               color: Color(0xFFF9FAFB),
                               fontSize: 16,
@@ -454,7 +454,7 @@ class MainProjectDataAccordion extends StatelessWidget {
                               fontWeight: FontWeight.w400
                           ),
                         ),
-                        Text( '$projectWindowType',
+                        Text( '${projectWindowType ?? ' - '}',
                           style: const TextStyle(
                               color: Color(0xFFF9FAFB),
                               fontSize: 16,
@@ -475,7 +475,7 @@ class MainProjectDataAccordion extends StatelessWidget {
                               fontWeight: FontWeight.w400
                           ),
                         ),
-                        Text( '$projectWindowColor',
+                        Text( '${projectWindowColor ?? ' - '}',
                           style: const TextStyle(
                               color: Color(0xFFF9FAFB),
                               fontSize: 16,
@@ -496,7 +496,7 @@ class MainProjectDataAccordion extends StatelessWidget {
                               fontWeight: FontWeight.w400
                           ),
                         ),
-                        Text( '$projectWindowDesign',
+                        Text( '${projectWindowDesign ?? ' - '}',
                           style: const TextStyle(
                               color: Color(0xFFF9FAFB),
                               fontSize: 16,

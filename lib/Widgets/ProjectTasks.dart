@@ -1,4 +1,6 @@
+import 'package:buildnex/screens/searchPage_HO.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ProjectTasks extends StatelessWidget {
   final String taskID;
@@ -60,20 +62,54 @@ class ProjectTasks extends StatelessWidget {
             ),
             if (serviceProviderName != 'No Provider Name')
               Container(
-                height: 40,
+                height: 48,
                 padding: const EdgeInsets.only(top: 4.0),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Icon(
-                      Icons.person_outline_rounded,
-                      color: Color(0xFFF9FAFB),
-                      size: 18,
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.person_outline_rounded,
+                          color: Color(0xFFF9FAFB),
+                          size: 18,
+                        ),
+                        Text(
+                          " $serviceProviderName",
+                          style: const TextStyle(
+                            fontSize: 15,
+                            color: Color(0xFFF9FAFB),
+                          ),
+                        ),
+                      ],
                     ),
-                    Text(
-                      " $serviceProviderName",
-                      style: const TextStyle(
-                        fontSize: 15,
-                        color: Color(0xFFF9FAFB),
+                    Container(
+                      height: 45,
+                      width: 170,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF3D69B),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      margin: const EdgeInsets.only(bottom: 5, top: 5),
+                      child: TextButton(
+                        onPressed: () {
+                          // here you will move to tasks like task1 2 3 etc
+                          Navigator.pushNamed(
+                            context,
+                            '/next_screen',
+                            arguments: {
+                              'taskID': taskID,
+                              'serviceProviderID': serviceProviderID,
+                            },
+                          );
+                        },
+                        child: const Text(
+                          "Open Task",
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Color(0xFF122247),
+                          ),
+                        ),
                       ),
                     ),
                   ],
@@ -94,14 +130,7 @@ class ProjectTasks extends StatelessWidget {
                     child: TextButton(
                       onPressed: () {
                         // Navigate to the next screen and pass taskID and serviceProviderID
-                        Navigator.pushNamed(
-                          context,
-                          '/next_screen',
-                          arguments: {
-                            'taskID': taskID,
-                            'serviceProviderID': serviceProviderID,
-                          },
-                        );
+                        Get.to(SearchPage(askForRequest: true,),) ;
                       },
                       child: const Text(
                         "Add Provider",

@@ -120,6 +120,39 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
             ),
+
+            Positioned(
+              top: MediaQuery.of(context).size.width / 4.6,
+              left: MediaQuery.of(context).size.width / 2,
+              right: MediaQuery.of(context).size.width / 4,
+              child: GestureDetector(
+                onTap: (){
+                  /*
+                  implement the cloudinary functionality
+                   */
+                },
+                child: Container(
+                  width: 30,
+                  height: 30,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.grey[500],
+                  ),
+                  child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        const Icon(
+                          Icons.edit,
+                          size: 20,
+                          color: Color(0xFFF3D69B),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
