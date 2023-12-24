@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../APIRequests/serviceProviderRequestsAPI.dart';
+import '../screens/projectDetails_SP.dart';
 import 'customAlertDialog.dart';
 
 class SPRequestDetails extends StatelessWidget {
@@ -79,6 +80,13 @@ class SPRequestDetails extends StatelessWidget {
                     onPressed: (){
 
                      // Get.toNamed('/', arguments: {'': });
+                      /*
+                      READ MEE !!!!!!!!!!!!!!!!!!!!!! TALA !!!!!!!!!!!!!!!!!!!!!
+                      you need to figure a way to pass the homeowner id to the page of the homeowner in the ProjectDetailsSP widget
+                       */
+                      Get.to(ProjectDetailsSP() , arguments: {'projectId' : taskProjectId});
+
+
 
                     },
                     child: const Text("See Details",

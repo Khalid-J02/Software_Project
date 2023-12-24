@@ -1,3 +1,4 @@
+import 'package:buildnex/screens/serviceProviderAssets.dart';
 import 'package:buildnex/screens/serviceProviderCatalog.dart';
 import 'package:buildnex/screens/serviceProviderProfile.dart';
 import 'package:buildnex/screens/serviceProviderRequests.dart';
@@ -24,6 +25,7 @@ class _NavBarServiceProviderState extends State<NavBarServiceProvider> {
     ServiceProviderTasks(),
     ServiceProviderRequests(),
     ServiceProviderCatalog(),
+    ServiceProviderAssets(),
     ServiceProviderProfilePage(),
   ];
 
@@ -53,7 +55,7 @@ class _NavBarServiceProviderState extends State<NavBarServiceProvider> {
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 12),
           child: GNav(
-            gap: 8,
+            gap: 20,
             backgroundColor: Color(0xFF122247),
             color: Color(0xFFF3D69B),
             activeColor: Color(0xFFF3D69B),
@@ -76,6 +78,10 @@ class _NavBarServiceProviderState extends State<NavBarServiceProvider> {
               GButton(
                 icon: Icons.folder_copy,
                 text: 'Catalog',
+              ),
+              GButton(
+                icon: Icons.work,
+                text: 'Work Exp.',
               ),
               GButton(
                 icon: Icons.account_circle_outlined,
