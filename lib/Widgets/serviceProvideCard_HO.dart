@@ -15,28 +15,35 @@ class SPCard extends StatefulWidget {
 }
 
 class _SPCardState extends State<SPCard> {
+
   @override
   Widget build(BuildContext context) {
 
-    return GridView.builder(
-      itemCount: widget.topServiceProviders.length,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      height: ((MediaQuery.of(context).size.width / 2) - (0)) * (widget.topServiceProviders.length / 2).ceil() * (1/1),
+      child: GridView.builder(
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: widget.topServiceProviders.length,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+        ),
+        itemBuilder: (context, index) {
+          return GestureDetector(
+            onTap: () {},
+            child: SPCardDetails(
+              sPImageURL: widget.topServiceProviders[index]["UserPicture"] ??
+                  "images/profilePic96.png",
+              sPName: widget.topServiceProviders[index]["Username"] ?? "Default Name",
+              sPPrice: (widget.topServiceProviders[index]["Price"] ?? 0).toDouble(),
+              sPRating: (widget.topServiceProviders[index]["Rating"] ?? 0).toDouble(),
+              sPServiceType: widget.topServiceProviders[index]["ServiceType"] ??
+                  "Default Service Type",
+            ),
+          );
+        },
       ),
-      itemBuilder: (context, index) {
-        return GestureDetector(
-          onTap: () {},
-          child: SPCardDetails(
-            sPImageURL: widget.topServiceProviders[index]["UserPicture"] ??
-                "images/profilePic96.png",
-            sPName: widget.topServiceProviders[index]["Username"] ?? "Default Name",
-            sPPrice: (widget.topServiceProviders[index]["Price"] ?? 0).toDouble(),
-            sPRating: (widget.topServiceProviders[index]["Rating"] ?? 0).toDouble(),
-            sPServiceType: widget.topServiceProviders[index]["ServiceType"] ??
-                "Default Service Type",
-          ),
-        );
-      },
     );
   }
 }

@@ -224,10 +224,7 @@ class _SearchPageState extends State<SearchPage> {
         backgroundColor: Color(0xFF122247), //Colors.white,
       ),
       body: SafeArea(
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: double.infinity,
-          // height: MediaQuery.of(context).size.height,
+        child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -244,7 +241,7 @@ class _SearchPageState extends State<SearchPage> {
               Row(
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(top: 12, bottom: 8, left: 12),
+                    padding: const EdgeInsets.only(top: 12, bottom: 8, left: 12),
                     child: SizedBox(
                       height: 50,
                       width: 344,
@@ -269,7 +266,7 @@ class _SearchPageState extends State<SearchPage> {
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                              // add the decoration and add a new widget for the search no time to sleep
+                            // add the decoration and add a new widget for the search no time to sleep
                               color: Colors.grey[300],
                               borderRadius: BorderRadius.circular(30),
                               border: Border.all(
@@ -287,7 +284,7 @@ class _SearchPageState extends State<SearchPage> {
                                 ),
                               ),
                               Text(
-                                  searchText,
+                                searchText,
                                 style: TextStyle(
                                   color: Color(0xFF022D6B),
                                   fontSize: 14,
@@ -326,10 +323,9 @@ class _SearchPageState extends State<SearchPage> {
                   ),
                 ],
               ),
-
               const Padding(
                 padding:
-                    EdgeInsets.only(top: 12, bottom: 10, right: 15, left: 12),
+                EdgeInsets.only(top: 12, bottom: 10, right: 15, left: 12),
                 child: Text(
                   "Services",
                   style: TextStyle(
@@ -346,7 +342,7 @@ class _SearchPageState extends State<SearchPage> {
                       top: 8, bottom: 10, right: 15, left: 15),
                   child: GestureDetector(
                     onTap: () {
-                        selectedCategory(categoryList[0]["serviceName"]);
+                      selectedCategory(categoryList[0]["serviceName"]);
                     },
                     child: CategoriesHo(
                       categoryList: categoryList,
@@ -360,7 +356,7 @@ class _SearchPageState extends State<SearchPage> {
                 children: [
                   const Padding(
                     padding:
-                        EdgeInsets.only(top: 12, bottom: 10, right: 15, left: 12),
+                    EdgeInsets.only(top: 12, bottom: 10, right: 15, left: 12),
                     child: Text(
                       "Discover",
                       style: TextStyle(
@@ -373,8 +369,8 @@ class _SearchPageState extends State<SearchPage> {
                   GestureDetector(
                     onTap: (){
                       /*
-                        here we should do the refresh
-                       */
+                      here we should do the refresh
+                     */
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(builder: (BuildContext context) => super.widget),
@@ -392,10 +388,7 @@ class _SearchPageState extends State<SearchPage> {
                   ),
                 ],
               ),
-
-              Flexible(
-                child: SPCard(topServiceProviders: serviceProviders),
-              ),
+              SPCard(topServiceProviders: serviceProviders),
             ],
           ),
         ),
