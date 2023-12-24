@@ -34,12 +34,43 @@ class ProjectTasks extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(
-              taskName,
-              style: const TextStyle(
-                fontSize: 18,
-                color: Color(0xFFF3D69B),
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  flex: 9,
+                  child: Text(
+                    taskName,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      color: Color(0xFFF3D69B),
+                    ),
+                  ),
+                ),
+                const Expanded(
+                  /*
+                  Here you should pass the description for the task, to test it you should
+                  keep pressing the info icon in the top right
+                   */
+                  flex: 1,
+                  child: Tooltip(
+                    message: "Here Will Go the Description of the task",
+                    padding: EdgeInsets.all(12),
+                    showDuration: Duration(seconds: 10),
+                    textStyle: TextStyle(color: Colors.white),
+                    decoration: BoxDecoration(
+                      color: Color(0xFF122247)
+                    ),
+                    preferBelow: false,
+                    verticalOffset: 10,
+                    child: Icon(
+                      Icons.info,
+                      color: Color(0xFFF3D69B),
+                      size: 25,
+                    ),
+                  ),
+                )
+              ],
             ),
             Padding(
               padding: const EdgeInsets.only(top: 4.0),
