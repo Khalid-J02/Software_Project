@@ -1,30 +1,63 @@
 
+import 'package:buildnex/Tasks/taskWidgets/landInformation.dart';
 import 'package:buildnex/Tasks/taskWidgets/taskInformation.dart';
 import 'package:buildnex/Tasks/taskWidgets/taskProviderInformation.dart';
 import 'package:buildnex/Tasks/tasks_HO/LocalGovernorate_Permits/Widgets/serviceProviderProfleData.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../APIRequests/homeOwnerTasksAPI.dart';
+
 
 
 void main() {
-  runApp(GetMaterialApp(home: SpPropertySurvey()));
+  runApp(GetMaterialApp(home: HOPropertySurvey()));
 }
-
-class SpPropertySurvey extends StatefulWidget {
-  const SpPropertySurvey({super.key});
+class HOPropertySurvey extends StatefulWidget {
+  const HOPropertySurvey({super.key});
 
   @override
-  State<SpPropertySurvey> createState() => _SpPropertySurveyState();
+  State<HOPropertySurvey> createState() => _HOPropertySurveyState();
 }
 
-class _SpPropertySurveyState extends State<SpPropertySurvey> {
+class _HOPropertySurveyState extends State<HOPropertySurvey> {
 
-  final _landArea = TextEditingController();
-  final _userNotes = TextEditingController();
+  Map<String, dynamic> propertySurveyData = {};
+  String taskID = '';
+  String taskProjectId = '';
+  String surveyDocument = '';
+  @override
+  void initState() {
+    super.initState();
+    fetchArgumentsAndData();
+  }
+
+  Future<void> fetchArgumentsAndData() async {
+    try {
+      Map<String, dynamic> arguments = Get.arguments;
+      taskID = arguments['taskID'];
+      taskProjectId = arguments['taskProjectId'];
+
+
+      //  surveyDocument = await HomeOwnerTasksAPI.getSurveyDocument(taskProjectId);
+      //  or you can get the permitsDocument PropertySurvey table
+      //  surveyDocument= propertySurveyData['SurveyDocument'];
+
+      final Map<String, dynamic> data =
+      await HomeOwnerTasksAPI.getPropertySurvey(taskID);
+      setState(() {
+        propertySurveyData = data;
+
+      });
+    } catch (e) {
+      print('Error fetching property survey data: $e');
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: const Color(0xFFF9FAFB),
       appBar: AppBar(
@@ -47,8 +80,9 @@ class _SpPropertySurveyState extends State<SpPropertySurvey> {
           margin: const EdgeInsets.only(top: 10),
           child: Column(
             children: [
-              TaskInformation(taskID: 7777, taskName: 'Property Survey', projectName: 'Nablus Project', taskStatus: 'Not Started',),
-              SPProfileData(userPicture: 'images/Testing/Tokyo.jpg', rating: 3.6, numReviews: 15, userName: 'Khalid Jabr',),
+              TaskInformation(taskID: propertySurveyData['TaskID']?? 0, taskName: propertySurveyData['TaskName']?? 'Unknown', projectName: propertySurveyData['ProjectName']?? 'Unknown', taskStatus: propertySurveyData['TaskStatus']?? 'Unknown',),
+              LandInformation(basinNumber: propertySurveyData['BasinNumber']?? 'Unknown', plotNumber: propertySurveyData['PlotNumber']?? 'Unknown',),
+              SPProfileData(userPicture: propertySurveyData['UserPicture']?? 'images/profilePic96.png', rating: (propertySurveyData['Rating'] as num?)?.toDouble() ?? 0.0, numReviews: propertySurveyData['ReviewCount']?? 0, userName:propertySurveyData['Username']?? 'Unknown',),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 20 , vertical: 10),
                 height: MediaQuery.of(context).size.height/2.2,
@@ -125,9 +159,9 @@ class _SpPropertySurveyState extends State<SpPropertySurvey> {
                                     borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                                     border: Border.all(color: Color(0xFF2F4771) , width: 1.8),
                                   ),
-                                  child: const Center(
+                                  child: Center(
                                     child: Text(
-                                      "1200 Meter Squared",
+                                      (propertySurveyData['PropertySize'] as String?) ?? '0',
                                       style: TextStyle(
                                           color: Color(0xFF2F4771),
                                           fontWeight: FontWeight.w500,
@@ -160,6 +194,7 @@ class _SpPropertySurveyState extends State<SpPropertySurvey> {
                                   ),
                                 ),
                                 Container(
+
                                   margin: const EdgeInsets.only(top: 5 , right: 5),
                                   height: 35,
                                   decoration: BoxDecoration(
@@ -227,7 +262,7 @@ class _SpPropertySurveyState extends State<SpPropertySurvey> {
                           const Padding(
                             padding: EdgeInsets.all(10),
                             child: Text(
-                              "Notes: ",
+                              "Task Provider Notes: ",
                               style: TextStyle(
                                   color: Color(0xFF2F4771),
                                   fontSize: 17,
@@ -244,7 +279,7 @@ class _SpPropertySurveyState extends State<SpPropertySurvey> {
                               enabled: false,
                               readOnly: true,
                               decoration: InputDecoration(
-                                hintText: "There is no notes yet .. ",
+                                hintText:  propertySurveyData['Notes'] ?? 'No notes available',
                                 hintStyle: TextStyle(color: Color(0xFF2F4771)),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),

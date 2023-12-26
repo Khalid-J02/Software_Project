@@ -36,7 +36,6 @@ class _SPCardState extends State<SPCard> {
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {
-
             Get.to(SPProfilePage(askForRequest: widget.askForRequest,)) ; // you should pass the service provider id
                                                           // so we can retrieve his catalog and work exp and reviews
             },

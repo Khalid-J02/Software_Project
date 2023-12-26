@@ -43,6 +43,7 @@ class _SpPropertySurveyState extends State<SpPropertySurvey> {
         elevation: 0,
         backgroundColor: Color(0xFF122247), //Colors.white,
       ),
+
       body: SingleChildScrollView(
         child: Container(
           margin: const EdgeInsets.only(top: 10),

@@ -92,7 +92,6 @@ class SPTasksDetails extends StatelessWidget {
                     onPressed: () async {
                         String path = '/ServiceProviderTasks/Task' + taskNumber;
                         Get.toNamed(path);
-
                     },
 
                     child: Text("Open Task ", //$taskID , $taskNumber

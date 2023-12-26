@@ -2,21 +2,32 @@ import 'package:buildnex/screens/searchPage_HO.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../APIRequests/homeOwnerTasksAPI.dart';
+import 'customAlertDialog.dart';
+
 class ProjectTasks extends StatelessWidget {
+  final String taskProjectId;
   final String taskID;
   final String taskName;
   final String taskStatus;
+  final String taskDescription;
+  final String taskNumber;
   final String? serviceProviderID;
   final String? serviceProviderName;
 
-  const ProjectTasks({
+  ProjectTasks({
     Key? key,
+    required this.taskProjectId,
     required this.taskID,
     required this.taskName,
     required this.taskStatus,
+    required this.taskDescription,
+    required this.taskNumber,
     this.serviceProviderID,
     this.serviceProviderName,
   }) : super(key: key);
+
+  late String serviceType;
 
   @override
   Widget build(BuildContext context) {
@@ -47,14 +58,14 @@ class ProjectTasks extends StatelessWidget {
                     ),
                   ),
                 ),
-                const Expanded(
+                 Expanded(
                   /*
                   Here you should pass the description for the task, to test it you should
                   keep pressing the info icon in the top right
                    */
                   flex: 1,
                   child: Tooltip(
-                    message: "Here Will Go the Description of the task",
+                    message: taskDescription ,
                     padding: EdgeInsets.all(12),
                     showDuration: Duration(seconds: 10),
                     textStyle: TextStyle(color: Colors.white),
@@ -91,7 +102,7 @@ class ProjectTasks extends StatelessWidget {
                 ],
               ),
             ),
-            if (serviceProviderName != 'No Provider Name')
+            if (serviceProviderID != 'No Provider ID')
               Container(
                 height: 48,
                 padding: const EdgeInsets.only(top: 4.0),
@@ -125,14 +136,8 @@ class ProjectTasks extends StatelessWidget {
                       child: TextButton(
                         onPressed: () {
                           // here you will move to tasks like task1 2 3 etc
-                          Navigator.pushNamed(
-                            context,
-                            '/next_screen',
-                            arguments: {
-                              'taskID': taskID,
-                              'serviceProviderID': serviceProviderID,
-                            },
-                          );
+                          String path = '/HomeOwnerTasks/Task' + taskNumber;
+                          Get.toNamed(path, arguments: {'taskID': taskID, 'taskProjectId': taskProjectId});
                         },
                         child: const Text(
                           "Open Task",
@@ -159,10 +164,76 @@ class ProjectTasks extends StatelessWidget {
                     ),
                     margin: const EdgeInsets.only(bottom: 5, top: 5),
                     child: TextButton(
-                      onPressed: () {
-                        // Navigate to the next screen and pass taskID and serviceProviderID
-                        Get.to(SearchPage(askForRequest: true,),) ;
+                      onPressed: () async  {
+                        String previousTaskStatus;
+                        if(int.parse(taskNumber) > 1)
+                        {
+                               previousTaskStatus = await HomeOwnerTasksAPI
+                                  .checkPreviousTaskStatus(int.parse(taskProjectId),
+                                  int.parse(taskNumber));
+
+                              // Check the status of the previous task
+                              if ((int.parse(taskNumber) >= 7 && int.parse(taskNumber) <= 9) )
+                                {
+                                  previousTaskStatus = await HomeOwnerTasksAPI
+                                      .checkPreviousTaskStatus(int.parse(taskProjectId),
+                                      int.parse("7"));
+
+                                  await CustomAlertDialog.showParallelTasksDialog(context);
+
+                                }
+
+                               if (previousTaskStatus == "In Progress" ||
+                                  previousTaskStatus == "Not Started") {
+                                CustomAlertDialog.showErrorDialog(
+                                    context,
+                                    'You can not go to the next task while current task in progress');
+                                return;
+                              }
+                          }
+
+                          if (int.parse(taskNumber) == 1) {
+                            serviceType = "Surveyor";
+                          }
+                          else if (int.parse(taskNumber) >= 2 && int.parse(
+                              taskNumber) <= 5) {
+                            serviceType = "Engineering Office";
+                          }
+                          else if (int.parse(taskNumber) == 6) {
+                            serviceType = "Constructor";
+                          }
+                          else if (int.parse(taskNumber) == 7) {
+                            serviceType = "Plumbing Technician";
+                          }
+                          else if (int.parse(taskNumber) == 8) {
+                            serviceType = "Electrical Technician";
+                          }
+                          else if (int.parse(taskNumber) == 9) {
+                            serviceType = "Insulation & HVAC Contractors";
+                          }
+                          else if (int.parse(taskNumber) == 10) {
+                            serviceType = "Carpenter";
+                          }
+                          else if (int.parse(taskNumber) == 11) {
+                            serviceType = "Plasterer";
+                          }
+                          else if (int.parse(taskNumber) == 12) {
+                            serviceType = "Tile Contractor";
+                          }
+                          else if (int.parse(taskNumber) == 13) {
+                            serviceType = "Window Installer";
+                          }
+                          else if (int.parse(taskNumber) == 14) {
+                            serviceType = "Carpenter";
+                          }
+                          else if (int.parse(taskNumber) == 15) {
+                            serviceType = "Painter";
+                          }
+                          // Navigate to the next screen and pass taskID and serviceProviderID
+                          Get.to(SearchPage(askForRequest: true),
+                              arguments: serviceType);
                       },
+
                       child: const Text(
                         "Add Provider",
                         style: TextStyle(

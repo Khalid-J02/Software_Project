@@ -3,6 +3,7 @@ import 'package:buildnex/Tasks/tasks_HO/LocalGovernorate_Permits/Widgets/service
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../APIRequests/homeOwnerTasksAPI.dart';
 
 void main() {
   runApp(GetMaterialApp(home: SoilTesting()));
@@ -16,19 +17,42 @@ class SoilTesting extends StatefulWidget {
 }
 
 class _SoilTestingState extends State<SoilTesting> {
+  Map<String, dynamic> task3Data = {};
+  String taskID = '';
+  String taskProjectId = '';
+  String soilDocument = '';
 
-  String _soilTypeValue = 'Data1';
-  String _soilWaterHoldingCapacity = 'Data2' ;
-  String _soilDrainageTest = 'Data3';
-  String _soilBearingCapacity = 'Data4' ;
-  String _soilBedrockOrGroundWater = 'Data5' ;
-  String _soilPH = 'Data6' ;
-  String _soilOverallTest = 'Data7' ;
 
-  final _userNotes = TextEditingController() ;
+  @override
+  void initState() {
+    super.initState();
+    fetchArgumentsAndData();
+  }
+
+  Future<void> fetchArgumentsAndData() async {
+    try {
+
+      Map<String, dynamic> arguments = Get.arguments;
+      taskID = arguments['taskID'];
+      taskProjectId = arguments['taskProjectId'];
+
+      //  soilDocument= await HomeOwnerTasksAPI.getSoilDocument(taskProjectId);
+      //  or you can get the soilDocument soil Investing table
+      //  soilDocument= task3Data['SoilDocument'];
+
+      final Map<String, dynamic> data =
+      await HomeOwnerTasksAPI.getSoilInvestigation(taskID);
+      setState(() {
+        task3Data = data;
+      });
+    } catch (e) {
+      print('Error fetching property survey data: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: const Color(0xFFF9FAFB),
       appBar: AppBar(
@@ -47,19 +71,21 @@ class _SoilTestingState extends State<SoilTesting> {
         backgroundColor: Color(0xFF122247), //Colors.white,
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 10),
+        child: Container(
+          margin: const EdgeInsets.only(top: 10),
           child: Column(
             children: [
-              TaskInformation(taskID: 7777, taskName: 'Soil Testing', projectName: 'Nablus Project', taskStatus: 'Not Started',),
-              SPProfileData(userPicture: 'images/Testing/Tokyo.jpg', rating: 3.6, numReviews: 15, userName: 'Khalid Jabr',),
+              TaskInformation(taskID: task3Data['TaskID']?? 0, taskName: task3Data['TaskName']?? 'Unknown', projectName: task3Data['ProjectName']?? 'Unknown', taskStatus: task3Data['TaskStatus']?? 'Unknown',),
+              SPProfileData(userPicture: task3Data['UserPicture']?? 'images/profilePic96.png', rating: (task3Data['Rating'] as num?)?.toDouble() ?? 0.0, numReviews: task3Data['ReviewCount']?? 0, userName:task3Data['Username']?? 'Unknown',),
               Container(
                 margin: const EdgeInsets.only(top: 5),
-                padding: const EdgeInsets.symmetric(horizontal: 20 , vertical: 5),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
                       padding: EdgeInsets.symmetric(vertical: 14),
@@ -82,338 +108,131 @@ class _SoilTestingState extends State<SoilTesting> {
                           style: TextStyle(
                               color: Color(0xFFF9FAFB),
                               fontSize: 19,
-                              fontWeight: FontWeight.bold
-                          ),
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),
-                    const SizedBox(height: 10.0),
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      child: Column(
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
-                            children: [
-                              const Expanded(
-                                flex: 1,
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 8 ,right: 8),
-                                  child: Text(
-                                    "Soil Type Test:",
-                                    style: TextStyle(
-                                        color: Color(0xFF2F4771),
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16
-                                    ),
-                                  ),
+                          const Expanded(
+                            flex: 1,
+                            child: Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Text(
+                                "Soil Invest Document: ",
+                                style: TextStyle(
+                                    color: Color(0xFF2F4771),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400
                                 ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: Container(
-                                  padding: EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFFF9FAFB),
-                                    borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                                    border: Border.all(color: Color(0xFF2F4771) , width: 1.8),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      _soilTypeValue,
-                                      style: const TextStyle(
-                                        color: Color(0xFF2F4771),
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox( height: 10,),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Expanded(
-                                flex: 1,
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 8),
-                                  child: Text(
-                                    "Water-Holding Capacity:",
-                                    style: TextStyle(
-                                        color: Color(0xFF2F4771),
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: Container(
-                                  width: 180,
-                                  padding: EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFFF9FAFB),
-                                    borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                                    border: Border.all(color: Color(0xFF2F4771) , width: 1.8),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      _soilWaterHoldingCapacity,
-                                      style: const TextStyle(
-                                          color: Color(0xFF2F4771),
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox( height: 10,),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Expanded(
-                                flex: 1,
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 8),
-                                  child: Text(
-                                    "Soil Drainage Test:",
-                                    style: TextStyle(
-                                        color: Color(0xFF2F4771),
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: Container(
-                                  padding: EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFFF9FAFB),
-                                    borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                                    border: Border.all(color: Color(0xFF2F4771) , width: 1.8),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      _soilDrainageTest,
-                                      style: const TextStyle(
-                                          color: Color(0xFF2F4771),
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox( height: 10,),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Expanded(
-                                flex: 1,
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 8),
-                                  child: Text(
-                                    "Soil Bearing Capacity:",
-                                    style: TextStyle(
-                                        color: Color(0xFF2F4771),
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: Container(
-                                  padding: EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFFF9FAFB),
-                                    borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                                    border: Border.all(color: Color(0xFF2F4771) , width: 1.8),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      _soilBearingCapacity,
-                                      style: const TextStyle(
-                                          color: Color(0xFF2F4771),
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox( height: 10,),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Padding(
-                                padding: EdgeInsets.only(left: 8),
-                                child: Text(
-                                  "Precence of Bedrock & Groundwater Test:",
-                                  style: TextStyle(
-                                      color: Color(0xFF2F4771),
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                padding: const EdgeInsets.all(10),
-                                margin: const EdgeInsets.symmetric(horizontal: 12),
-                                width: MediaQuery.of(context).size.width,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFF9FAFB),
-                                  borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                                  border: Border.all(color: Color(0xFF2F4771) , width: 1.8),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    _soilBedrockOrGroundWater,
-                                    style: const TextStyle(
-                                        color: Color(0xFF2F4771),
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox( height: 10,),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Expanded(
-                                flex: 1,
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 8),
-                                  child: Text(
-                                    "Soil pH Test:",
-                                    style: TextStyle(
-                                        color: Color(0xFF2F4771),
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: Container(
-                                  padding: EdgeInsets.all(10) ,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFFF9FAFB),
-                                    borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                                    border: Border.all(color: Color(0xFF2F4771) , width: 1.8),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      _soilPH,
-                                      style: const TextStyle(
-                                          color: Color(0xFF2F4771),
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox( height: 10,),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Expanded(
-                                flex: 1,
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 8),
-                                  child: Text(
-                                    "Overall Test Result:",
-                                    style: TextStyle(
-                                        color: Color(0xFF2F4771),
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: Container(
-                                  padding: EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFFF9FAFB),
-                                    borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                                    border: Border.all(color: Color(0xFF2F4771) , width: 1.8),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      _soilOverallTest,
-                                      style: const TextStyle(
-                                          color: Color(0xFF2F4771),
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Text(
-                              "Notes: ",
-                              style: TextStyle(
-                                  color: Color(0xFF2F4771),
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w400
                               ),
                             ),
                           ),
                           Container(
-                            height: 140,
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: TextFormField(
-                              maxLines: 5,
-                              minLines: 5,
-                              enabled: false,
-                              readOnly: true,
-                              decoration: InputDecoration(
-                                hintText: "There is no notes yet .. ",
-                                hintStyle: TextStyle(color: Color(0xFF2F4771)),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: const BorderSide(
-                                    color: Color(0xFF2F4771),
+                            margin: const EdgeInsets.only(top: 5 , right: 5),
+                            height: 35,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF2F4771),
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            child: const Row(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(left: 8 , right: 4),
+                                  child: Icon(
+                                    Icons.sim_card_download,
+                                    size: 20,
+                                    color: Color(0xFFF9FAFB),
                                   ),
                                 ),
-                                disabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: const BorderSide(
-                                    color: Color(0xFF2F4771),
-                                    width: 1.5,
+                                Padding(
+                                  padding: EdgeInsets.only(right: 8.0),
+                                  child: Text(
+                                    "Download",
+                                    style: TextStyle(
+                                      color: Color(0xFFF9FAFB),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                    ),
                                   ),
                                 ),
-                              ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(top: 5 , right: 5),
+                            height: 35,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF2F4771),
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            child: const Row(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(left: 8 , right: 4),
+                                  child: Icon(
+                                    Icons.file_open_outlined,
+                                    size: 20,
+                                    color: Color(0xFFF9FAFB),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(right: 8.0),
+                                  child: Text(
+                                    "Open",
+                                    style: TextStyle(
+                                      color: Color(0xFFF9FAFB),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
+                      ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Text(
+                        "Task Provider Notes: ",
+                        style: TextStyle(
+                            color: Color(0xFF2F4771),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 140,
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: TextFormField(
+                        maxLines: 5,
+                        minLines: 5,
+                        enabled: false,
+                        readOnly: true,
+                        decoration: InputDecoration(
+                          hintText: "There is no notes yet .. ",
+                          hintStyle: TextStyle(color: Color(0xFF2F4771)),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: const BorderSide(
+                              color: Color(0xFF2F4771),
+                            ),
+                          ),
+                          disabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: const BorderSide(
+                              color: Color(0xFF2F4771),
+                              width: 1.5,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ],
@@ -421,13 +240,11 @@ class _SoilTestingState extends State<SoilTesting> {
               ),
             ],
           ),
-
         ),
       ),
     );
   }
 }
-
 
 // validator: (value) {
 //                         if (value == null || value.isEmpty) {

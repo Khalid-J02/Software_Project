@@ -1,5 +1,7 @@
 import 'package:buildnex/Widgets/serviceProvideCard_HO.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import '../Widgets/Categories_HO.dart';
 import '../Widgets/CustomSearchDelegate.dart';
 import '../Widgets/customAlertDialog.dart';
@@ -8,9 +10,7 @@ import '../Widgets/filterSearch_HO.dart';
 import '../APIRequests/homeOwnerSearchAPI.dart';
 
 class SearchPage extends StatefulWidget {
-
   final bool askForRequest ;
-
   const SearchPage({super.key , required this.askForRequest});
 
   @override
@@ -18,8 +18,10 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  late List<Map<String, dynamic>> serviceProviders =
-      []; // getBestFourServiceProviders
+
+ late String serviceTypeArgument;
+
+  late List<Map<String, dynamic>> serviceProviders = []; // getBestFourServiceProviders
 
   final _searchController = TextEditingController();
   String activeCategory = '';
@@ -51,26 +53,27 @@ class _SearchPageState extends State<SearchPage> {
       "Icon": Icons.hvac,
     },
     {
-      "serviceName": "Plasterer",
-      "Icon": Icons.format_paint_outlined,
-    },
-    {
       "serviceName": "Carpenter",
       "Icon": Icons.carpenter,
+    },
+    {
+      "serviceName": "Plasterer",
+      "Icon": Icons.format_paint_outlined,
     },
     {
       "serviceName": "Tile Contractor",
       "Icon": Icons.person_outlined,
     },
     {
-      "serviceName": "Painter",
-      "Icon": Icons.format_paint_sharp,
-    },
-    {
       "serviceName": "Window Installer",
       "Icon": Icons.window_rounded,
     },
+    {
+      "serviceName": "Painter",
+      "Icon": Icons.format_paint_sharp,
+    },
   ];
+
 
   void selectedCategory(String selectedCategory) {
     setState(() {
@@ -160,16 +163,30 @@ class _SearchPageState extends State<SearchPage> {
       print('Error filtering service providers: $e');
     }
   }
-
-
-
   @override
   void initState() {
     super.initState();
-    // Call the API to get the best service providers
-    _getBestServiceProviders();
-  }
 
+    if(widget.askForRequest == true ){
+      setState(() {
+        serviceTypeArgument= Get.arguments;
+        activeCategory = serviceTypeArgument;
+      });
+    }
+    else{
+      setState(() {
+        activeCategory = '' ;
+      });
+    }
+
+    // Call the API to get the best service providers
+    if(widget.askForRequest == true){
+      _getServiceProvidersByServiceType(serviceTypeArgument);
+    }
+    else {
+      _getBestServiceProviders();
+    }
+  }
 
   Future<void> _getServiceProvidersByServiceType(String serviceType) async {
     try {

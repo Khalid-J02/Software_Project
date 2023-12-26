@@ -1,6 +1,5 @@
 import 'package:buildnex/Widgets/ProjectTasks.dart';
 import 'package:flutter/material.dart';
-
 import '../APIRequests/NavbarProjectPageHomeOwnerAPI.dart';
 
 class ProjectTasksHomeOwner extends StatefulWidget {
@@ -33,7 +32,6 @@ class _ProjectTasksHomeOwnerState extends State<ProjectTasksHomeOwner> {
       setState(() {
         userProjectTasks = fetchedTasks;
         isLoading = false; // Set loading to false when tasks are loaded
-        print('userProjectTasks: $userProjectTasks');
       });
     } catch (e) {
       // Handle errors
@@ -58,15 +56,14 @@ class _ProjectTasksHomeOwnerState extends State<ProjectTasksHomeOwner> {
               itemCount: userProjectTasks.length,
               itemBuilder: (context, index) {
                 return ProjectTasks(
+                  taskProjectId: widget.projectId,
                   taskID: userProjectTasks[index]["TaskID"].toString(),
                   taskName: userProjectTasks[index]["TaskName"]!,
+                  taskDescription: userProjectTasks[index]["TaskDescription"]?.toString() ?? 'Default Description',
                   taskStatus: userProjectTasks[index]["TaskStatus"]!,
+                  taskNumber: userProjectTasks[index]["TaskNumber"].toString(),
                   serviceProviderID: userProjectTasks[index]["ServiceProviderID"]?.toString() ?? 'No Provider ID',
-                  serviceProviderName:  userProjectTasks[index]["ServiceProviderName"] != null
-                      ? (userProjectTasks[index]["ServiceProviderName"] is Map
-                      ? userProjectTasks[index]["ServiceProviderName"]!['Username'].toString()
-                      : userProjectTasks[index]["ServiceProviderName"]!.toString())
-                      : 'No Provider Name',
+                  serviceProviderName:  userProjectTasks[index]["ServiceProviderName"].toString() ?? 'No Provider Name'
                 );
               },
             ),

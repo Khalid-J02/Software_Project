@@ -2,6 +2,7 @@ import 'package:buildnex/Tasks/taskWidgets/taskInformation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../APIRequests/homeOwnerTasksAPI.dart';
 import 'Widgets/serviceProviderProfleData.dart';
 
 
@@ -17,6 +18,38 @@ class LocalGovernoratePermits extends StatefulWidget {
 }
 
 class _LocalGovernoratePermitsState extends State<LocalGovernoratePermits> {
+  Map<String, dynamic> task2Data = {};
+  String taskID = '';
+  String taskProjectId = '';
+  String permitsDocument = '';
+
+  @override
+  void initState() {
+    super.initState();
+    fetchArgumentsAndData();
+  }
+
+  Future<void> fetchArgumentsAndData() async {
+    try {
+
+      Map<String, dynamic> arguments = Get.arguments;
+      taskID = arguments['taskID'];
+      taskProjectId = arguments['taskProjectId'];
+
+      //  permitsDocument= await HomeOwnerTasksAPI.getPermitsDocument(taskProjectId);
+      //  or you can get the permitsDocument regulatoryinformations table
+      //  permitsDocument= task2Data['PermitsDocument'];
+
+      final Map<String, dynamic> data =
+      await HomeOwnerTasksAPI.getPermitsRegulatoryInfo(taskID);
+      setState(() {
+        task2Data = data;
+      });
+    } catch (e) {
+      print('Error fetching property survey data: $e');
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -42,11 +75,10 @@ class _LocalGovernoratePermitsState extends State<LocalGovernoratePermits> {
           margin: const EdgeInsets.only(top: 10),
           child: Column(
             children: [
-              TaskInformation(taskID: 7777, taskName: 'Governmental Permitting', projectName: 'Nablus Project', taskStatus: 'Not Started',),
-              const SPProfileData(userPicture: 'images/Testing/Tokyo.jpg', userName: 'Khalid Jabr' , rating: 3.4, numReviews: 32,),
+              TaskInformation(taskID: task2Data['TaskID']?? 0, taskName:"Regulatory Information", projectName: task2Data['ProjectName']?? 'Unknown', taskStatus: task2Data['TaskStatus']?? 'Unknown',),
+              SPProfileData(userPicture: task2Data['UserPicture']?? 'images/profilePic96.png', rating: (task2Data['Rating'] as num?)?.toDouble() ?? 0.0, numReviews: task2Data['ReviewCount']?? 0, userName:task2Data['Username']?? 'Unknown',),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 20 , vertical: 10),
-                height: MediaQuery.of(context).size.height/2.2,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
@@ -80,80 +112,127 @@ class _LocalGovernoratePermitsState extends State<LocalGovernoratePermits> {
                       ),
                     ),
                     Container(
-                      height: MediaQuery.of(context).size.height/2.6,
                       padding: const EdgeInsets.all(10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          // Padding(
+                          //   padding: const EdgeInsets.only(top: 8.0),
+                          //   child: Row(
+                          //     crossAxisAlignment: CrossAxisAlignment.start,
+                          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //     children: [
+                          //       const Padding(
+                          //         padding: EdgeInsets.all(10),
+                          //         child: Text(
+                          //           "Survey Document: ",
+                          //           style: TextStyle(
+                          //               color: Color(0xFF2F4771),
+                          //               fontSize: 16,
+                          //               fontWeight: FontWeight.w400
+                          //           ),
+                          //         ),
+                          //       ),
+                          //       Container(
+                          //         margin: const EdgeInsets.only(top: 5 , right: 50),
+                          //         height: 35,
+                          //         width: 70,
+                          //         decoration: BoxDecoration(
+                          //           color: Color(0xFF2F4771),
+                          //           borderRadius: BorderRadius.circular(20.0),
+                          //         ),
+                          //         child: IconButton(
+                          //           onPressed: (){},
+                          //           icon: const Icon(
+                          //             Icons.upload_file_outlined,
+                          //             size: 20,
+                          //             color: Color(0xFFF9FAFB),
+                          //           ),
+                          //         ),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
                           Padding(
                             padding: const EdgeInsets.only(top: 8.0),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Padding(
-                                  padding: EdgeInsets.all(10),
-                                  child: Text(
-                                    "Survey Document: ",
-                                    style: TextStyle(
-                                        color: Color(0xFF2F4771),
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w400
+                                const Expanded(
+                                  flex: 1,
+                                  child: Padding(
+                                    padding: EdgeInsets.all(10),
+                                    child: Text(
+                                      "Permits Document: ",
+                                      style: TextStyle(
+                                          color: Color(0xFF2F4771),
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400
+                                      ),
                                     ),
                                   ),
                                 ),
                                 Container(
-                                  margin: const EdgeInsets.only(top: 5 , right: 15),
+                                  margin: const EdgeInsets.only(top: 5 , right: 5),
                                   height: 35,
-                                  width: 70,
                                   decoration: BoxDecoration(
-                                    color: Color(0xFF2F4771),
+                                    color: const Color(0xFF2F4771),
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
-                                  child: IconButton(
-                                    onPressed: (){},
-                                    icon: const Icon(
-                                      Icons.upload_file_outlined,
-                                      size: 20,
-                                      color: Color(0xFFF9FAFB),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Padding(
-                                  padding: EdgeInsets.all(10),
-                                  child: Text(
-                                    "Land Ownership Document: ",
-                                    style: TextStyle(
-                                        color: Color(0xFF2F4771),
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w400
-                                    ),
+                                  child: const Row(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 8 , right: 4),
+                                        child: Icon(
+                                          Icons.sim_card_download,
+                                          size: 20,
+                                          color: Color(0xFFF9FAFB),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(right: 8.0),
+                                        child: Text(
+                                          "Download",
+                                          style: TextStyle(
+                                            color: Color(0xFFF9FAFB),
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                                 Container(
-                                  margin: const EdgeInsets.only(top: 5 , right: 15),
+                                  margin: const EdgeInsets.only(top: 5 , right: 5),
                                   height: 35,
-                                  width: 70,
                                   decoration: BoxDecoration(
-                                    color: Color(0xFF2F4771),
+                                    color: const Color(0xFF2F4771),
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
-                                  child: IconButton(
-                                    onPressed: (){},
-                                    icon: const Icon(
-                                      Icons.upload_file_outlined,
-                                      size: 20,
-                                      color: Color(0xFFF9FAFB),
-                                    ),
+                                  child: const Row(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 8 , right: 4),
+                                        child: Icon(
+                                          Icons.file_open_outlined,
+                                          size: 20,
+                                          color: Color(0xFFF9FAFB),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(right: 8.0),
+                                        child: Text(
+                                          "Open",
+                                          style: TextStyle(
+                                            color: Color(0xFFF9FAFB),
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
@@ -179,7 +258,7 @@ class _LocalGovernoratePermitsState extends State<LocalGovernoratePermits> {
                               enabled: false,
                               readOnly: true,
                               decoration: InputDecoration(
-                                hintText: "There is no notes yet .. ",
+                                hintText: task2Data['Notes'] ?? 'No notes available',
                                 hintStyle: TextStyle(color: Color(0xFF2F4771)),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),

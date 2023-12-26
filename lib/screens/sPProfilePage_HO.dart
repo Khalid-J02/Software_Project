@@ -8,6 +8,8 @@ import 'package:get/get.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
+import '../Widgets/customAlertDialog.dart';
+
 
 void main() {
   runApp(GetMaterialApp(home: SPProfilePage(askForRequest: true,),));
@@ -240,10 +242,22 @@ class _SPProfilePageState extends State<SPProfilePage> with ChangeNotifier{
                       SizedBox(height: 10,),
                       widget.askForRequest
                       ? GestureDetector(
-                          onTap: (){
+                          onTap: () async {
                             /*
                               here we will add the functionality of the request
                             */
+
+                            /*and this is the dialog and how to deal with it
+                            String? pickedDate = await CustomAlertDialog.showExpectedStartDatefortheTask(context);
+                            if (pickedDate != null) {
+                              // The user picked a date and tapped "Submit"
+                              print("The picked date is: $pickedDate");
+                            } else {
+                              // The user cancelled the dialog or dismissed it without submitting
+                              print("No date was picked.");
+                            }*/
+
+
                           },
                           child: Container(
                             width: 155,
