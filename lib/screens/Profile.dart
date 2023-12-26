@@ -1,10 +1,16 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:buildnex/Widgets/profileData.dart';
 import 'package:buildnex/Widgets/userProfileDataDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:buildnex/APIRequests/profilePageHomeOwnerAPI.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../Widgets/customAlertDialog.dart';
+
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(MaterialApp(home: const ProfilePage()));
@@ -25,6 +31,39 @@ class _ProfilePageState extends State<ProfilePage> {
   String userBio = '';
   String userPhoneNum = '';
   late String userPic = '';
+
+  Image? image;
+  String? imageUrl;
+  late final pickedImage ;
+  final String cloudinaryUrl = 'https://api.cloudinary.com/v1_1/df1qhofpr/upload';
+  final String uploadPreset = 'buildnex';
+
+  Future<void> pickImage() async {
+    pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedImage != null) {
+      File imageFile = File(pickedImage.path);
+      setState(() {
+        image = Image.file(imageFile);
+      });
+    }
+    if (image != null) {
+      final url = Uri.parse(cloudinaryUrl) ;
+      final req = http.MultipartRequest('POST' , url)
+        ..fields['upload_preset'] = 'buildnex'
+        ..files.add(await http.MultipartFile.fromPath('file', pickedImage.path)) ;
+
+      final response = await req.send();
+      if(response.statusCode == 200){
+        final responseData = await response.stream.toBytes() ;
+        final responseString = String.fromCharCodes(responseData) ;
+        final jsonMap = jsonDecode(responseString);
+        setState(() {
+          final url = jsonMap['url'] ;
+          imageUrl = url ;
+        });
+      }
+    }
+  }
 
   @override
   void initState() {
@@ -115,8 +154,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 child:  CircleAvatar(
                   radius: 65,
                   backgroundImage: userPic.isNotEmpty
-                      ? AssetImage(userPic)
-                      : AssetImage("images/profilePic96.png"),
+                      ? NetworkImage(userPic) as ImageProvider<Object>?
+                      : AssetImage("images/profilePic96.png") as ImageProvider<Object>?,
                 ),
               ),
             ),
@@ -126,9 +165,10 @@ class _ProfilePageState extends State<ProfilePage> {
               left: MediaQuery.of(context).size.width / 2,
               right: MediaQuery.of(context).size.width / 4,
               child: GestureDetector(
-                onTap: (){
+                onTap: () async {
+                  await pickImage() ;
                   /*
-                  implement the cloudinary functionality
+                  all you need to do is to send the image url variable to the database and store there.
                    */
                 },
                 child: Container(

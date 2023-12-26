@@ -50,7 +50,16 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   readmore: ^2.2.0
   timeago: ^3.6.0
-
+  cloudinary_flutter: ^1.1.0
+  cloudinary_public: ^0.23.1
+  provider: ^6.1.1
+  file_picker: ^6.1.1
+  syncfusion_flutter_pdfviewer: ^23.2.7
+  path_provider: ^2.1.1
+  permission_handler: ^11.0.1
+  dio: ^5.4.0
+  open_file: ^3.3.2
+  flutter_file_downloader: ^1.2.0
 
 dev_dependencies:
   flutter_test:

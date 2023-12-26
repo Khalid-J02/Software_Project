@@ -1,11 +1,17 @@
 
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:buildnex/Widgets/serviceProviderData.dart';
 import 'package:buildnex/Widgets/serviceProviderProfileDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../APIRequests/profilePageServiceProviderAPI.dart';
 import '../Widgets/customAlertDialog.dart';
+
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(MaterialApp(home: const ServiceProviderProfilePage()));
@@ -31,6 +37,38 @@ class _ServiceProviderProfilePageState extends State<ServiceProviderProfilePage>
   int userPrice = 0 ;
   late String userPic = '';
 
+  Image? image;
+  String? imageUrl;
+  late final pickedImage ;
+  final String cloudinaryUrl = 'https://api.cloudinary.com/v1_1/df1qhofpr/upload';
+  final String uploadPreset = 'buildnex';
+
+  Future<void> pickImage() async {
+    pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedImage != null) {
+      File imageFile = File(pickedImage.path);
+      setState(() {
+        image = Image.file(imageFile);
+      });
+    }
+    if (image != null) {
+      final url = Uri.parse(cloudinaryUrl) ;
+      final req = http.MultipartRequest('POST' , url)
+        ..fields['upload_preset'] = 'buildnex'
+        ..files.add(await http.MultipartFile.fromPath('file', pickedImage.path)) ;
+
+      final response = await req.send();
+      if(response.statusCode == 200){
+        final responseData = await response.stream.toBytes() ;
+        final responseString = String.fromCharCodes(responseData) ;
+        final jsonMap = jsonDecode(responseString);
+        setState(() {
+          final url = jsonMap['url'] ;
+          imageUrl = url ;
+        });
+      }
+    }
+  }
 
   @override
   void initState() {
@@ -115,8 +153,42 @@ class _ServiceProviderProfilePageState extends State<ServiceProviderProfilePage>
                   child: CircleAvatar(
                     radius: 65,
                     backgroundImage: userPic.isNotEmpty
-                        ? AssetImage(userPic)
-                        : AssetImage("images/profilePic96.png"),
+                        ? NetworkImage(userPic) as ImageProvider<Object>?
+                        : AssetImage("images/profilePic96.png") as ImageProvider<Object>?,
+                  ),
+                ),
+              ),
+
+              Positioned(
+                top: MediaQuery.of(context).size.width / 4.6,
+                left: MediaQuery.of(context).size.width / 2,
+                right: MediaQuery.of(context).size.width / 4,
+                child: GestureDetector(
+                  onTap: () async {
+                    await pickImage() ;
+                    /*
+                  all you need to do is to send the image url variable to the database and store there.
+                   */
+                  },
+                  child: Container(
+                    width: 30,
+                    height: 30,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.grey[500],
+                    ),
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          const Icon(
+                            Icons.edit,
+                            size: 20,
+                            color: Color(0xFFF3D69B),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
               ),

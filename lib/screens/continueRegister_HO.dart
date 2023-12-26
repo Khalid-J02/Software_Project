@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import '../APIRequests/userRegAPI.dart';
 import '../Widgets/customAlertDialog.dart';
+import 'package:http/http.dart' as http;
 
 class HomeOwnerRegister extends StatelessWidget {
   const HomeOwnerRegister({super.key});
@@ -174,22 +176,45 @@ class _Forget_PasswordCodePageState extends State<_HomeOwnerRegisterPage> {
         });
   }
 
-  File? file;
-  ImagePicker image = ImagePicker();
+  // here will be the functionality for uploading images
+  Image? image;
+  String? imageUrl;
+  late final pickedImage ;
+  final String cloudinaryUrl = 'https://api.cloudinary.com/v1_1/df1qhofpr/upload';
+  final String uploadPreset = 'buildnex';
 
-  pickImageFromGallery() async {
-    var img = await image.pickImage(source: ImageSource.gallery);
-    setState(() {
-      if (img != null) {
-        file = File(img!.path);
+  Future<void> pickImage() async {
+    pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedImage != null) {
+      File imageFile = File(pickedImage.path);
+      setState(() {
+        image = Image.file(imageFile);
+      });
+    }
+    if (image != null) {
+      final url = Uri.parse(cloudinaryUrl) ;
+      final req = http.MultipartRequest('POST' , url)
+        ..fields['upload_preset'] = 'buildnex'
+        ..files.add(await http.MultipartFile.fromPath('file', pickedImage.path)) ;
+
+      final response = await req.send();
+      if(response.statusCode == 200){
+        final responseData = await response.stream.toBytes() ;
+        final responseString = String.fromCharCodes(responseData) ;
+        final jsonMap = jsonDecode(responseString);
+        setState(() {
+          final url = jsonMap['url'] ;
+          imageUrl = url ;
+        });
       }
-    });
+    }
   }
+
 
   // functions from tala
   Map<String, dynamic> UserData_HO() {
     return {
-      'image': file != null ? file!.path : null,
+      'image': imageUrl != null ? imageUrl : null,
       'phoneNumber': phoneNumberController.text,
       'city': userLocation,
       'bio': bioController.text,
@@ -205,7 +230,6 @@ class _Forget_PasswordCodePageState extends State<_HomeOwnerRegisterPage> {
 
   void initState() {
     super.initState();
-
     // Receive the arguments
     Map<String, dynamic> mergedData =
         Get.arguments as Map<String, dynamic>? ?? {};
@@ -220,7 +244,15 @@ class _Forget_PasswordCodePageState extends State<_HomeOwnerRegisterPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        Container(
+        if(imageUrl == null)
+          Container(
+            height: 210 ,
+            child: Center(
+              child: Icon(Icons.image , color: Color(0xFFF3D69B), size: 35,),
+            ),
+          ),
+        if (imageUrl != null)
+          Container(
             margin: EdgeInsets.symmetric(
                 horizontal: MediaQuery.of(context).size.width / 4),
             height: 210,
@@ -230,18 +262,19 @@ class _Forget_PasswordCodePageState extends State<_HomeOwnerRegisterPage> {
             child: ClipOval(
               child: SizedBox.fromSize(
                 size: Size.fromRadius(30),
-                child: file == null
+                child: pickedImage == null
                     ? const Icon(
-                        Icons.image,
-                        size: 35,
-                        color: Color(0xFFF3D69B),
-                      )
-                    : Image.file(
-                        file!,
-                        fit: BoxFit.fill,
-                      ),
+                  Icons.image,
+                  size: 35,
+                  color: Color(0xFFF3D69B),
+                )
+                    : Image.network(
+                  imageUrl!,
+                  fit: BoxFit.fill,
+                ),
               ),
-            )),
+            ),
+          ),
         Container(
           // padding: const EdgeInsets.only(left: 8.0),
           margin: EdgeInsets.symmetric(
@@ -249,7 +282,7 @@ class _Forget_PasswordCodePageState extends State<_HomeOwnerRegisterPage> {
           ),
           child: ElevatedButton(
             onPressed: () async {
-              var imageName = await pickImageFromGallery();
+              var imageName = await pickImage();
             },
             style: ElevatedButtonStyle(),
             child: const Text(
@@ -420,7 +453,7 @@ class _Forget_PasswordCodePageState extends State<_HomeOwnerRegisterPage> {
                           mergedData['email'],
                           mergedData['password'],
                           mergedData['confirmPassword'],
-                          "", // Image
+                          userData['image'], // Image
                           userData['phoneNumber'],
                           userData['city'],
                           "Doesn'tExist", //service Type
