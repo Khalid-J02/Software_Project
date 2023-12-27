@@ -99,7 +99,7 @@ class _CatalogDialogItemState extends State<CatalogDialogItem> {
               child: IconButton(
                 icon: Icon(Icons.navigate_next , size: 30, color: Color(0xFFF3D69B),),
                 onPressed: () {
-                  Get.to(SPCatalogItem_HO(itemImage: widget.itemImage, itemName: widget.itemName,));
+                  Get.to(SPCatalogItem_HO(itemDetails: {},));
                 },
               ),
             ),

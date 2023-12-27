@@ -1,3 +1,4 @@
+import 'package:buildnex/APIRequests/homeOwnerDisplayServiceProData.dart';
 import 'package:buildnex/screens/sPProfilePage_HO.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,6 +22,13 @@ class SPCard extends StatefulWidget {
 class _SPCardState extends State<SPCard> {
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
+
+  @override
   Widget build(BuildContext context) {
 
     return SizedBox(
@@ -35,8 +43,24 @@ class _SPCardState extends State<SPCard> {
         ),
         itemBuilder: (context, index) {
           return GestureDetector(
-            onTap: () {
-            Get.to(SPProfilePage(askForRequest: widget.askForRequest,)) ; // you should pass the service provider id
+            onTap: () async{
+              final Map<String, dynamic> bestServiceProviders =  await ServiceProviderDataAPI.getServiceProData(widget.topServiceProviders[index]["UserID"].toString());
+              final List<Map<String, dynamic>> providerCatalog = await ServiceProviderDataAPI.getServiceProCatalogItems(widget.topServiceProviders[index]["UserID"].toString()) ;
+              final List<Map<String, dynamic>> providerWorkExp = await ServiceProviderDataAPI.getServiceProWorkExperiences(widget.topServiceProviders[index]["UserID"].toString()) ;
+              final List<Map<String, dynamic>> providerReviews = await ServiceProviderDataAPI.getServiceProReviews(widget.topServiceProviders[index]["UserID"].toString()) ;
+
+              Get.to(SPProfilePage(
+                askForRequest: widget.askForRequest,
+                serviceProviderName: widget.topServiceProviders[index]["Username"],
+                serviceProviderType: widget.topServiceProviders[index]["ServiceType"],
+                serviceProviderImage: widget.topServiceProviders[index]["UserPicture"],
+                serviceProviderRating: (widget.topServiceProviders[index]["Rating"] ?? 0).toDouble(),
+                bestServiceProviders: bestServiceProviders,
+                providerCatalog: providerCatalog,
+                providerWorkExp: providerWorkExp,
+                providerReviews: providerReviews,
+              )
+            ) ; // you should pass the service provider id
                                                           // so we can retrieve his catalog and work exp and reviews
             },
             child: SPCardDetails(

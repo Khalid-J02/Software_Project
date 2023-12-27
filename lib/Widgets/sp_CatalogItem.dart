@@ -51,7 +51,7 @@ class _ServiceProvideCatalogItemState extends State<ServiceProvideCatalogItem> {
                     child: ClipRRect(
                       borderRadius: const BorderRadius.all(Radius.circular(15)) ,
                       child: Image(
-                        image: FileImage(File(widget.catalogItemImageURL)),
+                        image: NetworkImage(widget.catalogItemImageURL),
                         fit: BoxFit.cover,
                       ),
                     ),

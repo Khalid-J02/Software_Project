@@ -49,7 +49,7 @@ class _SPCardDetailsState extends State<SPCardDetails> {
                       color: Colors.blueGrey,
                       borderRadius: BorderRadius.circular(20),
                       image: DecorationImage(
-                          image: AssetImage(widget.sPImageURL),
+                          image: NetworkImage(widget.sPImageURL),
                           fit: BoxFit.cover
                       )
                   ),
