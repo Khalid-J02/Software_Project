@@ -1,5 +1,7 @@
+import 'package:buildnex/Tasks/taskWidgets/pdfViewer.dart';
 import 'package:buildnex/Tasks/taskWidgets/taskInformation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:get/get.dart';
 
 import '../../../APIRequests/homeOwnerTasksAPI.dart';
@@ -22,32 +24,19 @@ class _LocalGovernoratePermitsState extends State<LocalGovernoratePermits> {
   String taskID = '';
   String taskProjectId = '';
   String permitsDocument = '';
+  double? _progress ;
 
   @override
   void initState() {
     super.initState();
-    fetchArgumentsAndData();
-  }
-
-  Future<void> fetchArgumentsAndData() async {
-    try {
-
-      Map<String, dynamic> arguments = Get.arguments;
+    Map<String, dynamic> arguments = Get.arguments;
+    setState(() {
       taskID = arguments['taskID'];
       taskProjectId = arguments['taskProjectId'];
-
-      //  permitsDocument= await HomeOwnerTasksAPI.getPermitsDocument(taskProjectId);
-      //  or you can get the permitsDocument regulatoryinformations table
-      //  permitsDocument= task2Data['PermitsDocument'];
-
-      final Map<String, dynamic> data =
-      await HomeOwnerTasksAPI.getPermitsRegulatoryInfo(taskID);
-      setState(() {
-        task2Data = data;
-      });
-    } catch (e) {
-      print('Error fetching property survey data: $e');
-    }
+      task2Data = arguments['localGovernmentData'] ;
+      permitsDocument = arguments['docsURL'] ;
+    });
+    // fetchArgumentsAndData();
   }
 
 
@@ -116,43 +105,6 @@ class _LocalGovernoratePermitsState extends State<LocalGovernoratePermits> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // Padding(
-                          //   padding: const EdgeInsets.only(top: 8.0),
-                          //   child: Row(
-                          //     crossAxisAlignment: CrossAxisAlignment.start,
-                          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          //     children: [
-                          //       const Padding(
-                          //         padding: EdgeInsets.all(10),
-                          //         child: Text(
-                          //           "Survey Document: ",
-                          //           style: TextStyle(
-                          //               color: Color(0xFF2F4771),
-                          //               fontSize: 16,
-                          //               fontWeight: FontWeight.w400
-                          //           ),
-                          //         ),
-                          //       ),
-                          //       Container(
-                          //         margin: const EdgeInsets.only(top: 5 , right: 50),
-                          //         height: 35,
-                          //         width: 70,
-                          //         decoration: BoxDecoration(
-                          //           color: Color(0xFF2F4771),
-                          //           borderRadius: BorderRadius.circular(20.0),
-                          //         ),
-                          //         child: IconButton(
-                          //           onPressed: (){},
-                          //           icon: const Icon(
-                          //             Icons.upload_file_outlined,
-                          //             size: 20,
-                          //             color: Color(0xFFF9FAFB),
-                          //           ),
-                          //         ),
-                          //       ),
-                          //     ],
-                          //   ),
-                          // ),
                           Padding(
                             padding: const EdgeInsets.only(top: 8.0),
                             child: Row(
@@ -173,66 +125,91 @@ class _LocalGovernoratePermitsState extends State<LocalGovernoratePermits> {
                                     ),
                                   ),
                                 ),
-                                Container(
-                                  margin: const EdgeInsets.only(top: 5 , right: 5),
-                                  height: 35,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFF2F4771),
-                                    borderRadius: BorderRadius.circular(20.0),
-                                  ),
-                                  child: const Row(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 8 , right: 4),
-                                        child: Icon(
-                                          Icons.sim_card_download,
-                                          size: 20,
-                                          color: Color(0xFFF9FAFB),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(right: 8.0),
-                                        child: Text(
-                                          "Download",
-                                          style: TextStyle(
+                                _progress != null
+                                    ? const CircularProgressIndicator()
+                                    :
+                                GestureDetector(
+                                  onTap: (){
+                                    FileDownloader.downloadFile(
+                                      url: permitsDocument,
+                                      onProgress: (name , progress){
+                                        setState(() {
+                                          _progress = _progress;
+                                        });
+                                      },
+                                      onDownloadCompleted: (value){
+                                        setState(() {
+                                          _progress = null ;
+                                        });
+                                      },
+                                    );
+                                  },
+                                  child: Container(
+                                    margin: const EdgeInsets.only(top: 5 , right: 5),
+                                    height: 35,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF2F4771),
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    child: const Row(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 8 , right: 4),
+                                          child: Icon(
+                                            Icons.sim_card_download,
+                                            size: 20,
                                             color: Color(0xFFF9FAFB),
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
                                           ),
                                         ),
-                                      ),
-                                    ],
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 8.0),
+                                          child: Text(
+                                            "Download",
+                                            style: TextStyle(
+                                              color: Color(0xFFF9FAFB),
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                                Container(
-                                  margin: const EdgeInsets.only(top: 5 , right: 5),
-                                  height: 35,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFF2F4771),
-                                    borderRadius: BorderRadius.circular(20.0),
-                                  ),
-                                  child: const Row(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 8 , right: 4),
-                                        child: Icon(
-                                          Icons.file_open_outlined,
-                                          size: 20,
-                                          color: Color(0xFFF9FAFB),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(right: 8.0),
-                                        child: Text(
-                                          "Open",
-                                          style: TextStyle(
+                                GestureDetector(
+                                  onTap: (){
+                                    Get.to(DocsPdfViewer(pdfFileURL: permitsDocument,)) ;
+                                  },
+                                  child: Container(
+                                    margin: const EdgeInsets.only(top: 5 , right: 5),
+                                    height: 35,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF2F4771),
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    child: const Row(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 8 , right: 4),
+                                          child: Icon(
+                                            Icons.file_open_outlined,
+                                            size: 20,
                                             color: Color(0xFFF9FAFB),
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
                                           ),
                                         ),
-                                      ),
-                                    ],
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 8.0),
+                                          child: Text(
+                                            "Open",
+                                            style: TextStyle(
+                                              color: Color(0xFFF9FAFB),
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ],
@@ -280,23 +257,6 @@ class _LocalGovernoratePermitsState extends State<LocalGovernoratePermits> {
                       ),
                     )
                   ],
-                ),
-              ),
-              Container(
-                width: 250,
-                decoration: const BoxDecoration(
-                  color: Color(0xFF2F4771),
-                  borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                ),
-                child: TextButton(
-                  onPressed: () {},
-                  child: const Text(
-                    'Save',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Color(0xFFF9FAFB),
-                    ),
-                  ),
                 ),
               ),
             ],

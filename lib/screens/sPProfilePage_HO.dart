@@ -218,8 +218,6 @@ class _SPProfilePageState extends State<SPProfilePage> with ChangeNotifier{
                             /*
                               here we will add the functionality of the request
                             */
-
-                            /*and this is the dialog and how to deal with it
                             String? pickedDate = await CustomAlertDialog.showExpectedStartDatefortheTask(context);
                             if (pickedDate != null) {
                               // The user picked a date and tapped "Submit"
@@ -227,9 +225,7 @@ class _SPProfilePageState extends State<SPProfilePage> with ChangeNotifier{
                             } else {
                               // The user cancelled the dialog or dismissed it without submitting
                               print("No date was picked.");
-                            }*/
-
-
+                            }
                           },
                           child: Container(
                             width: 155,

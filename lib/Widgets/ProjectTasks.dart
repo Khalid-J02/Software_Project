@@ -29,6 +29,7 @@ class ProjectTasks extends StatelessWidget {
 
   late String serviceType;
 
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -59,22 +60,18 @@ class ProjectTasks extends StatelessWidget {
                   ),
                 ),
                  Expanded(
-                  /*
-                  Here you should pass the description for the task, to test it you should
-                  keep pressing the info icon in the top right
-                   */
                   flex: 1,
                   child: Tooltip(
                     message: taskDescription ,
-                    padding: EdgeInsets.all(12),
-                    showDuration: Duration(seconds: 10),
-                    textStyle: TextStyle(color: Colors.white),
-                    decoration: BoxDecoration(
+                    padding: const EdgeInsets.all(12),
+                    showDuration: const Duration(seconds: 10),
+                    textStyle: const TextStyle(color: Colors.white),
+                    decoration: const BoxDecoration(
                       color: Color(0xFF122247)
                     ),
                     preferBelow: false,
                     verticalOffset: 10,
-                    child: Icon(
+                    child: const Icon(
                       Icons.info,
                       color: Color(0xFFF3D69B),
                       size: 25,
@@ -134,10 +131,40 @@ class ProjectTasks extends StatelessWidget {
                       ),
                       margin: const EdgeInsets.only(bottom: 5, top: 5),
                       child: TextButton(
-                        onPressed: () {
+                        onPressed: () async {
                           // here you will move to tasks like task1 2 3 etc
                           String path = '/HomeOwnerTasks/Task' + taskNumber;
-                          Get.toNamed(path, arguments: {'taskID': taskID, 'taskProjectId': taskProjectId});
+                          // print(taskNumber) ;
+                          if(taskNumber == '1'){
+                            final Map<String, dynamic> data = await HomeOwnerTasksAPI.getPropertySurvey(taskID);
+                            final String _docsURL = await HomeOwnerTasksAPI.getSurveyDocument(taskProjectId) ;
+                            Get.toNamed(path,
+                                arguments: {
+                                  'taskID': taskID,
+                                  'taskProjectId': taskProjectId ,
+                                  'propertySurveyData' : data,
+                                  'docsURL' : _docsURL});
+                          }
+                          if(taskNumber == '2'){
+                            final Map<String, dynamic> data = await HomeOwnerTasksAPI.getPermitsRegulatoryInfo(taskID);
+                            final String _docsURL = await HomeOwnerTasksAPI.getPermitsDocument(taskProjectId) ;
+                            Get.toNamed(path,
+                                arguments: {
+                                  'taskID': taskID,
+                                  'taskProjectId': taskProjectId ,
+                                  'localGovernmentData' : data,
+                                  'docsURL' : _docsURL});
+                          }
+                          if(taskNumber == '3'){
+                            final Map<String, dynamic> data = await HomeOwnerTasksAPI.getSoilInvestigation(taskID);
+                            final String _docsURL = await HomeOwnerTasksAPI.getSoilDocument(taskProjectId) ;
+                            Get.toNamed(path,
+                                arguments: {
+                                  'taskID': taskID,
+                                  'taskProjectId': taskProjectId ,
+                                  'soilTesting' : data,
+                                  'docsURL' : _docsURL});
+                          }
                         },
                         child: const Text(
                           "Open Task",
@@ -230,8 +257,7 @@ class ProjectTasks extends StatelessWidget {
                             serviceType = "Painter";
                           }
                           // Navigate to the next screen and pass taskID and serviceProviderID
-                          Get.to(SearchPage(askForRequest: true),
-                              arguments: serviceType);
+                          Get.to(SearchPage(askForRequest: true), arguments: serviceType);
                       },
 
                       child: const Text(

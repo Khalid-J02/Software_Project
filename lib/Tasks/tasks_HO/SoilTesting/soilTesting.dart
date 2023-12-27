@@ -1,6 +1,8 @@
+import 'package:buildnex/Tasks/taskWidgets/pdfViewer.dart';
 import 'package:buildnex/Tasks/taskWidgets/taskInformation.dart';
 import 'package:buildnex/Tasks/tasks_HO/LocalGovernorate_Permits/Widgets/serviceProviderProfleData.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:get/get.dart';
 
 import '../../../APIRequests/homeOwnerTasksAPI.dart';
@@ -21,33 +23,19 @@ class _SoilTestingState extends State<SoilTesting> {
   String taskID = '';
   String taskProjectId = '';
   String soilDocument = '';
-
+  double? _progress ;
 
   @override
   void initState() {
     super.initState();
-    fetchArgumentsAndData();
-  }
-
-  Future<void> fetchArgumentsAndData() async {
-    try {
-
-      Map<String, dynamic> arguments = Get.arguments;
+    Map<String, dynamic> arguments = Get.arguments;
+    setState(() {
       taskID = arguments['taskID'];
       taskProjectId = arguments['taskProjectId'];
-
-      //  soilDocument= await HomeOwnerTasksAPI.getSoilDocument(taskProjectId);
-      //  or you can get the soilDocument soil Investing table
-      //  soilDocument= task3Data['SoilDocument'];
-
-      final Map<String, dynamic> data =
-      await HomeOwnerTasksAPI.getSoilInvestigation(taskID);
-      setState(() {
-        task3Data = data;
-      });
-    } catch (e) {
-      print('Error fetching property survey data: $e');
-    }
+      task3Data = arguments['soilTesting'] ;
+      soilDocument = arguments['docsURL'] ;
+    });
+    // fetchArgumentsAndData();
   }
 
   @override
@@ -132,66 +120,91 @@ class _SoilTestingState extends State<SoilTesting> {
                               ),
                             ),
                           ),
-                          Container(
-                            margin: const EdgeInsets.only(top: 5 , right: 5),
-                            height: 35,
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF2F4771),
-                              borderRadius: BorderRadius.circular(20.0),
-                            ),
-                            child: const Row(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(left: 8 , right: 4),
-                                  child: Icon(
-                                    Icons.sim_card_download,
-                                    size: 20,
-                                    color: Color(0xFFF9FAFB),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(right: 8.0),
-                                  child: Text(
-                                    "Download",
-                                    style: TextStyle(
+                          _progress != null
+                              ? const CircularProgressIndicator()
+                              :
+                          GestureDetector(
+                            onTap: (){
+                              FileDownloader.downloadFile(
+                                url: soilDocument,
+                                onProgress: (name , progress){
+                                  setState(() {
+                                    _progress = _progress;
+                                  });
+                                },
+                                onDownloadCompleted: (value){
+                                  setState(() {
+                                    _progress = null ;
+                                  });
+                                },
+                              );
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.only(top: 5 , right: 5),
+                              height: 35,
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF2F4771),
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
+                              child: const Row(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 8 , right: 4),
+                                    child: Icon(
+                                      Icons.sim_card_download,
+                                      size: 20,
                                       color: Color(0xFFF9FAFB),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
                                     ),
                                   ),
-                                ),
-                              ],
+                                  Padding(
+                                    padding: EdgeInsets.only(right: 8.0),
+                                    child: Text(
+                                      "Download",
+                                      style: TextStyle(
+                                        color: Color(0xFFF9FAFB),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                          Container(
-                            margin: const EdgeInsets.only(top: 5 , right: 5),
-                            height: 35,
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF2F4771),
-                              borderRadius: BorderRadius.circular(20.0),
-                            ),
-                            child: const Row(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(left: 8 , right: 4),
-                                  child: Icon(
-                                    Icons.file_open_outlined,
-                                    size: 20,
-                                    color: Color(0xFFF9FAFB),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(right: 8.0),
-                                  child: Text(
-                                    "Open",
-                                    style: TextStyle(
+                          GestureDetector(
+                            onTap: (){
+                              Get.to(DocsPdfViewer(pdfFileURL: soilDocument,)) ;
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.only(top: 5 , right: 5),
+                              height: 35,
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF2F4771),
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
+                              child: const Row(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 8 , right: 4),
+                                    child: Icon(
+                                      Icons.file_open_outlined,
+                                      size: 20,
                                       color: Color(0xFFF9FAFB),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
                                     ),
                                   ),
-                                ),
-                              ],
+                                  Padding(
+                                    padding: EdgeInsets.only(right: 8.0),
+                                    child: Text(
+                                      "Open",
+                                      style: TextStyle(
+                                        color: Color(0xFFF9FAFB),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ],
