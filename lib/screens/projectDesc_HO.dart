@@ -73,7 +73,7 @@ class _ProjectDescriptionState extends State<ProjectDescription> {
                         basinNumber: projectData['BasinNumber'] ?? '',
                         plotNumber: projectData['PlotNumber'] ?? '',
                         projectStatus: projectData['projectStatus'] ?? '',
-                        projectProgress: (projectData['projectProgress'] as int?)?.toDouble() ?? 0.0,
+                        projectProgress: (projectData['projectProgress'])?.toDouble() ?? 0.0,
                         projectBuildArea: projectData['buildingArea']?.toDouble(),
                         projectRoomsNumber: projectData['numberOfRooms'] as int?,
                         projectFloorNumber: projectData['numberOfFloors'] as int?,

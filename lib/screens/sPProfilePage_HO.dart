@@ -58,61 +58,20 @@ class _SPProfilePageState extends State<SPProfilePage> with ChangeNotifier{
   late String provider2Rating ;
   late String provider1Rating ;
   int? providerReviewsCount ;
+  late String taskId ;
+  late String sPID ;
 
   late List<Map<String, dynamic>> jsonList ;
   late List<Map<String, dynamic>> workList ;
   late List<Map<String, dynamic>> reviewList ;
-
-  // List<Map<String, dynamic>> reviewList = [
-  //   {
-  //     "image": "https://picsum.photos/200/300",
-  //     "Name": "Tokyo",
-  //     "rating": 3.2,
-  //     "Date" : "13 Dec, 2023",
-  //     "Data" : "This game was a core childhood memory, so when I was trying to find a good offline road trip game and came across Subway Surfers, I couldn't help but buy it. Not only is it fun, there is so much you can do! Daily challenges for endless possibilities. I love, Love, LOVE this game to death. Especially for long car rides."
-  //   },
-  //   {
-  //     "image": "https://picsum.photos/200/300",
-  //     "Name": "tarabzon2",
-  //     "rating": 3.2,
-  //     "Date" : "13 Dec, 2023",
-  //     "Data" : "This game was a core childhood memory, so when I was trying to find a good offline road trip game and came across Subway Surfers, I couldn't help but buy it. Not only is it fun, there is so much you can do! Daily challenges for endless possibilities. I love, Love, LOVE this game to death. Especially for long car rides."
-  //   },
-  //   {
-  //     "image": "https://picsum.photos/200/300",
-  //     "Name": "Salalah2",
-  //     "rating": 3.2,
-  //     "Date" : "13 Dec, 2023",
-  //     "Data" : "This game was a core childhood memory, so when I was trying to find a good offline road trip game and came across Subway Surfers, I couldn't help but buy it. Not only is it fun, there is so much you can do! Daily challenges for endless possibilities. I love, Love, LOVE this game to death. Especially for long car rides."
-  //   },
-  //   {
-  //     "image": "https://picsum.photos/200/300",
-  //     "Name": "Iceland2",
-  //     "rating": 3.2,
-  //     "Date" : "13 Dec, 2023",
-  //     "Data" : "This game was a core childhood memory, so when I was trying to find a good offline road trip game and came across Subway Surfers, I couldn't help but buy it. Not only is it fun, there is so much you can do! Daily challenges for endless possibilities. I love, Love, LOVE this game to death. Especially for long car rides."
-  //   },
-  //   {
-  //     "image": "https://picsum.photos/200/300",
-  //     "Name": "Dubai2",
-  //     "rating": 3.2,
-  //     "Date" : "13 Dec, 2023",
-  //     "Data" : "This game was a core childhood memory, so when I was trying to find a good offline road trip game and came across Subway Surfers, I couldn't help but buy it. Not only is it fun, there is so much you can do! Daily challenges for endless possibilities. I love, Love, LOVE this game to death. Especially for long car rides."
-  //   },
-  //   {
-  //     "image": "https://picsum.photos/200/300",
-  //     "Name": "Bali2",
-  //     "rating": 3.2,
-  //     "Date" : "13 Dec, 2023",
-  //     "Data" : "This game was a core childhood memory, so when I was trying to find a good offline road trip game and came across Subway Surfers, I couldn't help but buy it. Not only is it fun, there is so much you can do! Daily challenges for endless possibilities. I love, Love, LOVE this game to death. Especially for long car rides."
-  //   },
-  // ];
+  late Map<String, dynamic> args ;
 
   @override
   void initState() {
     // TODO: implement initState
     // _getProviderInfo() ;
     super.initState();
+    args = Get.arguments ;
     setState(() {
       providerCompletedTasks = widget.bestServiceProviders['CompletedTasks'] ;
       providerReviewsCount = widget.bestServiceProviders['ReviewsCount'] ;
@@ -124,8 +83,9 @@ class _SPProfilePageState extends State<SPProfilePage> with ChangeNotifier{
       jsonList = widget.providerCatalog ;
       workList = widget.providerWorkExp ;
       reviewList = widget.providerReviews ;
+      taskId = args['taskId'] ;
+      sPID = args['serviceProviderID'] ;
     });
-    print(reviewList) ;
   }
 
   @override
@@ -134,6 +94,39 @@ class _SPProfilePageState extends State<SPProfilePage> with ChangeNotifier{
     super.dispose();
   }
 
+  Future<void> sendRequest(String requestDate)async {
+    final String data = await ServiceProviderDataAPI.sendRequestForServiceProvider(sPID, taskId.toString(), requestDate) ;
+    if(data == 'Request for the specified task already sent') {
+      showDialog(
+        context: context, // Ensure context is available
+        builder: (context) => AlertDialog(
+          title: const Text('Request Already Sent'),
+          content: const Text('You have already sent a request for this task.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    }
+    else if(data == 'Request submitted successfully'){
+      showDialog(
+        context: context, // Ensure context is available
+        builder: (context) => AlertDialog(
+          title: const Text('Request is Sent'),
+          content: const Text('You have sent request to the provider successfully'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -215,17 +208,12 @@ class _SPProfilePageState extends State<SPProfilePage> with ChangeNotifier{
                       widget.askForRequest
                       ? GestureDetector(
                           onTap: () async {
-                            /*
-                              here we will add the functionality of the request
-                            */
                             String? pickedDate = await CustomAlertDialog.showExpectedStartDatefortheTask(context);
                             if (pickedDate != null) {
-                              // The user picked a date and tapped "Submit"
-                              print("The picked date is: $pickedDate");
                             } else {
-                              // The user cancelled the dialog or dismissed it without submitting
-                              print("No date was picked.");
+                              // do nothing
                             }
+                            await sendRequest(pickedDate!);
                           },
                           child: Container(
                             width: 155,

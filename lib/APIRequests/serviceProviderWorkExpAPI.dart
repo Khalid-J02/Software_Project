@@ -32,7 +32,7 @@ class WorkExperienceAPI {
   }
 
   // Method to add a work experience
-  static Future<String> addWorkExperience(
+  static Future<int> addWorkExperience(
       String workImage, String workName, String workDescription) async {
     try {
       final response = await http.post(
@@ -49,7 +49,7 @@ class WorkExperienceAPI {
       );
 
       if (response.statusCode == 200) {
-        String workExperienceId = jsonDecode(response.body);
+        int workExperienceId = jsonDecode(response.body);
         return workExperienceId;
       } else {
         throw http.ClientException(
@@ -91,7 +91,7 @@ class WorkExperienceAPI {
 
   // Method to edit work experience details by WorkID
   static Future<String> editWorkExpDetails(
-      String workExpId, String workImage, String workName, String workDescription) async {
+      String workExpId, String workName, String workDescription) async {
     try {
       final response = await http.put(
         Uri.parse('$baseUrl/serviceprovider/workExperiences/$workExpId/edit'),
@@ -100,7 +100,6 @@ class WorkExperienceAPI {
           'Authorization': '${dotenv.env['token']}',
         },
         body: jsonEncode({
-          'workImage': workImage,
           'workName': workName,
           'workDescription': workDescription,
         }),

@@ -257,7 +257,7 @@ class ProjectTasks extends StatelessWidget {
                             serviceType = "Painter";
                           }
                           // Navigate to the next screen and pass taskID and serviceProviderID
-                          Get.to(SearchPage(askForRequest: true), arguments: serviceType);
+                          Get.to(SearchPage(askForRequest: true), arguments: {'servicetype' : serviceType , 'TaskID' : taskID} );
                       },
 
                       child: const Text(

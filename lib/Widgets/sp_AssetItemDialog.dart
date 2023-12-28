@@ -1,3 +1,4 @@
+import 'package:buildnex/APIRequests/serviceProviderWorkExpAPI.dart';
 import 'package:buildnex/Widgets/TextField.dart';
 import 'package:flutter/material.dart';
 
@@ -7,12 +8,14 @@ class ServiceProviderAssetItemDataDialog extends StatefulWidget {
 
   String itemName ;
   String itemDescription;
+  String itemID ;
 
   ServiceProviderAssetItemDataDialog(
       {
         super.key,
         required this.itemName,
         required this.itemDescription,
+        required this.itemID,
       });
 
   @override
@@ -24,7 +27,8 @@ class _ServiceProviderAssetItemDataDialogState extends State<ServiceProviderAsse
   final _itemNameController = TextEditingController();
   final _itemDescriptionController = TextEditingController();
 
-  void _saveData() {
+  Future<void> _saveData() async {
+    String response = await WorkExperienceAPI.editWorkExpDetails(widget.itemID, _itemNameController.text, _itemDescriptionController.text) ;
     List<String> data = [
       _itemNameController.text,
       _itemDescriptionController.text,

@@ -1,8 +1,12 @@
+import 'package:buildnex/APIRequests/homeOwnerDisplayServiceProData.dart';
+import 'package:buildnex/APIRequests/serviceProviderCatalogAPI.dart';
+import 'package:buildnex/APIRequests/serviceProviderWorkExpAPI.dart';
 import 'package:buildnex/Widgets/addAssetNewItem.dart';
 import 'package:buildnex/Widgets/serviceProviderAssetsItemDetails.dart';
 import 'package:buildnex/Widgets/sp_AssetsItem.dart';
 import 'package:buildnex/screens/serviceProviderCatalogItemDetails.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 
 import '../Widgets/addCatalogNewItem.dart';
@@ -22,40 +26,8 @@ class ServiceProviderAssets extends StatefulWidget {
 
 class _ServiceProviderAssetsState extends State<ServiceProviderAssets> {
 
-  List<Map<String, dynamic>> workList = [
-    {
-      "image": "images/Testing/Tokyo.jpg",
-      "Name": "Tokyo",
-    },
-    {
-      "image": "images/Testing/tarabzon2.jpg",
-      "Name": "tarabzon2",
-    },
-    {
-      "image": "images/Testing/Salalah2.jpg",
-      "Name": "Salalah2",
-    },
-    {
-      "image": "images/Testing/Iceland2.jpg",
-      "Name": "Iceland2",
-    },
-    {
-      "image": "images/Testing/Dubai2.jpg",
-      "Name": "Dubai2",
-    },
-    {
-      "image": "images/Testing/Bali2.jpg",
-      "Name": "Bali2",
-    },
-    {
-      "image": "images/Testing/Tokyo2.jpg",
-      "Name": "Tokyo",
-    },
-    {
-      "image": "images/Testing/Salalah.jpg",
-      "Name": "Salalah",
-    },
-  ];
+  List<Map<String, dynamic>> workList = [];
+  Map<String, dynamic> jsonObject = {};
 
   Future <List<dynamic>?> addNewItem () => showDialog <List<dynamic>>(
       context: context,
@@ -63,6 +35,24 @@ class _ServiceProviderAssetsState extends State<ServiceProviderAssets> {
         return AssetNewItem() ;
       }
   ) ;
+
+  Future<void> _loadCatalogItems() async {
+    try {
+      final List<Map<String, dynamic>> providerWorkExp = await WorkExperienceAPI.getWorkExperiences() ;
+      setState(() {
+        workList = providerWorkExp;
+      });
+    } catch (e) {
+      // Handle API call errors
+      print('Error loading catalog items: $e');
+    }
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _loadCatalogItems();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,12 +63,14 @@ class _ServiceProviderAssetsState extends State<ServiceProviderAssets> {
           List<dynamic>? newData = await addNewItem() ;
           setState(() {
             if(newData != null){
-              Map<String, dynamic> jsonObject = {
-                "image": "images/Testing/Tokyo.jpg",
-                "Name" : newData?[0],
+              jsonObject = {
+                "WorkImage": newData[2],
+                "WorkName" : newData?[0],
+                'WorkDescription' : newData[1],
+                'WorkID' : newData[3]
               };
-              workList.add(jsonObject);
             }
+            workList.add(jsonObject);
           });
         },
         child: const Icon(
@@ -86,7 +78,24 @@ class _ServiceProviderAssetsState extends State<ServiceProviderAssets> {
           size: 25,
         ),
       ),
-      body: GridView.builder(
+      body: workList.length == 0
+          ?
+      Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: Text('There is no items to see here...',
+              style: TextStyle(
+                  color: Colors.grey[600] ,
+                  fontSize: 18 , fontWeight:
+              FontWeight.bold
+              ),
+            ),
+          )
+        ],
+      )
+          :
+      GridView.builder(
         itemCount: workList.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
@@ -94,10 +103,11 @@ class _ServiceProviderAssetsState extends State<ServiceProviderAssets> {
         itemBuilder: (context , index){
           var ItemObject = workList[index];
           return GestureDetector(
-            onTap: (){
-              Get.to(SPAssetsItem(itemImage: ItemObject["image"], itemName: ItemObject["Name"],));
+            onTap: () async{
+              final Map<String, dynamic> itemDetails = await WorkExperienceAPI.getWorkExpDetails(ItemObject["WorkID"].toString());
+              Get.to(SPAssetsItem(ItemID: ItemObject["WorkID"].toString(),) , arguments:itemDetails );
             },
-            child: ServiceProvideAssetsItem(catalogItemImageURL: ItemObject["image"], catalogItemImageName: ItemObject["Name"]),
+            child: ServiceProvideAssetsItem(catalogItemImageURL: ItemObject["WorkImage"], catalogItemImageName: ItemObject["WorkName"]),
           );
         },
       ),

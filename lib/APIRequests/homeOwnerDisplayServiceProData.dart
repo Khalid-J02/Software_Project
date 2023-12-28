@@ -104,4 +104,38 @@ class ServiceProviderDataAPI {
       rethrow;
     }
   }
+
+  static Future<String> sendRequestForServiceProvider(
+      String serviceProviderID, String taskID, String reqTaskDate) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/homeowner/request/${serviceProviderID}/${taskID}'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': '${dotenv.env['token']}',
+        },
+        body: jsonEncode({
+          'reqTaskDate': reqTaskDate,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        final String requestStatus = jsonDecode(response.body);
+        return requestStatus ;
+
+      } else if (response.statusCode == 404) {
+        final String requestStatus = jsonDecode(response.body);
+        print(requestStatus);
+        return requestStatus ;
+      }
+      else{
+        throw http.ClientException(
+          'Failed to send request for provider providers\nStatus code: ${response.statusCode}',
+          // Uri.parse('$baseUrl/homeowner/filterServiceProviders'),
+        );
+      }
+    } catch (e) {
+      rethrow; // Rethrow the exception to let the caller handle it
+    }
+  }
 }

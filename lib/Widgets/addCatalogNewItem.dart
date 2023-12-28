@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:path/path.dart' as path;
 import 'package:buildnex/Widgets/TextField.dart';
@@ -7,6 +8,8 @@ import 'package:image_picker/image_picker.dart';
 
 import '../APIRequests/serviceProviderCatalogAPI.dart';
 import 'customAlertDialog.dart';
+
+import 'package:http/http.dart' as http;
 
 
 class CatalogNewItem extends StatefulWidget {
@@ -67,16 +70,37 @@ class _CatalogNewItemState extends State<CatalogNewItem> {
     }
   }
 
-  File? file ;
-  ImagePicker image = ImagePicker() ;
+  Image? image;
+  String? imageUrl;
+  late final pickedImage ;
+  final String cloudinaryUrl = 'https://api.cloudinary.com/v1_1/df1qhofpr/upload';
+  final String uploadPreset = 'buildnex';
 
-  pickImageFromGallery() async{
-    var img = await image.pickImage(source: ImageSource.gallery) ;
-    setState(() {
-      if(img != null){
-        file =File(img!.path) ;
+  Future<void> pickImage() async {
+    pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedImage != null) {
+      File imageFile = File(pickedImage.path);
+      setState(() {
+        image = Image.file(imageFile);
+      });
+    }
+    if (image != null) {
+      final url = Uri.parse(cloudinaryUrl) ;
+      final req = http.MultipartRequest('POST' , url)
+        ..fields['upload_preset'] = 'buildnex'
+        ..files.add(await http.MultipartFile.fromPath('file', pickedImage.path)) ;
+
+      final response = await req.send();
+      if(response.statusCode == 200){
+        final responseData = await response.stream.toBytes() ;
+        final responseString = String.fromCharCodes(responseData) ;
+        final jsonMap = jsonDecode(responseString);
+        setState(() {
+          final url = jsonMap['url'] ;
+          imageUrl = url ;
+        });
       }
-    });
+    }
   }
 
   Future<bool> _validateFields() async {
@@ -88,10 +112,9 @@ class _CatalogNewItemState extends State<CatalogNewItem> {
       return 'Color(0x${color.value.toRadixString(16)})';
     }).toList();
 
-    final  File? itemImageAPI= file;
 
     if (itemNameAPI.isEmpty || itemDescriptionAPI.isEmpty ||
-        itemPriceAPI.isEmpty || itemColorsAPI.isEmpty || itemImageAPI == null) {//|| itemImageAPI == null
+        itemPriceAPI.isEmpty || itemColorsAPI.isEmpty || imageUrl == null) {//|| itemImageAPI == null
 
       CustomAlertDialog.showErrorDialog(context, 'Please fill in all required fields.');
       return false;
@@ -107,7 +130,7 @@ class _CatalogNewItemState extends State<CatalogNewItem> {
 
           catalogItemId = await CatalogAPI.addItemToCatalog(
           itemNameAPI,
-          itemImageAPI.path,
+          imageUrl!,
           double.parse(itemPriceAPI),
           itemDescriptionAPI,
           itemColorsAPI,
@@ -124,7 +147,7 @@ class _CatalogNewItemState extends State<CatalogNewItem> {
         _itemDescription.text,
         double.parse(_itemPrice.text),
         itemColors,
-        file?.path,
+        imageUrl,
         catalogItemId
       ];
 
@@ -232,7 +255,7 @@ class _CatalogNewItemState extends State<CatalogNewItem> {
                       padding: const EdgeInsets.only(left: 8.0),
                       child: ElevatedButton(
                         onPressed: () async{
-                          var imageName = await pickImageFromGallery() ;
+                          var imageName = await pickImage() ;
                         },
                         style: ElevatedButtonStyle(),
                         child: Icon(Icons.add_a_photo_rounded , color: Color(0xFFF3D69B), size: 20,),
@@ -245,14 +268,14 @@ class _CatalogNewItemState extends State<CatalogNewItem> {
                 padding: const EdgeInsets.only(top: 0 , bottom: 12 ),
                 height: 150,
                 width: 150,
-                child: file == null ?
+                child: imageUrl == null ?
                   const Icon(
                     Icons.image,
                     size: 35,
                     color: Color(0xFFF3D69B),
                   )
-                : Image.file(
-                  file!,
+                : Image.network(
+                  imageUrl!,
                   fit: BoxFit.fill,
                 ),
               ),

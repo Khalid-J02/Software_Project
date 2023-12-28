@@ -8,11 +8,13 @@ import 'ho_serviceProviderCard.dart';
 class SPCard extends StatefulWidget {
   List<Map<String, dynamic>> topServiceProviders;
   final bool askForRequest ;
+  String? taskID ;
 
   SPCard({
     super.key,
     required this.topServiceProviders,
-    required this.askForRequest
+    required this.askForRequest,
+    this.taskID,
   });
 
   @override
@@ -25,7 +27,7 @@ class _SPCardState extends State<SPCard> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
+    print(widget.taskID) ;
   }
 
   @override
@@ -49,6 +51,8 @@ class _SPCardState extends State<SPCard> {
               final List<Map<String, dynamic>> providerWorkExp = await ServiceProviderDataAPI.getServiceProWorkExperiences(widget.topServiceProviders[index]["UserID"].toString()) ;
               final List<Map<String, dynamic>> providerReviews = await ServiceProviderDataAPI.getServiceProReviews(widget.topServiceProviders[index]["UserID"].toString()) ;
 
+              // print(widget.topServiceProviders[index]["UserID"],);
+
               Get.to(SPProfilePage(
                 askForRequest: widget.askForRequest,
                 serviceProviderName: widget.topServiceProviders[index]["Username"],
@@ -59,8 +63,11 @@ class _SPCardState extends State<SPCard> {
                 providerCatalog: providerCatalog,
                 providerWorkExp: providerWorkExp,
                 providerReviews: providerReviews,
-              )
-            ) ; // you should pass the service provider id
+              ) ,
+                arguments: {
+                    'taskId' : widget.taskID,
+                    'serviceProviderID' : widget.topServiceProviders[index]["UserID"].toString(),
+                  }) ; // you should pass the service provider id
                                                           // so we can retrieve his catalog and work exp and reviews
             },
             child: SPCardDetails(

@@ -160,7 +160,7 @@ class _ServiceProviderProfilePageState extends State<ServiceProviderProfilePage>
               ),
 
               Positioned(
-                top: MediaQuery.of(context).size.width / 4.6,
+                top: MediaQuery.of(context).size.width / 9,
                 left: MediaQuery.of(context).size.width / 2,
                 right: MediaQuery.of(context).size.width / 4,
                 child: GestureDetector(

@@ -19,13 +19,14 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
 
- late String serviceTypeArgument;
+ late Map<String, dynamic> serviceTypeArgument;
 
   late List<Map<String, dynamic>> serviceProviders = []; // getBestFourServiceProviders
 
   final _searchController = TextEditingController();
   String activeCategory = '';
   String searchText=  "Search for Service Providers";
+  late String taskID ;
 
   final List<Map<String, dynamic>> categoryList = [
     {
@@ -170,18 +171,20 @@ class _SearchPageState extends State<SearchPage> {
     if(widget.askForRequest == true ){
       setState(() {
         serviceTypeArgument= Get.arguments;
-        activeCategory = serviceTypeArgument;
+        activeCategory = serviceTypeArgument['servicetype'];
+        taskID = serviceTypeArgument['TaskID'] ;
       });
     }
     else{
       setState(() {
         activeCategory = '' ;
+        taskID = '' ;
       });
     }
 
     // Call the API to get the best service providers
     if(widget.askForRequest == true){
-      _getServiceProvidersByServiceType(serviceTypeArgument);
+      _getServiceProvidersByServiceType(serviceTypeArgument['servicetype']);
     }
     else {
       _getBestServiceProviders();
@@ -196,6 +199,7 @@ class _SearchPageState extends State<SearchPage> {
 
       setState(() {
         serviceProviders = providers;
+        // print(serviceProviders) ;
       });
     } catch (e) {
       print('Error fetching service providers by service type: $e');
@@ -412,7 +416,7 @@ class _SearchPageState extends State<SearchPage> {
                   ),
                 ],
               ),
-              SPCard(topServiceProviders: serviceProviders, askForRequest: widget.askForRequest,),
+              SPCard(topServiceProviders: serviceProviders, askForRequest: widget.askForRequest, taskID: taskID),
             ],
           ),
         ),

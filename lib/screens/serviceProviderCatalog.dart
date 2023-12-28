@@ -69,7 +69,23 @@ class _ServiceProviderCatalogState extends State<ServiceProviderCatalog> {
           size: 25,
         ),
       ),
-      body: GridView.builder(
+      body: jsonList.length == 0
+          ? Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: Text('There is no items to see here...',
+                style: TextStyle(
+                    color: Colors.grey[600] ,
+                    fontSize: 18 , fontWeight:
+                FontWeight.bold
+                ),
+              ),
+            )
+          ],
+            )
+          :
+      GridView.builder(
         itemCount: jsonList.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
@@ -77,8 +93,9 @@ class _ServiceProviderCatalogState extends State<ServiceProviderCatalog> {
         itemBuilder: (context , index){
           var ItemObject = jsonList[index];
           return GestureDetector(
-              onTap: (){
-                Get.to(() => (SPCatalogItem(catalogID : ItemObject["CatalogID"].toString())));
+              onTap: () async {
+                final Map<String, dynamic> itemDetails = await CatalogAPI.getItemDetails(ItemObject["CatalogID"].toString());
+                Get.to(() => (SPCatalogItem(catalogID : ItemObject["CatalogID"].toString())) , arguments: itemDetails);
               },
               child: ServiceProvideCatalogItem(catalogItemImageURL: ItemObject["ItemImage"].toString(), catalogItemImageName: ItemObject["ItemName"], catalogItemPrice: ItemObject["ItemPrice"].toDouble(), catalogItemRating: ItemObject["ItemRating"].toDouble(),)
 

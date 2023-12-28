@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:buildnex/Widgets/sp_AssetItemDialog.dart';
 import 'package:clippy_flutter/clippy_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lorem_ipsum/lorem_ipsum.dart';
 
@@ -10,18 +12,22 @@ import 'package:lorem_ipsum/lorem_ipsum.dart';
 import '../Widgets/ratingBar_ServiceProvider.dart';
 import '../Widgets/sp_CatalogItemDialog.dart';
 
+import 'package:http/http.dart' as http;
+
 // void main() {
 //   runApp(MaterialApp(home: SPCatalogItem(),));
 // }
 
 class SPAssetsItem extends StatefulWidget {
-  String itemImage ;
-  String itemName ;
+  String ItemID ;
+  // String itemImage ;
+  // String itemName ;
   SPAssetsItem(
       {
         super.key,
-        required this.itemImage,
-        required this.itemName
+        required this.ItemID
+        // required this.itemImage,
+        // required this.itemName
       }
       );
 
@@ -31,31 +37,59 @@ class SPAssetsItem extends StatefulWidget {
 
 class _SPCatalogItemState extends State<SPAssetsItem> {
 
-  String itemDescription = loremIpsum(words: 20) ;
+  late Map<String, dynamic> itemDetails ;
 
   Future <List<String>?> editCatalogItem()=> showDialog <List<String>>(
       context: context,
       builder: (BuildContext context){
-        return ServiceProviderAssetItemDataDialog(itemName: widget.itemName, itemDescription: itemDescription);
+        return ServiceProviderAssetItemDataDialog(itemName: itemDetails['WorkName'], itemDescription: itemDetails['WorkDescription'], itemID: widget.ItemID.toString(),);
       }
   );
 
-  File? file ;
-  ImagePicker image = ImagePicker() ;
+  Image? image;
+  String? imageUrl;
+  late final pickedImage ;
+  final String cloudinaryUrl = 'https://api.cloudinary.com/v1_1/df1qhofpr/upload';
+  final String uploadPreset = 'buildnex';
 
-  pickImageFromGallery() async{
-    var img = await image.pickImage(source: ImageSource.gallery) ;
-    setState(() {
-      if(img != null){
-        file =File(img!.path) ;
+  Future<void> pickImage() async {
+    pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedImage != null) {
+      File imageFile = File(pickedImage.path);
+      setState(() {
+        image = Image.file(imageFile);
+      });
+    }
+    if (image != null) {
+      final url = Uri.parse(cloudinaryUrl) ;
+      final req = http.MultipartRequest('POST' , url)
+        ..fields['upload_preset'] = 'buildnex'
+        ..files.add(await http.MultipartFile.fromPath('file', pickedImage.path)) ;
+
+      final response = await req.send();
+      if(response.statusCode == 200){
+        final responseData = await response.stream.toBytes() ;
+        final responseString = String.fromCharCodes(responseData) ;
+        final jsonMap = jsonDecode(responseString);
+        setState(() {
+          final url = jsonMap['url'] ;
+          imageUrl = url ;
+        });
       }
-    });
+    }
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      itemDetails = Get.arguments ;
+    });
+  }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar(
         leading: const Icon(
           Icons.arrow_back_ios_new,
@@ -77,16 +111,10 @@ class _SPCatalogItemState extends State<SPAssetsItem> {
               children:[
                 Padding(
                   padding: EdgeInsets.all(16),
-                  child: file == null ?
-                  Image(
-                    image: AssetImage(widget.itemImage),
+                  child: Image(
+                    image: NetworkImage(itemDetails['WorkImage']),
                     fit: BoxFit.cover,
                   )
-                      :
-                  Image.file(
-                    file!,
-                    fit: BoxFit.fill,
-                  ),
                 ),
                 Align(
                   alignment: Alignment.topRight,
@@ -99,7 +127,10 @@ class _SPCatalogItemState extends State<SPAssetsItem> {
                         child: FittedBox(
                           child: FloatingActionButton(
                             onPressed: () async{
-                              var imageName = await pickImageFromGallery() ;
+                              var imageName = await pickImage() ;
+                              /*
+                              need api to update photo in the system
+                               */
                             },
                             elevation: 0,
                             backgroundColor: const Color(0xfff3fbfe),
@@ -130,16 +161,19 @@ class _SPCatalogItemState extends State<SPAssetsItem> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Padding(
                       padding: EdgeInsets.only(top: 50, bottom: 10),
                       child: Row(
                         children: [
-                          Text(widget.itemName,
-                            style: const TextStyle(
-                                fontSize: 28,
-                                color: Color(0xFFF9FAFB),
-                                fontWeight: FontWeight.bold
+                          Expanded(
+                            child: Text(itemDetails['WorkName'],
+                              style: const TextStyle(
+                                  fontSize: 28,
+                                  color: Color(0xFFF9FAFB),
+                                  fontWeight: FontWeight.bold
+                              ),
                             ),
                           ),
                           const SizedBox(width: 15,),
@@ -153,8 +187,8 @@ class _SPCatalogItemState extends State<SPAssetsItem> {
                                     List<String>? UpdatedData = await editCatalogItem();
                                     setState(() {
                                       if(UpdatedData != null){
-                                        widget.itemName = UpdatedData![0];
-                                        itemDescription = UpdatedData![1];
+                                        itemDetails['WorkName'] = UpdatedData![0];
+                                        itemDetails['WorkDescription'] = UpdatedData![1];
                                       }
                                     });
                                   },
@@ -178,7 +212,7 @@ class _SPCatalogItemState extends State<SPAssetsItem> {
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 12),
                       child: Text(
-                        itemDescription,
+                        itemDetails['WorkDescription'],
                         textAlign: TextAlign.justify,
                         style: const TextStyle(
                           fontSize: 17,

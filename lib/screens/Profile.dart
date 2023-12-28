@@ -140,7 +140,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             ),
             Positioned(
-              top: MediaQuery.of(context).size.width / 5,
+              top: MediaQuery.of(context).size.width / 7,
               left: MediaQuery.of(context).size.width / 3,
               right: MediaQuery.of(context).size.width / 3,
               child: Container(
@@ -161,7 +161,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
 
             Positioned(
-              top: MediaQuery.of(context).size.width / 4.6,
+              top: MediaQuery.of(context).size.width / 6,
               left: MediaQuery.of(context).size.width / 2,
               right: MediaQuery.of(context).size.width / 4,
               child: GestureDetector(
