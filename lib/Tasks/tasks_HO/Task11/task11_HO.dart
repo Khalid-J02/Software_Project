@@ -4,6 +4,8 @@ import 'package:buildnex/Tasks/taskWidgets/catalogDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../APIRequests/homeOwnerTasksAPI.dart';
+
 
 void main() {
   runApp(GetMaterialApp(home: DoorFrameInstallHO()));
@@ -19,6 +21,83 @@ class DoorFrameInstallHO extends StatefulWidget {
 class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
 
   List<Map<String, dynamic>> userChoices = [];
+
+
+  Map<String, dynamic> task10Data = {};
+  String taskID = '';
+  String taskProjectId = '';
+
+  int? bedroomDoorCatalogID;
+  int? bathroomDoorCatalogID;
+  int? livingroomDoorCatalogID;
+  int? guestroomDoorCatalogID;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchArgumentsAndData();
+  }
+
+  Future<void> fetchArgumentsAndData() async {
+    try {
+
+      Map<String, dynamic> arguments = Get.arguments;
+      taskID = arguments['taskID'];
+      taskProjectId = arguments['taskProjectId'];
+
+      final Map<String, dynamic> data =
+      await HomeOwnerTasksAPI.getTask6(taskID);
+      final Map<String, dynamic> projectInfoData = await HomeOwnerTasksAPI.getProjectInfoData( int.parse(taskProjectId));
+
+      // here we will send service provider id we got from above function ( await HomeOwnerTasksAPI.getTask6(taskID);)
+      // it contains UserID
+      // await HomeOwnerTasksAPI.getServiceProviderCatalogItems();
+
+      //here we will send catalog id
+      //HomeOwnerTasksAPI.getServiceProviderCatalogItemDetails();
+
+
+
+      setState(() {
+        task10Data = data;
+        bedroomDoorCatalogID = projectInfoData['BedroomDoor'] != null
+            ? int.tryParse(projectInfoData['BedroomDoor'])
+            : 0;
+
+        bathroomDoorCatalogID = projectInfoData['BathroomDoor'] != null
+            ? int.tryParse(projectInfoData['BathroomDoor'])
+            : 0;
+
+        livingroomDoorCatalogID = projectInfoData['LivingroomDoor'] != null
+            ? int.tryParse(projectInfoData['LivingroomDoor'])
+            : 0;
+
+        guestroomDoorCatalogID = projectInfoData['GuestroomDoor'] != null
+            ? int.tryParse(projectInfoData['GuestroomDoor'])
+            : 0;
+
+        // if this values are not 0, (not null), they have selected before, so we will display its values from the database
+        if(bedroomDoorCatalogID != 0) {
+        }
+
+        if(bathroomDoorCatalogID != 0) {
+        }
+
+        if(livingroomDoorCatalogID != 0) {
+        }
+
+        if(guestroomDoorCatalogID != 0) {
+        }
+
+
+      });
+
+    } catch (e) {
+      print('Error fetching task10 data: $e');
+    }
+  }
+
+
 
   Future<void> openCatalog() async {
     Map<String, dynamic>? newProject = await showDialog<Map<String, dynamic>>(
@@ -53,8 +132,8 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
           padding: const EdgeInsets.only(top: 10),
           child: Column(
             children: [
-              TaskInformation(taskID: 7777, taskName: 'Door Frame Installation', projectName: 'Nablus Project', taskStatus: 'Not Started',),
-              SPProfileData(userPicture: 'images/Testing/Tokyo.jpg', rating: 3.6, numReviews: 15, userName: 'Khalid Jabr',),
+              TaskInformation(taskID: task10Data['TaskID']?? 0, taskName: task10Data['TaskName']?? 'Unknown', projectName: task10Data['ProjectName']?? 'Unknown', taskStatus: task10Data['TaskStatus']?? 'Unknown',),
+              SPProfileData(userPicture: task10Data['UserPicture']?? 'images/profilePic96.png', rating: (task10Data['Rating'] as num?)?.toDouble() ?? 0.0, numReviews: task10Data['ReviewCount']?? 0, userName:task10Data['Username']?? 'Unknown',),
               Container(
                 margin: const EdgeInsets.only(top: 5),
                 padding: const EdgeInsets.symmetric(horizontal: 20 , vertical: 5),
@@ -397,7 +476,7 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                                 enabled: false,
                                 readOnly: true,
                                 decoration: InputDecoration(
-                                  hintText: "There is no notes yet .. ",
+                                  hintText:  task10Data['Notes'] ?? 'No notes available',
                                   hintStyle: TextStyle(color: Color(0xFF2F4771)),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10.0),

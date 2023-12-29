@@ -3,6 +3,8 @@ import 'package:buildnex/Tasks/tasks_HO/LocalGovernorate_Permits/Widgets/service
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../APIRequests/homeOwnerTasksAPI.dart';
+
 
 void main() {
   runApp(GetMaterialApp(home: GovernemntalPermittiveHO()));
@@ -17,7 +19,40 @@ class GovernemntalPermittiveHO extends StatefulWidget {
 
 class _GovernemntalPermittiveHOState extends State<GovernemntalPermittiveHO> {
 
-  final String _governmentalAccept = "Accept" ;
+  //final String _governmentalAccept = "Accept" ;
+
+  Map<String, dynamic> task5Data = {};
+  String taskID = '';
+  String taskProjectId = '';
+  String approvalDocuments = '';
+
+
+  @override
+  void initState() {
+    super.initState();
+    fetchArgumentsAndData();
+  }
+
+  Future<void> fetchArgumentsAndData() async {
+    try {
+
+      Map<String, dynamic> arguments = Get.arguments;
+      taskID = arguments['taskID'];
+      taskProjectId = arguments['taskProjectId'];
+
+      //  approvalDocuments= task5Data['ApprovalDocuments'];
+
+      final Map<String, dynamic> data =
+      await HomeOwnerTasksAPI.getApprovals(taskID);
+      setState(() {
+        task5Data = data;
+
+      });
+    } catch (e) {
+      print('Error fetching task5 data: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,8 +77,8 @@ class _GovernemntalPermittiveHOState extends State<GovernemntalPermittiveHO> {
           padding: const EdgeInsets.only(top: 10),
           child: Column(
             children: [
-              TaskInformation(taskID: 7777, taskName: 'Engineers-Municipality Permits', projectName: 'Nablus Project', taskStatus: 'Not Started',),
-              SPProfileData(userPicture: 'images/Testing/Tokyo.jpg', rating: 3.6, numReviews: 15, userName: 'Khalid Jabr',),
+              TaskInformation(taskID: task5Data['TaskID']?? 0, taskName: 'Eng. Association Approval', projectName: task5Data['ProjectName']?? 'Unknown', taskStatus: task5Data['TaskStatus']?? 'Unknown',),
+              SPProfileData(userPicture: task5Data['UserPicture']?? 'images/profilePic96.png', rating: (task5Data['Rating'] as num?)?.toDouble() ?? 0.0, numReviews: task5Data['ReviewCount']?? 0, userName:task5Data['Username']?? 'Unknown',),
               Container(
                 margin: const EdgeInsets.only(top: 5),
                 padding: const EdgeInsets.symmetric(horizontal: 20 , vertical: 5),
@@ -84,45 +119,45 @@ class _GovernemntalPermittiveHOState extends State<GovernemntalPermittiveHO> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            children: [
-                              const Expanded(
-                                flex: 1,
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 8 ,right: 8),
-                                  child: Text(
-                                    "Governmental Approve:",
-                                    style: TextStyle(
-                                        color: Color(0xFF2F4771),
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: Container(
-                                  padding: EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFFF9FAFB),
-                                    borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                                    border: Border.all(color: Color(0xFF2F4771) , width: 1.8),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      _governmentalAccept,
-                                      style: const TextStyle(
-                                          color: Color(0xFF2F4771),
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                          // Row(
+                          //   children: [
+                          //     const Expanded(
+                          //       flex: 1,
+                          //       child: Padding(
+                          //         padding: EdgeInsets.only(left: 8 ,right: 8),
+                          //         child: Text(
+                          //           "Governmental Approve:",
+                          //           style: TextStyle(
+                          //               color: Color(0xFF2F4771),
+                          //               fontWeight: FontWeight.w500,
+                          //               fontSize: 16
+                          //           ),
+                          //         ),
+                          //       ),
+                          //     ),
+                          //     Expanded(
+                          //       flex: 1,
+                          //       child: Container(
+                          //         padding: EdgeInsets.all(10),
+                          //         decoration: BoxDecoration(
+                          //           color: const Color(0xFFF9FAFB),
+                          //           borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                          //           border: Border.all(color: Color(0xFF2F4771) , width: 1.8),
+                          //         ),
+                          //         child: Center(
+                          //           child: Text(
+                          //             _governmentalAccept,
+                          //             style: const TextStyle(
+                          //                 color: Color(0xFF2F4771),
+                          //                 fontWeight: FontWeight.w500,
+                          //                 fontSize: 16
+                          //             ),
+                          //           ),
+                          //         ),
+                          //       ),
+                          //     ),
+                          //   ],
+                          // ),
                           const SizedBox( height: 10,),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -132,7 +167,7 @@ class _GovernemntalPermittiveHOState extends State<GovernemntalPermittiveHO> {
                                 child: Padding(
                                   padding: EdgeInsets.only(left: 8 ,right: 8),
                                   child: Text(
-                                    "Engineers Syndicate Report:",  // we should give another name
+                                    "Approval Documents:",  // we should give another name
                                     style: TextStyle(
                                         color: Color(0xFF2F4771),
                                         fontWeight: FontWeight.w500,
@@ -208,7 +243,7 @@ class _GovernemntalPermittiveHOState extends State<GovernemntalPermittiveHO> {
                           const Padding(
                             padding: EdgeInsets.all(10),
                             child: Text(
-                              "Notes: ",
+                              "Task Provider Notes: ",
                               style: TextStyle(
                                   color: Color(0xFF2F4771),
                                   fontSize: 17,
@@ -225,7 +260,7 @@ class _GovernemntalPermittiveHOState extends State<GovernemntalPermittiveHO> {
                               enabled: false,
                               readOnly: true,
                               decoration: InputDecoration(
-                                hintText: "There is no notes yet .. ",
+                                hintText:  task5Data['Notes'] ?? 'No notes available',
                                 hintStyle: TextStyle(color: Color(0xFF2F4771)),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),

@@ -4,6 +4,8 @@ import 'package:buildnex/Tasks/taskWidgets/catalogDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../APIRequests/homeOwnerTasksAPI.dart';
+
 
 void main() {
   runApp(GetMaterialApp(home: PaintingHO()));
@@ -19,6 +21,84 @@ class PaintingHO extends StatefulWidget {
 class _PaintingHOState extends State<PaintingHO> {
 
   List<Map<String, dynamic>> userChoices = [];
+  Map<String, dynamic> task15Data = {};
+  String taskID = '';
+  String taskProjectId = '';
+
+  int? bedroomPaintCatalogID;
+  int? bathroomPaintCatalogID;
+  int? livingroomPaintCatalogID;
+  int? guestroomPaintCatalogID;
+  int? kitchenPaintCatalogID;
+
+
+  @override
+  void initState() {
+    super.initState();
+    fetchArgumentsAndData();
+  }
+
+  Future<void> fetchArgumentsAndData() async {
+    try {
+
+      Map<String, dynamic> arguments = Get.arguments;
+      taskID = arguments['taskID'];
+      taskProjectId = arguments['taskProjectId'];
+
+      final Map<String, dynamic> data =
+      await HomeOwnerTasksAPI.getTask6(taskID);
+      final Map<String, dynamic> projectInfoData = await HomeOwnerTasksAPI.getProjectInfoData( int.parse(taskProjectId));
+
+      // here we will send service provider id we got from above function ( await HomeOwnerTasksAPI.getTask6(taskID);)
+      // it contains UserID
+      // await HomeOwnerTasksAPI.getServiceProviderCatalogItems();
+
+      //here we will send catalog id
+      //HomeOwnerTasksAPI.getServiceProviderCatalogItemDetails();
+
+      setState(() {
+        task15Data = data;
+
+        bedroomPaintCatalogID = projectInfoData['BedroomPaint'] != null
+            ? int.tryParse(projectInfoData['BedroomPaint'])
+            : 0;
+
+        bathroomPaintCatalogID = projectInfoData['BathroomPaint'] != null
+            ? int.tryParse(projectInfoData['BathroomPaint'])
+            : 0;
+
+        livingroomPaintCatalogID = projectInfoData['LivingroomPaint'] != null
+            ? int.tryParse(projectInfoData['LivingroomPaint'])
+            : 0;
+
+        guestroomPaintCatalogID = projectInfoData['GuestroomPaint'] != null
+            ? int.tryParse(projectInfoData['GuestroomPaint'])
+            : 0;
+
+        kitchenPaintCatalogID = projectInfoData['KitchenPaint'] != null
+            ? int.tryParse(projectInfoData['KitchenPaint'])
+            : 0;
+
+
+        // if this values are not 0, (not null), they have selected before, so we will display its values from the database
+        if(bedroomPaintCatalogID != 0) {
+        }
+        if(bathroomPaintCatalogID != 0) {
+        }
+        if(livingroomPaintCatalogID != 0) {
+        }
+        if(guestroomPaintCatalogID != 0) {
+        }
+        if(kitchenPaintCatalogID != 0) {
+        }
+
+
+      });
+
+    } catch (e) {
+      print('Error fetching task15 data: $e');
+    }
+  }
 
   Future<void> openCatalog() async {
     Map<String, dynamic>? newProject = await showDialog<Map<String, dynamic>>(
@@ -53,8 +133,8 @@ class _PaintingHOState extends State<PaintingHO> {
           padding: const EdgeInsets.only(top: 10),
           child: Column(
             children: [
-              TaskInformation(taskID: 7777, taskName: 'Painting', projectName: 'Nablus Project', taskStatus: 'Not Started',),
-              SPProfileData(userPicture: 'images/Testing/Tokyo.jpg', rating: 3.6, numReviews: 15, userName: 'Khalid Jabr',),
+              TaskInformation(taskID: task15Data['TaskID']?? 0, taskName: task15Data['TaskName']?? 'Unknown', projectName: task15Data['ProjectName']?? 'Unknown', taskStatus: task15Data['TaskStatus']?? 'Unknown',),
+              SPProfileData(userPicture: task15Data['UserPicture']?? 'images/profilePic96.png', rating: (task15Data['Rating'] as num?)?.toDouble() ?? 0.0, numReviews: task15Data['ReviewCount']?? 0, userName:task15Data['Username']?? 'Unknown',),
               Container(
                 margin: const EdgeInsets.only(top: 5),
                 padding: const EdgeInsets.symmetric(horizontal: 20 , vertical: 5),
@@ -467,7 +547,7 @@ class _PaintingHOState extends State<PaintingHO> {
                                 enabled: false,
                                 readOnly: true,
                                 decoration: InputDecoration(
-                                  hintText: "There is no notes yet .. ",
+                                  hintText:  task15Data['Notes'] ?? 'No notes available',
                                   hintStyle: TextStyle(color: Color(0xFF2F4771)),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10.0),

@@ -209,8 +209,13 @@ class ProjectTasks extends StatelessWidget {
                                   await CustomAlertDialog.showParallelTasksDialog(context);
 
                                 }
+                               if (int.parse(taskNumber) == 10 ){
+                                 previousTaskStatus = await HomeOwnerTasksAPI
+                                     .checkPreviousTaskStatus(int.parse(taskProjectId),
+                                     int.parse("9"));
+                               }
 
-                               if (previousTaskStatus == "In Progress" ||
+                                 if (previousTaskStatus == "In Progress" ||
                                   previousTaskStatus == "Not Started") {
                                 CustomAlertDialog.showErrorDialog(
                                     context,

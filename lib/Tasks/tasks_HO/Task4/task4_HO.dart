@@ -3,7 +3,8 @@ import 'package:buildnex/Tasks/tasks_HO/LocalGovernorate_Permits/Widgets/service
 import 'package:buildnex/Tasks/tasks_SP/PropertSurvey/widgets/textFieldTasks.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import '../../../APIRequests/homeOwnerTasksAPI.dart';
+import '../../../Widgets/customAlertDialog.dart';
 
 void main() {
   runApp(GetMaterialApp(home: DesignAndPlanningHO()));
@@ -20,7 +21,103 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
 
   final _numRooms = TextEditingController() ;
   final _numFloors = TextEditingController() ;
+  final _buildingArea = TextEditingController() ;
 
+
+  Map<String, dynamic> task4Data = {};
+  String taskID = '';
+  String taskProjectId = '';
+  String designDocument = '';
+  String foundationDocument = '';
+  String plumbingDocument = '';
+  String electricalDocument = '';
+  String insulationAndHVACDocument = '';
+  int? numRooms;
+  int? numFloors;
+  double? buildingArea;
+
+
+  @override
+  void initState() {
+    super.initState();
+    fetchArgumentsAndData();
+  }
+
+  Future<void> fetchArgumentsAndData() async {
+    try {
+
+      Map<String, dynamic> arguments = Get.arguments;
+      taskID = arguments['taskID'];
+      taskProjectId = arguments['taskProjectId'];
+
+      //  designDocument= task4Data['DesignDocument'];
+      //  foundationDocument= task4Data['FoundationDocument'];
+      //  plumbingDocument= task4Data['PlumbingDocument'];
+      //  electricalDocument= task4Data['ElectricalDocument'];
+      //  insulationAndHVACDocument= task4Data['InsulationAndHVACDocument'];
+
+      final Map<String, dynamic> data =
+      await HomeOwnerTasksAPI.getDesignAndPlanning(taskID);
+      final Map<String, dynamic> getbuildingData = await HomeOwnerTasksAPI.getProjectInfoData( int.parse(taskProjectId));
+
+      setState(() {
+        task4Data = data;
+        numRooms = getbuildingData['NumberOfRooms'] != null
+            ? int.tryParse(getbuildingData['NumberOfRooms'].toString())
+            : null;
+
+        numFloors = getbuildingData['NumberOfFloors'] != null
+            ? int.tryParse(getbuildingData['NumberOfFloors'].toString())
+            : null;
+
+        buildingArea = getbuildingData['BuildingArea'] != null
+            ? double.tryParse(getbuildingData['BuildingArea'].toString())
+            : null;
+
+        if(numRooms != null)
+        {
+          _numRooms.text = numRooms.toString();
+        }
+        if(numFloors != null)
+        {
+          _numFloors.text = numFloors.toString();
+        }
+        if(buildingArea != null)
+        {
+          _buildingArea.text = buildingArea.toString();
+        }
+
+      });
+    } catch (e) {
+      print('Error fetching task4 data: $e');
+    }
+  }
+
+  Future<bool> validateInput() async {
+    // Check if the number of rooms is not empty and greater than 0
+    if ( _numRooms.text.isEmpty || int.tryParse(_numRooms.text)! <= 0) {
+      print(_numRooms.text);
+      CustomAlertDialog.showErrorDialog(
+          context, 'Invalid number of rooms');
+      return false;
+    }
+
+    // Check if the number of floors is not empty and greater than 0
+    if (_numFloors.text.isEmpty || int.tryParse(_numFloors.text)! <= 0) {
+      CustomAlertDialog.showErrorDialog(
+          context, 'Invalid number of floors');
+      return false;
+    }
+
+    // Check if the building area is not empty and greater than 0
+    if ( _buildingArea.text.isEmpty || double.tryParse(_buildingArea.text)! <= 0.0) {
+      CustomAlertDialog.showErrorDialog(
+          context, 'Invalid building area');
+      return false;
+    }
+
+    return true;
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,8 +142,8 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
           padding: const EdgeInsets.only(top: 10),
           child: Column(
             children: [
-              TaskInformation(taskID: 7777, taskName: 'Design and Planning', projectName: 'Nablus Project', taskStatus: 'Not Started',),
-              SPProfileData(userPicture: 'images/Testing/Tokyo.jpg', rating: 3.6, numReviews: 15, userName: 'Khalid Jabr',),
+              TaskInformation(taskID: task4Data['TaskID']?? 0, taskName: task4Data['TaskName']?? 'Unknown', projectName: task4Data['ProjectName']?? 'Unknown', taskStatus: task4Data['TaskStatus']?? 'Unknown',),
+              SPProfileData(userPicture: task4Data['UserPicture']?? 'images/profilePic96.png', rating: (task4Data['Rating'] as num?)?.toDouble() ?? 0.0, numReviews: task4Data['ReviewCount']?? 0, userName:task4Data['Username']?? 'Unknown',),
               Container(
                 margin: const EdgeInsets.only(top: 5),
                 padding: const EdgeInsets.symmetric(horizontal: 20 , vertical: 5),
@@ -105,7 +202,8 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                               ),
                               Expanded(
                                 flex: 1,
-                                child: TextfieldTasks(controller: _numRooms, hintText: 'Enter # of Rooms', labelText: 'Rooms Number',),
+                                child: TextfieldTasks(controller: _numRooms,
+                                  hintText: 'Enter # of Rooms', labelText: 'Rooms Number',),
                               ),
                             ],
                           ),
@@ -128,7 +226,8 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                               ),
                               Expanded(
                                 flex: 1,
-                                child: TextfieldTasks(controller: _numFloors, hintText: 'Enter # of Rooms', labelText: 'Rooms Number',),
+                                child: TextfieldTasks(controller: _numFloors,
+                                  hintText: 'Enter # of Rooms', labelText: 'Floors Number',),
                               ),
                             ],
                           ),
@@ -151,7 +250,9 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                               ),
                               Expanded(
                                 flex: 1,
-                                child: TextfieldTasks(controller: _numFloors, hintText: 'Enter desired Building Area', labelText: 'Building Area',),
+                                child: TextfieldTasks(controller: _buildingArea,
+                                  hintText: 'Enter desired Building Area',
+                                  labelText: 'Building Area',),
                               ),
                             ],
                           ),
@@ -165,7 +266,16 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                                 borderRadius: BorderRadius.all(Radius.circular(30.0)),
                               ),
                               child: TextButton(
-                                onPressed: () {},
+                                onPressed: () async {
+                                  if (await validateInput()) {
+                                    final savedData = await HomeOwnerTasksAPI.saveBuildingData(int.parse(taskProjectId),int.tryParse(_numRooms.text),int.tryParse(_numFloors.text),double.tryParse(_buildingArea.text));
+                                    _numRooms.text = savedData['NumberOfRooms'].toString();
+                                    _numFloors.text = savedData['NumberOfFloors'].toString();
+                                    _buildingArea.text = savedData['BuildingArea'].toString();
+                                    CustomAlertDialog.showSuccessDialog(context, "Building data saved successfully");
+                                    return;
+                                  }
+                                },
                                 child: const Text(
                                   'Save',
                                   style: TextStyle(
@@ -634,7 +744,7 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                           const Padding(
                             padding: EdgeInsets.all(10),
                             child: Text(
-                              "Notes: ",
+                              "Task Provider Notes: ",
                               style: TextStyle(
                                   color: Color(0xFF2F4771),
                                   fontSize: 17,
@@ -651,7 +761,7 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                               enabled: false,
                               readOnly: true,
                               decoration: InputDecoration(
-                                hintText: "There is no notes yet .. ",
+                                hintText:  task4Data['Notes'] ?? 'No notes available',
                                 hintStyle: TextStyle(color: Color(0xFF2F4771)),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),

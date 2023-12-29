@@ -4,6 +4,8 @@ import 'package:buildnex/Tasks/tasks_SP/PropertSurvey/widgets/textFieldTasks.dar
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../APIRequests/homeOwnerTasksAPI.dart';
+
 
 void main() {
   runApp(GetMaterialApp(home: InsulationInstallHO()));
@@ -17,6 +19,35 @@ class InsulationInstallHO extends StatefulWidget {
 }
 
 class _InsulationInstallHOState extends State<InsulationInstallHO> {
+
+  Map<String, dynamic> task9Data = {};
+  String taskID = '';
+  String taskProjectId = '';
+
+  @override
+  void initState() {
+    super.initState();
+    fetchArgumentsAndData();
+  }
+
+  Future<void> fetchArgumentsAndData() async {
+    try {
+
+      Map<String, dynamic> arguments = Get.arguments;
+      taskID = arguments['taskID'];
+      taskProjectId = arguments['taskProjectId'];
+
+      final Map<String, dynamic> data =
+      await HomeOwnerTasksAPI.getTask6(taskID);
+
+      setState(() {
+        task9Data = data;
+      });
+
+    } catch (e) {
+      print('Error fetching task9 data: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +73,8 @@ class _InsulationInstallHOState extends State<InsulationInstallHO> {
           padding: const EdgeInsets.only(top: 10),
           child: Column(
             children: [
-              TaskInformation(taskID: 7777, taskName: 'Insulation & HVAC Installation', projectName: 'Nablus Project', taskStatus: 'Not Started',),
-              SPProfileData(userPicture: 'images/Testing/Tokyo.jpg', rating: 3.6, numReviews: 15, userName: 'Khalid Jabr',),
+              TaskInformation(taskID: task9Data['TaskID']?? 0, taskName: task9Data['TaskName']?? 'Unknown', projectName: task9Data['ProjectName']?? 'Unknown', taskStatus: task9Data['TaskStatus']?? 'Unknown',),
+              SPProfileData(userPicture: task9Data['UserPicture']?? 'images/profilePic96.png', rating: (task9Data['Rating'] as num?)?.toDouble() ?? 0.0, numReviews: task9Data['ReviewCount']?? 0, userName:task9Data['Username']?? 'Unknown',),
               Container(
                 margin: const EdgeInsets.only(top: 5),
                 padding: const EdgeInsets.symmetric(horizontal: 20 , vertical: 5),
@@ -94,131 +125,131 @@ class _InsulationInstallHOState extends State<InsulationInstallHO> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Expanded(
-                                  flex: 2,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(left: 8 ,right: 8),
-                                    child: Text(
-                                      "Insulation & HVAC Document:",
-                                      style: TextStyle(
-                                          color: Color(0xFF2F4771),
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  margin: const EdgeInsets.only(top: 5 , right: 5),
-                                  height: 35,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFF2F4771),
-                                    borderRadius: BorderRadius.circular(20.0),
-                                  ),
-                                  child: const Row(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 8 , right: 8),
-                                        child: Icon(
-                                          Icons.upload_file_outlined,
-                                          size: 20,
-                                          color: Color(0xFFF9FAFB),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(right: 12.0),
-                                        child: Text(
-                                          "Upload",
-                                          style: TextStyle(
-                                            color: Color(0xFFF9FAFB),
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  margin: const EdgeInsets.only(top: 5 , right: 5),
-                                  height: 35,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFF2F4771),
-                                    borderRadius: BorderRadius.circular(20.0),
-                                  ),
-                                  child: const Row(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 8 , right: 8),
-                                        child: Icon(
-                                          Icons.delete_outline_outlined,
-                                          size: 20,
-                                          color: Color(0xFFF9FAFB),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(right: 12.0),
-                                        child: Text(
-                                          "Delete",
-                                          style: TextStyle(
-                                            color: Color(0xFFF9FAFB),
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox( height: 10,),
-                            Row(
-                              children: [
-                                const Expanded(
-                                  flex: 1,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(left: 8 ,right: 8),
-                                    child: Text(
-                                      "Price / Unit:",
-                                      style: TextStyle(
-                                          color: Color(0xFF2F4771),
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: Container(
-                                    padding: EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFFF9FAFB),
-                                      borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                                      border: Border.all(color: Color(0xFF2F4771) , width: 1.8),
-                                    ),
-                                    child: const Center(
-                                      child: Text(
-                                        "Not assigned",
-                                        style: TextStyle(
-                                            color: Color(0xFF2F4771),
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //   children: [
+                            //     const Expanded(
+                            //       flex: 2,
+                            //       child: Padding(
+                            //         padding: EdgeInsets.only(left: 8 ,right: 8),
+                            //         child: Text(
+                            //           "Insulation & HVAC Document:",
+                            //           style: TextStyle(
+                            //               color: Color(0xFF2F4771),
+                            //               fontWeight: FontWeight.w500,
+                            //               fontSize: 16
+                            //           ),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //     Container(
+                            //       margin: const EdgeInsets.only(top: 5 , right: 5),
+                            //       height: 35,
+                            //       decoration: BoxDecoration(
+                            //         color: const Color(0xFF2F4771),
+                            //         borderRadius: BorderRadius.circular(20.0),
+                            //       ),
+                            //       child: const Row(
+                            //         children: [
+                            //           Padding(
+                            //             padding: EdgeInsets.only(left: 8 , right: 8),
+                            //             child: Icon(
+                            //               Icons.upload_file_outlined,
+                            //               size: 20,
+                            //               color: Color(0xFFF9FAFB),
+                            //             ),
+                            //           ),
+                            //           Padding(
+                            //             padding: EdgeInsets.only(right: 12.0),
+                            //             child: Text(
+                            //               "Upload",
+                            //               style: TextStyle(
+                            //                 color: Color(0xFFF9FAFB),
+                            //                 fontSize: 15,
+                            //                 fontWeight: FontWeight.w400,
+                            //               ),
+                            //             ),
+                            //           ),
+                            //         ],
+                            //       ),
+                            //     ),
+                            //     Container(
+                            //       margin: const EdgeInsets.only(top: 5 , right: 5),
+                            //       height: 35,
+                            //       decoration: BoxDecoration(
+                            //         color: const Color(0xFF2F4771),
+                            //         borderRadius: BorderRadius.circular(20.0),
+                            //       ),
+                            //       child: const Row(
+                            //         children: [
+                            //           Padding(
+                            //             padding: EdgeInsets.only(left: 8 , right: 8),
+                            //             child: Icon(
+                            //               Icons.delete_outline_outlined,
+                            //               size: 20,
+                            //               color: Color(0xFFF9FAFB),
+                            //             ),
+                            //           ),
+                            //           Padding(
+                            //             padding: EdgeInsets.only(right: 12.0),
+                            //             child: Text(
+                            //               "Delete",
+                            //               style: TextStyle(
+                            //                 color: Color(0xFFF9FAFB),
+                            //                 fontSize: 15,
+                            //                 fontWeight: FontWeight.w400,
+                            //               ),
+                            //             ),
+                            //           ),
+                            //         ],
+                            //       ),
+                            //     ),
+                            //   ],
+                            // ),
+                            // const SizedBox( height: 10,),
+                            // Row(
+                            //   children: [
+                            //     const Expanded(
+                            //       flex: 1,
+                            //       child: Padding(
+                            //         padding: EdgeInsets.only(left: 8 ,right: 8),
+                            //         child: Text(
+                            //           "Price / Unit:",
+                            //           style: TextStyle(
+                            //               color: Color(0xFF2F4771),
+                            //               fontWeight: FontWeight.w500,
+                            //               fontSize: 16
+                            //           ),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //     Expanded(
+                            //       flex: 1,
+                            //       child: Container(
+                            //         padding: EdgeInsets.all(10),
+                            //         decoration: BoxDecoration(
+                            //           color: const Color(0xFFF9FAFB),
+                            //           borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                            //           border: Border.all(color: Color(0xFF2F4771) , width: 1.8),
+                            //         ),
+                            //         child: const Center(
+                            //           child: Text(
+                            //             "Not assigned",
+                            //             style: TextStyle(
+                            //                 color: Color(0xFF2F4771),
+                            //                 fontWeight: FontWeight.w500,
+                            //                 fontSize: 16
+                            //             ),
+                            //           ),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ],
+                            // ),
                             const Padding(
                               padding: EdgeInsets.all(10),
                               child: Text(
-                                "Provider Notes: ",
+                                "Service Provider Notes: ",
                                 style: TextStyle(
                                     color: Color(0xFF2F4771),
                                     fontSize: 17,
@@ -235,7 +266,7 @@ class _InsulationInstallHOState extends State<InsulationInstallHO> {
                                 enabled: false,
                                 readOnly: true,
                                 decoration: InputDecoration(
-                                  hintText: "There is no notes yet .. ",
+                                  hintText:  task9Data['Notes'] ?? 'No notes available',
                                   hintStyle: TextStyle(color: Color(0xFF2F4771)),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10.0),
@@ -260,24 +291,24 @@ class _InsulationInstallHOState extends State<InsulationInstallHO> {
                   ),
                 ),
               ),
-              Container(
-                width: 250,
-                margin: EdgeInsets.symmetric(vertical: 12),
-                decoration: const BoxDecoration(
-                  color: Color(0xFF2F4771),
-                  borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                ),
-                child: TextButton(
-                  onPressed: () {},
-                  child: const Text(
-                    'Save',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Color(0xFFF9FAFB),
-                    ),
-                  ),
-                ),
-              ),
+              // Container(
+              //   width: 250,
+              //   margin: EdgeInsets.symmetric(vertical: 12),
+              //   decoration: const BoxDecoration(
+              //     color: Color(0xFF2F4771),
+              //     borderRadius: BorderRadius.all(Radius.circular(30.0)),
+              //   ),
+              //   child: TextButton(
+              //     onPressed: () {},
+              //     child: const Text(
+              //       'Save',
+              //       style: TextStyle(
+              //         fontSize: 20,
+              //         color: Color(0xFFF9FAFB),
+              //       ),
+              //     ),
+              //   ),
+              // ),
             ],
           ),
 

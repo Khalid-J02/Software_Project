@@ -4,6 +4,8 @@ import 'package:buildnex/Tasks/taskWidgets/catalogDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../APIRequests/homeOwnerTasksAPI.dart';
+
 
 void main() {
   runApp(GetMaterialApp(home: DoorInstallationHO()));
@@ -20,6 +22,54 @@ class _DoorInstallationHOState extends State<DoorInstallationHO> {
 
   List<Map<String, dynamic>> userChoices = [];
 
+  Map<String, dynamic> task14Data = {};
+  String taskID = '';
+  String taskProjectId = '';
+
+  int? doorDesignCatalogID;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchArgumentsAndData();
+  }
+
+  Future<void> fetchArgumentsAndData() async {
+    try {
+
+      Map<String, dynamic> arguments = Get.arguments;
+      taskID = arguments['taskID'];
+      taskProjectId = arguments['taskProjectId'];
+
+      final Map<String, dynamic> data =
+      await HomeOwnerTasksAPI.getTask6(taskID);
+      final Map<String, dynamic> projectInfoData = await HomeOwnerTasksAPI.getProjectInfoData( int.parse(taskProjectId));
+
+      // here we will send service provider id we got from above function ( await HomeOwnerTasksAPI.getTask6(taskID);)
+      // it contains UserID
+      // await HomeOwnerTasksAPI.getServiceProviderCatalogItems();
+
+      //here we will send catalog id
+      //HomeOwnerTasksAPI.getServiceProviderCatalogItemDetails();
+
+      setState(() {
+        task14Data = data;
+        doorDesignCatalogID = projectInfoData['DoorDesign'] != null
+            ? int.tryParse(projectInfoData['DoorDesign'])
+            : 0;
+
+
+        // if this values are not 0, (not null), they have selected before, so we will display its values from the database
+        if(doorDesignCatalogID != 0) {
+        }
+
+
+      });
+
+    } catch (e) {
+      print('Error fetching task14 data: $e');
+    }
+  }
   Future<void> openCatalog() async {
     Map<String, dynamic>? newProject = await showDialog<Map<String, dynamic>>(
       context: context,
@@ -53,8 +103,8 @@ class _DoorInstallationHOState extends State<DoorInstallationHO> {
           padding: const EdgeInsets.only(top: 10),
           child: Column(
             children: [
-              TaskInformation(taskID: 7777, taskName: 'Door Installation', projectName: 'Nablus Project', taskStatus: 'Not Started',),
-              SPProfileData(userPicture: 'images/Testing/Tokyo.jpg', rating: 3.6, numReviews: 15, userName: 'Khalid Jabr',),
+              TaskInformation(taskID: task14Data['TaskID']?? 0, taskName: task14Data['TaskName']?? 'Unknown', projectName: task14Data['ProjectName']?? 'Unknown', taskStatus: task14Data['TaskStatus']?? 'Unknown',),
+              SPProfileData(userPicture: task14Data['UserPicture']?? 'images/profilePic96.png', rating: (task14Data['Rating'] as num?)?.toDouble() ?? 0.0, numReviews: task14Data['ReviewCount']?? 0, userName:task14Data['Username']?? 'Unknown',),
               Container(
                 margin: const EdgeInsets.only(top: 5),
                 padding: const EdgeInsets.symmetric(horizontal: 20 , vertical: 5),
@@ -236,7 +286,7 @@ class _DoorInstallationHOState extends State<DoorInstallationHO> {
                                 enabled: false,
                                 readOnly: true,
                                 decoration: InputDecoration(
-                                  hintText: "There is no notes yet .. ",
+                                  hintText:  task14Data['Notes'] ?? 'No notes available',
                                   hintStyle: TextStyle(color: Color(0xFF2F4771)),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10.0),

@@ -26,7 +26,18 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'Tasks/tasks_HO/PropertySurvey/task1_HO.dart';
 import 'Tasks/tasks_HO/LocalGovernorate_Permits/localGovernoratePermits.dart';
 import 'Tasks/tasks_HO/SoilTesting/soilTesting.dart';
+import 'Tasks/tasks_HO/Task10/task10_HO.dart';
+import 'Tasks/tasks_HO/Task11/task11_HO.dart';
+import 'Tasks/tasks_HO/Task12/task12_HO.dart';
+import 'Tasks/tasks_HO/Task13/task13_HO.dart';
+import 'Tasks/tasks_HO/Task14/task14_HO.dart';
+import 'Tasks/tasks_HO/Task15/task15_HO.dart';
 import 'Tasks/tasks_HO/Task4/task4_HO.dart';
+import 'Tasks/tasks_HO/Task5/governmentalPermittive.dart';
+import 'Tasks/tasks_HO/Task6/task6HO.dart';
+import 'Tasks/tasks_HO/Task7/task7_HO.dart';
+import 'Tasks/tasks_HO/Task8/task8_HO.dart';
+import 'Tasks/tasks_HO/Task9/task9_HO.dart';
 
 void main() {
   dotenv.load();
@@ -55,7 +66,6 @@ Widget build(BuildContext context) {
       '/ResetPass':(context) => Reset_Password(),
       '/HomePage/HomeOwner':(context) => NavBarHomeOwner(),
       '/HomePage/HomeOwner/ProjectPage':(context) => ProjectNavBar(),
-
       '/HomePage/ServiceProvider':(context) => NavBarServiceProvider(),
 
      // '/ServiceProviderTasks/Task1':(context) => SpPropertySurvey(),
@@ -79,18 +89,17 @@ Widget build(BuildContext context) {
       '/HomeOwnerTasks/Task2':(context) => LocalGovernoratePermits(),
       '/HomeOwnerTasks/Task3':(context) => SoilTesting(),
       '/HomeOwnerTasks/Task4':(context) => DesignAndPlanningHO(),
-      //'/HomeOwnerTasks/Task5':(context) =>
-      //'/HomeOwnerTasks/Task6':(context) =>
-      // '/HomeOwnerTasks/Task7':(context) => ,
-      // '/HomeOwnerTasks/Task8':(context) => ,
-      //  '/HomeOwnerTasks/Task9':(context) => ,
-      // '/HomeOwnerTasks/Task10':(context) => ,
-      // '/HomeOwnerTasks/Task11':(context) => ,
-      // '/HomeOwnerTasks/Task12':(context) => ,
-      // '/HomeOwnerTasks/Task13':(context) => ,
-      // '/HomeOwnerTasks/Task14':(context) => ,
-      // '/HomeOwnerTasks/Task15':(context) => ,
-
+      '/HomeOwnerTasks/Task5':(context) => GovernemntalPermittiveHO(),
+      '/HomeOwnerTasks/Task6':(context) => ConstructionHO(),
+      '/HomeOwnerTasks/Task7':(context) => PlumbingInstallHO(),
+      '/HomeOwnerTasks/Task8':(context) => ElectricalInstallHO() ,
+      '/HomeOwnerTasks/Task9':(context) => InsulationInstallHO(),
+      '/HomeOwnerTasks/Task10':(context) => DoorFrameInstallHO(),
+      '/HomeOwnerTasks/Task11':(context) => PlasteringHO(),
+      '/HomeOwnerTasks/Task12':(context) => TileInstallHO(),
+      '/HomeOwnerTasks/Task13':(context) => WindowInstallationHO(),
+      '/HomeOwnerTasks/Task14':(context) => DoorInstallationHO(),
+      '/HomeOwnerTasks/Task15':(context) => PaintingHO(),
     },
 
   );

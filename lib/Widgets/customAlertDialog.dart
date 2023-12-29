@@ -122,7 +122,7 @@ class CustomAlertDialog {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Parallel Tasks Available'),
-          content: Text('You can perform tasks related to Plumbing, Electrical, and HVAC in parallel to save time.'),
+          content: Text('You can perform tasks related to Plumbing, Electrical, and HVAC in parallel to save time, with the HVAC being an optional Task'),
           actions: <Widget>[
             TextButton(
               onPressed: () {

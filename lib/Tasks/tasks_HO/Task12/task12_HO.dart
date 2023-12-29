@@ -4,6 +4,8 @@ import 'package:buildnex/Tasks/taskWidgets/catalogDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../APIRequests/homeOwnerTasksAPI.dart';
+
 
 void main() {
   runApp(GetMaterialApp(home: TileInstallHO()));
@@ -19,6 +21,64 @@ class TileInstallHO extends StatefulWidget {
 class _TileInstallHOState extends State<TileInstallHO> {
 
   List<Map<String, dynamic>> userChoices = [];
+
+
+  Map<String, dynamic> task12Data = {};
+  String taskID = '';
+  String taskProjectId = '';
+
+  int? bathroomTileCatalogID;
+  int? houseTileCatalogID;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchArgumentsAndData();
+  }
+
+  Future<void> fetchArgumentsAndData() async {
+    try {
+
+      Map<String, dynamic> arguments = Get.arguments;
+      taskID = arguments['taskID'];
+      taskProjectId = arguments['taskProjectId'];
+
+      final Map<String, dynamic> data =
+      await HomeOwnerTasksAPI.getTask6(taskID);
+      final Map<String, dynamic> projectInfoData = await HomeOwnerTasksAPI.getProjectInfoData( int.parse(taskProjectId));
+
+      // here we will send service provider id we got from above function ( await HomeOwnerTasksAPI.getTask6(taskID);)
+      // it contains UserID
+      // await HomeOwnerTasksAPI.getServiceProviderCatalogItems();
+
+      //here we will send catalog id
+      //HomeOwnerTasksAPI.getServiceProviderCatalogItemDetails();
+
+      setState(() {
+        task12Data = data;
+        bathroomTileCatalogID = projectInfoData['BathroomTile'] != null
+            ? int.tryParse(projectInfoData['BathroomTile'])
+            : 0;
+
+        houseTileCatalogID = projectInfoData['HouseTile'] != null
+            ? int.tryParse(projectInfoData['HouseTile'])
+            : 0;
+
+
+        // if this values are not 0, (not null), they have selected before, so we will display its values from the database
+        if(bathroomTileCatalogID != 0) {
+        }
+
+        if(houseTileCatalogID != 0) {
+        }
+
+      });
+
+    } catch (e) {
+      print('Error fetching task12 data: $e');
+    }
+  }
+
 
   Future<void> openCatalog() async {
     Map<String, dynamic>? newProject = await showDialog<Map<String, dynamic>>(
@@ -53,8 +113,8 @@ class _TileInstallHOState extends State<TileInstallHO> {
           padding: const EdgeInsets.only(top: 10),
           child: Column(
             children: [
-              TaskInformation(taskID: 7777, taskName: 'Tile Installation', projectName: 'Nablus Project', taskStatus: 'Not Started',),
-              SPProfileData(userPicture: 'images/Testing/Tokyo.jpg', rating: 3.6, numReviews: 15, userName: 'Khalid Jabr',),
+              TaskInformation(taskID: task12Data['TaskID']?? 0, taskName: task12Data['TaskName']?? 'Unknown', projectName: task12Data['ProjectName']?? 'Unknown', taskStatus: task12Data['TaskStatus']?? 'Unknown',),
+              SPProfileData(userPicture: task12Data['UserPicture']?? 'images/profilePic96.png', rating: (task12Data['Rating'] as num?)?.toDouble() ?? 0.0, numReviews: task12Data['ReviewCount']?? 0, userName:task12Data['Username']?? 'Unknown',),
               Container(
                 margin: const EdgeInsets.only(top: 5),
                 padding: const EdgeInsets.symmetric(horizontal: 20 , vertical: 5),
@@ -135,7 +195,7 @@ class _TileInstallHOState extends State<TileInstallHO> {
                                 GestureDetector(
                                   onTap: () async{
                                     await openCatalog() ;
-                                },
+                                  },
                                   child: Container(
                                     margin: const EdgeInsets.only(top: 5 , right: 5),
                                     height: 40,
@@ -285,7 +345,7 @@ class _TileInstallHOState extends State<TileInstallHO> {
                             const Padding(
                               padding: EdgeInsets.all(10),
                               child: Text(
-                                "Provider Notes: ",
+                                "Service Provider Notes: ",
                                 style: TextStyle(
                                     color: Color(0xFF2F4771),
                                     fontSize: 17,
@@ -302,7 +362,7 @@ class _TileInstallHOState extends State<TileInstallHO> {
                                 enabled: false,
                                 readOnly: true,
                                 decoration: InputDecoration(
-                                  hintText: "There is no notes yet .. ",
+                                  hintText:  task12Data['Notes'] ?? 'No notes available',
                                   hintStyle: TextStyle(color: Color(0xFF2F4771)),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10.0),

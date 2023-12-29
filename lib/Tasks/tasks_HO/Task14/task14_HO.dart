@@ -4,6 +4,8 @@ import 'package:buildnex/Tasks/taskWidgets/catalogDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../APIRequests/homeOwnerTasksAPI.dart';
+
 
 void main() {
   runApp(GetMaterialApp(home: WindowInstallationHO()));
@@ -19,6 +21,56 @@ class WindowInstallationHO extends StatefulWidget {
 class _WindowInstallationHOState extends State<WindowInstallationHO> {
 
   List<Map<String, dynamic>> userChoices = [];
+
+  Map<String, dynamic> task13Data = {};
+  String taskID = '';
+  String taskProjectId = '';
+
+  int? windowDesignCatalogID;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchArgumentsAndData();
+  }
+
+  Future<void> fetchArgumentsAndData() async {
+    try {
+
+      Map<String, dynamic> arguments = Get.arguments;
+      taskID = arguments['taskID'];
+      taskProjectId = arguments['taskProjectId'];
+
+      final Map<String, dynamic> data =
+      await HomeOwnerTasksAPI.getTask6(taskID);
+      final Map<String, dynamic> projectInfoData = await HomeOwnerTasksAPI.getProjectInfoData( int.parse(taskProjectId));
+
+      // here we will send service provider id we got from above function ( await HomeOwnerTasksAPI.getTask6(taskID);)
+      // it contains UserID
+      // await HomeOwnerTasksAPI.getServiceProviderCatalogItems();
+
+      //here we will send catalog id
+      //HomeOwnerTasksAPI.getServiceProviderCatalogItemDetails();
+
+      setState(() {
+        task13Data = data;
+        windowDesignCatalogID = projectInfoData['WindowDesign'] != null
+            ? int.tryParse(projectInfoData['WindowDesign'])
+            : 0;
+
+
+        // if this values are not 0, (not null), they have selected before, so we will display its values from the database
+        if(windowDesignCatalogID != 0) {
+        }
+
+
+      });
+
+    } catch (e) {
+      print('Error fetching task13 data: $e');
+    }
+  }
+
 
   Future<void> openCatalog() async {
     Map<String, dynamic>? newProject = await showDialog<Map<String, dynamic>>(
@@ -53,8 +105,8 @@ class _WindowInstallationHOState extends State<WindowInstallationHO> {
           padding: const EdgeInsets.only(top: 10),
           child: Column(
             children: [
-              TaskInformation(taskID: 7777, taskName: 'Window Installation', projectName: 'Nablus Project', taskStatus: 'Not Started',),
-              SPProfileData(userPicture: 'images/Testing/Tokyo.jpg', rating: 3.6, numReviews: 15, userName: 'Khalid Jabr',),
+              TaskInformation(taskID: task13Data['TaskID']?? 0, taskName: task13Data['TaskName']?? 'Unknown', projectName: task13Data['ProjectName']?? 'Unknown', taskStatus: task13Data['TaskStatus']?? 'Unknown',),
+              SPProfileData(userPicture: task13Data['UserPicture']?? 'images/profilePic96.png', rating: (task13Data['Rating'] as num?)?.toDouble() ?? 0.0, numReviews: task13Data['ReviewCount']?? 0, userName:task13Data['Username']?? 'Unknown',),
               Container(
                 margin: const EdgeInsets.only(top: 5),
                 padding: const EdgeInsets.symmetric(horizontal: 20 , vertical: 5),
@@ -247,7 +299,7 @@ class _WindowInstallationHOState extends State<WindowInstallationHO> {
                                 enabled: false,
                                 readOnly: true,
                                 decoration: InputDecoration(
-                                  hintText: "There is no notes yet .. ",
+                                  hintText:  task13Data['Notes'] ?? 'No notes available',
                                   hintStyle: TextStyle(color: Color(0xFF2F4771)),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10.0),
