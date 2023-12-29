@@ -23,7 +23,7 @@ class _SoilTestingState extends State<SoilTesting> {
   String taskID = '';
   String taskProjectId = '';
   String soilDocument = '';
-  double? _progress ;
+  double? _progress;
 
   @override
   void initState() {
@@ -32,15 +32,14 @@ class _SoilTestingState extends State<SoilTesting> {
     setState(() {
       taskID = arguments['taskID'];
       taskProjectId = arguments['taskProjectId'];
-      task3Data = arguments['soilTesting'] ;
-      soilDocument = arguments['docsURL'] ;
+      task3Data = arguments['soilTesting'];
+      soilDocument = arguments['docsURL'];
     });
     // fetchArgumentsAndData();
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: const Color(0xFFF9FAFB),
       appBar: AppBar(
@@ -49,7 +48,8 @@ class _SoilTestingState extends State<SoilTesting> {
           color: Color(0xFFF3D69B),
         ),
         title: Padding(
-          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/5),
+          padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width / 5),
           child: const Text(
             "Task Details",
             style: TextStyle(color: Color(0xFFF3D69B)),
@@ -63,8 +63,19 @@ class _SoilTestingState extends State<SoilTesting> {
           margin: const EdgeInsets.only(top: 10),
           child: Column(
             children: [
-              TaskInformation(taskID: task3Data['TaskID']?? 0, taskName: task3Data['TaskName']?? 'Unknown', projectName: task3Data['ProjectName']?? 'Unknown', taskStatus: task3Data['TaskStatus']?? 'Unknown',),
-              SPProfileData(userPicture: task3Data['UserPicture']?? 'images/profilePic96.png', rating: (task3Data['Rating'] as num?)?.toDouble() ?? 0.0, numReviews: task3Data['ReviewCount']?? 0, userName:task3Data['Username']?? 'Unknown',),
+              TaskInformation(
+                taskID: task3Data['TaskID'] ?? 0,
+                taskName: task3Data['TaskName'] ?? 'Unknown',
+                projectName: task3Data['ProjectName'] ?? 'Unknown',
+                taskStatus: task3Data['TaskStatus'] ?? 'Unknown',
+              ),
+              SPProfileData(
+                userPicture:
+                    task3Data['UserPicture'] ?? 'images/profilePic96.png',
+                rating: (task3Data['Rating'] as num?)?.toDouble() ?? 0.0,
+                numReviews: task3Data['ReviewCount'] ?? 0,
+                userName: task3Data['Username'] ?? 'Unknown',
+              ),
               Container(
                 margin: const EdgeInsets.only(top: 5),
                 padding:
@@ -115,32 +126,70 @@ class _SoilTestingState extends State<SoilTesting> {
                                 style: TextStyle(
                                     color: Color(0xFF2F4771),
                                     fontSize: 16,
-                                    fontWeight: FontWeight.w400
-                                ),
+                                    fontWeight: FontWeight.w400),
                               ),
                             ),
                           ),
                           _progress != null
                               ? const CircularProgressIndicator()
-                              :
+                              : GestureDetector(
+                                  onTap: () {
+                                    FileDownloader.downloadFile(
+                                      url: soilDocument,
+                                      onProgress: (name, progress) {
+                                        setState(() {
+                                          _progress = _progress;
+                                        });
+                                      },
+                                      onDownloadCompleted: (value) {
+                                        setState(() {
+                                          _progress = null;
+                                        });
+                                      },
+                                    );
+                                  },
+                                  child: Container(
+                                    margin:
+                                        const EdgeInsets.only(top: 5, right: 5),
+                                    height: 35,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF2F4771),
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    child: const Row(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 8, right: 4),
+                                          child: Icon(
+                                            Icons.sim_card_download,
+                                            size: 20,
+                                            color: Color(0xFFF9FAFB),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 8.0),
+                                          child: Text(
+                                            "Download",
+                                            style: TextStyle(
+                                              color: Color(0xFFF9FAFB),
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
                           GestureDetector(
-                            onTap: (){
-                              FileDownloader.downloadFile(
-                                url: soilDocument,
-                                onProgress: (name , progress){
-                                  setState(() {
-                                    _progress = _progress;
-                                  });
-                                },
-                                onDownloadCompleted: (value){
-                                  setState(() {
-                                    _progress = null ;
-                                  });
-                                },
-                              );
+                            onTap: () {
+                              Get.to(DocsPdfViewer(
+                                pdfFileURL: soilDocument,
+                              ));
                             },
                             child: Container(
-                              margin: const EdgeInsets.only(top: 5 , right: 5),
+                              margin: const EdgeInsets.only(top: 5, right: 5),
                               height: 35,
                               decoration: BoxDecoration(
                                 color: const Color(0xFF2F4771),
@@ -149,43 +198,7 @@ class _SoilTestingState extends State<SoilTesting> {
                               child: const Row(
                                 children: [
                                   Padding(
-                                    padding: EdgeInsets.only(left: 8 , right: 4),
-                                    child: Icon(
-                                      Icons.sim_card_download,
-                                      size: 20,
-                                      color: Color(0xFFF9FAFB),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(right: 8.0),
-                                    child: Text(
-                                      "Download",
-                                      style: TextStyle(
-                                        color: Color(0xFFF9FAFB),
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: (){
-                              Get.to(DocsPdfViewer(pdfFileURL: soilDocument,)) ;
-                            },
-                            child: Container(
-                              margin: const EdgeInsets.only(top: 5 , right: 5),
-                              height: 35,
-                              decoration: BoxDecoration(
-                                color: const Color(0xFF2F4771),
-                                borderRadius: BorderRadius.circular(20.0),
-                              ),
-                              child: const Row(
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 8 , right: 4),
+                                    padding: EdgeInsets.only(left: 8, right: 4),
                                     child: Icon(
                                       Icons.file_open_outlined,
                                       size: 20,
@@ -217,8 +230,7 @@ class _SoilTestingState extends State<SoilTesting> {
                         style: TextStyle(
                             color: Color(0xFF2F4771),
                             fontSize: 16,
-                            fontWeight: FontWeight.w400
-                        ),
+                            fontWeight: FontWeight.w400),
                       ),
                     ),
                     Container(
@@ -266,4 +278,4 @@ class _SoilTestingState extends State<SoilTesting> {
 //                         return null;
 //                       },
 
-// this is for any textform field
+// this is for any textform field

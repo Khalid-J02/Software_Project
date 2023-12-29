@@ -7,7 +7,6 @@ import 'package:get/get.dart';
 import '../../../APIRequests/homeOwnerTasksAPI.dart';
 import 'Widgets/serviceProviderProfleData.dart';
 
-
 void main() {
   runApp(GetMaterialApp(home: LocalGovernoratePermits()));
 }
@@ -16,7 +15,8 @@ class LocalGovernoratePermits extends StatefulWidget {
   const LocalGovernoratePermits({super.key});
 
   @override
-  State<LocalGovernoratePermits> createState() => _LocalGovernoratePermitsState();
+  State<LocalGovernoratePermits> createState() =>
+      _LocalGovernoratePermitsState();
 }
 
 class _LocalGovernoratePermitsState extends State<LocalGovernoratePermits> {
@@ -24,7 +24,7 @@ class _LocalGovernoratePermitsState extends State<LocalGovernoratePermits> {
   String taskID = '';
   String taskProjectId = '';
   String permitsDocument = '';
-  double? _progress ;
+  double? _progress;
 
   @override
   void initState() {
@@ -33,12 +33,11 @@ class _LocalGovernoratePermitsState extends State<LocalGovernoratePermits> {
     setState(() {
       taskID = arguments['taskID'];
       taskProjectId = arguments['taskProjectId'];
-      task2Data = arguments['localGovernmentData'] ;
-      permitsDocument = arguments['docsURL'] ;
+      task2Data = arguments['localGovernmentData'];
+      permitsDocument = arguments['docsURL'];
     });
     // fetchArgumentsAndData();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +49,8 @@ class _LocalGovernoratePermitsState extends State<LocalGovernoratePermits> {
           color: Color(0xFFF3D69B),
         ),
         title: Padding(
-          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/5),
+          padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width / 5),
           child: const Text(
             "Task Details",
             style: TextStyle(color: Color(0xFFF3D69B)),
@@ -64,17 +64,28 @@ class _LocalGovernoratePermitsState extends State<LocalGovernoratePermits> {
           margin: const EdgeInsets.only(top: 10),
           child: Column(
             children: [
-              TaskInformation(taskID: task2Data['TaskID']?? 0, taskName:"Regulatory Information", projectName: task2Data['ProjectName']?? 'Unknown', taskStatus: task2Data['TaskStatus']?? 'Unknown',),
-              SPProfileData(userPicture: task2Data['UserPicture']?? 'images/profilePic96.png', rating: (task2Data['Rating'] as num?)?.toDouble() ?? 0.0, numReviews: task2Data['ReviewCount']?? 0, userName:task2Data['Username']?? 'Unknown',),
+              TaskInformation(
+                taskID: task2Data['TaskID'] ?? 0,
+                taskName: "Regulatory Information",
+                projectName: task2Data['ProjectName'] ?? 'Unknown',
+                taskStatus: task2Data['TaskStatus'] ?? 'Unknown',
+              ),
+              SPProfileData(
+                userPicture:
+                    task2Data['UserPicture'] ?? 'images/profilePic96.png',
+                rating: (task2Data['Rating'] as num?)?.toDouble() ?? 0.0,
+                numReviews: task2Data['ReviewCount'] ?? 0,
+                userName: task2Data['Username'] ?? 'Unknown',
+              ),
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 20 , vertical: 10),
+                margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
                 child: Column(
                   children: [
                     Container(
-                      height: MediaQuery.of(context).size.height/17 ,
+                      height: MediaQuery.of(context).size.height / 17,
                       // color: Color(0xFF6781A6),
                       decoration: BoxDecoration(
                         color: Color(0xFF6781A6),
@@ -95,8 +106,7 @@ class _LocalGovernoratePermitsState extends State<LocalGovernoratePermits> {
                           style: TextStyle(
                               color: Color(0xFFF9FAFB),
                               fontSize: 19,
-                              fontWeight: FontWeight.bold
-                          ),
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),
@@ -120,32 +130,73 @@ class _LocalGovernoratePermitsState extends State<LocalGovernoratePermits> {
                                       style: TextStyle(
                                           color: Color(0xFF2F4771),
                                           fontSize: 16,
-                                          fontWeight: FontWeight.w400
-                                      ),
+                                          fontWeight: FontWeight.w400),
                                     ),
                                   ),
                                 ),
                                 _progress != null
                                     ? const CircularProgressIndicator()
-                                    :
+                                    : GestureDetector(
+                                        onTap: () {
+                                          FileDownloader.downloadFile(
+                                            url: permitsDocument,
+                                            onProgress: (name, progress) {
+                                              setState(() {
+                                                _progress = _progress;
+                                              });
+                                            },
+                                            onDownloadCompleted: (value) {
+                                              setState(() {
+                                                _progress = null;
+                                              });
+                                            },
+                                          );
+                                        },
+                                        child: Container(
+                                          margin: const EdgeInsets.only(
+                                              top: 5, right: 5),
+                                          height: 35,
+                                          decoration: BoxDecoration(
+                                            color: const Color(0xFF2F4771),
+                                            borderRadius:
+                                                BorderRadius.circular(20.0),
+                                          ),
+                                          child: const Row(
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: 8, right: 4),
+                                                child: Icon(
+                                                  Icons.sim_card_download,
+                                                  size: 20,
+                                                  color: Color(0xFFF9FAFB),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    EdgeInsets.only(right: 8.0),
+                                                child: Text(
+                                                  "Download",
+                                                  style: TextStyle(
+                                                    color: Color(0xFFF9FAFB),
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
                                 GestureDetector(
-                                  onTap: (){
-                                    FileDownloader.downloadFile(
-                                      url: permitsDocument,
-                                      onProgress: (name , progress){
-                                        setState(() {
-                                          _progress = _progress;
-                                        });
-                                      },
-                                      onDownloadCompleted: (value){
-                                        setState(() {
-                                          _progress = null ;
-                                        });
-                                      },
-                                    );
+                                  onTap: () {
+                                    Get.to(DocsPdfViewer(
+                                      pdfFileURL: permitsDocument,
+                                    ));
                                   },
                                   child: Container(
-                                    margin: const EdgeInsets.only(top: 5 , right: 5),
+                                    margin:
+                                        const EdgeInsets.only(top: 5, right: 5),
                                     height: 35,
                                     decoration: BoxDecoration(
                                       color: const Color(0xFF2F4771),
@@ -154,43 +205,8 @@ class _LocalGovernoratePermitsState extends State<LocalGovernoratePermits> {
                                     child: const Row(
                                       children: [
                                         Padding(
-                                          padding: EdgeInsets.only(left: 8 , right: 4),
-                                          child: Icon(
-                                            Icons.sim_card_download,
-                                            size: 20,
-                                            color: Color(0xFFF9FAFB),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(right: 8.0),
-                                          child: Text(
-                                            "Download",
-                                            style: TextStyle(
-                                              color: Color(0xFFF9FAFB),
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: (){
-                                    Get.to(DocsPdfViewer(pdfFileURL: permitsDocument,)) ;
-                                  },
-                                  child: Container(
-                                    margin: const EdgeInsets.only(top: 5 , right: 5),
-                                    height: 35,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFF2F4771),
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    ),
-                                    child: const Row(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 8 , right: 4),
+                                          padding: EdgeInsets.only(
+                                              left: 8, right: 4),
                                           child: Icon(
                                             Icons.file_open_outlined,
                                             size: 20,
@@ -222,8 +238,7 @@ class _LocalGovernoratePermitsState extends State<LocalGovernoratePermits> {
                               style: TextStyle(
                                   color: Color(0xFF2F4771),
                                   fontSize: 16,
-                                  fontWeight: FontWeight.w400
-                              ),
+                                  fontWeight: FontWeight.w400),
                             ),
                           ),
                           Container(
@@ -235,7 +250,8 @@ class _LocalGovernoratePermitsState extends State<LocalGovernoratePermits> {
                               enabled: false,
                               readOnly: true,
                               decoration: InputDecoration(
-                                hintText: task2Data['Notes'] ?? 'No notes available',
+                                hintText:
+                                    task2Data['Notes'] ?? 'No notes available',
                                 hintStyle: TextStyle(color: Color(0xFF2F4771)),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),

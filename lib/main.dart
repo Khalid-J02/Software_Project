@@ -39,6 +39,9 @@ import 'Tasks/tasks_HO/Task7/task7_HO.dart';
 import 'Tasks/tasks_HO/Task8/task8_HO.dart';
 import 'Tasks/tasks_HO/Task9/task9_HO.dart';
 
+
+import 'Tasks/tasks_SP/PropertSurvey/propertySurveyTask.dart';
+
 void main() {
   dotenv.load();
   runApp(const MyApp());
@@ -68,7 +71,7 @@ Widget build(BuildContext context) {
       '/HomePage/HomeOwner/ProjectPage':(context) => ProjectNavBar(),
       '/HomePage/ServiceProvider':(context) => NavBarServiceProvider(),
 
-     // '/ServiceProviderTasks/Task1':(context) => SpPropertySurvey(),
+      '/ServiceProviderTasks/Task1':(context) => SpPropertySurvey(),
      // '/ServiceProviderTasks/Task2':(context) => SoilTestingSP(),
      // '/ServiceProviderTasks/Task3':(context) => LocalGovernoratePermitsSP(),
      // '/ServiceProviderTasks/Task4':(context) => DesignAndPlanningSP(),
