@@ -1,6 +1,10 @@
+import 'package:buildnex/APIRequests/homeOwnerDisplayServiceProData.dart';
+import 'package:buildnex/APIRequests/serviceProviderCatalogAPI.dart';
+import 'package:buildnex/Tasks/taskWidgets/openCatalogSP.dart';
 import 'package:buildnex/Tasks/taskWidgets/taskInformation.dart';
 import 'package:buildnex/Tasks/tasks_HO/LocalGovernorate_Permits/Widgets/serviceProviderProfleData.dart';
 import 'package:buildnex/Tasks/taskWidgets/catalogDialog.dart';
+import 'package:buildnex/Widgets/catalogItem.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -30,32 +34,24 @@ class _TileInstallHOState extends State<TileInstallHO> {
   int? bathroomTileCatalogID;
   int? houseTileCatalogID;
 
+  late Map<String, dynamic> projectInfoData ;
+
   @override
   void initState() {
     super.initState();
+    Map<String, dynamic> arguments = Get.arguments;
+    setState(() {
+      taskID = arguments['taskID'];
+      taskProjectId = arguments['taskProjectId'];
+      task12Data = arguments['task12data'];
+      projectInfoData = arguments['projectInfo'];
+    });
     fetchArgumentsAndData();
   }
 
   Future<void> fetchArgumentsAndData() async {
     try {
-
-      Map<String, dynamic> arguments = Get.arguments;
-      taskID = arguments['taskID'];
-      taskProjectId = arguments['taskProjectId'];
-
-      final Map<String, dynamic> data =
-      await HomeOwnerTasksAPI.getTask6(taskID);
-      final Map<String, dynamic> projectInfoData = await HomeOwnerTasksAPI.getProjectInfoData( int.parse(taskProjectId));
-
-      // here we will send service provider id we got from above function ( await HomeOwnerTasksAPI.getTask6(taskID);)
-      // it contains UserID
-      // await HomeOwnerTasksAPI.getServiceProviderCatalogItems();
-
-      //here we will send catalog id
-      //HomeOwnerTasksAPI.getServiceProviderCatalogItemDetails();
-
       setState(() {
-        task12Data = data;
         bathroomTileCatalogID = projectInfoData['BathroomTile'] != null
             ? int.tryParse(projectInfoData['BathroomTile'])
             : 0;
@@ -64,14 +60,6 @@ class _TileInstallHOState extends State<TileInstallHO> {
             ? int.tryParse(projectInfoData['HouseTile'])
             : 0;
 
-
-        // if this values are not 0, (not null), they have selected before, so we will display its values from the database
-        if(bathroomTileCatalogID != 0) {
-        }
-
-        if(houseTileCatalogID != 0) {
-        }
-
       });
 
     } catch (e) {
@@ -79,15 +67,6 @@ class _TileInstallHOState extends State<TileInstallHO> {
     }
   }
 
-
-  Future<void> openCatalog() async {
-    Map<String, dynamic>? newProject = await showDialog<Map<String, dynamic>>(
-      context: context,
-      builder: (BuildContext context) {
-        return CatalogDialog();
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -192,9 +171,54 @@ class _TileInstallHOState extends State<TileInstallHO> {
                                     ),
                                   ),
                                 ),
+                                bathroomTileCatalogID != 0
+                                    ?
                                 GestureDetector(
                                   onTap: () async{
-                                    await openCatalog() ;
+                                    final Map<String, dynamic> itemDetails = await CatalogAPI.getItemDetails(bathroomTileCatalogID.toString());
+                                    Get.to(SPCatalogItem_HO(itemDetails: itemDetails,));
+                                  },
+                                  child: Container(
+                                    margin: const EdgeInsets.only(top: 5 , right: 5),
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF2F4771),
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    child: const Row(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 8 , right: 4),
+                                          child: Icon(
+                                            Icons.remove_red_eye,
+                                            size: 20,
+                                            color: Color(0xFFF9FAFB),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 12.0),
+                                          child: Text(
+                                            "See Item",
+                                            style: TextStyle(
+                                              color: Color(0xFFF9FAFB),
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                )
+                                    :
+                                SizedBox(),
+                                GestureDetector(
+                                  onTap: () async{
+                                    final List<Map<String, dynamic>> SPCatalog = await ServiceProviderDataAPI.getServiceProCatalogItems(task12Data['UserID'].toString());
+                                    final int? choosenID = await Get.to(OpenCatalogSP() , arguments: SPCatalog);
+                                    setState(() {
+                                      bathroomTileCatalogID = choosenID ;
+                                    });
                                   },
                                   child: Container(
                                     margin: const EdgeInsets.only(top: 5 , right: 5),
@@ -247,9 +271,54 @@ class _TileInstallHOState extends State<TileInstallHO> {
                                     ),
                                   ),
                                 ),
+                                houseTileCatalogID != 0
+                                    ?
                                 GestureDetector(
                                   onTap: () async{
-                                    await openCatalog() ;
+                                    final Map<String, dynamic> itemDetails = await CatalogAPI.getItemDetails(houseTileCatalogID.toString());
+                                    Get.to(SPCatalogItem_HO(itemDetails: itemDetails,));
+                                  },
+                                  child: Container(
+                                    margin: const EdgeInsets.only(top: 5 , right: 5),
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF2F4771),
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    child: const Row(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 12 , right: 8),
+                                          child: Icon(
+                                            Icons.folder_copy,
+                                            size: 20,
+                                            color: Color(0xFFF9FAFB),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 12.0),
+                                          child: Text(
+                                            "Open Catalog",
+                                            style: TextStyle(
+                                              color: Color(0xFFF9FAFB),
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                )
+                                    :
+                                SizedBox(),
+                                GestureDetector(
+                                  onTap: () async{
+                                    final List<Map<String, dynamic>> SPCatalog = await ServiceProviderDataAPI.getServiceProCatalogItems(task12Data['UserID'].toString());
+                                    final int? choosenID = await Get.to(OpenCatalogSP() , arguments: SPCatalog);
+                                    setState(() {
+                                      houseTileCatalogID = choosenID ;
+                                    });
                                   },
                                   child: Container(
                                     margin: const EdgeInsets.only(top: 5 , right: 5),
@@ -396,7 +465,11 @@ class _TileInstallHOState extends State<TileInstallHO> {
                   borderRadius: BorderRadius.all(Radius.circular(30.0)),
                 ),
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    /*
+                    here i want to save the value of them in db
+                     */
+                  },
                   child: const Text(
                     'Save',
                     style: TextStyle(

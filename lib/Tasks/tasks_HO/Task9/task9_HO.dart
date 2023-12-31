@@ -27,26 +27,12 @@ class _InsulationInstallHOState extends State<InsulationInstallHO> {
   @override
   void initState() {
     super.initState();
-    fetchArgumentsAndData();
-  }
-
-  Future<void> fetchArgumentsAndData() async {
-    try {
-
-      Map<String, dynamic> arguments = Get.arguments;
+    Map<String, dynamic> arguments = Get.arguments;
+    setState(() {
       taskID = arguments['taskID'];
       taskProjectId = arguments['taskProjectId'];
-
-      final Map<String, dynamic> data =
-      await HomeOwnerTasksAPI.getTask6(taskID);
-
-      setState(() {
-        task9Data = data;
-      });
-
-    } catch (e) {
-      print('Error fetching task9 data: $e');
-    }
+      task9Data = arguments['task9data'] ;
+    });
   }
 
   @override

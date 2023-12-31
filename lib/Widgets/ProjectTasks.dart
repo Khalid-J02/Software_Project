@@ -133,6 +133,8 @@ class ProjectTasks extends StatelessWidget {
                       child: TextButton(
                         onPressed: () async {
                           // here you will move to tasks like task1 2 3 etc
+                          final Map<String, dynamic> ProjectInfo = await HomeOwnerTasksAPI.getProjectInfoData( int.parse(taskProjectId));
+
                           String path = '/HomeOwnerTasks/Task' + taskNumber;
                           // print(taskNumber) ;
                           if(taskNumber == '1'){
@@ -164,6 +166,145 @@ class ProjectTasks extends StatelessWidget {
                                   'taskProjectId': taskProjectId ,
                                   'soilTesting' : data,
                                   'docsURL' : _docsURL});
+                          }
+                          if(taskNumber == '4'){
+                            final Map<String, dynamic> data = await HomeOwnerTasksAPI.getDesignAndPlanning(taskID) ;
+                            Get.toNamed(
+                              path,
+                              arguments: {
+                                'taskID': taskID,
+                                'taskProjectId': taskProjectId ,
+                                'DesignData' : data,
+                                'buildingData' : ProjectInfo,
+                                }
+                            );
+                          }
+                          if(taskNumber == '5'){
+                            final Map<String, dynamic> data = await HomeOwnerTasksAPI.getApprovals(taskID) ;
+                            Get.toNamed(
+                                path,
+                                arguments: {
+                                  'taskID': taskID,
+                                  'taskProjectId': taskProjectId ,
+                                  'GovernmentData' : data,
+                                }
+                            );
+                          }
+                          if(taskNumber == '6'){
+                            final Map<String, dynamic> data = await HomeOwnerTasksAPI.getTask6(taskID) ;
+                            Get.toNamed(
+                                path,
+                                arguments: {
+                                  'taskID': taskID,
+                                  'taskProjectId': taskProjectId ,
+                                  'taskData' : data,
+                                  'projectData' : ProjectInfo
+                                }
+                            );
+                          }
+                          if(taskNumber == '7'){
+                            final Map<String, dynamic> data = await HomeOwnerTasksAPI.getTask6(taskID) ;
+                            Get.toNamed(
+                                path,
+                                arguments: {
+                                  'taskID': taskID,
+                                  'taskProjectId': taskProjectId ,
+                                  'datatask7' : data,
+                                }
+                            );
+                          }
+                          if(taskNumber == '8'){
+                            final Map<String, dynamic> data = await HomeOwnerTasksAPI.getTask6(taskID) ;
+                            Get.toNamed(
+                                path,
+                                arguments: {
+                                  'taskID': taskID,
+                                  'taskProjectId': taskProjectId ,
+                                  'task8data' : data,
+                                }
+                            );
+                          }
+                          if(taskNumber == '9'){
+                            final Map<String, dynamic> data = await HomeOwnerTasksAPI.getTask6(taskID) ;
+                            Get.toNamed(
+                                path,
+                                arguments: {
+                                  'taskID': taskID,
+                                  'taskProjectId': taskProjectId ,
+                                  'task9data' : data,
+                                }
+                            );
+                          }
+                          if(taskNumber == '10'){
+                            final Map<String, dynamic> data = await HomeOwnerTasksAPI.getTask6(taskID) ;
+                            Get.toNamed(
+                                path,
+                                arguments: {
+                                  'taskID': taskID,
+                                  'taskProjectId': taskProjectId ,
+                                  'task10data' : data,
+                                  'ProjectInfo' : ProjectInfo
+                                }
+                            );
+                          }
+                          if(taskNumber == '11'){
+                            final Map<String, dynamic> data = await HomeOwnerTasksAPI.getTask6(taskID) ;
+                            Get.toNamed(
+                                path,
+                                arguments: {
+                                  'taskID': taskID,
+                                  'taskProjectId': taskProjectId ,
+                                  'task11data' : data,
+                                }
+                            );
+                          }
+                          if(taskNumber == '12'){
+                            final Map<String, dynamic> data = await HomeOwnerTasksAPI.getTask6(taskID) ;
+                            Get.toNamed(
+                                path,
+                                arguments: {
+                                  'taskID': taskID,
+                                  'taskProjectId': taskProjectId ,
+                                  'task12data' : data,
+                                  'projectInfo' : ProjectInfo
+                                }
+                            );
+                          }
+                          if(taskNumber == '13'){
+                            final Map<String, dynamic> data = await HomeOwnerTasksAPI.getTask6(taskID) ;
+                            Get.toNamed(
+                                path,
+                                arguments: {
+                                  'taskID': taskID,
+                                  'taskProjectId': taskProjectId ,
+                                  'task13data' : data,
+                                  'projectInfo' : ProjectInfo
+                                }
+                            );
+                          }
+                          if(taskNumber == '14'){
+                            final Map<String, dynamic> data = await HomeOwnerTasksAPI.getTask6(taskID) ;
+                            Get.toNamed(
+                                path,
+                                arguments: {
+                                  'taskID': taskID,
+                                  'taskProjectId': taskProjectId ,
+                                  'task14data' : data,
+                                  'projectInfo' : ProjectInfo
+                                }
+                            );
+                          }
+                          if(taskNumber == '15'){
+                            final Map<String, dynamic> data = await HomeOwnerTasksAPI.getTask6(taskID) ;
+                            Get.toNamed(
+                                path,
+                                arguments: {
+                                  'taskID': taskID,
+                                  'taskProjectId': taskProjectId ,
+                                  'task15data' : data,
+                                  'projectInfo' : ProjectInfo
+                                }
+                            );
                           }
                         },
                         child: const Text(

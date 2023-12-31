@@ -30,26 +30,12 @@ class _PlumbingInstallHOState extends State<PlumbingInstallHO> {
   @override
   void initState() {
     super.initState();
-    fetchArgumentsAndData();
-  }
-
-  Future<void> fetchArgumentsAndData() async {
-    try {
-
-      Map<String, dynamic> arguments = Get.arguments;
+    Map<String, dynamic> arguments = Get.arguments;
+    setState(() {
       taskID = arguments['taskID'];
       taskProjectId = arguments['taskProjectId'];
-
-      final Map<String, dynamic> data =
-      await HomeOwnerTasksAPI.getTask6(taskID);
-
-      setState(() {
-        task7Data = data;
-      });
-
-    } catch (e) {
-      print('Error fetching task7 data: $e');
-    }
+      task7Data = arguments['datatask7'];
+    });
   }
 
 
@@ -123,7 +109,6 @@ class _PlumbingInstallHOState extends State<PlumbingInstallHO> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 10.0),
                       Container(
                         padding: const EdgeInsets.all(10),
                         child: Column(

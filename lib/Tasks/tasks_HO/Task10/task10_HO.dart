@@ -20,36 +20,22 @@ class PlasteringHO extends StatefulWidget {
 
 class _PlasteringHOState extends State<PlasteringHO> {
 
-
-
   Map<String, dynamic> task11Data = {};
   String taskID = '';
   String taskProjectId = '';
 
+
   @override
   void initState() {
     super.initState();
-    fetchArgumentsAndData();
-  }
-
-  Future<void> fetchArgumentsAndData() async {
-    try {
-
-      Map<String, dynamic> arguments = Get.arguments;
+    Map<String, dynamic> arguments = Get.arguments;
+    setState(() {
       taskID = arguments['taskID'];
       taskProjectId = arguments['taskProjectId'];
-
-      final Map<String, dynamic> data =
-      await HomeOwnerTasksAPI.getTask6(taskID);
-
-      setState(() {
-        task11Data = data;
-      });
-
-    } catch (e) {
-      print('Error fetching task7 data: $e');
-    }
+      task11Data = arguments['task11data'] ;
+    });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -121,7 +107,6 @@ class _PlasteringHOState extends State<PlasteringHO> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 10.0),
                       Container(
                         padding: const EdgeInsets.all(10),
                         child: Column(
@@ -181,164 +166,3 @@ class _PlasteringHOState extends State<PlasteringHO> {
   }
 }
 
-//               Container(
-//                 margin: const EdgeInsets.only(top: 5),
-//                 padding: const EdgeInsets.symmetric(horizontal: 20 , vertical: 5),
-//                 decoration: BoxDecoration(
-//                   borderRadius: BorderRadius.circular(20.0),
-//                 ),
-//                 child: Card(
-//                   elevation: 5,
-//                   shape: const RoundedRectangleBorder(
-//                     borderRadius: BorderRadius.only(
-//                       topLeft: Radius.circular(20.0),
-//                       topRight: Radius.circular(20.0),
-//                       bottomLeft: Radius.zero,
-//                       bottomRight: Radius.zero,
-//                     ),
-//                   ),
-//                   child: Column(
-//                     children: [
-//                       Container(
-//                         padding: EdgeInsets.symmetric(vertical: 14),
-//                         decoration: BoxDecoration(
-//                           color: Color(0xFF6781A6),
-//                           borderRadius: const BorderRadius.only(
-//                             topLeft: Radius.circular(20.0),
-//                             topRight: Radius.circular(20.0),
-//                             bottomLeft: Radius.zero,
-//                             bottomRight: Radius.zero,
-//                           ),
-//                           border: Border.all(
-//                             color: Color(0xFF2F4771),
-//                             width: 1.0,
-//                           ),
-//                         ),
-//                         child: const Center(
-//                           child: Text(
-//                             "Task Details",
-//                             style: TextStyle(
-//                                 color: Color(0xFFF9FAFB),
-//                                 fontSize: 19,
-//                                 fontWeight: FontWeight.bold
-//                             ),
-//                           ),
-//                         ),
-//                       ),
-//                       const SizedBox(height: 10.0),
-//                       Container(
-//                         padding: const EdgeInsets.all(10),
-//                         child: Column(
-//                           crossAxisAlignment: CrossAxisAlignment.start,
-//                           children: [
-//                             const SizedBox( height: 10,),
-//                             Row(
-//                               children: [
-//                                 const Expanded(
-//                                   flex: 1,
-//                                   child: Padding(
-//                                     padding: EdgeInsets.only(left: 8 ,right: 8),
-//                                     child: Text(
-//                                       "Price / Meter:",
-//                                       style: TextStyle(
-//                                           color: Color(0xFF2F4771),
-//                                           fontWeight: FontWeight.w500,
-//                                           fontSize: 16
-//                                       ),
-//                                     ),
-//                                   ),
-//                                 ),
-//                                 Expanded(
-//                                   flex: 1,
-//                                   child: Container(
-//                                     padding: EdgeInsets.all(10),
-//                                     decoration: BoxDecoration(
-//                                       color: const Color(0xFFF9FAFB),
-//                                       borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-//                                       border: Border.all(color: Color(0xFF2F4771) , width: 1.8),
-//                                     ),
-//                                     child: const Center(
-//                                       child: Text(
-//                                         "Not assigned",
-//                                         style: TextStyle(
-//                                             color: Color(0xFF2F4771),
-//                                             fontWeight: FontWeight.w500,
-//                                             fontSize: 16
-//                                         ),
-//                                       ),
-//                                     ),
-//                                   ),
-//                                 ),
-//                               ],
-//                             ),
-//                             const Padding(
-//                               padding: EdgeInsets.all(10),
-//                               child: Text(
-//                                 "Provider Notes: ",
-//                                 style: TextStyle(
-//                                     color: Color(0xFF2F4771),
-//                                     fontSize: 17,
-//                                     fontWeight: FontWeight.w400
-//                                 ),
-//                               ),
-//                             ),
-//                             Container(
-//                               height: 140,
-//                               padding: const EdgeInsets.symmetric(horizontal: 8),
-//                               child: TextFormField(
-//                                 maxLines: 5,
-//                                 minLines: 5,
-//                                 enabled: false,
-//                                 readOnly: true,
-//                                 decoration: InputDecoration(
-//                                   hintText: "There is no notes yet .. ",
-//                                   hintStyle: TextStyle(color: Color(0xFF2F4771)),
-//                                   border: OutlineInputBorder(
-//                                     borderRadius: BorderRadius.circular(10.0),
-//                                     borderSide: const BorderSide(
-//                                       color: Color(0xFF2F4771),
-//                                     ),
-//                                   ),
-//                                   disabledBorder: OutlineInputBorder(
-//                                     borderRadius: BorderRadius.circular(10.0),
-//                                     borderSide: const BorderSide(
-//                                       color: Color(0xFF2F4771),
-//                                       width: 1.5,
-//                                     ),
-//                                   ),
-//                                 ),
-//                               ),
-//                             ),
-//                           ],
-//                         ),
-//                       ),
-//                     ],
-//                   ),
-//                 ),
-//               ),
-//               Container(
-//                 width: 250,
-//                 margin: EdgeInsets.symmetric(vertical: 12),
-//                 decoration: const BoxDecoration(
-//                   color: Color(0xFF2F4771),
-//                   borderRadius: BorderRadius.all(Radius.circular(30.0)),
-//                 ),
-//                 child: TextButton(
-//                   onPressed: () {},
-//                   child: const Text(
-//                     'Save',
-//                     style: TextStyle(
-//                       fontSize: 20,
-//                       color: Color(0xFFF9FAFB),
-//                     ),
-//                   ),
-//                 ),
-//               ),
-//             ],
-//           ),
-//
-//         ),
-//       ),
-//     );
-//   }
-// }

@@ -1,6 +1,8 @@
+import 'package:buildnex/Tasks/taskWidgets/pdfViewer.dart';
 import 'package:buildnex/Tasks/taskWidgets/taskInformation.dart';
 import 'package:buildnex/Tasks/tasks_HO/LocalGovernorate_Permits/Widgets/serviceProviderProfleData.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:get/get.dart';
 
 import '../../../APIRequests/homeOwnerTasksAPI.dart';
@@ -25,33 +27,21 @@ class _GovernemntalPermittiveHOState extends State<GovernemntalPermittiveHO> {
   String taskID = '';
   String taskProjectId = '';
   String approvalDocuments = '';
+  double? _progress ;
 
+  late Map<String, dynamic> Data ;
 
   @override
   void initState() {
     super.initState();
-    fetchArgumentsAndData();
-  }
-
-  Future<void> fetchArgumentsAndData() async {
-    try {
-
-      Map<String, dynamic> arguments = Get.arguments;
+    Map<String, dynamic> arguments = Get.arguments;
+    setState(() {
       taskID = arguments['taskID'];
       taskProjectId = arguments['taskProjectId'];
-
-      //  approvalDocuments= task5Data['ApprovalDocuments'];
-
-      final Map<String, dynamic> data =
-      await HomeOwnerTasksAPI.getApprovals(taskID);
-      setState(() {
-        task5Data = data;
-
-      });
-    } catch (e) {
-      print('Error fetching task5 data: $e');
-    }
+      task5Data = arguments['GovernmentData'] ;
+    });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -85,203 +75,215 @@ class _GovernemntalPermittiveHOState extends State<GovernemntalPermittiveHO> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
-                child: Column(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.symmetric(vertical: 14),
-                      decoration: BoxDecoration(
-                        color: Color(0xFF6781A6),
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(20.0),
-                          topRight: Radius.circular(20.0),
-                          bottomLeft: Radius.zero,
-                          bottomRight: Radius.zero,
-                        ),
-                        border: Border.all(
-                          color: Color(0xFF2F4771),
-                          width: 1.0,
-                        ),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          "Task Details",
-                          style: TextStyle(
-                              color: Color(0xFFF9FAFB),
-                              fontSize: 19,
-                              fontWeight: FontWeight.bold
-                          ),
-                        ),
-                      ),
+                child: Card(
+                  elevation: 5,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20.0),
+                      topRight: Radius.circular(20.0),
+                      bottomLeft: Radius.zero,
+                      bottomRight: Radius.zero,
                     ),
-                    const SizedBox(height: 10.0),
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Row(
-                          //   children: [
-                          //     const Expanded(
-                          //       flex: 1,
-                          //       child: Padding(
-                          //         padding: EdgeInsets.only(left: 8 ,right: 8),
-                          //         child: Text(
-                          //           "Governmental Approve:",
-                          //           style: TextStyle(
-                          //               color: Color(0xFF2F4771),
-                          //               fontWeight: FontWeight.w500,
-                          //               fontSize: 16
-                          //           ),
-                          //         ),
-                          //       ),
-                          //     ),
-                          //     Expanded(
-                          //       flex: 1,
-                          //       child: Container(
-                          //         padding: EdgeInsets.all(10),
-                          //         decoration: BoxDecoration(
-                          //           color: const Color(0xFFF9FAFB),
-                          //           borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                          //           border: Border.all(color: Color(0xFF2F4771) , width: 1.8),
-                          //         ),
-                          //         child: Center(
-                          //           child: Text(
-                          //             _governmentalAccept,
-                          //             style: const TextStyle(
-                          //                 color: Color(0xFF2F4771),
-                          //                 fontWeight: FontWeight.w500,
-                          //                 fontSize: 16
-                          //             ),
-                          //           ),
-                          //         ),
-                          //       ),
-                          //     ),
-                          //   ],
-                          // ),
-                          const SizedBox( height: 10,),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Expanded(
-                                flex: 1,
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 8 ,right: 8),
-                                  child: Text(
-                                    "Approval Documents:",  // we should give another name
-                                    style: TextStyle(
-                                        color: Color(0xFF2F4771),
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(top: 5 , right: 5),
-                                height: 35,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFF2F4771),
-                                  borderRadius: BorderRadius.circular(20.0),
-                                ),
-                                child: const Row(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 8 , right: 8),
-                                      child: Icon(
-                                        Icons.sim_card_download,
-                                        size: 20,
-                                        color: Color(0xFFF9FAFB),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(right: 12.0),
-                                      child: Text(
-                                        "Download",
-                                        style: TextStyle(
-                                          color: Color(0xFFF9FAFB),
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(top: 5 , right: 5),
-                                height: 35,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFF2F4771),
-                                  borderRadius: BorderRadius.circular(20.0),
-                                ),
-                                child: const Row(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 8 , right: 8),
-                                      child: Icon(
-                                        Icons.file_open_outlined,
-                                        size: 20,
-                                        color: Color(0xFFF9FAFB),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(right: 12.0),
-                                      child: Text(
-                                        "Open",
-                                        style: TextStyle(
-                                          color: Color(0xFFF9FAFB),
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.symmetric(vertical: 14),
+                        decoration: BoxDecoration(
+                          color: Color(0xFF6781A6),
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(20.0),
+                            topRight: Radius.circular(20.0),
+                            bottomLeft: Radius.zero,
+                            bottomRight: Radius.zero,
                           ),
-                          const Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Text(
-                              "Task Provider Notes: ",
-                              style: TextStyle(
-                                  color: Color(0xFF2F4771),
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w400
-                              ),
+                          border: Border.all(
+                            color: Color(0xFF2F4771),
+                            width: 1.0,
+                          ),
+                        ),
+                        child: const Center(
+                          child: Text(
+                            "Task Details",
+                            style: TextStyle(
+                                color: Color(0xFFF9FAFB),
+                                fontSize: 19,
+                                fontWeight: FontWeight.bold
                             ),
                           ),
-                          Container(
-                            height: 140,
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: TextFormField(
-                              maxLines: 5,
-                              minLines: 5,
-                              enabled: false,
-                              readOnly: true,
-                              decoration: InputDecoration(
-                                hintText:  task5Data['Notes'] ?? 'No notes available',
-                                hintStyle: TextStyle(color: Color(0xFF2F4771)),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: const BorderSide(
-                                    color: Color(0xFF2F4771),
+                        ),
+                      ),
+                      const SizedBox(height: 10.0),
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox( height: 10,),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Expanded(
+                                  flex: 1,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 8 ,right: 8),
+                                    child: Text(
+                                      "Approval Documents:",  // we should give another name
+                                      style: TextStyle(
+                                          color: Color(0xFF2F4771),
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16
+                                      ),
+                                    ),
                                   ),
                                 ),
-                                disabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: const BorderSide(
-                                    color: Color(0xFF2F4771),
-                                    width: 1.5,
+                                _progress != null
+                                    ? const CircularProgressIndicator()
+                                    :
+                                GestureDetector(
+                                  onTap: (){
+                                    if(task5Data['ApprovalsDocument'] != null){
+                                      FileDownloader.downloadFile(
+                                        url: task5Data['ApprovalsDocument'],
+                                        onProgress: (name, progress) {
+                                          setState(() {
+                                            _progress = _progress;
+                                          });
+                                        },
+                                        onDownloadCompleted: (value) {
+                                          setState(() {
+                                            _progress = null;
+                                          });
+                                        },
+                                      );
+                                    }
+                                    else{
+                                      Get.snackbar('Hi' , 'There is no file to download') ;
+                                    }
+                                  },
+                                  child: Container(
+                                    margin: const EdgeInsets.only(top: 5 , right: 5),
+                                    height: 35,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF2F4771),
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    child: const Row(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 8 , right: 8),
+                                          child: Icon(
+                                            Icons.sim_card_download,
+                                            size: 20,
+                                            color: Color(0xFFF9FAFB),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 12.0),
+                                          child: Text(
+                                            "Download",
+                                            style: TextStyle(
+                                              color: Color(0xFFF9FAFB),
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
+                                ),
+                                GestureDetector(
+                                  onTap: (){
+                                    if(task5Data['ApprovalsDocument'] != null){
+                                      Get.to(DocsPdfViewer(
+                                        pdfFileURL: task5Data['ApprovalsDocument'],
+                                      ));
+                                    }
+                                    else{
+                                      Get.snackbar('Hi' ,
+                                          'There is no file to open' ,
+                                          colorText: Colors.white,
+                                          backgroundColor: Color(0xFF2F4771)) ;
+                                    }
+                                  },
+                                  child: Container(
+                                    margin: const EdgeInsets.only(top: 5 , right: 5),
+                                    height: 35,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF2F4771),
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    child: const Row(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 8 , right: 8),
+                                          child: Icon(
+                                            Icons.file_open_outlined,
+                                            size: 20,
+                                            color: Color(0xFFF9FAFB),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 12.0),
+                                          child: Text(
+                                            "Open",
+                                            style: TextStyle(
+                                              color: Color(0xFFF9FAFB),
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Text(
+                                "Task Provider Notes: ",
+                                style: TextStyle(
+                                    color: Color(0xFF2F4771),
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w400
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                            Container(
+                              height: 140,
+                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                              child: TextFormField(
+                                maxLines: 5,
+                                minLines: 5,
+                                enabled: false,
+                                readOnly: true,
+                                decoration: InputDecoration(
+                                  hintText:  task5Data['Notes'] ?? 'No notes available',
+                                  hintStyle: TextStyle(color: Color(0xFF2F4771)),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderSide: const BorderSide(
+                                      color: Color(0xFF2F4771),
+                                    ),
+                                  ),
+                                  disabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderSide: const BorderSide(
+                                      color: Color(0xFF2F4771),
+                                      width: 1.5,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],

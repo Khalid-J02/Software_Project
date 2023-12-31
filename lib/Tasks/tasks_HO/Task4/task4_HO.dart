@@ -1,7 +1,9 @@
+import 'package:buildnex/Tasks/taskWidgets/pdfViewer.dart';
 import 'package:buildnex/Tasks/taskWidgets/taskInformation.dart';
 import 'package:buildnex/Tasks/tasks_HO/LocalGovernorate_Permits/Widgets/serviceProviderProfleData.dart';
 import 'package:buildnex/Tasks/tasks_SP/PropertSurvey/widgets/textFieldTasks.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:get/get.dart';
 import '../../../APIRequests/homeOwnerTasksAPI.dart';
 import '../../../Widgets/customAlertDialog.dart';
@@ -35,33 +37,26 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
   int? numRooms;
   int? numFloors;
   double? buildingArea;
+  double? _progress ;
 
+  late Map<String, dynamic> getbuildingData ;
 
   @override
   void initState() {
     super.initState();
+    Map<String, dynamic> arguments = Get.arguments;
+    setState(() {
+      taskID = arguments['taskID'];
+      taskProjectId = arguments['taskProjectId'];
+      task4Data = arguments['DesignData'] ;
+      getbuildingData  = arguments['buildingData'] ;
+    });
     fetchArgumentsAndData();
   }
 
-  Future<void> fetchArgumentsAndData() async {
+  void fetchArgumentsAndData() async {
     try {
-
-      Map<String, dynamic> arguments = Get.arguments;
-      taskID = arguments['taskID'];
-      taskProjectId = arguments['taskProjectId'];
-
-      //  designDocument= task4Data['DesignDocument'];
-      //  foundationDocument= task4Data['FoundationDocument'];
-      //  plumbingDocument= task4Data['PlumbingDocument'];
-      //  electricalDocument= task4Data['ElectricalDocument'];
-      //  insulationAndHVACDocument= task4Data['InsulationAndHVACDocument'];
-
-      final Map<String, dynamic> data =
-      await HomeOwnerTasksAPI.getDesignAndPlanning(taskID);
-      final Map<String, dynamic> getbuildingData = await HomeOwnerTasksAPI.getProjectInfoData( int.parse(taskProjectId));
-
       setState(() {
-        task4Data = data;
         numRooms = getbuildingData['NumberOfRooms'] != null
             ? int.tryParse(getbuildingData['NumberOfRooms'].toString())
             : null;
@@ -74,16 +69,13 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
             ? double.tryParse(getbuildingData['BuildingArea'].toString())
             : null;
 
-        if(numRooms != null)
-        {
+        if(numRooms != null) {
           _numRooms.text = numRooms.toString();
         }
-        if(numFloors != null)
-        {
+        if(numFloors != null) {
           _numFloors.text = numFloors.toString();
         }
-        if(buildingArea != null)
-        {
+        if(buildingArea != null) {
           _buildingArea.text = buildingArea.toString();
         }
 
@@ -118,6 +110,23 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
 
     return true;
   }
+
+  void downloadFile(String _docs){
+    FileDownloader.downloadFile(
+      url: _docs,
+      onProgress: (name, progress) {
+        setState(() {
+          _progress = _progress;
+        });
+      },
+      onDownloadCompleted: (value) {
+        setState(() {
+          _progress = null;
+        });
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -150,146 +159,157 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
-                child: Column(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.symmetric(vertical: 14),
-                      decoration: BoxDecoration(
-                        color: Color(0xFF6781A6),
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(20.0),
-                          topRight: Radius.circular(20.0),
-                          bottomLeft: Radius.zero,
-                          bottomRight: Radius.zero,
-                        ),
-                        border: Border.all(
-                          color: Color(0xFF2F4771),
-                          width: 1.0,
-                        ),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          "Home Owner Demands",
-                          style: TextStyle(
-                              color: Color(0xFFF9FAFB),
-                              fontSize: 19,
-                              fontWeight: FontWeight.bold
-                          ),
-                        ),
-                      ),
+                child: Card(
+                  elevation: 5,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20.0),
+                      topRight: Radius.circular(20.0),
+                      bottomLeft: Radius.zero,
+                      bottomRight: Radius.zero,
                     ),
-                    const SizedBox(height: 10.0),
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              const Expanded(
-                                flex: 1,
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 8 ,right: 8),
-                                  child: Text(
-                                    "Enter Num. of Rooms:",
-                                    style: TextStyle(
-                                        color: Color(0xFF2F4771),
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.symmetric(vertical: 14),
+                        decoration: BoxDecoration(
+                          color: Color(0xFF6781A6),
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(20.0),
+                            topRight: Radius.circular(20.0),
+                            bottomLeft: Radius.zero,
+                            bottomRight: Radius.zero,
+                          ),
+                          border: Border.all(
+                            color: Color(0xFF2F4771),
+                            width: 1.0,
+                          ),
+                        ),
+                        child: const Center(
+                          child: Text(
+                            "Home Owner Demands",
+                            style: TextStyle(
+                                color: Color(0xFFF9FAFB),
+                                fontSize: 19,
+                                fontWeight: FontWeight.bold
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10.0),
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                const Expanded(
+                                  flex: 1,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 8 ,right: 8),
+                                    child: Text(
+                                      "Enter Num. of Rooms:",
+                                      style: TextStyle(
+                                          color: Color(0xFF2F4771),
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: TextfieldTasks(controller: _numRooms,
-                                  hintText: 'Enter # of Rooms', labelText: 'Rooms Number',),
-                              ),
-                            ],
-                          ),
-                          const SizedBox( height: 10,),
-                          Row(
-                            children: [
-                              const Expanded(
-                                flex: 1,
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 8 ,right: 8),
-                                  child: Text(
-                                    "Enter Num. of Floors:",
-                                    style: TextStyle(
-                                        color: Color(0xFF2F4771),
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16
+                                Expanded(
+                                  flex: 1,
+                                  child: TextfieldTasks(controller: _numRooms,
+                                    hintText: 'Enter # of Rooms', labelText: 'Rooms Number',),
+                                ),
+                              ],
+                            ),
+                            const SizedBox( height: 10,),
+                            Row(
+                              children: [
+                                const Expanded(
+                                  flex: 1,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 8 ,right: 8),
+                                    child: Text(
+                                      "Enter Num. of Floors:",
+                                      style: TextStyle(
+                                          color: Color(0xFF2F4771),
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: TextfieldTasks(controller: _numFloors,
-                                  hintText: 'Enter # of Rooms', labelText: 'Floors Number',),
-                              ),
-                            ],
-                          ),
-                          const SizedBox( height: 10,),
-                          Row(
-                            children: [
-                              const Expanded(
-                                flex: 1,
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 8 ,right: 8),
-                                  child: Text(
-                                    "House Building Area:",
-                                    style: TextStyle(
-                                        color: Color(0xFF2F4771),
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16
+                                Expanded(
+                                  flex: 1,
+                                  child: TextfieldTasks(controller: _numFloors,
+                                    hintText: 'Enter # of Rooms', labelText: 'Floors Number',),
+                                ),
+                              ],
+                            ),
+                            const SizedBox( height: 10,),
+                            Row(
+                              children: [
+                                const Expanded(
+                                  flex: 1,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 8 ,right: 8),
+                                    child: Text(
+                                      "House Building Area:",
+                                      style: TextStyle(
+                                          color: Color(0xFF2F4771),
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: TextfieldTasks(controller: _buildingArea,
-                                  hintText: 'Enter desired Building Area',
-                                  labelText: 'Building Area',),
-                              ),
-                            ],
-                          ),
-                          const SizedBox( height: 10,),
-                          Center(
-                            child: Container(
-                              width: 250,
-                              margin: EdgeInsets.only(bottom: 12),
-                              decoration: const BoxDecoration(
-                                color: Color(0xFF2F4771),
-                                borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                              ),
-                              child: TextButton(
-                                onPressed: () async {
-                                  if (await validateInput()) {
-                                    final savedData = await HomeOwnerTasksAPI.saveBuildingData(int.parse(taskProjectId),int.tryParse(_numRooms.text),int.tryParse(_numFloors.text),double.tryParse(_buildingArea.text));
-                                    _numRooms.text = savedData['NumberOfRooms'].toString();
-                                    _numFloors.text = savedData['NumberOfFloors'].toString();
-                                    _buildingArea.text = savedData['BuildingArea'].toString();
-                                    CustomAlertDialog.showSuccessDialog(context, "Building data saved successfully");
-                                    return;
-                                  }
-                                },
-                                child: const Text(
-                                  'Save',
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color: Color(0xFFF9FAFB),
+                                Expanded(
+                                  flex: 1,
+                                  child: TextfieldTasks(controller: _buildingArea,
+                                    hintText: 'Enter desired Building Area',
+                                    labelText: 'Building Area',),
+                                ),
+                              ],
+                            ),
+                            const SizedBox( height: 15,),
+                            Center(
+                              child: Container(
+                                width: 250,
+                                margin: EdgeInsets.only(bottom: 12),
+                                decoration: const BoxDecoration(
+                                  color: Color(0xFF2F4771),
+                                  borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                                ),
+                                child: TextButton(
+                                  onPressed: () async {
+                                    if (await validateInput()) {
+                                      final savedData = await HomeOwnerTasksAPI.saveBuildingData(int.parse(taskProjectId),int.tryParse(_numRooms.text),int.tryParse(_numFloors.text),double.tryParse(_buildingArea.text));
+                                      _numRooms.text = savedData['NumberOfRooms'].toString();
+                                      _numFloors.text = savedData['NumberOfFloors'].toString();
+                                      _buildingArea.text = savedData['BuildingArea'].toString();
+                                      CustomAlertDialog.showSuccessDialog(context, "Building data saved successfully");
+                                      return;
+                                    }
+                                  },
+                                  child: const Text(
+                                    'Save',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      color: Color(0xFFF9FAFB),
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               Container(
@@ -298,491 +318,643 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
-                child: Column(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.symmetric(vertical: 14),
-                      decoration: BoxDecoration(
-                        color: Color(0xFF6781A6),
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(20.0),
-                          topRight: Radius.circular(20.0),
-                          bottomLeft: Radius.zero,
-                          bottomRight: Radius.zero,
-                        ),
-                        border: Border.all(
-                          color: Color(0xFF2F4771),
-                          width: 1.0,
-                        ),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          "Task Details",
-                          style: TextStyle(
-                              color: Color(0xFFF9FAFB),
-                              fontSize: 19,
-                              fontWeight: FontWeight.bold
-                          ),
-                        ),
-                      ),
+                child: Card(
+                  elevation: 5,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20.0),
+                      topRight: Radius.circular(20.0),
+                      bottomLeft: Radius.zero,
+                      bottomRight: Radius.zero,
                     ),
-                    const SizedBox(height: 10.0),
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Expanded(
-                                flex: 1,
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 8 ,right: 8),
-                                  child: Text(
-                                    "Design Document:",
-                                    style: TextStyle(
-                                        color: Color(0xFF2F4771),
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(top: 5 , right: 5),
-                                height: 35,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFF2F4771),
-                                  borderRadius: BorderRadius.circular(20.0),
-                                ),
-                                child: const Row(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 8 , right: 8),
-                                      child: Icon(
-                                        Icons.sim_card_download,
-                                        size: 20,
-                                        color: Color(0xFFF9FAFB),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(right: 12.0),
-                                      child: Text(
-                                        "Download",
-                                        style: TextStyle(
-                                          color: Color(0xFFF9FAFB),
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(top: 5 , right: 5),
-                                height: 35,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFF2F4771),
-                                  borderRadius: BorderRadius.circular(20.0),
-                                ),
-                                child: const Row(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 8 , right: 8),
-                                      child: Icon(
-                                        Icons.file_open_outlined,
-                                        size: 20,
-                                        color: Color(0xFFF9FAFB),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(right: 12.0),
-                                      child: Text(
-                                        "Open",
-                                        style: TextStyle(
-                                          color: Color(0xFFF9FAFB),
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.symmetric(vertical: 14),
+                        decoration: BoxDecoration(
+                          color: Color(0xFF6781A6),
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(20.0),
+                            topRight: Radius.circular(20.0),
+                            bottomLeft: Radius.zero,
+                            bottomRight: Radius.zero,
                           ),
-                          const SizedBox( height: 10,),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Expanded(
-                                flex: 1,
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 8 ,right: 8),
-                                  child: Text(
-                                    "Foundation Document:",
-                                    style: TextStyle(
-                                        color: Color(0xFF2F4771),
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(top: 5 , right: 5),
-                                height: 35,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFF2F4771),
-                                  borderRadius: BorderRadius.circular(20.0),
-                                ),
-                                child: const Row(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 8 , right: 8),
-                                      child: Icon(
-                                        Icons.sim_card_download,
-                                        size: 20,
-                                        color: Color(0xFFF9FAFB),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(right: 12.0),
-                                      child: Text(
-                                        "Download",
-                                        style: TextStyle(
-                                          color: Color(0xFFF9FAFB),
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(top: 5 , right: 5),
-                                height: 35,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFF2F4771),
-                                  borderRadius: BorderRadius.circular(20.0),
-                                ),
-                                child: const Row(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 8 , right: 8),
-                                      child: Icon(
-                                        Icons.file_open_outlined,
-                                        size: 20,
-                                        color: Color(0xFFF9FAFB),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(right: 12.0),
-                                      child: Text(
-                                        "Open",
-                                        style: TextStyle(
-                                          color: Color(0xFFF9FAFB),
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
+                          border: Border.all(
+                            color: Color(0xFF2F4771),
+                            width: 1.0,
                           ),
-                          const SizedBox( height: 10,),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Expanded(
-                                flex: 1,
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 8 ,right: 8),
-                                  child: Text(
-                                    "Plumbing Document:",
-                                    style: TextStyle(
-                                        color: Color(0xFF2F4771),
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(top: 5 , right: 5),
-                                height: 35,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFF2F4771),
-                                  borderRadius: BorderRadius.circular(20.0),
-                                ),
-                                child: const Row(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 8 , right: 8),
-                                      child: Icon(
-                                        Icons.sim_card_download,
-                                        size: 20,
-                                        color: Color(0xFFF9FAFB),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(right: 12.0),
-                                      child: Text(
-                                        "Download",
-                                        style: TextStyle(
-                                          color: Color(0xFFF9FAFB),
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(top: 5 , right: 5),
-                                height: 35,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFF2F4771),
-                                  borderRadius: BorderRadius.circular(20.0),
-                                ),
-                                child: const Row(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 8 , right: 8),
-                                      child: Icon(
-                                        Icons.file_open_outlined,
-                                        size: 20,
-                                        color: Color(0xFFF9FAFB),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(right: 12.0),
-                                      child: Text(
-                                        "Open",
-                                        style: TextStyle(
-                                          color: Color(0xFFF9FAFB),
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox( height: 10,),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Expanded(
-                                flex: 1,
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 8 ,right: 8),
-                                  child: Text(
-                                    "Electrical Document:",
-                                    style: TextStyle(
-                                        color: Color(0xFF2F4771),
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(top: 5 , right: 5),
-                                height: 35,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFF2F4771),
-                                  borderRadius: BorderRadius.circular(20.0),
-                                ),
-                                child: const Row(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 8 , right: 8),
-                                      child: Icon(
-                                        Icons.sim_card_download,
-                                        size: 20,
-                                        color: Color(0xFFF9FAFB),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(right: 12.0),
-                                      child: Text(
-                                        "Download",
-                                        style: TextStyle(
-                                          color: Color(0xFFF9FAFB),
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(top: 5 , right: 5),
-                                height: 35,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFF2F4771),
-                                  borderRadius: BorderRadius.circular(20.0),
-                                ),
-                                child: const Row(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 8 , right: 8),
-                                      child: Icon(
-                                        Icons.file_open_outlined,
-                                        size: 20,
-                                        color: Color(0xFFF9FAFB),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(right: 12.0),
-                                      child: Text(
-                                        "Open",
-                                        style: TextStyle(
-                                          color: Color(0xFFF9FAFB),
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox( height: 10,),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Expanded(
-                                flex: 1,
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 8 ,right: 8),
-                                  child: Text(
-                                    "Insulation Document:",
-                                    style: TextStyle(
-                                        color: Color(0xFF2F4771),
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(top: 5 , right: 5),
-                                height: 35,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFF2F4771),
-                                  borderRadius: BorderRadius.circular(20.0),
-                                ),
-                                child: const Row(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 8 , right: 8),
-                                      child: Icon(
-                                        Icons.sim_card_download,
-                                        size: 20,
-                                        color: Color(0xFFF9FAFB),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(right: 12.0),
-                                      child: Text(
-                                        "Download",
-                                        style: TextStyle(
-                                          color: Color(0xFFF9FAFB),
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(top: 5 , right: 5),
-                                height: 35,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFF2F4771),
-                                  borderRadius: BorderRadius.circular(20.0),
-                                ),
-                                child: const Row(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 8 , right: 8),
-                                      child: Icon(
-                                        Icons.file_open_outlined,
-                                        size: 20,
-                                        color: Color(0xFFF9FAFB),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(right: 12.0),
-                                      child: Text(
-                                        "Open",
-                                        style: TextStyle(
-                                          color: Color(0xFFF9FAFB),
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Text(
-                              "Task Provider Notes: ",
-                              style: TextStyle(
-                                  color: Color(0xFF2F4771),
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w400
-                              ),
+                        ),
+                        child: const Center(
+                          child: Text(
+                            "Task Details",
+                            style: TextStyle(
+                                color: Color(0xFFF9FAFB),
+                                fontSize: 19,
+                                fontWeight: FontWeight.bold
                             ),
                           ),
-                          Container(
-                            height: 140,
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: TextFormField(
-                              maxLines: 5,
-                              minLines: 5,
-                              enabled: false,
-                              readOnly: true,
-                              decoration: InputDecoration(
-                                hintText:  task4Data['Notes'] ?? 'No notes available',
-                                hintStyle: TextStyle(color: Color(0xFF2F4771)),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: const BorderSide(
-                                    color: Color(0xFF2F4771),
+                        ),
+                      ),
+                      const SizedBox(height: 10.0),
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Expanded(
+                                  flex: 1,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 8 ,right: 8),
+                                    child: Text(
+                                      "Design Document:",
+                                      style: TextStyle(
+                                          color: Color(0xFF2F4771),
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16
+                                      ),
+                                    ),
                                   ),
                                 ),
-                                disabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: const BorderSide(
+                                _progress != null
+                                    ? const CircularProgressIndicator()
+                                    :
+                                GestureDetector(
+                                  onTap: (){
+                                    if(getbuildingData['DesignDocument'] != null){
+                                      downloadFile(getbuildingData['DesignDocument']) ;
+                                    }
+                                    else{
+                                      Get.snackbar('Hi' , 'There is no file to download') ;
+                                    }
+                                  },
+                                  child: Container(
+                                    margin: const EdgeInsets.only(top: 5 , right: 5),
+                                    height: 35,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF2F4771),
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    child: const Row(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 8 , right: 8),
+                                          child: Icon(
+                                            Icons.sim_card_download,
+                                            size: 20,
+                                            color: Color(0xFFF9FAFB),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 12.0),
+                                          child: Text(
+                                            "Download",
+                                            style: TextStyle(
+                                              color: Color(0xFFF9FAFB),
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: (){
+                                    if(getbuildingData['DesignDocument'] != null){
+                                      Get.to(DocsPdfViewer(
+                                        pdfFileURL: getbuildingData['DesignDocument'],
+                                      ));
+                                    }
+                                    else{
+                                      Get.snackbar('Hi' ,
+                                          'There is no file to open' ,
+                                          colorText: Colors.white,
+                                          backgroundColor: Color(0xFF2F4771)) ;
+                                    }
+                                  },
+                                  child: Container(
+                                    margin: const EdgeInsets.only(top: 5 , right: 5),
+                                    height: 35,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF2F4771),
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    child: const Row(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 8 , right: 8),
+                                          child: Icon(
+                                            Icons.file_open_outlined,
+                                            size: 20,
+                                            color: Color(0xFFF9FAFB),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 12.0),
+                                          child: Text(
+                                            "Open",
+                                            style: TextStyle(
+                                              color: Color(0xFFF9FAFB),
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox( height: 10,),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Expanded(
+                                  flex: 1,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 8 ,right: 8),
+                                    child: Text(
+                                      "Foundation Document:",
+                                      style: TextStyle(
+                                          color: Color(0xFF2F4771),
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                _progress != null
+                                    ? const CircularProgressIndicator()
+                                    :
+                                GestureDetector(
+                                  onTap: (){
+                                    if(getbuildingData['FoundationDocument'] != null){
+                                      downloadFile(getbuildingData['FoundationDocument']) ;
+                                    }
+                                    else{
+                                      Get.snackbar('Hi' , 'There is no file to download') ;
+                                    }
+                                  },
+                                  child: Container(
+                                    margin: const EdgeInsets.only(top: 5 , right: 5),
+                                    height: 35,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF2F4771),
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    child: const Row(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 8 , right: 8),
+                                          child: Icon(
+                                            Icons.sim_card_download,
+                                            size: 20,
+                                            color: Color(0xFFF9FAFB),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 12.0),
+                                          child: Text(
+                                            "Download",
+                                            style: TextStyle(
+                                              color: Color(0xFFF9FAFB),
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: (){
+                                    if(getbuildingData['FoundationDocument'] != null){
+                                      Get.to(DocsPdfViewer(
+                                        pdfFileURL: getbuildingData['FoundationDocument'],
+                                      ));
+                                    }
+                                    else{
+                                      Get.snackbar('Hi' ,
+                                          'There is no file to open' ,
+                                          colorText: Colors.white,
+                                          backgroundColor: Color(0xFF2F4771)) ;
+                                    }
+                                  },
+                                  child: Container(
+                                    margin: const EdgeInsets.only(top: 5 , right: 5),
+                                    height: 35,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF2F4771),
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    child: const Row(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 8 , right: 8),
+                                          child: Icon(
+                                            Icons.file_open_outlined,
+                                            size: 20,
+                                            color: Color(0xFFF9FAFB),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 12.0),
+                                          child: Text(
+                                            "Open",
+                                            style: TextStyle(
+                                              color: Color(0xFFF9FAFB),
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox( height: 10,),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Expanded(
+                                  flex: 1,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 8 ,right: 8),
+                                    child: Text(
+                                      "Plumbing Document:",
+                                      style: TextStyle(
+                                          color: Color(0xFF2F4771),
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                _progress != null
+                                    ? const CircularProgressIndicator()
+                                    :
+                                GestureDetector(
+                                  onTap: (){
+                                    if(getbuildingData['PlumbingDocument'] != null){
+                                      downloadFile(getbuildingData['PlumbingDocument']) ;
+                                    }
+                                    else{
+                                      Get.snackbar('Hi' , 'There is no file to download') ;
+                                    }
+                                  },
+                                  child: Container(
+                                    margin: const EdgeInsets.only(top: 5 , right: 5),
+                                    height: 35,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF2F4771),
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    child: const Row(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 8 , right: 8),
+                                          child: Icon(
+                                            Icons.sim_card_download,
+                                            size: 20,
+                                            color: Color(0xFFF9FAFB),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 12.0),
+                                          child: Text(
+                                            "Download",
+                                            style: TextStyle(
+                                              color: Color(0xFFF9FAFB),
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: (){
+                                    if(getbuildingData['PlumbingDocument'] != null){
+                                      Get.to(DocsPdfViewer(
+                                        pdfFileURL: getbuildingData['PlumbingDocument'],
+                                      ));
+                                    }
+                                    else{
+                                      Get.snackbar('Hi' ,
+                                          'There is no file to open' ,
+                                          colorText: Colors.white,
+                                          backgroundColor: Color(0xFF2F4771)) ;
+                                    }
+                                  },
+                                  child: Container(
+                                    margin: const EdgeInsets.only(top: 5 , right: 5),
+                                    height: 35,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF2F4771),
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    child: const Row(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 8 , right: 8),
+                                          child: Icon(
+                                            Icons.file_open_outlined,
+                                            size: 20,
+                                            color: Color(0xFFF9FAFB),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 12.0),
+                                          child: Text(
+                                            "Open",
+                                            style: TextStyle(
+                                              color: Color(0xFFF9FAFB),
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox( height: 10,),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Expanded(
+                                  flex: 1,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 8 ,right: 8),
+                                    child: Text(
+                                      "Electrical Document:",
+                                      style: TextStyle(
+                                          color: Color(0xFF2F4771),
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                _progress != null
+                                    ? const CircularProgressIndicator()
+                                    :
+                                GestureDetector(
+                                  onTap: (){
+                                    if(getbuildingData['ElectricalDocument'] != null){
+                                      downloadFile(getbuildingData['ElectricalDocument']) ;
+                                    }
+                                    else{
+                                      Get.snackbar('Hi' , 'There is no file to download') ;
+                                    }
+                                  },
+                                  child: Container(
+                                    margin: const EdgeInsets.only(top: 5 , right: 5),
+                                    height: 35,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF2F4771),
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    child: const Row(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 8 , right: 8),
+                                          child: Icon(
+                                            Icons.sim_card_download,
+                                            size: 20,
+                                            color: Color(0xFFF9FAFB),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 12.0),
+                                          child: Text(
+                                            "Download",
+                                            style: TextStyle(
+                                              color: Color(0xFFF9FAFB),
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: (){
+                                    if(getbuildingData['ElectricalDocument'] != null){
+                                      Get.to(DocsPdfViewer(
+                                        pdfFileURL: getbuildingData['ElectricalDocument'],
+                                      ));
+                                    }
+                                    else{
+                                      Get.snackbar('Hi' ,
+                                          'There is no file to open' ,
+                                          colorText: Colors.white,
+                                          backgroundColor: Color(0xFF2F4771)) ;
+                                    }
+
+                                  },
+                                  child: Container(
+                                    margin: const EdgeInsets.only(top: 5 , right: 5),
+                                    height: 35,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF2F4771),
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    child: const Row(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 8 , right: 8),
+                                          child: Icon(
+                                            Icons.file_open_outlined,
+                                            size: 20,
+                                            color: Color(0xFFF9FAFB),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 12.0),
+                                          child: Text(
+                                            "Open",
+                                            style: TextStyle(
+                                              color: Color(0xFFF9FAFB),
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox( height: 10,),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Expanded(
+                                  flex: 1,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 8 ,right: 8),
+                                    child: Text(
+                                      "Insulation Document:",
+                                      style: TextStyle(
+                                          color: Color(0xFF2F4771),
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                _progress != null
+                                    ? const CircularProgressIndicator()
+                                    :
+                                GestureDetector(
+                                  onTap: (){
+                                    if(getbuildingData['InsulationAndHVACDocument'] != null){
+                                      downloadFile(getbuildingData['InsulationAndHVACDocument']) ;
+                                    }
+                                    else{
+                                      Get.snackbar('Hi' , 'There is no file to download') ;
+                                    }
+                                  },
+                                  child: Container(
+                                    margin: const EdgeInsets.only(top: 5 , right: 5),
+                                    height: 35,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF2F4771),
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    child: const Row(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 8 , right: 8),
+                                          child: Icon(
+                                            Icons.sim_card_download,
+                                            size: 20,
+                                            color: Color(0xFFF9FAFB),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 12.0),
+                                          child: Text(
+                                            "Download",
+                                            style: TextStyle(
+                                              color: Color(0xFFF9FAFB),
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: (){
+                                    if(getbuildingData['InsulationAndHVACDocument'] != null){
+                                      Get.to(DocsPdfViewer(
+                                        pdfFileURL: getbuildingData['InsulationAndHVACDocument'],
+                                      ));
+                                    }
+                                    else{
+                                      Get.snackbar('Hi' ,
+                                          'There is no file to open' ,
+                                          colorText: Colors.white,
+                                          backgroundColor: Color(0xFF2F4771)) ;
+                                    }
+                                  },
+                                  child: Container(
+                                    margin: const EdgeInsets.only(top: 5 , right: 5),
+                                    height: 35,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF2F4771),
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    child: const Row(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 8 , right: 8),
+                                          child: Icon(
+                                            Icons.file_open_outlined,
+                                            size: 20,
+                                            color: Color(0xFFF9FAFB),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 12.0),
+                                          child: Text(
+                                            "Open",
+                                            style: TextStyle(
+                                              color: Color(0xFFF9FAFB),
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Text(
+                                "Task Provider Notes: ",
+                                style: TextStyle(
                                     color: Color(0xFF2F4771),
-                                    width: 1.5,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w400
+                                ),
+                              ),
+                            ),
+                            Container(
+                              height: 140,
+                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                              child: TextFormField(
+                                maxLines: 5,
+                                minLines: 5,
+                                enabled: false,
+                                readOnly: true,
+                                decoration: InputDecoration(
+                                  hintText:  task4Data['Notes'] ?? 'No notes available',
+                                  hintStyle: TextStyle(color: Color(0xFF2F4771)),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderSide: const BorderSide(
+                                      color: Color(0xFF2F4771),
+                                    ),
+                                  ),
+                                  disabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderSide: const BorderSide(
+                                      color: Color(0xFF2F4771),
+                                      width: 1.5,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],

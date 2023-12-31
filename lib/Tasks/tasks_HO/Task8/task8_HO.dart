@@ -27,26 +27,12 @@ class _ElectricalInstallHOState extends State<ElectricalInstallHO> {
   @override
   void initState() {
     super.initState();
-    fetchArgumentsAndData();
-  }
-
-  Future<void> fetchArgumentsAndData() async {
-    try {
-
-      Map<String, dynamic> arguments = Get.arguments;
+    Map<String, dynamic> arguments = Get.arguments;
+    setState(() {
       taskID = arguments['taskID'];
       taskProjectId = arguments['taskProjectId'];
-
-      final Map<String, dynamic> data =
-      await HomeOwnerTasksAPI.getTask6(taskID);
-
-      setState(() {
-        task8Data = data;
-      });
-
-    } catch (e) {
-      print('Error fetching task8 data: $e');
-    }
+      task8Data = arguments['task8data'] ;
+    });
   }
 
   @override
