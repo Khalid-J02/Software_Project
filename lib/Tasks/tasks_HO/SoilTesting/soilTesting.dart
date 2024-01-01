@@ -242,7 +242,7 @@ class _SoilTestingState extends State<SoilTesting> {
                         enabled: false,
                         readOnly: true,
                         decoration: InputDecoration(
-                          hintText: "There is no notes yet .. ",
+                          hintText: task3Data['Notes'] ?? "No notes available for now...",
                           hintStyle: TextStyle(color: Color(0xFF2F4771)),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
