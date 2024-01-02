@@ -26,6 +26,7 @@ class ServiceProviderProjectsAPI {
             'taskStatus': project['TaskStatus'],
             'taskNumber': project['TaskNumber'],
             'projectName': project['ProjectName'],
+            'projectID':  project['ProjectID'],
             'homeOwnerName': project['HomeOwnerName'],
           })
               .toList();

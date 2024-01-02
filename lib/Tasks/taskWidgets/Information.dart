@@ -1,0 +1,165 @@
+import 'package:flutter/material.dart';
+
+class Information extends StatefulWidget {
+  String title;
+  String documentName;
+  String document;
+
+  Information({
+    super.key,
+    required this.title,
+    required this.documentName,
+    required this.document,
+  });
+
+  @override
+  State<Information> createState() => _TaskInformationState();
+}
+
+class _TaskInformationState extends State<Information> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(20.0),
+          bottomRight: Radius.circular(20.0),
+          topRight: Radius.zero,
+          topLeft: Radius.zero,
+        ),
+      ),
+      child: Card(
+        elevation: 5,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20.0),
+            topRight: Radius.circular(20.0),
+            bottomLeft: Radius.zero,
+            bottomRight: Radius.zero,
+          ),
+        ),
+        child: Column(
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height / 17,
+              decoration: BoxDecoration(
+                color: Color(0xFF6781A6),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(20.0),
+                  topRight: Radius.circular(20.0),
+                  bottomLeft: Radius.zero,
+                  bottomRight: Radius.zero,
+                ),
+                border: Border.all(
+                  color: Color(0xFF2F4771),
+                  width: 1.0,
+                ),
+              ),
+              child: Center(
+                child: Text(
+                  widget.title,
+                  style: const TextStyle(
+                      color: Color(0xFFF9FAFB),
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 12,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.all(12),
+                            child: Text(
+                              widget.documentName,
+                              style: TextStyle(
+                                  color: Color(0xFF2F4771),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400),
+                            ),
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.only(top: 5, right: 5),
+                              height: 35,
+                              width: 80,
+                              decoration: BoxDecoration(
+                                color: Color(0xFF2F4771),
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
+                              child: const Row(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 8.0, left: 8, bottom: 8, right: 4),
+                                    child: Icon(
+                                      Icons.file_open_outlined,
+                                      size: 20,
+                                      color: Color(0xFFF9FAFB),
+                                    ),
+                                  ),
+                                  Text(
+                                    "Open",
+                                    style: TextStyle(
+                                        color: Color(0xFFF9FAFB),
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 14),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(top: 5, right: 12),
+                              height: 35,
+                              width: 100,
+                              decoration: BoxDecoration(
+                                color: Color(0xFF2F4771),
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
+                              child: const Row(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 8.0, left: 8, bottom: 8, right: 4),
+                                    child: Icon(
+                                      Icons.sim_card_download_outlined,
+                                      size: 20,
+                                      color: Color(0xFFF9FAFB),
+                                    ),
+                                  ),
+                                  Text(
+                                    "Download",
+                                    style: TextStyle(
+                                        color: Color(0xFFF9FAFB),
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 14),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}

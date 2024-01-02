@@ -5,6 +5,10 @@ import 'package:buildnex/Tasks/tasks_SP/PropertSurvey/widgets/textFieldTasks.dar
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../APIRequests/ServiceProviderGetTasksAPI.dart';
+import '../../../Widgets/customAlertDialog.dart';
+import '../../taskWidgets/Information.dart';
+
 
 void main() {
   runApp(GetMaterialApp(home: ConstructionSP()));
@@ -21,6 +25,40 @@ class _ConstructionSPState extends State<ConstructionSP> {
 
   String _materialProvider = 'Select an Option' ;
   final _userNotes = TextEditingController() ;
+
+
+  Map<String, dynamic> constructionData = {};
+  String taskID = '';
+  String taskProjectId = '';
+
+  bool isSubmitVisible = true;
+
+  @override
+  void initState() {
+    super.initState();
+    Map<String, dynamic> arguments = Get.arguments;
+    setState(() {
+      constructionData = arguments['task6Data'];
+      taskID = arguments['taskID'];
+      taskProjectId = arguments['taskProjectId'];
+      // print(constructionData);
+      if (constructionData['Notes'] != null) {
+        _userNotes.text = constructionData['Notes'];
+        isSubmitVisible = false;
+      } else {
+        _userNotes.text = '';
+      }
+
+    });
+  }
+
+  bool areFieldsValid( String userNotes) {
+    if (userNotes.isNotEmpty) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +84,21 @@ class _ConstructionSPState extends State<ConstructionSP> {
           padding: const EdgeInsets.only(top: 10),
           child: Column(
             children: [
-              TaskInformation(taskID: 7777, taskName: 'Construction & Structural Framing', projectName: 'Nablus Project', taskStatus: 'Not Started',),
-              TaskProviderInformation(rating: 3.5, numOfReviews: 55,),
-              Container(
+              TaskInformation(
+                taskID: constructionData['TaskID'] ?? 0,
+                taskName: constructionData['TaskName'] ?? 'Unknown',
+                projectName: constructionData['ProjectName'] ?? 'Unknown',
+                taskStatus: constructionData['TaskStatus'] ?? 'Unknown',
+              ),
+              Information(
+                title: 'Required Documents for This Task', documentName: 'Foundation Documents:', document: constructionData['FoundationDocument'],
+              ),
+              TaskProviderInformation(
+                userPicture: constructionData['UserPicture'],
+                rating:
+                (constructionData['Rating'] as num?)?.toDouble() ?? 0.0,
+                numOfReviews: constructionData['ReviewCount'] ?? 0,
+              ),              Container(
                 margin: const EdgeInsets.only(top: 5),
                 padding: const EdgeInsets.symmetric(horizontal: 20 , vertical: 5),
                 decoration: BoxDecoration(
@@ -114,9 +164,9 @@ class _ConstructionSPState extends State<ConstructionSP> {
                                     borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                                     border: Border.all(color: Color(0xFF2F4771) , width: 1.8),
                                   ),
-                                  child: const Center(
+                                  child:  Center(
                                     child: Text(
-                                      "Service Provider",
+                                      constructionData['MaterialProvider'] ,
                                       style: TextStyle(
                                           color: Color(0xFF2F4771),
                                           fontWeight: FontWeight.w500,
@@ -132,32 +182,35 @@ class _ConstructionSPState extends State<ConstructionSP> {
                           const Padding(
                             padding: EdgeInsets.all(10),
                             child: Text(
-                              "Home Owner Notes: ",
+                              "Your Notes: ",
                               style: TextStyle(
                                   color: Color(0xFF2F4771),
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w400
-                              ),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400),
                             ),
                           ),
                           Container(
                             height: 140,
                             padding: const EdgeInsets.symmetric(horizontal: 8),
                             child: TextFormField(
-                              maxLines: 5,
-                              minLines: 5,
-                              enabled: false,
-                              readOnly: true,
+                              keyboardType: TextInputType.multiline,
+                              textInputAction: TextInputAction.newline,
+                              maxLines: null,
+                              minLines: 4,
+                              controller: _userNotes,
+                              style: TextStyle(color: Color(0xFF2F4771)),
                               decoration: InputDecoration(
-                                hintText: "There is no notes yet .. ",
+                                hintText: "Enter Notes here if any",
                                 hintStyle: TextStyle(color: Color(0xFF2F4771)),
-                                border: OutlineInputBorder(
+                                filled: true,
+                                fillColor: Color(0xFFF9FAFB),
+                                focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                   borderSide: const BorderSide(
                                     color: Color(0xFF2F4771),
                                   ),
                                 ),
-                                disabledBorder: OutlineInputBorder(
+                                enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                   borderSide: const BorderSide(
                                     color: Color(0xFF2F4771),
@@ -167,15 +220,57 @@ class _ConstructionSPState extends State<ConstructionSP> {
                               ),
                             ),
                           ),
+                          Center(
+                            child: Container(
+                              width: 250,
+                              decoration: const BoxDecoration(
+                                color: Color(0xFF2F4771),
+                                borderRadius:
+                                BorderRadius.all(Radius.circular(30.0)),
+                              ),
+                              child: isSubmitVisible
+                                  ? TextButton(
+                                onPressed: () async {
+                                  if (areFieldsValid(_userNotes.text)) {
+                                    String message =
+                                    await ServiceProviderGetTasksAPI
+                                        .setTask6Data(
+                                      taskID,
+                                      _userNotes.text,
+                                    );
+                                    CustomAlertDialog.showSuccessDialog(
+                                        context, message);
+
+                                    // After successful submission, hide the button
+                                    setState(() {
+                                      isSubmitVisible = false;
+                                    });
+                                    return;
+                                  } else {
+                                    CustomAlertDialog.showErrorDialog(
+                                        context,
+                                        'Please fill in all the required fields.');
+                                  }
+                                },
+                                child: const Text(
+                                  'Submit',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    color: Color(0xFFF9FAFB),
+                                  ),
+                                ),
+                              )
+                                  : Container(),
+                            ),
+                          ),
                         ],
                       ),
-                    ),
+                    )
                   ],
                 ),
               ),
             ],
           ),
-
         ),
       ),
     );

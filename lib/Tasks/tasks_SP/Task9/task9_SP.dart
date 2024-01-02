@@ -5,6 +5,9 @@ import 'package:buildnex/Tasks/tasks_SP/PropertSurvey/widgets/textFieldTasks.dar
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../APIRequests/ServiceProviderGetTasksAPI.dart';
+import '../../../Widgets/customAlertDialog.dart';
+import '../../taskWidgets/Information.dart';
 
 void main() {
   runApp(GetMaterialApp(home: InsulationInstallSP()));
@@ -18,9 +21,39 @@ class InsulationInstallSP extends StatefulWidget {
 }
 
 class _InsulationInstallSPState extends State<InsulationInstallSP> {
-
-  final _InsulationPricePerUnit = TextEditingController() ;
+  // final _InsulationPricePerUnit = TextEditingController() ;
   final _userNotes = TextEditingController();
+  Map<String, dynamic> hvacData = {};
+  String taskID = '';
+  String taskProjectId = '';
+
+  bool isSubmitVisible = true;
+
+  @override
+  void initState() {
+    super.initState();
+    Map<String, dynamic> arguments = Get.arguments;
+    setState(() {
+      hvacData = arguments['task9Data'];
+      taskID = arguments['taskID'];
+      taskProjectId = arguments['taskProjectId'];
+      //print(hvacData);
+      if (hvacData['Notes'] != null) {
+        _userNotes.text = hvacData['Notes'];
+        isSubmitVisible = false;
+      } else {
+        _userNotes.text = '';
+      }
+    });
+  }
+
+  bool areFieldsValid(String userNotes) {
+    if (userNotes.isNotEmpty) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +65,8 @@ class _InsulationInstallSPState extends State<InsulationInstallSP> {
           color: Color(0xFFF3D69B),
         ),
         title: Padding(
-          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/5),
+          padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width / 5),
           child: const Text(
             "Task Details",
             style: TextStyle(color: Color(0xFFF3D69B)),
@@ -46,11 +80,26 @@ class _InsulationInstallSPState extends State<InsulationInstallSP> {
           padding: const EdgeInsets.only(top: 10),
           child: Column(
             children: [
-              TaskInformation(taskID: 7777, taskName: 'Insulation & HVAC Installation', projectName: 'Nablus Project', taskStatus: 'Not Started',),
-              TaskProviderInformation(rating: 3.5, numOfReviews: 55,),
+              TaskInformation(
+                taskID: hvacData['TaskID'] ?? 0,
+                taskName: hvacData['TaskName'] ?? 'Unknown',
+                projectName: hvacData['ProjectName'] ?? 'Unknown',
+                taskStatus: hvacData['TaskStatus'] ?? 'Unknown',
+              ),
+              Information(
+                title: 'Required Documents for This Task',
+                documentName: 'Insulation & HVAC Document:',
+                document: hvacData['InsulationAndHVACDocument'],
+              ),
+              TaskProviderInformation(
+                userPicture: hvacData['UserPicture'],
+                rating: (hvacData['Rating'] as num?)?.toDouble() ?? 0.0,
+                numOfReviews: hvacData['ReviewCount'] ?? 0,
+              ),
               Container(
                 margin: const EdgeInsets.only(top: 5),
-                padding: const EdgeInsets.symmetric(horizontal: 20 , vertical: 5),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
@@ -87,8 +136,7 @@ class _InsulationInstallSPState extends State<InsulationInstallSP> {
                             style: TextStyle(
                                 color: Color(0xFFF9FAFB),
                                 fontSize: 19,
-                                fontWeight: FontWeight.bold
-                            ),
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),
@@ -98,159 +146,326 @@ class _InsulationInstallSPState extends State<InsulationInstallSP> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Expanded(
-                                  flex: 2,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(left: 8 ,right: 8),
-                                    child: Text(
-                                      "Insulation & HVAC Document:",
-                                      style: TextStyle(
-                                          color: Color(0xFF2F4771),
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  margin: const EdgeInsets.only(top: 5 , right: 5),
-                                  height: 35,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFF2F4771),
-                                    borderRadius: BorderRadius.circular(20.0),
-                                  ),
-                                  child: const Row(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 8 , right: 8),
-                                        child: Icon(
-                                          Icons.sim_card_download,
-                                          size: 20,
-                                          color: Color(0xFFF9FAFB),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(right: 12.0),
-                                        child: Text(
-                                          "Download",
-                                          style: TextStyle(
-                                            color: Color(0xFFF9FAFB),
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  margin: const EdgeInsets.only(top: 5 , right: 5),
-                                  height: 35,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFF2F4771),
-                                    borderRadius: BorderRadius.circular(20.0),
-                                  ),
-                                  child: const Row(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 8 , right: 8),
-                                        child: Icon(
-                                          Icons.file_open_outlined,
-                                          size: 20,
-                                          color: Color(0xFFF9FAFB),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(right: 12.0),
-                                        child: Text(
-                                          "Open",
-                                          style: TextStyle(
-                                            color: Color(0xFFF9FAFB),
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox( height: 10,),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Expanded(
-                                  flex: 1,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(left: 8),
-                                    child: Text(
-                                      "Price / Unit:  (JOD)",
-                                      style: TextStyle(
-                                          color: Color(0xFF2F4771),
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 0),
-                                    child: TextfieldTasks(controller: _InsulationPricePerUnit, hintText: 'Enter Your Price', labelText: 'Price/Unit',),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.all(10),
-                              child: Text(
-                                "Notes: ",
-                                style: TextStyle(
-                                    color: Color(0xFF2F4771),
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w400
-                                ),
-                              ),
-                            ),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //   children: [
+                            //     const Expanded(
+                            //       flex: 2,
+                            //       child: Padding(
+                            //         padding: EdgeInsets.only(left: 8 ,right: 8),
+                            //         child: Text(
+                            //           "Insulation & HVAC Document:",
+                            //           style: TextStyle(
+                            //               color: Color(0xFF2F4771),
+                            //               fontWeight: FontWeight.w500,
+                            //               fontSize: 16
+                            //           ),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //     Container(
+                            //       margin: const EdgeInsets.only(top: 5 , right: 5),
+                            //       height: 35,
+                            //       decoration: BoxDecoration(
+                            //         color: const Color(0xFF2F4771),
+                            //         borderRadius: BorderRadius.circular(20.0),
+                            //       ),
+                            //       child: const Row(
+                            //         children: [
+                            //           Padding(
+                            //             padding: EdgeInsets.only(left: 8 , right: 8),
+                            //             child: Icon(
+                            //               Icons.sim_card_download,
+                            //               size: 20,
+                            //               color: Color(0xFFF9FAFB),
+                            //             ),
+                            //           ),
+                            //           Padding(
+                            //             padding: EdgeInsets.only(right: 12.0),
+                            //             child: Text(
+                            //               "Download",
+                            //               style: TextStyle(
+                            //                 color: Color(0xFFF9FAFB),
+                            //                 fontSize: 15,
+                            //                 fontWeight: FontWeight.w400,
+                            //               ),
+                            //             ),
+                            //           ),
+                            //         ],
+                            //       ),
+                            //     ),
+                            //     Container(
+                            //       margin: const EdgeInsets.only(top: 5 , right: 5),
+                            //       height: 35,
+                            //       decoration: BoxDecoration(
+                            //         color: const Color(0xFF2F4771),
+                            //         borderRadius: BorderRadius.circular(20.0),
+                            //       ),
+                            //       child: const Row(
+                            //         children: [
+                            //           Padding(
+                            //             padding: EdgeInsets.only(left: 8 , right: 8),
+                            //             child: Icon(
+                            //               Icons.file_open_outlined,
+                            //               size: 20,
+                            //               color: Color(0xFFF9FAFB),
+                            //             ),
+                            //           ),
+                            //           Padding(
+                            //             padding: EdgeInsets.only(right: 12.0),
+                            //             child: Text(
+                            //               "Open",
+                            //               style: TextStyle(
+                            //                 color: Color(0xFFF9FAFB),
+                            //                 fontSize: 15,
+                            //                 fontWeight: FontWeight.w400,
+                            //               ),
+                            //             ),
+                            //           ),
+                            //         ],
+                            //       ),
+                            //     ),
+                            //   ],
+                            // ),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //   children: [
+                            //     const Expanded(
+                            //       flex: 1,
+                            //       child: Padding(
+                            //         padding: EdgeInsets.only(left: 8),
+                            //         child: Text(
+                            //           "Price / Unit:  (JOD)",
+                            //           style: TextStyle(
+                            //               color: Color(0xFF2F4771),
+                            //               fontWeight: FontWeight.w500,
+                            //               fontSize: 16
+                            //           ),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //     Expanded(
+                            //       flex: 1,
+                            //       child: Padding(
+                            //         padding: const EdgeInsets.symmetric(horizontal: 0),
+                            //         child: TextfieldTasks(controller: _InsulationPricePerUnit, hintText: 'Enter Your Price', labelText: 'Price/Unit',),
+                            //       ),
+                            //     ),
+                            //   ],
+                            // ),
+                            const SizedBox(height: 10.0),
                             Container(
-                              height: 100,
-                              padding: const EdgeInsets.symmetric(horizontal: 8),
-                              child: TextFormField(
-                                keyboardType: TextInputType.multiline,
-                                textInputAction: TextInputAction.newline,
-                                maxLines: null,
-                                controller: _userNotes,
-                                style: TextStyle(color: Color(0xFF2F4771)),
-                                decoration: InputDecoration(
-                                  hintText: "Enter Notes here if any",
-                                  hintStyle: TextStyle(color: Color(0xFF2F4771)),
-                                  filled: true,
-                                  fillColor: Color(0xFFF9FAFB),
-                                  labelText: "Notes",
-                                  labelStyle: const TextStyle(
-                                    color: Color(0xFF2F4771),
+                              padding: const EdgeInsets.all(10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // Row(
+                                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  //   children: [
+                                  //     const Expanded(
+                                  //       flex: 1,
+                                  //       child: Padding(
+                                  //         padding: EdgeInsets.only(left: 8, right: 8),
+                                  //         child: Text(
+                                  //           "Plumbing Document:",
+                                  //           style: TextStyle(
+                                  //               color: Color(0xFF2F4771),
+                                  //               fontWeight: FontWeight.w500,
+                                  //               fontSize: 16),
+                                  //         ),
+                                  //       ),
+                                  //     ),
+                                  //     Container(
+                                  //       margin:
+                                  //           const EdgeInsets.only(top: 5, right: 5),
+                                  //       height: 35,
+                                  //       decoration: BoxDecoration(
+                                  //         color: const Color(0xFF2F4771),
+                                  //         borderRadius: BorderRadius.circular(20.0),
+                                  //       ),
+                                  //       child: const Row(
+                                  //         children: [
+                                  //           Padding(
+                                  //             padding:
+                                  //                 EdgeInsets.only(left: 8, right: 8),
+                                  //             child: Icon(
+                                  //               Icons.sim_card_download,
+                                  //               size: 20,
+                                  //               color: Color(0xFFF9FAFB),
+                                  //             ),
+                                  //           ),
+                                  //           Padding(
+                                  //             padding: EdgeInsets.only(right: 12.0),
+                                  //             child: Text(
+                                  //               "Download",
+                                  //               style: TextStyle(
+                                  //                 color: Color(0xFFF9FAFB),
+                                  //                 fontSize: 15,
+                                  //                 fontWeight: FontWeight.w400,
+                                  //               ),
+                                  //             ),
+                                  //           ),
+                                  //         ],
+                                  //       ),
+                                  //     ),
+                                  //     Container(
+                                  //       margin:
+                                  //           const EdgeInsets.only(top: 5, right: 5),
+                                  //       height: 35,
+                                  //       decoration: BoxDecoration(
+                                  //         color: const Color(0xFF2F4771),
+                                  //         borderRadius: BorderRadius.circular(20.0),
+                                  //       ),
+                                  //       child: const Row(
+                                  //         children: [
+                                  //           Padding(
+                                  //             padding:
+                                  //                 EdgeInsets.only(left: 8, right: 8),
+                                  //             child: Icon(
+                                  //               Icons.file_open_outlined,
+                                  //               size: 20,
+                                  //               color: Color(0xFFF9FAFB),
+                                  //             ),
+                                  //           ),
+                                  //           Padding(
+                                  //             padding: EdgeInsets.only(right: 12.0),
+                                  //             child: Text(
+                                  //               "Open",
+                                  //               style: TextStyle(
+                                  //                 color: Color(0xFFF9FAFB),
+                                  //                 fontSize: 15,
+                                  //                 fontWeight: FontWeight.w400,
+                                  //               ),
+                                  //             ),
+                                  //           ),
+                                  //         ],
+                                  //       ),
+                                  //     ),
+                                  //   ],
+                                  // ),
+                                  // Row(
+                                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  //   children: [
+                                  //     const Expanded(
+                                  //       flex: 1,
+                                  //       child: Padding(
+                                  //         padding: EdgeInsets.only(left: 8),
+                                  //         child: Text(
+                                  //           "Price / Unit:  (JOD)",
+                                  //           style: TextStyle(
+                                  //               color: Color(0xFF2F4771),
+                                  //               fontWeight: FontWeight.w500,
+                                  //               fontSize: 16
+                                  //           ),
+                                  //         ),
+                                  //       ),
+                                  //     ),
+                                  //     Expanded(
+                                  //       flex: 1,
+                                  //       child: Padding(
+                                  //         padding: const EdgeInsets.symmetric(horizontal: 0),
+                                  //         child: TextfieldTasks(controller: _plumberPricePerUnit, hintText: 'Enter Your Price', labelText: 'Price/Unit',),
+                                  //       ),
+                                  //     ),
+                                  //   ],
+                                  // ),
+                                  const SizedBox(
+                                    height: 10,
                                   ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    borderSide: const BorderSide(
-                                      color: Color(0xFF2F4771),
+                                  const Padding(
+                                    padding: EdgeInsets.all(10),
+                                    child: Text(
+                                      "Your Notes: ",
+                                      style: TextStyle(
+                                          color: Color(0xFF2F4771),
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400),
                                     ),
                                   ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    borderSide: const BorderSide(
-                                      color: Color(0xFF2F4771),
-                                      width: 2.0,
+                                  Container(
+                                    height: 140,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8),
+                                    child: TextFormField(
+                                      keyboardType: TextInputType.multiline,
+                                      textInputAction: TextInputAction.newline,
+                                      maxLines: null,
+                                      minLines: 4,
+                                      controller: _userNotes,
+                                      style:
+                                          TextStyle(color: Color(0xFF2F4771)),
+                                      decoration: InputDecoration(
+                                        hintText: "Enter Notes here if any",
+                                        hintStyle:
+                                            TextStyle(color: Color(0xFF2F4771)),
+                                        filled: true,
+                                        fillColor: Color(0xFFF9FAFB),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          borderSide: const BorderSide(
+                                            color: Color(0xFF2F4771),
+                                          ),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          borderSide: const BorderSide(
+                                            color: Color(0xFF2F4771),
+                                            width: 1.5,
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
+                                  Center(
+                                    child: Container(
+                                      width: 250,
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xFF2F4771),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(30.0)),
+                                      ),
+                                      child: isSubmitVisible
+                                          ? TextButton(
+                                              onPressed: () async {
+                                                if (areFieldsValid(
+                                                    _userNotes.text)) {
+                                                  String message =
+                                                      await ServiceProviderGetTasksAPI
+                                                          .setTask6Data(
+                                                    taskID,
+                                                    _userNotes.text,
+                                                  );
+                                                  CustomAlertDialog
+                                                      .showSuccessDialog(
+                                                          context, message);
+
+                                                  // After successful submission, hide the button
+                                                  setState(() {
+                                                    isSubmitVisible = false;
+                                                  });
+                                                  return;
+                                                } else {
+                                                  CustomAlertDialog.showErrorDialog(
+                                                      context,
+                                                      'Please fill in all the required fields.');
+                                                }
+                                              },
+                                              child: const Text(
+                                                'Submit',
+                                                style: TextStyle(
+                                                  fontSize: 20,
+                                                  color: Color(0xFFF9FAFB),
+                                                ),
+                                              ),
+                                            )
+                                          : Container(),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
+                            )
                           ],
                         ),
                       ),
@@ -258,27 +473,8 @@ class _InsulationInstallSPState extends State<InsulationInstallSP> {
                   ),
                 ),
               ),
-              Container(
-                width: 250,
-                margin: EdgeInsets.symmetric(vertical: 10),
-                decoration: const BoxDecoration(
-                  color: Color(0xFF2F4771),
-                  borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                ),
-                child: TextButton(
-                  onPressed: () {},
-                  child: const Text(
-                    'Save',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Color(0xFFF9FAFB),
-                    ),
-                  ),
-                ),
-              ),
             ],
           ),
-
         ),
       ),
     );

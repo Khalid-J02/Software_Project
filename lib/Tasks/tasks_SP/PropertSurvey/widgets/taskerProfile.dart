@@ -20,7 +20,7 @@ class TaskerProfileData extends StatelessWidget {
       children: [
         CircleAvatar(
           radius: 26,
-          backgroundImage: AssetImage(userPicture),
+          backgroundImage: NetworkImage(userPicture),
         ),
         const SizedBox(width: 16.0),
         Column(

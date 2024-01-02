@@ -50,6 +50,7 @@ class _ServiceProviderTasksState extends State<ServiceProviderTasks> {
               return SPTasksDetails(
                 taskProjectName:  task['projectName'] ?? 'Unknown',
                 taskProjectOwner: task['homeOwnerName'] ??'Unknown',
+                taskProjectId: task['projectID'].toString(),
                 taskStatus: task['taskStatus'] ?? 'Unknown',
                 taskID: task['taskId'].toString() ?? 'Unknown',
                 taskNumber: task['taskNumber'].toString() ?? 'Unknown',

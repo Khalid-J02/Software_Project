@@ -40,7 +40,21 @@ import 'Tasks/tasks_HO/Task8/task8_HO.dart';
 import 'Tasks/tasks_HO/Task9/task9_HO.dart';
 
 
+import 'Tasks/tasks_SP/LocalGovernorate_PermitsSP/localGovernoratePermitsSP.dart';
 import 'Tasks/tasks_SP/PropertSurvey/propertySurveyTask.dart';
+import 'Tasks/tasks_SP/SoilTesting/soilTestingSP.dart';
+import 'Tasks/tasks_SP/Task10/task10_SP.dart';
+import 'Tasks/tasks_SP/Task11/task11_SP.dart';
+import 'Tasks/tasks_SP/Task12/task12_SP.dart';
+import 'Tasks/tasks_SP/Task13/task13_SP.dart';
+import 'Tasks/tasks_SP/Task14/task14_SP.dart';
+import 'Tasks/tasks_SP/Task15/task15_SP.dart';
+import 'Tasks/tasks_SP/Task4/task4_SP.dart';
+import 'Tasks/tasks_SP/Task5/task5SP.dart';
+import 'Tasks/tasks_SP/Task6/task6SP.dart';
+import 'Tasks/tasks_SP/Task7/task7_SP.dart';
+import 'Tasks/tasks_SP/Task8/task8_SP.dart';
+import 'Tasks/tasks_SP/Task9/task9_SP.dart';
 
 void main() {
   dotenv.load();
@@ -72,20 +86,20 @@ Widget build(BuildContext context) {
       '/HomePage/ServiceProvider':(context) => NavBarServiceProvider(),
 
       '/ServiceProviderTasks/Task1':(context) => SpPropertySurvey(),
-     // '/ServiceProviderTasks/Task2':(context) => SoilTestingSP(),
-     // '/ServiceProviderTasks/Task3':(context) => LocalGovernoratePermitsSP(),
-     // '/ServiceProviderTasks/Task4':(context) => DesignAndPlanningSP(),
-     // '/ServiceProviderTasks/Task5':(context) => GovernemntalPermittiveSP(),
-     // '/ServiceProviderTasks/Task6':(context) => ConstructionSP(),
-     // '/ServiceProviderTasks/Task7':(context) => ,
-     // '/ServiceProviderTasks/Task8':(context) => ,
-     //  '/ServiceProviderTasks/Task9':(context) => ,
-     // '/ServiceProviderTasks/Task10':(context) => ,
-     // '/ServiceProviderTasks/Task11':(context) => ,
-     // '/ServiceProviderTasks/Task12':(context) => ,
-     // '/ServiceProviderTasks/Task13':(context) => ,
-     // '/ServiceProviderTasks/Task14':(context) => ,
-     // '/ServiceProviderTasks/Task15':(context) => ,
+      '/ServiceProviderTasks/Task2':(context) => LocalGovernoratePermitsSP(),
+      '/ServiceProviderTasks/Task3':(context) => SoilTestingSP(),
+      '/ServiceProviderTasks/Task4':(context) => DesignAndPlanningSP(),
+      '/ServiceProviderTasks/Task5':(context) => GovernemntalPermittiveSP(),
+      '/ServiceProviderTasks/Task6':(context) => ConstructionSP(),
+      '/ServiceProviderTasks/Task7':(context) => PlumbingInstallSP(),
+      '/ServiceProviderTasks/Task8':(context) => ElectricalInstallSP(),
+      '/ServiceProviderTasks/Task9':(context) => InsulationInstallSP(),
+      '/ServiceProviderTasks/Task10':(context) => DoorFrameInstallSP(),
+      '/ServiceProviderTasks/Task11':(context) => PlasteringSP(),
+      '/ServiceProviderTasks/Task12':(context) => TileInstallSP() ,
+      '/ServiceProviderTasks/Task13':(context) => WindowInstallationSP(),
+      '/ServiceProviderTasks/Task14':(context) => DoorInstallationSP(),
+      '/ServiceProviderTasks/Task15':(context) => PaintingSP(),
 
 
       '/HomeOwnerTasks/Task1':(context) => HOPropertySurvey(),

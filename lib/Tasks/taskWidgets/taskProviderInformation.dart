@@ -5,15 +5,15 @@ import '../tasks_SP/PropertSurvey/widgets/taskerProfile.dart';
 class TaskProviderInformation extends StatefulWidget {
   double rating ;
   int numOfReviews ;
-  /*
-  you need to add the image here
-   */
+  final String userPicture;
+
 
   TaskProviderInformation(
       {
         super.key,
         required this.rating,
-        required this.numOfReviews
+        required this.numOfReviews,
+        required this.userPicture
       }
   );
 
@@ -69,7 +69,7 @@ class _TaskProviderInformationState extends State<TaskProviderInformation> {
             ),
             Padding(
               padding: EdgeInsets.all(10.0),
-              child: TaskerProfileData(userPicture: 'images/Testing/Tokyo.jpg', rating: widget.rating, numReviews: widget.numOfReviews,),
+              child: TaskerProfileData(userPicture: widget.userPicture, rating: widget.rating, numReviews: widget.numOfReviews,),
             ),
           ],
         ),

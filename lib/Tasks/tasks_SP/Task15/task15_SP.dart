@@ -4,6 +4,9 @@ import 'package:buildnex/Tasks/taskWidgets/taskProviderInformation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../APIRequests/ServiceProviderGetTasksAPI.dart';
+import '../../../Widgets/customAlertDialog.dart';
+
 
 void main() {
   runApp(GetMaterialApp(home: DoorInstallationSP()));
@@ -19,6 +22,49 @@ class DoorInstallationSP extends StatefulWidget {
 class _DoorInstallationSPState extends State<DoorInstallationSP> {
 
   final _userNotes = TextEditingController();
+
+
+  Map<String, dynamic> doorData = {};
+  String taskID = '';
+  String taskProjectId = '';
+
+  bool isSubmitVisible = true;
+
+  @override
+  void initState() {
+    super.initState();
+    Map<String, dynamic> arguments = Get.arguments;
+    setState(() {
+      doorData = arguments['task14Data'];
+      taskID = arguments['taskID'];
+      taskProjectId = arguments['taskProjectId'];
+
+      // print(doorData);
+
+      // these contains are in doorData, and each one contain the catalog ID
+
+      // doorData['DoorDesign']
+
+      //from CatalogAPI for service provider, you can retrieve what you want
+      // for example
+      // await CatalogAPI.getItemDetails(doorData['DoorDesign'].toString())
+
+      if (doorData['Notes'] != null) {
+        _userNotes.text = doorData['Notes'];
+        isSubmitVisible = false;
+      } else {
+        _userNotes.text = '';
+      }
+    });
+  }
+
+  bool areFieldsValid(String userNotes) {
+    if (userNotes.isNotEmpty) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   Future<void> openCatalog() async {
     Map<String, dynamic>? newProject = await showDialog<Map<String, dynamic>>(
@@ -53,8 +99,17 @@ class _DoorInstallationSPState extends State<DoorInstallationSP> {
           padding: const EdgeInsets.only(top: 10),
           child: Column(
             children: [
-              TaskInformation(taskID: 7777, taskName: 'Door Installation', projectName: 'Nablus Project', taskStatus: 'Not Started',),
-              TaskProviderInformation(rating: 3.5, numOfReviews: 55,),
+              TaskInformation(
+                taskID: doorData['TaskID'] ?? 0,
+                taskName: doorData['TaskName'] ?? 'Unknown',
+                projectName: doorData['ProjectName'] ?? 'Unknown',
+                taskStatus: doorData['TaskStatus'] ?? 'Unknown',
+              ),
+              TaskProviderInformation(
+                userPicture: doorData['UserPicture'],
+                rating: (doorData['Rating'] as num?)?.toDouble() ?? 0.0,
+                numOfReviews: doorData['ReviewCount'] ?? 0,
+              ),
               Container(
                 margin: const EdgeInsets.only(top: 5),
                 padding: const EdgeInsets.symmetric(horizontal: 20 , vertical: 5),
@@ -207,12 +262,11 @@ class _DoorInstallationSPState extends State<DoorInstallationSP> {
                         ),
                         child: const Center(
                           child: Text(
-                            "Service provider Details",
+                            "Task Details",
                             style: TextStyle(
                                 color: Color(0xFFF9FAFB),
                                 fontSize: 19,
-                                fontWeight: FontWeight.bold
-                            ),
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),
@@ -222,35 +276,36 @@ class _DoorInstallationSPState extends State<DoorInstallationSP> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            const SizedBox(
+                              height: 10,
+                            ),
                             const Padding(
-                              padding: EdgeInsets.only(left: 10 , bottom: 8),
+                              padding: EdgeInsets.all(10),
                               child: Text(
-                                "Notes: ",
+                                "Your Notes: ",
                                 style: TextStyle(
                                     color: Color(0xFF2F4771),
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w400
-                                ),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400),
                               ),
                             ),
                             Container(
-                              height: 100,
-                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                              height: 140,
+                              padding:
+                              const EdgeInsets.symmetric(horizontal: 8),
                               child: TextFormField(
                                 keyboardType: TextInputType.multiline,
                                 textInputAction: TextInputAction.newline,
                                 maxLines: null,
+                                minLines: 4,
                                 controller: _userNotes,
                                 style: TextStyle(color: Color(0xFF2F4771)),
                                 decoration: InputDecoration(
                                   hintText: "Enter Notes here if any",
-                                  hintStyle: TextStyle(color: Color(0xFF2F4771)),
+                                  hintStyle:
+                                  TextStyle(color: Color(0xFF2F4771)),
                                   filled: true,
                                   fillColor: Color(0xFFF9FAFB),
-                                  labelText: "Notes",
-                                  labelStyle: const TextStyle(
-                                    color: Color(0xFF2F4771),
-                                  ),
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10.0),
                                     borderSide: const BorderSide(
@@ -261,40 +316,64 @@ class _DoorInstallationSPState extends State<DoorInstallationSP> {
                                     borderRadius: BorderRadius.circular(10.0),
                                     borderSide: const BorderSide(
                                       color: Color(0xFF2F4771),
-                                      width: 2.0,
+                                      width: 1.5,
                                     ),
                                   ),
                                 ),
                               ),
                             ),
+                            Center(
+                              child: Container(
+                                width: 250,
+                                decoration: const BoxDecoration(
+                                  color: Color(0xFF2F4771),
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(30.0)),
+                                ),
+                                child: isSubmitVisible
+                                    ? TextButton(
+                                  onPressed: () async {
+                                    if (areFieldsValid(_userNotes.text)) {
+                                      String message =
+                                      await ServiceProviderGetTasksAPI
+                                          .setTask6Data(
+                                        taskID,
+                                        _userNotes.text,
+                                      );
+                                      CustomAlertDialog.showSuccessDialog(
+                                          context, message);
+
+                                      // After successful submission, hide the button
+                                      setState(() {
+                                        isSubmitVisible = false;
+                                      });
+                                      return;
+                                    } else {
+                                      CustomAlertDialog.showErrorDialog(
+                                          context,
+                                          'Please fill in all the required fields.');
+                                    }
+                                  },
+                                  child: const Text(
+                                    'Submit',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      color: Color(0xFFF9FAFB),
+                                    ),
+                                  ),
+                                )
+                                    : Container(),
+                              ),
+                            ),
                           ],
                         ),
-                      ),
+                      )
                     ],
-                  ),
-                ),
-              ),
-              Container(
-                width: 250,
-                margin: EdgeInsets.symmetric(vertical: 10),
-                decoration: const BoxDecoration(
-                  color: Color(0xFF2F4771),
-                  borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                ),
-                child: TextButton(
-                  onPressed: () {},
-                  child: const Text(
-                    'Save',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Color(0xFFF9FAFB),
-                    ),
                   ),
                 ),
               ),
             ],
           ),
-
         ),
       ),
     );

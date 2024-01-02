@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../APIRequests/ServiceProviderGetTasksAPI.dart';
+
 class SPTasksDetails extends StatelessWidget {
   final String taskProjectName ;
   final String taskProjectOwner ;
+  final String taskProjectId ;
+
   final String taskStatus ;
   final String taskID ;
   final String taskNumber ;
@@ -13,6 +17,7 @@ class SPTasksDetails extends StatelessWidget {
         super.key,
         required this.taskProjectName,
         required this.taskProjectOwner,
+        required this.taskProjectId,
         required this.taskStatus,
         required this.taskID,
         required this.taskNumber,
@@ -91,7 +96,154 @@ class SPTasksDetails extends StatelessWidget {
                   child: TextButton(
                     onPressed: () async {
                         String path = '/ServiceProviderTasks/Task' + taskNumber;
-                        Get.toNamed(path);
+
+                        if(taskNumber == '1'){
+                          final Map<String, dynamic> data = await ServiceProviderGetTasksAPI.getTask1Data(taskID);
+                          Get.toNamed(path,
+                              arguments: {
+                                'taskID': taskID,
+                                'taskProjectId': taskProjectId ,
+                                'task1Data' : data
+                             });
+                        }
+
+                        if(taskNumber == '2'){
+                          final Map<String, dynamic> data = await ServiceProviderGetTasksAPI.getTask2Data(taskID,taskProjectId);
+                          Get.toNamed(path,
+                              arguments: {
+                                'taskID': taskID,
+                                'taskProjectId': taskProjectId ,
+                                'task2Data' : data
+                              });
+                        }
+
+                        if(taskNumber == '3'){
+                          final Map<String, dynamic> data = await ServiceProviderGetTasksAPI.getTask3Data(taskID);
+                          Get.toNamed(path,
+                              arguments: {
+                                'taskID': taskID,
+                                'taskProjectId': taskProjectId ,
+                                'task3Data' : data
+                              });
+                        }
+
+                        if(taskNumber == '4'){
+                          final Map<String, dynamic> data = await ServiceProviderGetTasksAPI.getTask4Data(taskID,taskProjectId);
+                          Get.toNamed(path,
+                              arguments: {
+                                'taskID': taskID,
+                                'taskProjectId': taskProjectId ,
+                                'task4Data' : data
+                              });
+                        }
+
+                        if(taskNumber == '5'){
+                          final Map<String, dynamic> data = await ServiceProviderGetTasksAPI.getTask5Data(taskID,taskProjectId);
+                          Get.toNamed(path,
+                              arguments: {
+                                'taskID': taskID,
+                                'taskProjectId': taskProjectId ,
+                                'task5Data' : data
+                              });
+                        }
+
+                        if(taskNumber == '6'){
+                          final Map<String, dynamic> data = await ServiceProviderGetTasksAPI.getTask6Data(taskID,taskProjectId);
+                          Get.toNamed(path,
+                              arguments: {
+                                'taskID': taskID,
+                                'taskProjectId': taskProjectId ,
+                                'task6Data' : data
+                              });
+                        }
+
+                        if(taskNumber == '7'){
+                          final Map<String, dynamic> data = await ServiceProviderGetTasksAPI.getTask6Data(taskID,taskProjectId);
+                          Get.toNamed(path,
+                              arguments: {
+                                'taskID': taskID,
+                                'taskProjectId': taskProjectId ,
+                                'task7Data' : data
+                              });
+                        }
+                        if(taskNumber == '8'){
+                          final Map<String, dynamic> data = await ServiceProviderGetTasksAPI.getTask6Data(taskID,taskProjectId);
+                          Get.toNamed(path,
+                              arguments: {
+                                'taskID': taskID,
+                                'taskProjectId': taskProjectId ,
+                                'task8Data' : data
+                              });
+                        }
+
+                        if(taskNumber == '9'){
+                          final Map<String, dynamic> data = await ServiceProviderGetTasksAPI.getTask6Data(taskID,taskProjectId);
+                          Get.toNamed(path,
+                              arguments: {
+                                'taskID': taskID,
+                                'taskProjectId': taskProjectId ,
+                                'task9Data' : data
+                              });
+                        }
+
+                        if(taskNumber == '10'){
+                          final Map<String, dynamic> data = await ServiceProviderGetTasksAPI.getTask6Data(taskID,taskProjectId);
+                          Get.toNamed(path,
+                              arguments: {
+                                'taskID': taskID,
+                                'taskProjectId': taskProjectId ,
+                                'task10Data' : data
+                              });
+                        }
+
+                        if(taskNumber == '11'){
+                          final Map<String, dynamic> data = await ServiceProviderGetTasksAPI.getTask6Data(taskID,taskProjectId);
+                          Get.toNamed(path,
+                              arguments: {
+                                'taskID': taskID,
+                                'taskProjectId': taskProjectId ,
+                                'task11Data' : data
+                              });
+                        }
+                        if(taskNumber == '12'){
+                          final Map<String, dynamic> data = await ServiceProviderGetTasksAPI.getTask6Data(taskID,taskProjectId);
+                          Get.toNamed(path,
+                              arguments: {
+                                'taskID': taskID,
+                                'taskProjectId': taskProjectId ,
+                                'task12Data' : data
+                              });
+                        }
+
+                        if(taskNumber == '13'){
+                          final Map<String, dynamic> data = await ServiceProviderGetTasksAPI.getTask6Data(taskID,taskProjectId);
+                          Get.toNamed(path,
+                              arguments: {
+                                'taskID': taskID,
+                                'taskProjectId': taskProjectId ,
+                                'task13Data' : data
+                              });
+                        }
+
+                        if(taskNumber == '14'){
+                          final Map<String, dynamic> data = await ServiceProviderGetTasksAPI.getTask6Data(taskID,taskProjectId);
+                          Get.toNamed(path,
+                              arguments: {
+                                'taskID': taskID,
+                                'taskProjectId': taskProjectId ,
+                                'task14Data' : data
+                              });
+                        }
+
+                        if(taskNumber == '15'){
+                          final Map<String, dynamic> data = await ServiceProviderGetTasksAPI.getTask6Data(taskID,taskProjectId);
+                          Get.toNamed(path,
+                              arguments: {
+                                'taskID': taskID,
+                                'taskProjectId': taskProjectId ,
+                                'task15Data' : data
+                              });
+                        }
                     },
 
                     child: Text("Open Task ", //$taskID , $taskNumber
