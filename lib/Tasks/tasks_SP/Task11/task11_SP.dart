@@ -2,6 +2,7 @@ import 'package:buildnex/Tasks/taskWidgets/sp_catalogDialog.dart';
 import 'package:buildnex/Tasks/taskWidgets/taskInformation.dart';
 import 'package:buildnex/Tasks/taskWidgets/taskProviderInformation.dart';
 import 'package:buildnex/Tasks/tasks_SP/PropertSurvey/widgets/textFieldTasks.dart';
+import 'package:buildnex/Widgets/catalogItem.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -33,23 +34,12 @@ class _DoorFrameInstallSPSPState extends State<DoorFrameInstallSP> {
   void initState() {
     super.initState();
     Map<String, dynamic> arguments = Get.arguments;
+    print(arguments['task10Data']) ;
     setState(() {
       doorFrameData = arguments['task10Data'];
       taskID = arguments['taskID'];
       taskProjectId = arguments['taskProjectId'];
 
-      //print(doorFrameData);
-
-      // these contains are in doorFrameData, and each one contain the catalog ID
-
-      // doorFrameData['BedroomDoor']
-      // doorFrameData['BathroomDoor']
-      // doorFrameData['LivingroomDoor']
-      // doorFrameData['GuestroomDoor']
-
-      //from CatalogAPI for service provider, you can retrieve what you want
-      // for example
-      // await CatalogAPI.getItemDetails(doorFrameData['BedroomDoor'].toString())
 
       if (doorFrameData['Notes'] != null) {
         _userNotes.text = doorFrameData['Notes'];
@@ -68,11 +58,19 @@ class _DoorFrameInstallSPSPState extends State<DoorFrameInstallSP> {
     }
   }
 
-  Future<void> openCatalog() async {
-    Map<String, dynamic>? newProject = await showDialog<Map<String, dynamic>>(
+  Future<void> openCatalog(String itemID) async {
+    Map<String, dynamic> itemDetails = {} ;
+    if(itemID != null){
+      itemDetails = await CatalogAPI.getItemDetails(itemID);
+    }
+    else{
+      Get.snackbar("Alert Message", "Owner of the project didn't choose an item yet... ") ;
+    }
+
+    await showDialog<Map<String, dynamic>>(
       context: context,
       builder: (BuildContext context) {
-        return CatalogDialogSP();
+        return CatalogDialogSP(itemDetails: itemDetails,);
       },
     );
   }
@@ -162,13 +160,6 @@ class _DoorFrameInstallSPSPState extends State<DoorFrameInstallSP> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            /*
-                            here we should check if the home owner didn't choose one of the following (bedroom ,
-                            bathroom, .. etc), then we should print a text called N/A (which indicates the user didn't
-                            chose anything, and the text will be put instead of the container (See details).
-                             */
-                            //in the home owner screen, when he clicked on save, I checked if any field is empty,
-                            // all filed will be filled
                             const Padding(
                               padding:
                                   EdgeInsets.only(left: 8, top: 10, bottom: 8),
@@ -198,10 +189,7 @@ class _DoorFrameInstallSPSPState extends State<DoorFrameInstallSP> {
                                 ),
                                 GestureDetector(
                                   onTap: () async {
-                                    await openCatalog();
-                                    // I tried to get all details from catalog ID and its works
-                                    //await CatalogAPI.getItemDetails(doorFrameData['BedroomDoor'].toString());
-                                    //print( await CatalogAPI.getItemDetails(doorFrameData['BedroomDoor'].toString()));
+                                    await openCatalog(doorFrameData['BedroomDoor'].toString());
                                   },
                                   child: Container(
                                     margin:
@@ -255,37 +243,42 @@ class _DoorFrameInstallSPSPState extends State<DoorFrameInstallSP> {
                                     ),
                                   ),
                                 ),
-                                Container(
-                                  margin:
-                                      const EdgeInsets.only(top: 5, right: 5),
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFF2F4771),
-                                    borderRadius: BorderRadius.circular(20.0),
-                                  ),
-                                  child: const Row(
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            EdgeInsets.only(left: 12, right: 8),
-                                        child: Icon(
-                                          Icons.file_open,
-                                          size: 20,
-                                          color: Color(0xFFF9FAFB),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(right: 12.0),
-                                        child: Text(
-                                          "See Details",
-                                          style: TextStyle(
+                                GestureDetector(
+                                  onTap: () async{
+                                    await openCatalog(doorFrameData['BathroomDoor'].toString());
+                                  },
+                                  child: Container(
+                                    margin:
+                                        const EdgeInsets.only(top: 5, right: 5),
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF2F4771),
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    child: const Row(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              EdgeInsets.only(left: 12, right: 8),
+                                          child: Icon(
+                                            Icons.file_open,
+                                            size: 20,
                                             color: Color(0xFFF9FAFB),
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w400,
                                           ),
                                         ),
-                                      ),
-                                    ],
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 12.0),
+                                          child: Text(
+                                            "See Details",
+                                            style: TextStyle(
+                                              color: Color(0xFFF9FAFB),
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ],
@@ -306,37 +299,42 @@ class _DoorFrameInstallSPSPState extends State<DoorFrameInstallSP> {
                                     ),
                                   ),
                                 ),
-                                Container(
-                                  margin:
-                                      const EdgeInsets.only(top: 5, right: 5),
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFF2F4771),
-                                    borderRadius: BorderRadius.circular(20.0),
-                                  ),
-                                  child: const Row(
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            EdgeInsets.only(left: 12, right: 8),
-                                        child: Icon(
-                                          Icons.file_open,
-                                          size: 20,
-                                          color: Color(0xFFF9FAFB),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(right: 12.0),
-                                        child: Text(
-                                          "See Details",
-                                          style: TextStyle(
+                                GestureDetector(
+                                  onTap: () async {
+                                    await openCatalog(doorFrameData['LivingroomDoor'].toString());
+                                  },
+                                  child: Container(
+                                    margin:
+                                        const EdgeInsets.only(top: 5, right: 5),
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF2F4771),
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    child: const Row(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              EdgeInsets.only(left: 12, right: 8),
+                                          child: Icon(
+                                            Icons.file_open,
+                                            size: 20,
                                             color: Color(0xFFF9FAFB),
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w400,
                                           ),
                                         ),
-                                      ),
-                                    ],
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 12.0),
+                                          child: Text(
+                                            "See Details",
+                                            style: TextStyle(
+                                              color: Color(0xFFF9FAFB),
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ],
@@ -357,37 +355,42 @@ class _DoorFrameInstallSPSPState extends State<DoorFrameInstallSP> {
                                     ),
                                   ),
                                 ),
-                                Container(
-                                  margin:
-                                      const EdgeInsets.only(top: 5, right: 5),
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFF2F4771),
-                                    borderRadius: BorderRadius.circular(20.0),
-                                  ),
-                                  child: const Row(
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            EdgeInsets.only(left: 12, right: 8),
-                                        child: Icon(
-                                          Icons.file_open,
-                                          size: 20,
-                                          color: Color(0xFFF9FAFB),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(right: 12.0),
-                                        child: Text(
-                                          "See Details",
-                                          style: TextStyle(
+                                GestureDetector(
+                                  onTap: () async {
+                                    await openCatalog(doorFrameData['GuestroomDoor'].toString());
+                                  },
+                                  child: Container(
+                                    margin:
+                                        const EdgeInsets.only(top: 5, right: 5),
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF2F4771),
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    child: const Row(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              EdgeInsets.only(left: 12, right: 8),
+                                          child: Icon(
+                                            Icons.file_open,
+                                            size: 20,
                                             color: Color(0xFFF9FAFB),
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w400,
                                           ),
                                         ),
-                                      ),
-                                    ],
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 12.0),
+                                          child: Text(
+                                            "See Details",
+                                            style: TextStyle(
+                                              color: Color(0xFFF9FAFB),
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ],
@@ -446,15 +449,11 @@ class _DoorFrameInstallSPSPState extends State<DoorFrameInstallSP> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 10.0),
                       Container(
                         padding: const EdgeInsets.all(10),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const SizedBox(
-                              height: 10,
-                            ),
                             const Padding(
                               padding: EdgeInsets.all(10),
                               child: Text(
@@ -498,48 +497,110 @@ class _DoorFrameInstallSPSPState extends State<DoorFrameInstallSP> {
                                 ),
                               ),
                             ),
-                            Center(
-                              child: Container(
-                                width: 250,
-                                decoration: const BoxDecoration(
-                                  color: Color(0xFF2F4771),
-                                  borderRadius:
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    margin: EdgeInsets.symmetric(horizontal: 8),
+                                    decoration: const BoxDecoration(
+                                      color: Color(0xFF2F4771),
+                                      borderRadius:
                                       BorderRadius.all(Radius.circular(30.0)),
-                                ),
-                                child: isSubmitVisible
-                                    ? TextButton(
-                                        onPressed: () async {
-                                          if (areFieldsValid(_userNotes.text)) {
-                                            String message =
-                                                await ServiceProviderGetTasksAPI
-                                                    .setTask6Data(
-                                              taskID,
-                                              _userNotes.text,
-                                            );
-                                            CustomAlertDialog.showSuccessDialog(
-                                                context, message);
-
-                                            // After successful submission, hide the button
-                                            setState(() {
-                                              isSubmitVisible = false;
-                                            });
-                                            return;
-                                          } else {
-                                            CustomAlertDialog.showErrorDialog(
-                                                context,
-                                                'Please fill in all the required fields.');
-                                          }
-                                        },
-                                        child: const Text(
-                                          'Submit',
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                            color: Color(0xFFF9FAFB),
-                                          ),
+                                    ),
+                                    child: TextButton(
+                                      onPressed: () async {
+                                        await ServiceProviderGetTasksAPI
+                                            .setTask6Data(
+                                          taskID,
+                                          _userNotes.text,
+                                          'Update Data',
+                                        );
+                                      },
+                                      child: const Text(
+                                        'Save',
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          color: Color(0xFFF9FAFB),
                                         ),
-                                      )
-                                    : Container(),
-                              ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                if(isSubmitVisible)
+                                  Expanded(
+                                    child: Container(
+                                        margin: EdgeInsets.symmetric(horizontal: 8),
+                                        decoration: const BoxDecoration(
+                                          color: Color(0xFF2F4771),
+                                          borderRadius:
+                                          BorderRadius.all(Radius.circular(30.0)),
+                                        ),
+                                        child: TextButton(
+                                          onPressed: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                  backgroundColor: Colors.white,
+                                                  title: const Text("Complete Task"),
+                                                  content: const Text("By clicking OK, you will mark the task as complete."),
+                                                  actions: [
+                                                    TextButton(
+                                                      style: TextButton.styleFrom(
+                                                        backgroundColor: Color(0xFFF3D69B), // Set background color to yellow
+                                                      ),
+                                                      onPressed: () async {
+                                                        if (areFieldsValid(_userNotes.text)) {
+                                                          String message = await ServiceProviderGetTasksAPI.setTask6Data(
+                                                              taskID,
+                                                              _userNotes.text,
+                                                              'Submit'
+                                                          );
+                                                          setState(() {
+                                                            doorFrameData['TaskStatus'] = 'Completed' ;
+                                                            isSubmitVisible = false ;
+                                                          });
+                                                          Navigator.pop(context); // Close the dialog
+                                                        } else {
+                                                          CustomAlertDialog.showErrorDialog(context, 'Please fill in all the required fields.');
+                                                          Navigator.pop(context); // Close the dialog
+                                                        }
+                                                      },
+                                                      child: const Text("OK" , style: TextStyle(
+                                                          color: Color(0xFF2F4771),
+                                                          fontSize: 15
+                                                      ),),
+                                                    ),
+                                                    TextButton(
+                                                      style: TextButton.styleFrom(
+                                                        backgroundColor: Color(0xFFF3D69B), // Set background color to yellow
+                                                      ),
+                                                      onPressed: () {
+                                                        Navigator.pop(context); // Close the dialog
+                                                      },
+                                                      child: const Text("Cancel" , style: TextStyle(
+                                                          color: Color(0xFF2F4771),
+                                                          fontSize: 15
+                                                      ),),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
+                                          },
+                                          child: const Text(
+                                            'Mark as Done',
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              color: Color(0xFFF9FAFB),
+                                            ),
+                                          ),
+                                        )
+                                    ),
+                                  ),
+                              ],
                             ),
                           ],
                         ),

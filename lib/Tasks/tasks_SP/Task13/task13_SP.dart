@@ -1,3 +1,4 @@
+import 'package:buildnex/APIRequests/serviceProviderCatalogAPI.dart';
 import 'package:buildnex/Tasks/taskWidgets/sp_catalogDialog.dart';
 import 'package:buildnex/Tasks/taskWidgets/taskInformation.dart';
 import 'package:buildnex/Tasks/taskWidgets/taskProviderInformation.dart';
@@ -40,18 +41,6 @@ class _PaintingSPState extends State<PaintingSP> {
 
       print(paintingData);
 
-      // these contains are in paintingData, and each one contain the catalog ID
-
-      // paintingData['BedroomPaint']
-      // paintingData['BathroomPaint']
-      // paintingData['LivingroomPaint']
-      // paintingData['GuestroomPaint']
-      // paintingData['KitchenPaint']
-
-      //from CatalogAPI for service provider, you can retrieve what you want
-      // for example
-      // await CatalogAPI.getItemDetails(paintingData['BedroomPaint'].toString())
-
       if (paintingData['Notes'] != null) {
         _userNotes.text = paintingData['Notes'];
         isSubmitVisible = false;
@@ -70,11 +59,19 @@ class _PaintingSPState extends State<PaintingSP> {
     }
   }
 
-  Future<void> openCatalog() async {
-    Map<String, dynamic>? newProject = await showDialog<Map<String, dynamic>>(
+  Future<void> openCatalog(String itemID) async {
+    Map<String, dynamic> itemDetails = {} ;
+    if(itemID != null){
+      itemDetails = await CatalogAPI.getItemDetails(itemID);
+    }
+    else{
+      Get.snackbar("Alert Message", "Owner of the project didn't choose an item yet... ") ;
+    }
+
+    await showDialog<Map<String, dynamic>>(
       context: context,
       builder: (BuildContext context) {
-        return CatalogDialogSP();
+        return CatalogDialogSP(itemDetails: itemDetails,);
       },
     );
   }
@@ -198,7 +195,7 @@ class _PaintingSPState extends State<PaintingSP> {
                                 ),
                                 GestureDetector(
                                   onTap: () async {
-                                    await openCatalog() ;
+                                    await openCatalog(paintingData['BedroomPaint'].toString()) ;
                                   },
                                   child: Container(
                                     margin: const EdgeInsets.only(top: 5 , right: 5),
@@ -253,7 +250,7 @@ class _PaintingSPState extends State<PaintingSP> {
                                 ),
                                 GestureDetector(
                                   onTap: () async {
-                                    await openCatalog() ;
+                                    await openCatalog(paintingData['BathroomPaint'].toString()) ;
                                   },
                                   child: Container(
                                     margin: const EdgeInsets.only(top: 5 , right: 5),
@@ -308,7 +305,7 @@ class _PaintingSPState extends State<PaintingSP> {
                                 ),
                                 GestureDetector(
                                   onTap: () async {
-                                    await openCatalog() ;
+                                    await openCatalog(paintingData['LivingroomPaint'].toString()) ;
                                   },
                                   child: Container(
                                     margin: const EdgeInsets.only(top: 5 , right: 5),
@@ -363,7 +360,7 @@ class _PaintingSPState extends State<PaintingSP> {
                                 ),
                                 GestureDetector(
                                   onTap: () async {
-                                    await openCatalog() ;
+                                    await openCatalog(paintingData['GuestroomPaint'].toString()) ;
                                   },
                                   child: Container(
                                     margin: const EdgeInsets.only(top: 5 , right: 5),
@@ -418,7 +415,7 @@ class _PaintingSPState extends State<PaintingSP> {
                                 ),
                                 GestureDetector(
                                   onTap: () async {
-                                    await openCatalog() ;
+                                    await openCatalog(paintingData['KitchenPaint'].toString()) ;
                                   },
                                   child: Container(
                                     margin: const EdgeInsets.only(top: 5 , right: 5),
@@ -505,15 +502,11 @@ class _PaintingSPState extends State<PaintingSP> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 10.0),
                       Container(
                         padding: const EdgeInsets.all(10),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const SizedBox(
-                              height: 10,
-                            ),
                             const Padding(
                               padding: EdgeInsets.all(10),
                               child: Text(
@@ -557,48 +550,110 @@ class _PaintingSPState extends State<PaintingSP> {
                                 ),
                               ),
                             ),
-                            Center(
-                              child: Container(
-                                width: 250,
-                                decoration: const BoxDecoration(
-                                  color: Color(0xFF2F4771),
-                                  borderRadius:
-                                  BorderRadius.all(Radius.circular(30.0)),
-                                ),
-                                child: isSubmitVisible
-                                    ? TextButton(
-                                  onPressed: () async {
-                                    if (areFieldsValid(_userNotes.text)) {
-                                      String message =
-                                      await ServiceProviderGetTasksAPI
-                                          .setTask6Data(
-                                        taskID,
-                                        _userNotes.text,
-                                      );
-                                      CustomAlertDialog.showSuccessDialog(
-                                          context, message);
-
-                                      // After successful submission, hide the button
-                                      setState(() {
-                                        isSubmitVisible = false;
-                                      });
-                                      return;
-                                    } else {
-                                      CustomAlertDialog.showErrorDialog(
-                                          context,
-                                          'Please fill in all the required fields.');
-                                    }
-                                  },
-                                  child: const Text(
-                                    'Submit',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      color: Color(0xFFF9FAFB),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    margin: EdgeInsets.symmetric(horizontal: 8),
+                                    decoration: const BoxDecoration(
+                                      color: Color(0xFF2F4771),
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(30.0)),
+                                    ),
+                                    child: TextButton(
+                                      onPressed: () async {
+                                        await ServiceProviderGetTasksAPI
+                                            .setTask6Data(
+                                          taskID,
+                                          _userNotes.text,
+                                          'Update Data',
+                                        );
+                                      },
+                                      child: const Text(
+                                        'Save',
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          color: Color(0xFFF9FAFB),
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                )
-                                    : Container(),
-                              ),
+                                ),
+                                if(isSubmitVisible)
+                                  Expanded(
+                                    child: Container(
+                                        margin: EdgeInsets.symmetric(horizontal: 8),
+                                        decoration: const BoxDecoration(
+                                          color: Color(0xFF2F4771),
+                                          borderRadius:
+                                          BorderRadius.all(Radius.circular(30.0)),
+                                        ),
+                                        child: TextButton(
+                                          onPressed: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                  backgroundColor: Colors.white,
+                                                  title: const Text("Complete Task"),
+                                                  content: const Text("By clicking OK, you will mark the task as complete."),
+                                                  actions: [
+                                                    TextButton(
+                                                      style: TextButton.styleFrom(
+                                                        backgroundColor: Color(0xFFF3D69B), // Set background color to yellow
+                                                      ),
+                                                      onPressed: () async {
+                                                        if (areFieldsValid(_userNotes.text)) {
+                                                          String message = await ServiceProviderGetTasksAPI.setTask6Data(
+                                                              taskID,
+                                                              _userNotes.text,
+                                                              'Submit'
+                                                          );
+                                                          setState(() {
+                                                            paintingData['TaskStatus'] = 'Completed' ;
+                                                            isSubmitVisible = false ;
+                                                          });
+                                                          Navigator.pop(context); // Close the dialog
+                                                        } else {
+                                                          CustomAlertDialog.showErrorDialog(context, 'Please fill in all the required fields.');
+                                                          Navigator.pop(context); // Close the dialog
+                                                        }
+                                                      },
+                                                      child: const Text("OK" , style: TextStyle(
+                                                          color: Color(0xFF2F4771),
+                                                          fontSize: 15
+                                                      ),),
+                                                    ),
+                                                    TextButton(
+                                                      style: TextButton.styleFrom(
+                                                        backgroundColor: Color(0xFFF3D69B), // Set background color to yellow
+                                                      ),
+                                                      onPressed: () {
+                                                        Navigator.pop(context); // Close the dialog
+                                                      },
+                                                      child: const Text("Cancel" , style: TextStyle(
+                                                          color: Color(0xFF2F4771),
+                                                          fontSize: 15
+                                                      ),),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
+                                          },
+                                          child: const Text(
+                                            'Mark as Done',
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              color: Color(0xFFF9FAFB),
+                                            ),
+                                          ),
+                                        )
+                                    ),
+                                  ),
+                              ],
                             ),
                           ],
                         ),

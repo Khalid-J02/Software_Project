@@ -149,116 +149,6 @@ class _ElectricalInstallSPState extends State<ElectricalInstallSP> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // Row(
-                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            //   children: [
-                            //     const Expanded(
-                            //       flex: 1,
-                            //       child: Padding(
-                            //         padding: EdgeInsets.only(left: 8 ,right: 8),
-                            //         child: Text(
-                            //           "Electrical Document:",
-                            //           style: TextStyle(
-                            //               color: Color(0xFF2F4771),
-                            //               fontWeight: FontWeight.w500,
-                            //               fontSize: 16
-                            //           ),
-                            //         ),
-                            //       ),
-                            //     ),
-                            //     Container(
-                            //       margin: const EdgeInsets.only(top: 5 , right: 5),
-                            //       height: 35,
-                            //       decoration: BoxDecoration(
-                            //         color: const Color(0xFF2F4771),
-                            //         borderRadius: BorderRadius.circular(20.0),
-                            //       ),
-                            //       child: const Row(
-                            //         children: [
-                            //           Padding(
-                            //             padding: EdgeInsets.only(left: 8 , right: 8),
-                            //             child: Icon(
-                            //               Icons.sim_card_download,
-                            //               size: 20,
-                            //               color: Color(0xFFF9FAFB),
-                            //             ),
-                            //           ),
-                            //           Padding(
-                            //             padding: EdgeInsets.only(right: 12.0),
-                            //             child: Text(
-                            //               "Download",
-                            //               style: TextStyle(
-                            //                 color: Color(0xFFF9FAFB),
-                            //                 fontSize: 15,
-                            //                 fontWeight: FontWeight.w400,
-                            //               ),
-                            //             ),
-                            //           ),
-                            //         ],
-                            //       ),
-                            //     ),
-                            //     Container(
-                            //       margin: const EdgeInsets.only(top: 5 , right: 5),
-                            //       height: 35,
-                            //       decoration: BoxDecoration(
-                            //         color: const Color(0xFF2F4771),
-                            //         borderRadius: BorderRadius.circular(20.0),
-                            //       ),
-                            //       child: const Row(
-                            //         children: [
-                            //           Padding(
-                            //             padding: EdgeInsets.only(left: 8 , right: 8),
-                            //             child: Icon(
-                            //               Icons.file_open_outlined,
-                            //               size: 20,
-                            //               color: Color(0xFFF9FAFB),
-                            //             ),
-                            //           ),
-                            //           Padding(
-                            //             padding: EdgeInsets.only(right: 12.0),
-                            //             child: Text(
-                            //               "Open",
-                            //               style: TextStyle(
-                            //                 color: Color(0xFFF9FAFB),
-                            //                 fontSize: 15,
-                            //                 fontWeight: FontWeight.w400,
-                            //               ),
-                            //             ),
-                            //           ),
-                            //         ],
-                            //       ),
-                            //     ),
-                            //   ],
-                            // ),
-                            // Row(
-                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            //   children: [
-                            //     const Expanded(
-                            //       flex: 1,
-                            //       child: Padding(
-                            //         padding: EdgeInsets.only(left: 8),
-                            //         child: Text(
-                            //           "Price / Unit:  (JOD)",
-                            //           style: TextStyle(
-                            //               color: Color(0xFF2F4771),
-                            //               fontWeight: FontWeight.w500,
-                            //               fontSize: 16
-                            //           ),
-                            //         ),
-                            //       ),
-                            //     ),
-                            //     Expanded(
-                            //       flex: 1,
-                            //       child: Padding(
-                            //         padding: const EdgeInsets.symmetric(horizontal: 0),
-                            //         child: TextfieldTasks(controller: _electricPricePerUnit, hintText: 'Enter Your Price', labelText: 'Price/Unit',),
-                            //       ),
-                            //     ),
-                            //   ],
-                            // ),
-                            const SizedBox(
-                              height: 10,
-                            ),
                             const Padding(
                               padding: EdgeInsets.all(10),
                               child: Text(
@@ -302,49 +192,112 @@ class _ElectricalInstallSPState extends State<ElectricalInstallSP> {
                                 ),
                               ),
                             ),
-                            Center(
-                              child: Container(
-                                width: 250,
-                                decoration: const BoxDecoration(
-                                  color: Color(0xFF2F4771),
-                                  borderRadius:
-                                  BorderRadius.all(Radius.circular(30.0)),
-                                ),
-                                child: isSubmitVisible
-                                    ? TextButton(
-                                  onPressed: () async {
-                                    if (areFieldsValid(_userNotes.text)) {
-                                      String message =
-                                      await ServiceProviderGetTasksAPI
-                                          .setTask6Data(
-                                        taskID,
-                                        _userNotes.text,
-                                      );
-                                      CustomAlertDialog.showSuccessDialog(
-                                          context, message);
-
-                                      // After successful submission, hide the button
-                                      setState(() {
-                                        isSubmitVisible = false;
-                                      });
-                                      return;
-                                    } else {
-                                      CustomAlertDialog.showErrorDialog(
-                                          context,
-                                          'Please fill in all the required fields.');
-                                    }
-                                  },
-                                  child: const Text(
-                                    'Submit',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      color: Color(0xFFF9FAFB),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    margin: EdgeInsets.symmetric(horizontal: 8),
+                                    decoration: const BoxDecoration(
+                                      color: Color(0xFF2F4771),
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(30.0)),
+                                    ),
+                                    child: TextButton(
+                                      onPressed: () async {
+                                        await ServiceProviderGetTasksAPI
+                                            .setTask6Data(
+                                          taskID,
+                                          _userNotes.text,
+                                          'Update Data',
+                                        );
+                                      },
+                                      child: const Text(
+                                        'Save',
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          color: Color(0xFFF9FAFB),
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                )
-                                    : Container(),
-                              ),
+                                ),
+                                if(isSubmitVisible)
+                                  Expanded(
+                                    child: Container(
+                                        margin: EdgeInsets.symmetric(horizontal: 8),
+                                        decoration: const BoxDecoration(
+                                          color: Color(0xFF2F4771),
+                                          borderRadius:
+                                          BorderRadius.all(Radius.circular(30.0)),
+                                        ),
+                                        child: TextButton(
+                                          onPressed: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                  backgroundColor: Colors.white,
+                                                  title: const Text("Complete Task"),
+                                                  content: const Text("By clicking OK, you will mark the task as complete."),
+                                                  actions: [
+                                                    TextButton(
+                                                      style: TextButton.styleFrom(
+                                                        backgroundColor: Color(0xFFF3D69B), // Set background color to yellow
+                                                      ),
+                                                      onPressed: () async {
+                                                        if (areFieldsValid(_userNotes.text)) {
+                                                          String message = await ServiceProviderGetTasksAPI.setTask6Data(
+                                                              taskID,
+                                                              _userNotes.text,
+                                                              'Submit'
+                                                          );
+                                                          setState(() {
+                                                            electricalData['TaskStatus'] = 'Completed' ;
+                                                            isSubmitVisible = false ;
+                                                          });
+                                                          Navigator.pop(context); // Close the dialog
+                                                        } else {
+                                                          CustomAlertDialog.showErrorDialog(context, 'Please fill in all the required fields.');
+                                                          Navigator.pop(context); // Close the dialog
+                                                        }
+                                                      },
+                                                      child: const Text("OK" , style: TextStyle(
+                                                          color: Color(0xFF2F4771),
+                                                          fontSize: 15
+                                                      ),),
+                                                    ),
+                                                    TextButton(
+                                                      style: TextButton.styleFrom(
+                                                        backgroundColor: Color(0xFFF3D69B), // Set background color to yellow
+                                                      ),
+                                                      onPressed: () {
+                                                        Navigator.pop(context); // Close the dialog
+                                                      },
+                                                      child: const Text("Cancel" , style: TextStyle(
+                                                          color: Color(0xFF2F4771),
+                                                          fontSize: 15
+                                                      ),),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
+                                          },
+                                          child: const Text(
+                                            'Mark as Done',
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              color: Color(0xFFF9FAFB),
+                                            ),
+                                          ),
+                                        )
+                                    ),
+                                  ),
+                              ],
                             ),
+                            const SizedBox(height: 10,)
                           ],
                         ),
                       )

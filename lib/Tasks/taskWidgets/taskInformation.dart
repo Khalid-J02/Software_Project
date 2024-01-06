@@ -169,7 +169,8 @@ class _TaskInformationState extends State<TaskInformation> {
                   ),
                 ],
               ),
-            )
+            ),
+            const SizedBox(height: 8,),
           ],
         ),
       ),

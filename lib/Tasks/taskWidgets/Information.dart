@@ -1,4 +1,12 @@
+import 'dart:convert';
+import 'dart:io';
+import 'package:buildnex/Tasks/taskWidgets/pdfViewer.dart';
+import 'package:flutter_file_downloader/flutter_file_downloader.dart';
+import 'package:get/get.dart' ;
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+
+
 
 class Information extends StatefulWidget {
   String title;
@@ -17,6 +25,10 @@ class Information extends StatefulWidget {
 }
 
 class _TaskInformationState extends State<Information> {
+
+  double? _progress;
+
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -66,8 +78,8 @@ class _TaskInformationState extends State<Information> {
                 ),
               ),
             ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 12,
+            Container(
+              padding: EdgeInsets.only(bottom: 8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -91,62 +103,103 @@ class _TaskInformationState extends State<Information> {
                         ),
                         Row(
                           children: [
-                            Container(
-                              margin: const EdgeInsets.only(top: 5, right: 5),
-                              height: 35,
-                              width: 80,
-                              decoration: BoxDecoration(
-                                color: Color(0xFF2F4771),
-                                borderRadius: BorderRadius.circular(20.0),
-                              ),
-                              child: const Row(
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        top: 8.0, left: 8, bottom: 8, right: 4),
-                                    child: Icon(
-                                      Icons.file_open_outlined,
-                                      size: 20,
-                                      color: Color(0xFFF9FAFB),
-                                    ),
-                                  ),
-                                  Text(
-                                    "Open",
-                                    style: TextStyle(
+                            GestureDetector(
+                              onTap: (){
+                                if(widget.document != null){
+                                  Get.to(DocsPdfViewer(
+                                    pdfFileURL: widget.document,
+                                  ));
+                                }
+                                else{
+                                  Get.snackbar('Hi' ,
+                                      'There is no file to open' ,
+                                      colorText: Colors.white,
+                                      backgroundColor: Color(0xFF2F4771)) ;
+                                }
+
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.only(top: 5, right: 5),
+                                height: 35,
+                                width: 80,
+                                decoration: BoxDecoration(
+                                  color: Color(0xFF2F4771),
+                                  borderRadius: BorderRadius.circular(20.0),
+                                ),
+                                child: const Row(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          top: 8.0, left: 8, bottom: 8, right: 4),
+                                      child: Icon(
+                                        Icons.file_open_outlined,
+                                        size: 20,
                                         color: Color(0xFFF9FAFB),
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 14),
-                                  ),
-                                ],
+                                      ),
+                                    ),
+                                    Text(
+                                      "Open",
+                                      style: TextStyle(
+                                          color: Color(0xFFF9FAFB),
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 14),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                            Container(
-                              margin: const EdgeInsets.only(top: 5, right: 12),
-                              height: 35,
-                              width: 100,
-                              decoration: BoxDecoration(
-                                color: Color(0xFF2F4771),
-                                borderRadius: BorderRadius.circular(20.0),
-                              ),
-                              child: const Row(
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        top: 8.0, left: 8, bottom: 8, right: 4),
-                                    child: Icon(
-                                      Icons.sim_card_download_outlined,
-                                      size: 20,
-                                      color: Color(0xFFF9FAFB),
-                                    ),
-                                  ),
-                                  Text(
-                                    "Download",
-                                    style: TextStyle(
+                            _progress != null
+                                ? const CircularProgressIndicator()
+                                :
+                            GestureDetector(
+                              onTap: (){
+                                if(widget.document != null){
+                                  FileDownloader.downloadFile(
+                                    url: widget.document,
+                                    onProgress: (name, progress) {
+                                      setState(() {
+                                        _progress = _progress;
+                                      });
+                                    },
+                                    onDownloadCompleted: (value) {
+                                      setState(() {
+                                        _progress = null;
+                                      });
+                                    },
+                                  );
+                                }
+                                else{
+                                  Get.snackbar('Hi' , 'There is no file to download') ;
+                                }
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.only(top: 5, right: 12),
+                                height: 35,
+                                width: 100,
+                                decoration: BoxDecoration(
+                                  color: Color(0xFF2F4771),
+                                  borderRadius: BorderRadius.circular(20.0),
+                                ),
+                                child: const Row(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          top: 8.0, left: 8, bottom: 8, right: 4),
+                                      child: Icon(
+                                        Icons.sim_card_download_outlined,
+                                        size: 20,
                                         color: Color(0xFFF9FAFB),
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 14),
-                                  ),
-                                ],
+                                      ),
+                                    ),
+                                    Text(
+                                      "Download",
+                                      style: TextStyle(
+                                          color: Color(0xFFF9FAFB),
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 14),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ],

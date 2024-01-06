@@ -7,7 +7,9 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../../Widgets/customAlertDialog.dart';
 
 class CatalogDialogSP extends StatefulWidget {
-  const CatalogDialogSP({super.key});
+  Map<String, dynamic> itemDetails ;
+
+  CatalogDialogSP({super.key , required this.itemDetails});
 
   @override
   State<CatalogDialogSP> createState() => _CatalogDialogSPState();
@@ -30,34 +32,12 @@ class _CatalogDialogSPState extends State<CatalogDialogSP> {
         color: Color(0xFFF3D69B), fontSize: 16, fontWeight: FontWeight.normal);
   }
 
-  List<Map<String, dynamic>> serviceProviderCatalog = [
-    {
-      "Name" : "Ex1",
-      "image" : "images/Testing/Iceland.jpg",
-      "rating": 3.2
-    },
-    {
-      "Name" : "Ex2",
-      "image" : "images/Testing/Iceland.jpg",
-      "rating": 2.9
-    },
-    {
-      "Name" : "Ex3",
-      "image" : "images/Testing/Iceland.jpg",
-      "rating": 3.9
-    },
-    {
-      "Name" : "Ex4",
-      "image" : "images/Testing/Iceland.jpg",
-      "rating": 4.3
-    },
-    {
-      "Name" : "Ex5",
-      "image" : "images/Testing/Iceland.jpg",
-      "rating": 4.3
-    },
-  ];
-
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print(widget.itemDetails);
+  }
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -86,10 +66,10 @@ class _CatalogDialogSPState extends State<CatalogDialogSP> {
                   ),
                   shadowColor: const Color(0xff26364b),
 
-                  child: const ClipRRect(
+                  child: ClipRRect(
                     borderRadius: BorderRadius.all(Radius.circular(15)) ,
                     child: Image(
-                      image: AssetImage("images/Testing/Tokyo2.jpg"),
+                      image: NetworkImage(widget.itemDetails['ItemImage']),
                       fit: BoxFit.fill,
                     ),
                   ),
@@ -99,61 +79,26 @@ class _CatalogDialogSPState extends State<CatalogDialogSP> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Item Name",
+                    widget.itemDetails['ItemName'],
                     style: TextStyle(fontSize: 22, color: Color(0xFFF3D69B))
                   ),
-                  Text("  #Item Id" , style: TextStyle(fontSize: 22, color: Color(0xFFF3D69B)))
+                  Text("  #${widget.itemDetails['CatalogID']}" , style: TextStyle(fontSize: 22, color: Color(0xFFF3D69B)))
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4),
+                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
                 child: RatingBarIndicator(
-                  rating: 4.7,
+                  rating: widget.itemDetails['ItemRating'].toDouble(),
                   itemSize: 18,
                   unratedColor: Colors.grey,
                   itemBuilder: (_, __) => Icon(Icons.star , color: Color(0xFFF3D69B),),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Container(
-                      width: 100,
-                      margin: EdgeInsets.only(top: 10),
-                      decoration: const BoxDecoration(
-                        color: Color(0xFFF3D69B),
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                      ),
-                      child: TextButton(
-                        onPressed: () async {
-                          // if (isProjectDataValid()) {
-                          //   String? projectId = await _saveProjectData();
-                          //   Navigator.of(context).pop({
-                          //     'projectName': _projectNameController.text,
-                          //     'projectId': projectId
-                          //   });
-                          // } else {
-                          //   Navigator.of(context).pop(null);
-                          //   CustomAlertDialog.showErrorDialog(
-                          //       context, 'Please fill in all the fields');
-                          // }
-
-                          /*
-                          here we should return the item id so modify it, and save it.
-                           */
-                        },
-                        child: const Text(
-                          'Save',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Color(0xFF122247),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Expanded(
+                    child: Container(
                       width: 100,
                       margin: EdgeInsets.only(top: 10),
                       decoration: const BoxDecoration(
@@ -165,7 +110,7 @@ class _CatalogDialogSPState extends State<CatalogDialogSP> {
                           Navigator.pop(context);
                         },
                         child: const Text(
-                          'Cancel',
+                          'Done',
                           style: TextStyle(
                             fontSize: 20,
                             color: Color(0xFF122247),
@@ -173,8 +118,8 @@ class _CatalogDialogSPState extends State<CatalogDialogSP> {
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ],
           ),

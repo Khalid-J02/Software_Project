@@ -31,7 +31,7 @@ class ServiceProviderGetTasksAPI {
     }
   } //getTask1
 
-  static Future<String> setTask1Data( String taskId, String projectId, String propertySize, String surveyDocument, String serProNotes,) async {
+  static Future<String> setTask1Data( String taskId, String projectId, String propertySize, String surveyDocument, String serProNotes, String status) async {
     try {
       final response = await http.post(
         Uri.parse('$baseUrl/serviceprovider/setTask1/$taskId/$projectId'),
@@ -43,6 +43,7 @@ class ServiceProviderGetTasksAPI {
           'propertySize': propertySize,
           'surveyDocument': surveyDocument,
           'serProNotes': serProNotes,
+          'status' : status,
         }),
       );
 
@@ -85,7 +86,7 @@ class ServiceProviderGetTasksAPI {
     }
   } //getTask2
 
-  static Future<String> setTask2Data( String taskId, String projectId, String permitsDocument, String serProNotes,) async {
+  static Future<String> setTask2Data( String taskId, String projectId, String permitsDocument, String serProNotes, String status) async {
     try {
       final response = await http.post(
         Uri.parse('$baseUrl/serviceprovider/setTask2/$taskId/$projectId'),
@@ -96,6 +97,7 @@ class ServiceProviderGetTasksAPI {
         body: jsonEncode({
           'permitsDocument': permitsDocument,
           'serProNotes': serProNotes,
+          'status' : status
         }),
       );
 
@@ -138,7 +140,7 @@ class ServiceProviderGetTasksAPI {
     }
   } //getTask1
 
-  static Future<String> setTask3Data( String taskId, String projectId, String soilDocument, String serProNotes,) async {
+  static Future<String> setTask3Data( String taskId, String projectId, String soilDocument, String serProNotes, String status) async {
     try {
       final response = await http.post(
         Uri.parse('$baseUrl/serviceprovider/setTask3/$taskId/$projectId'),
@@ -149,6 +151,7 @@ class ServiceProviderGetTasksAPI {
         body: jsonEncode({
           'soilDocument': soilDocument,
           'serProNotes': serProNotes,
+          'status' : status
         }),
       );
 
@@ -191,7 +194,7 @@ class ServiceProviderGetTasksAPI {
     }
   } //getTask4
 
-  static Future<String> setTask4Data( String taskId, String projectId, String designDocument, String foundationDocument, String plumbingDocument, String electricalDocument,String insulationAndHVACDocument,  String serProNotes,) async {
+  static Future<String> setTask4Data( String taskId, String projectId, String designDocument, String foundationDocument, String plumbingDocument, String electricalDocument,String insulationAndHVACDocument,  String serProNotes, String status) async {
     try {
       final response = await http.post(
         Uri.parse('$baseUrl/serviceprovider/setTask4/$taskId/$projectId'),
@@ -206,6 +209,7 @@ class ServiceProviderGetTasksAPI {
           'electricalDocument': electricalDocument,
           'insulationAndHVACDocument': insulationAndHVACDocument,
           'serProNotes': serProNotes,
+          'status' : status
         }),
       );
 
@@ -248,7 +252,7 @@ class ServiceProviderGetTasksAPI {
     }
   } //getTask5
 
-  static Future<String> setTask5Data( String taskId, String projectId, String approvalsDocument, String serProNotes,) async {
+  static Future<String> setTask5Data( String taskId, String projectId, String approvalsDocument, String serProNotes, String status) async {
     try {
       final response = await http.post(
         Uri.parse('$baseUrl/serviceprovider/setTask5/$taskId/$projectId'),
@@ -259,6 +263,7 @@ class ServiceProviderGetTasksAPI {
         body: jsonEncode({
           'approvalsDocument': approvalsDocument,
           'serProNotes': serProNotes,
+          'status' : status
         }),
       );
 
@@ -301,7 +306,7 @@ class ServiceProviderGetTasksAPI {
     }
   } //getTask4
 
-  static Future<String> setTask6Data( String taskId, String serProNotes,) async {
+  static Future<String> setTask6Data( String taskId, String serProNotes, String status) async {
     try {
       final response = await http.post(
         Uri.parse('$baseUrl/serviceprovider/setTask6/$taskId'),
@@ -311,6 +316,7 @@ class ServiceProviderGetTasksAPI {
         },
         body: jsonEncode({
           'serProNotes': serProNotes,
+          'status' : status
         }),
       );
 
