@@ -62,63 +62,63 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-const MyApp({super.key});
+  const MyApp({super.key});
 
-@override
-Widget build(BuildContext context) {
-  return GetMaterialApp(
-    title: 'Welcome Page',
-    debugShowCheckedModeBanner: false,
+  @override
+  Widget build(BuildContext context) {
+    return GetMaterialApp(
+      title: 'Welcome Page',
+      debugShowCheckedModeBanner: false,
 
-    initialRoute: "/",
+      initialRoute: "/",
 
-    routes: {
-      '/':(context) => WelcomePage(),
-      '/Login':(context) => Login(),
-      '/Register':(context) => Register(),
-      '/Register/HomeOwner':(context) => HomeOwnerRegister(),
-      '/Register/ServiceProvider':(context) => ServiceProviderRegister(),
-      '/ForgotPass':(context) => Forget_Password(),
-      '/ForgotPassCode':(context) => Forget_PasswordCode(),
-      '/ResetPass':(context) => Reset_Password(),
-      '/HomePage/HomeOwner':(context) => NavBarHomeOwner(),
-      '/HomePage/HomeOwner/ProjectPage':(context) => ProjectNavBar(),
-      '/HomePage/ServiceProvider':(context) => NavBarServiceProvider(),
+      routes: {
+        '/':(context) => WelcomePage(),
+        '/Login':(context) => Login(),
+        '/Register':(context) => Register(),
+        '/Register/HomeOwner':(context) => HomeOwnerRegister(),
+        '/Register/ServiceProvider':(context) => ServiceProviderRegister(),
+        '/ForgotPass':(context) => Forget_Password(),
+        '/ForgotPassCode':(context) => Forget_PasswordCode(),
+        '/ResetPass':(context) => Reset_Password(),
+        '/HomePage/HomeOwner':(context) => NavBarHomeOwner(),
+        '/HomePage/HomeOwner/ProjectPage':(context) => ProjectNavBar(),
+        '/HomePage/ServiceProvider':(context) => NavBarServiceProvider(),
 
-      '/ServiceProviderTasks/Task1':(context) => SpPropertySurvey(),
-      '/ServiceProviderTasks/Task2':(context) => LocalGovernoratePermitsSP(),
-      '/ServiceProviderTasks/Task3':(context) => SoilTestingSP(),
-      '/ServiceProviderTasks/Task4':(context) => DesignAndPlanningSP(),
-      '/ServiceProviderTasks/Task5':(context) => GovernemntalPermittiveSP(),
-      '/ServiceProviderTasks/Task6':(context) => ConstructionSP(),
-      '/ServiceProviderTasks/Task7':(context) => PlumbingInstallSP(),
-      '/ServiceProviderTasks/Task8':(context) => ElectricalInstallSP(),
-      '/ServiceProviderTasks/Task9':(context) => InsulationInstallSP(),
-      '/ServiceProviderTasks/Task10':(context) => DoorFrameInstallSP(),
-      '/ServiceProviderTasks/Task11':(context) => PlasteringSP(),
-      '/ServiceProviderTasks/Task12':(context) => TileInstallSP() ,
-      '/ServiceProviderTasks/Task13':(context) => WindowInstallationSP(),
-      '/ServiceProviderTasks/Task14':(context) => DoorInstallationSP(),
-      '/ServiceProviderTasks/Task15':(context) => PaintingSP(),
+        '/ServiceProviderTasks/Task1':(context) => SpPropertySurvey(),
+        '/ServiceProviderTasks/Task2':(context) => LocalGovernoratePermitsSP(),
+        '/ServiceProviderTasks/Task3':(context) => SoilTestingSP(),
+        '/ServiceProviderTasks/Task4':(context) => DesignAndPlanningSP(),
+        '/ServiceProviderTasks/Task5':(context) => GovernemntalPermittiveSP(),
+        '/ServiceProviderTasks/Task6':(context) => ConstructionSP(),
+        '/ServiceProviderTasks/Task7':(context) => PlumbingInstallSP(),
+        '/ServiceProviderTasks/Task8':(context) => ElectricalInstallSP(),
+        '/ServiceProviderTasks/Task9':(context) => InsulationInstallSP(),
+        '/ServiceProviderTasks/Task10':(context) => DoorFrameInstallSP(),
+        '/ServiceProviderTasks/Task11':(context) => PlasteringSP(),
+        '/ServiceProviderTasks/Task12':(context) => TileInstallSP() ,
+        '/ServiceProviderTasks/Task13':(context) => WindowInstallationSP(),
+        '/ServiceProviderTasks/Task14':(context) => DoorInstallationSP(),
+        '/ServiceProviderTasks/Task15':(context) => PaintingSP(),
 
 
-      '/HomeOwnerTasks/Task1':(context) => HOPropertySurvey(),
-      '/HomeOwnerTasks/Task2':(context) => LocalGovernoratePermits(),
-      '/HomeOwnerTasks/Task3':(context) => SoilTesting(),
-      '/HomeOwnerTasks/Task4':(context) => DesignAndPlanningHO(),
-      '/HomeOwnerTasks/Task5':(context) => GovernemntalPermittiveHO(),
-      '/HomeOwnerTasks/Task6':(context) => ConstructionHO(),
-      '/HomeOwnerTasks/Task7':(context) => PlumbingInstallHO(),
-      '/HomeOwnerTasks/Task8':(context) => ElectricalInstallHO() ,
-      '/HomeOwnerTasks/Task9':(context) => InsulationInstallHO(),
-      '/HomeOwnerTasks/Task10':(context) => DoorFrameInstallHO(),
-      '/HomeOwnerTasks/Task11':(context) => PlasteringHO(),
-      '/HomeOwnerTasks/Task12':(context) => TileInstallHO(),
-      '/HomeOwnerTasks/Task13':(context) => WindowInstallationHO(),
-      '/HomeOwnerTasks/Task14':(context) => DoorInstallationHO(),
-      '/HomeOwnerTasks/Task15':(context) => PaintingHO(),
-    },
+        '/HomeOwnerTasks/Task1':(context) => HOPropertySurvey(),
+        '/HomeOwnerTasks/Task2':(context) => LocalGovernoratePermits(),
+        '/HomeOwnerTasks/Task3':(context) => SoilTesting(),
+        '/HomeOwnerTasks/Task4':(context) => DesignAndPlanningHO(),
+        '/HomeOwnerTasks/Task5':(context) => GovernemntalPermittiveHO(),
+        '/HomeOwnerTasks/Task6':(context) => ConstructionHO(),
+        '/HomeOwnerTasks/Task7':(context) => PlumbingInstallHO(),
+        '/HomeOwnerTasks/Task8':(context) => ElectricalInstallHO() ,
+        '/HomeOwnerTasks/Task9':(context) => InsulationInstallHO(),
+        '/HomeOwnerTasks/Task10':(context) => DoorFrameInstallHO(),
+        '/HomeOwnerTasks/Task11':(context) => PlasteringHO(),
+        '/HomeOwnerTasks/Task12':(context) => TileInstallHO(),
+        '/HomeOwnerTasks/Task13':(context) => WindowInstallationHO(),
+        '/HomeOwnerTasks/Task14':(context) => DoorInstallationHO(),
+        '/HomeOwnerTasks/Task15':(context) => PaintingHO(),
+      },
 
-  );
-}
+    );
+  }
 }

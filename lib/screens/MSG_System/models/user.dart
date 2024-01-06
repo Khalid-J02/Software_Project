@@ -5,7 +5,7 @@ class UserModel {
   late final String name ;
   late final String email ;
   late final String image ;
-  late final DateTime lastActive ;
+  late final String lastActive ;
   late final bool isOnline ;
 
   UserModel({
@@ -17,5 +17,14 @@ class UserModel {
     required this.lastActive
   });
 
-
+  factory UserModel.fromJson(Map<String, dynamic> json) {
+    return UserModel(
+      uid: json['UserID'].toString(),
+      name: json['Username'],
+      email: json['Email'],
+      image: json['UserPicture'],
+      isOnline: json['OnlineStatus'] == 'true',
+      lastActive: json['LastActive'],
+    );
+  }
 }

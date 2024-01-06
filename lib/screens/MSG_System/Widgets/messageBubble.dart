@@ -1,6 +1,5 @@
 import 'package:buildnex/screens/MSG_System/models/message.dart';
 import 'package:flutter/material.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 class MessageBubble extends StatelessWidget {
   final Message message ;
@@ -57,7 +56,7 @@ class MessageBubble extends StatelessWidget {
             ),
             const SizedBox(height: 5,),
             Text(
-              timeago.format(message.sentTime),
+              message.sentTime,
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 10

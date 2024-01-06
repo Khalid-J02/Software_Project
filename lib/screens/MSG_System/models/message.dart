@@ -4,7 +4,7 @@ class Message{
   final String senderID;
   final String receiverID;
   final String content;
-  final DateTime sentTime;
+  final String sentTime;
   final MessageType messageType;
 
   const Message({
@@ -14,9 +14,29 @@ class Message{
     required this.sentTime,
     required this.messageType
   });
+
+  factory Message.fromJson(Map<String, dynamic> json) {
+    MessageType type = _determineMessageType(json['content']);
+
+    return Message(
+      senderID: json['senderId'].toString(),
+      receiverID: json['receiverId'].toString(),
+      content: json['content'],
+      sentTime: json['howLong'],
+      messageType:type ,
+    );
+  }
+
+  static MessageType _determineMessageType(String content) {
+    if (Uri.tryParse(content)?.hasAbsolutePath ?? false) {
+      return MessageType.image;
+    } else {
+      return MessageType.text;
+    }
+  }
 }
 
-enum MessageType{
+enum MessageType {
   text,
-  image ;
+  image,
 }

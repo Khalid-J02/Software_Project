@@ -22,8 +22,8 @@ class _ChatScreenState extends State<ChatScreen> {
           padding: EdgeInsets.all(16),
           child: Column(
             children: [
-              Expanded(child: ChatMessages(receiverID: "user1",)),
-              ChatTextField(),
+              Expanded(child: ChatMessages(receiverID: widget.user.uid,)),
+              ChatTextField(receiverId: widget.user.uid,),
             ],
           ),
         ),

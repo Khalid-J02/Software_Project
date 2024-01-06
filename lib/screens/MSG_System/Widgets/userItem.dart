@@ -2,7 +2,6 @@ import 'package:buildnex/screens/MSG_System/chatScreen.dart';
 import 'package:buildnex/screens/MSG_System/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 
 class UserItemProfile extends StatefulWidget {
@@ -49,7 +48,7 @@ class _UserItemProfileState extends State<UserItemProfile> {
           ),
         ),
         subtitle: Text(
-          'Last Active : ${timeago.format(widget.user.lastActive)}',
+          'Last Active : ${widget.user.lastActive}',
           maxLines: 2,
           style: const TextStyle(
             color: Color(0xFF2F4771),

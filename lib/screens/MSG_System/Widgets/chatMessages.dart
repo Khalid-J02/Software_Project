@@ -2,37 +2,46 @@ import 'package:buildnex/screens/MSG_System/Widgets/messageBubble.dart';
 import 'package:buildnex/screens/MSG_System/models/message.dart';
 import 'package:flutter/material.dart';
 
-class ChatMessages extends StatelessWidget {
+import '../../../APIRequests/messageSystem.dart';
+class ChatMessages extends StatefulWidget {
+  final String receiverID;
 
-  final String receiverID ;
+  ChatMessages({super.key, required this.receiverID});
 
-  ChatMessages({super.key , required this.receiverID});
+  @override
+  _ChatMessagesState createState() => _ChatMessagesState();
+}
 
-  final List<Message> messages = List.generate(
-    20,
-        (index) => Message(
-      senderID: index % 2 == 0 ? 'user1' : 'user2', // Alternate between 2 users
-      receiverID: index % 2 == 0 ? 'user2' : 'user1',
-      content: index % 3 == 0
-          ? 'https://picsum.photos/200/100' // Image message content
-          : 'Message $index content',
-      sentTime: DateTime.now().subtract(Duration(minutes: index * 5)),
-      messageType: index % 3 == 0 ? MessageType.image : MessageType.text, // Assign message types
-    ),
-  );
+class _ChatMessagesState extends State<ChatMessages> {
+  List<Message> messages = [];
 
+  @override
+  void initState() {
+    super.initState();
+    fetchConversation();
+  }
+
+  Future <void> fetchConversation() async {
+    try {
+      var response = await MessagingAPI.getConversation(widget.receiverID);
+      setState(() {
+        messages = response.map((m) => Message.fromJson(m)).toList();
+      });
+    } catch (e) {
+      print('Error fetching conversation: $e');
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: messages.length,
-      itemBuilder: (context , index){
-        final isMe = receiverID != messages[index].senderID ;
-
+      itemBuilder: (context, index) {
+        final isMe = widget.receiverID == messages[index].senderID;
         final isTextMessage = messages[index].messageType == MessageType.text;
 
         return isTextMessage
-          ? MessageBubble(message: messages[index], isMe: isMe, isImage: false,)
-          : MessageBubble(message: messages[index], isMe: isMe, isImage: true,);
+            ? MessageBubble(message: messages[index], isMe: isMe, isImage: false,)
+            : MessageBubble(message: messages[index], isMe: isMe, isImage: true,);
       },
     );
   }
