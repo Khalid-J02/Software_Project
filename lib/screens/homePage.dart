@@ -1,9 +1,11 @@
 
 import 'package:buildnex/Widgets/projectDialog.dart';
+import 'package:buildnex/screens/MSG_System/listChatScreen.dart';
 import 'package:buildnex/screens/projectNav_homeOwner.dart';
 import 'package:flutter/material.dart';
 import 'package:buildnex/Widgets/userProjects.dart';
 import 'package:buildnex/APIRequests/homePageHomeOwnerAPI.dart';
+import 'package:get/get.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -56,6 +58,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         // backgroundColor: Colors.white, //#abcdd2 chose this color instead
         floatingActionButton: FloatingActionButton(
@@ -73,6 +76,14 @@ class _HomePageState extends State<HomePage> {
               color: Color(0xFFF3D69B)
             ),
           ),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.message , color: Colors.white ,), // Choose your preferred icon
+              onPressed: () {
+                Get.to(ListChatScreen());
+              },
+            ),
+          ],
           elevation: 0,
           backgroundColor: Color(0xFF122247),//Colors.white,
         ),
