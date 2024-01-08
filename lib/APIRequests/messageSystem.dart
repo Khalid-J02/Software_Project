@@ -60,13 +60,12 @@ class MessagingAPI {
   // Function to get service providers for a homeowner
   static Future<List<dynamic>> getServiceProvidersForHomeowner() async {
     final response = await http.get(
-      Uri.parse('$baseUrl/user/getServiceProvidersForHomeowner'),
+      Uri.parse('$baseUrl/user/getServiceProviders'),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': '${dotenv.env['token']}',
       },
     );
-
     if (response.statusCode == 200) {
       return json.decode(response.body);
     } else {
@@ -77,7 +76,7 @@ class MessagingAPI {
   // Function to get homeowners for a service provider
   static Future<List<dynamic>> getHomeOwnersForServiceProvider() async {
     final response = await http.get(
-      Uri.parse('$baseUrl/user/getHomeOwnersForServiceProvider'),
+      Uri.parse('$baseUrl/user/getHomeOwners'),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': '${dotenv.env['token']}',

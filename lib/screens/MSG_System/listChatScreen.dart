@@ -1,6 +1,7 @@
 import 'package:buildnex/screens/MSG_System/Widgets/userItem.dart';
 import 'package:buildnex/screens/MSG_System/models/user.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../../APIRequests/messageSystem.dart';
 
 class ListChatScreen extends StatefulWidget {
@@ -21,9 +22,15 @@ class _ChatScreenState extends State<ListChatScreen> {
     _loadChatData();
   }
 
-  void _loadChatData() async {
+  Future<void> _loadChatData() async {
     try {
-      var data = await MessagingAPI.getInbox();
+      var data ;
+      if(dotenv.env['userType'] == 'HomeOwner'){
+        data = await MessagingAPI.getServiceProvidersForHomeowner();
+      }else{
+        data = await MessagingAPI.getHomeOwnersForServiceProvider();
+      }
+
       setState(() {
         chatData = data.map<UserModel>((item) => UserModel.fromJson(item)).toList();
         isLoading = false;

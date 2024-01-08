@@ -1,3 +1,4 @@
+import 'package:buildnex/screens/MSG_System/listChatScreen.dart';
 import 'package:buildnex/screens/serviceProviderAssets.dart';
 import 'package:buildnex/screens/serviceProviderCatalog.dart';
 import 'package:buildnex/screens/serviceProviderProfile.dart';
@@ -41,9 +42,17 @@ class _NavBarServiceProviderState extends State<NavBarServiceProvider> {
         ),
         title: const Text(
           //projectName,
-          "Back",
+          "Home",
           style: TextStyle(color: Color(0xFFF3D69B)),
         ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.message , color: Colors.white ,), // Choose your preferred icon
+            onPressed: () {
+              Get.to(ListChatScreen());
+            },
+          ),
+        ],
         elevation: 0,
         backgroundColor: Color(0xFF122247), //Colors.white,
       ),
