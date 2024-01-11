@@ -227,12 +227,12 @@ class _SearchPageState extends State<SearchPage> {
       backgroundColor: Color(0xFFF9FAFB), //const Color(0xFFF9FAFB),
       appBar: AppBar(
         leading: const Icon(
-          Icons.house_outlined,
+          Icons.search,
           color: Color(0xFFF3D69B),
           size: 27,
         ),
         title: const Text(
-          'Home Page',
+          'Search',
           style: TextStyle(color: Color(0xFFF3D69B)),
         ),
         actions: const [
@@ -252,23 +252,36 @@ class _SearchPageState extends State<SearchPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              const Padding(
-                padding: EdgeInsets.only(top: 12, left: 12),
+              Padding(
+                padding: MediaQuery.of(context).size.width > 930
+                    ?
+                EdgeInsets.only(top: 12, bottom: 10 , right: MediaQuery.of(context).size.width/3.5 , left: MediaQuery.of(context).size.width/3.5)
+                    :
+                EdgeInsets.only(top: 12, left: 12),
                 child: Text(
                   "Welcome Back !",
                   style: TextStyle(
-                      color: Color(0xFF022D6B),
-                      fontWeight: FontWeight.w500,
-                      fontSize: 25),
+                    color: Color(0xFF022D6B),
+                    fontWeight: FontWeight.w500,
+                    fontSize: MediaQuery.of(context).size.width > 930
+                        ? 35
+                        : 25,
+                  ),
                 ),
               ),
               Row(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 12, bottom: 8, left: 12),
+                    padding: MediaQuery.of(context).size.width > 930
+                        ?
+                    EdgeInsets.only(top: 16, bottom: 10 , left: MediaQuery.of(context).size.width/3.5)
+                        :
+                    const EdgeInsets.only(top: 12, bottom: 8, left: 12),
                     child: SizedBox(
                       height: 50,
-                      width: 344,
+                      width: MediaQuery.of(context).size.width > 930
+                          ? MediaQuery.of(context).size.width/2.7
+                          : 344,
                       child: GestureDetector(
                         onTap: () async {
                           List<String> suggestionNames = await HomeOwnerSearchAPI.getSuggestionNames();
@@ -349,14 +362,19 @@ class _SearchPageState extends State<SearchPage> {
               ),
               widget.askForRequest    // this means if the ask for request was false then user has enter this page from the navbar and so we show him the services. BUT if its true then user won't need the service
                   ? SizedBox(height: 0,)
-                  : const Padding(
-                padding:
-                EdgeInsets.only(top: 12, bottom: 10, right: 15, left: 12),
+                  : Padding(
+                padding: MediaQuery.of(context).size.width > 930
+                    ?
+                EdgeInsets.only(top: 12, bottom: 10 , right: 12 , left: 16)
+                    :
+                const EdgeInsets.only(top: 12, bottom: 10, right: 15, left: 12),
                 child: Text(
                   "Services",
                   style: TextStyle(
                     color: Color(0xFF022D6B),
-                    fontSize: 21,
+                    fontSize: MediaQuery.of(context).size.width > 930
+                        ? 28
+                        : 21,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -364,7 +382,10 @@ class _SearchPageState extends State<SearchPage> {
               widget.askForRequest
                   ? SizedBox(height: 0,)
                   : SizedBox(
-                height: 55,
+                height: MediaQuery.of(context).size.width > 930
+                    ? MediaQuery.of(context).size.width / 30
+                    : 55,
+
                 child: Padding(
                   padding: const EdgeInsets.only(
                       top: 8, bottom: 10, right: 15, left: 15),
@@ -382,23 +403,25 @@ class _SearchPageState extends State<SearchPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Padding(
-                    padding:
+                  Padding(
+                    padding: MediaQuery.of(context).size.width > 930
+                        ?
+                    EdgeInsets.only(top: 12, bottom: 10 , right: 12 , left: 16)
+                        :
                     EdgeInsets.only(top: 12, bottom: 10, right: 15, left: 12),
                     child: Text(
                       "Discover",
                       style: TextStyle(
                         color: Color(0xFF022D6B),
-                        fontSize: 21,
+                        fontSize: MediaQuery.of(context).size.width > 930
+                            ? 28
+                            : 21,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
                   GestureDetector(
                     onTap: (){
-                      /*
-                      here we should do the refresh
-                     */
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(builder: (BuildContext context) => super.widget),
@@ -407,9 +430,11 @@ class _SearchPageState extends State<SearchPage> {
                     },
                     child: Container(
                       padding: const EdgeInsets.only(top: 5 , right: 12, ),
-                      child: const Icon(
+                      child: Icon(
                         Icons.refresh,
-                        size: 25,
+                        size: MediaQuery.of(context).size.width > 930
+                            ? 30
+                            : 25,
                         color: Color(0xFF122247),
                       ),
                     ),

@@ -367,6 +367,11 @@ class _FilterSearchState extends State<FilterSearch> {
                 children: <Widget>[
                   Container(
                     width: 100,
+                    padding: MediaQuery.of(context).size.width > 930
+                        ?
+                    EdgeInsets.symmetric(vertical: 10)
+                        :
+                    EdgeInsets.zero ,
                     decoration: const BoxDecoration(
                       color: Color(0xFFF3D69B),
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -384,6 +389,11 @@ class _FilterSearchState extends State<FilterSearch> {
                   ),
                   Container(
                     width: 100,
+                    padding: MediaQuery.of(context).size.width > 930
+                        ?
+                    EdgeInsets.symmetric(vertical: 10)
+                        :
+                    EdgeInsets.zero ,
                     decoration: const BoxDecoration(
                       color: Color(0xFFF3D69B),
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),

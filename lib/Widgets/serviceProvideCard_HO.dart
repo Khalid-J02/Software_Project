@@ -35,13 +35,17 @@ class _SPCardState extends State<SPCard> {
 
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      height: ((MediaQuery.of(context).size.width / 2) - (0)) * (widget.topServiceProviders.length / 2).ceil() * (1/1),
+      height: MediaQuery.of(context).size.width > 930
+          ? ((MediaQuery.of(context).size.width / 5) - (0)) * (widget.topServiceProviders.length / 5).ceil() * (1/1)
+          : ((MediaQuery.of(context).size.width / 2) - (0)) * (widget.topServiceProviders.length / 2).ceil() * (1/1),
       child: GridView.builder(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         itemCount: widget.topServiceProviders.length,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: MediaQuery.of(context).size.width > 930
+              ? 5
+              : 2,
         ),
         itemBuilder: (context, index) {
           return GestureDetector(

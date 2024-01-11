@@ -28,7 +28,7 @@ class Reset_Password extends StatelessWidget {
                   ),
                   alignment: Alignment.topCenter,
                   child: const Image(
-                    image: AssetImage('images/Logo_title.png'),
+                    image: AssetImage('images/Proj_Logo_title.png'),
                   ),
                 ),
               ),
@@ -116,19 +116,29 @@ class _Reset_PasswordPageState extends State<_Reset_PasswordPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 30),
+        Padding(
+          padding: MediaQuery.of(context).size.width > 930
+              ?
+          EdgeInsets.only(top: 30, right: MediaQuery.of(context).size.width/3.5 , left: MediaQuery.of(context).size.width/3.5)
+              :
+          EdgeInsets.symmetric(horizontal: 30),
           child: Text(
             "Resetting Your account Password",
             style: TextStyle(
-                fontSize: 25,
+                fontSize: MediaQuery.of(context).size.width > 930
+                    ? 27
+                    : 24,
                 color: Color(0xFFF3D69B),
                 fontWeight: FontWeight.w700
             ),
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+          padding: MediaQuery.of(context).size.width > 930
+              ?
+          EdgeInsets.only(top: 20 , bottom: 10 , right: MediaQuery.of(context).size.width/3.5 , left: MediaQuery.of(context).size.width/3.5)
+              :
+          const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
           child: TextFormField(
             controller: _passwordController,
             obscureText: _obsecPass,
@@ -170,7 +180,11 @@ class _Reset_PasswordPageState extends State<_Reset_PasswordPage> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+          padding: MediaQuery.of(context).size.width > 930
+              ?
+          EdgeInsets.only(bottom: 5 , right: MediaQuery.of(context).size.width/3.5 , left: MediaQuery.of(context).size.width/3.5)
+              :
+          const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
           child: TextFormField(
             controller: _confirmPasswordController,
             obscureText: _obsecConfPass,
@@ -213,17 +227,23 @@ class _Reset_PasswordPageState extends State<_Reset_PasswordPage> {
         ),
         Container(
           height: 50,
-          margin: const EdgeInsets.symmetric(vertical: 35, horizontal: 120),
+          margin: MediaQuery.of(context).size.width > 930
+              ?
+          EdgeInsets.only(top: 20, bottom: 10 , right: MediaQuery.of(context).size.width/2.5 , left: MediaQuery.of(context).size.width/2.5)
+              :
+          const EdgeInsets.symmetric(vertical: 35, horizontal: 120),
           decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
           ),
           child: TextButton(
             onPressed:_resetPassword,
-            child: const Text(
+            child: Text(
               'Reset Password',
               style: TextStyle(
-                fontSize: 16,
+                fontSize: MediaQuery.of(context).size.width > 930
+                    ? 19
+                    : 16,
                 color: Color(0xFF122247),
               ),
             ),

@@ -19,7 +19,9 @@ class RatingReview extends StatelessWidget {
           text ,
           style: TextStyle(
               fontWeight: FontWeight.w400,
-              fontSize: 16
+              fontSize: MediaQuery.of(context).size.width > 930
+                  ? 20
+                  : 16,
           ),
         ),
         Expanded(
@@ -30,7 +32,9 @@ class RatingReview extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               child: LinearProgressIndicator(
                 value: value,
-                minHeight: 10,
+                minHeight: MediaQuery.of(context).size.width > 930
+                    ? 14
+                    : 10,
                 backgroundColor: Colors.grey,
                 valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF122247)),
               ),

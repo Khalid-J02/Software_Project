@@ -87,8 +87,10 @@ class _ServiceProviderCatalogState extends State<ServiceProviderCatalog> {
           :
       GridView.builder(
         itemCount: jsonList.length,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: MediaQuery.of(context).size.width > 930
+          ? 5
+          : 2,
         ),
         itemBuilder: (context , index){
           var ItemObject = jsonList[index];

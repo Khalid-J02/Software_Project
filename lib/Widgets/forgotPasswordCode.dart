@@ -25,7 +25,7 @@ class Forget_PasswordCode extends StatelessWidget {
                   ),
                   alignment: Alignment.topCenter,
                   child: const Image(
-                    image: AssetImage('images/Logo_title.png'),
+                    image: AssetImage('images/Proj_Logo_title.png'),
                   ),
                 ),
               ),
@@ -115,30 +115,46 @@ class _Forget_PasswordCodePageState extends State<_Forget_PasswordCodePage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 30),
+        Padding(
+          padding: MediaQuery.of(context).size.width > 930
+              ?
+          EdgeInsets.only(top: 30, right: MediaQuery.of(context).size.width/3.5 , left: MediaQuery.of(context).size.width/3.5)
+              :
+          const EdgeInsets.symmetric(horizontal: 30),
           child: Text(
             "We sent you a code",
             style: TextStyle(
-                fontSize: 25,
+                fontSize: MediaQuery.of(context).size.width > 930
+                    ? 27
+                    : 24,
                 color: Color(0xFFF3D69B),
                 fontWeight: FontWeight.w700
             ),
           ),
         ),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+        Padding(
+          padding: MediaQuery.of(context).size.width > 930
+              ?
+          EdgeInsets.only(bottom: 5 , right: MediaQuery.of(context).size.width/3.5 , left: MediaQuery.of(context).size.width/3.5)
+              :
+          EdgeInsets.symmetric(horizontal: 30, vertical: 5),
           child: Text(
             "check your email to get your verification code. If you need to request a new code, go back and re-enter your email.",
             style: TextStyle(
-                fontSize: 14,
+                fontSize: MediaQuery.of(context).size.width > 930
+                    ? 18
+                    : 14,
                 color: Color(0xFFF3D69B),
                 fontWeight: FontWeight.normal
             ),
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+          padding: MediaQuery.of(context).size.width > 930
+              ?
+          EdgeInsets.only(top: 30, bottom: 10 , right: MediaQuery.of(context).size.width/3.5 , left: MediaQuery.of(context).size.width/3.5)
+              :
+          const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
           child: TextFormField(
             controller: _passwordcodeController,
             style: TextStyle(color: Color(0xFFF3D69B)),
@@ -167,7 +183,13 @@ class _Forget_PasswordCodePageState extends State<_Forget_PasswordCodePage> {
             ),
           ),
         ),
-        SizedBox(height: MediaQuery.of(context).size.height/2.5), // 355
+        SizedBox(
+            height: MediaQuery.of(context).size.width > 930
+                ?
+            MediaQuery.of(context).size.height/2.45
+                :
+            MediaQuery.of(context).size.height/2.5
+        ), // 355
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[

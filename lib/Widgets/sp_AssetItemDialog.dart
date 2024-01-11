@@ -78,16 +78,21 @@ class _ServiceProviderAssetItemDataDialogState extends State<ServiceProviderAsse
                   children: <Widget>[
                     Container(
                       width: 100,
+                      padding: MediaQuery.of(context).size.width > 930
+                          ? EdgeInsets.symmetric(vertical: 8)
+                          : EdgeInsets.zero,
                       decoration: const BoxDecoration(
                         color: Color(0xFFF3D69B),
                         borderRadius: BorderRadius.all(Radius.circular(10.0)),
                       ),
                       child: TextButton(
                         onPressed: _saveData ,
-                        child: const Text(
+                        child: Text(
                           'Save',
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: MediaQuery.of(context).size.width > 930
+                                ? 23
+                                : 20,
                             color: Color(0xFF122247),
                           ),
                         ),
@@ -95,6 +100,9 @@ class _ServiceProviderAssetItemDataDialogState extends State<ServiceProviderAsse
                     ),
                     Container(
                       width: 100,
+                      padding: MediaQuery.of(context).size.width > 930
+                          ? EdgeInsets.symmetric(vertical: 8)
+                          : EdgeInsets.zero,
                       decoration: const BoxDecoration(
                         color: Color(0xFFF3D69B),
                         borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -103,10 +111,12 @@ class _ServiceProviderAssetItemDataDialogState extends State<ServiceProviderAsse
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        child: const Text(
+                        child: Text(
                           'Cancel',
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: MediaQuery.of(context).size.width > 930
+                                ? 23
+                                : 20,
                             color: Color(0xFF122247),
                           ),
                         ),

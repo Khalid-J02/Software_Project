@@ -147,6 +147,20 @@ class _SPCatalogItemState extends State<SPCatalogItem> {
       body: ListView(
         children: <Widget>[
           Stack(children: [
+            MediaQuery.of(context).size.width > 930
+                ?
+            Center(
+              child: Container(
+                padding: EdgeInsets.all(25),
+                height: MediaQuery.of(context).size.height / 1.2,
+                width: MediaQuery.of(context).size.width / 2,
+                child: Image(
+                  image: NetworkImage(itemImage),
+                  fit: BoxFit.fill,
+                ),
+              ),
+            )
+                :
             Padding(
               padding: EdgeInsets.all(16),
               child: Image(
@@ -161,8 +175,12 @@ class _SPCatalogItemState extends State<SPCatalogItem> {
                     const EdgeInsets.symmetric(vertical: 25, horizontal: 25),
                 child: FittedBox(
                   child: SizedBox(
-                    height: 30.0,
-                    width: 30.0,
+                    height: MediaQuery.of(context).size.width > 930
+                        ? 40
+                        : 30.0,
+                    width: MediaQuery.of(context).size.width > 930
+                        ? 40
+                        : 30.0,
                     child: FittedBox(
                       child: FloatingActionButton(
                         onPressed: () async {
@@ -177,10 +195,12 @@ class _SPCatalogItemState extends State<SPCatalogItem> {
                         },
                         elevation: 0,
                         backgroundColor: const Color(0xfff3fbfe),
-                        child: const Icon(
+                        child: Icon(
                           Icons.edit,
                           color: Color(0xff435b83),
-                          size: 35.0,
+                          size: MediaQuery.of(context).size.width > 930
+                          ? 40
+                          :35.0,
                         ),
                       ),
                     ),

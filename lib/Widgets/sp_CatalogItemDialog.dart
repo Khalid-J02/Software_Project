@@ -80,15 +80,19 @@ class _ServiceProviderCatalogItemDataDialogState extends State<ServiceProviderCa
     return AlertDialog(
         backgroundColor: Color(0xFF2F4771),
         content: Container(
-          height: MediaQuery.of(context).size.height / 1.90,
+          height: MediaQuery.of(context).size.width > 930
+              ? MediaQuery.of(context).size.height / 2
+              : MediaQuery.of(context).size.height / 1.90,
           width: 350,
           child: Column(
             children: <Widget>[
-              const Padding(
+              Padding(
                 padding: EdgeInsets.only(bottom: 7.0),
                 child: Text("Edit Item Info",
                   style: TextStyle(
-                      fontSize: 22,
+                      fontSize: MediaQuery.of(context).size.width > 930
+                          ? 26
+                          : 22,
                       color: Color(0xFFF3D69B)
                   ),),
               ),
@@ -105,7 +109,9 @@ class _ServiceProviderCatalogItemDataDialogState extends State<ServiceProviderCa
                 child: Textfield(controller: _itemDescriptionController, hintText: "Item New Description", labelText: "Item Description"),
               ),
               Container(
-                height: 125,
+                height: MediaQuery.of(context).size.width > 930
+                    ? 160
+                    : 125,
                 padding: const EdgeInsets.only(left: 5.0 , right: 8.0 , top: 8.0 , bottom: 12.0),
                 child: ListView.builder(
                   shrinkWrap: true,
@@ -125,7 +131,12 @@ class _ServiceProviderCatalogItemDataDialogState extends State<ServiceProviderCa
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     Container(
-                      width: 100,
+                      width: MediaQuery.of(context).size.width > 930
+                          ? 120
+                          : 100,
+                      padding: MediaQuery.of(context).size.width > 930
+                          ? EdgeInsets.symmetric(vertical: 8)
+                          : EdgeInsets.zero,
                       decoration: const BoxDecoration(
                         color: Color(0xFFF3D69B),
                         borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -134,17 +145,24 @@ class _ServiceProviderCatalogItemDataDialogState extends State<ServiceProviderCa
                         onPressed: (){
                           _saveData();
                         } ,
-                        child: const Text(
+                        child: Text(
                           'Save',
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: MediaQuery.of(context).size.width > 930
+                                ? 23
+                                : 20,
                             color: Color(0xFF122247),
                           ),
                         ),
                       ),
                     ),
                     Container(
-                      width: 100,
+                      width: MediaQuery.of(context).size.width > 930
+                          ? 120
+                          : 100,
+                      padding: MediaQuery.of(context).size.width > 930
+                          ? EdgeInsets.symmetric(vertical: 8)
+                          : EdgeInsets.zero,
                       decoration: const BoxDecoration(
                         color: Color(0xFFF3D69B),
                         borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -153,10 +171,12 @@ class _ServiceProviderCatalogItemDataDialogState extends State<ServiceProviderCa
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        child: const Text(
+                        child: Text(
                           'Cancel',
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: MediaQuery.of(context).size.width > 930
+                                ? 23
+                                : 20,
                             color: Color(0xFF122247),
                           ),
                         ),

@@ -75,6 +75,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: Stack(
           children: [
@@ -85,8 +86,10 @@ class _ProfilePageState extends State<ProfilePage> {
                   flex: 1,
                   child: Container(
                     color: const Color(0xFF122247),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 15, vertical: 60),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 15, vertical: MediaQuery.of(context).size.width > 930
+                        ? 40
+                        : 60),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -140,7 +143,11 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             ),
             Positioned(
-              top: MediaQuery.of(context).size.width / 7,
+              top: MediaQuery.of(context).size.width > 930
+                  ?
+              70
+                  :
+              MediaQuery.of(context).size.width / 7,
               left: MediaQuery.of(context).size.width / 3,
               right: MediaQuery.of(context).size.width / 3,
               child: Container(
@@ -152,7 +159,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   shape: BoxShape.circle,
                 ),
                 child:  CircleAvatar(
-                  radius: 65,
+                  radius: MediaQuery.of(context).size.width > 930
+                      ? 75
+                      : 65,
                   backgroundImage: userPic.isNotEmpty
                       ? NetworkImage(userPic) as ImageProvider<Object>?
                       : AssetImage("images/profilePic96.png") as ImageProvider<Object>?,
@@ -161,8 +170,16 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
 
             Positioned(
-              top: MediaQuery.of(context).size.width / 6,
-              left: MediaQuery.of(context).size.width / 2,
+              top: MediaQuery.of(context).size.width > 930
+                  ?
+              80
+                  :
+              MediaQuery.of(context).size.width / 6,
+              left: MediaQuery.of(context).size.width > 930
+                  ?
+              MediaQuery.of(context).size.width / 3 - 40
+                  :
+              MediaQuery.of(context).size.width / 2,
               right: MediaQuery.of(context).size.width / 4,
               child: GestureDetector(
                 onTap: () async {

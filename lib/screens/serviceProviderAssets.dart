@@ -97,8 +97,10 @@ class _ServiceProviderAssetsState extends State<ServiceProviderAssets> {
           :
       GridView.builder(
         itemCount: workList.length,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: MediaQuery.of(context).size.width > 930
+          ? 5
+          : 2,
         ),
         itemBuilder: (context , index){
           var ItemObject = workList[index];

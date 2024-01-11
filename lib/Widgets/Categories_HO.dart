@@ -60,7 +60,9 @@ class _CategoriesHoState extends State<CategoriesHo> {
                   padding: const EdgeInsets.only(right: 8.0),
                   child: Icon(
                     widget.categoryList[index]["Icon"],
-                    size: 15,
+                    size: MediaQuery.of(context).size.width > 930
+                        ? 22
+                        : 15,
                     color: selectedCategoryIndex == index ? Colors.white : const Color(0xFF022D6B),
                   ),
                 ),
@@ -68,7 +70,9 @@ class _CategoriesHoState extends State<CategoriesHo> {
                   widget.categoryList[index]["serviceName"],
                   style: TextStyle(
                     color: selectedCategoryIndex == index ? Colors.white : const Color(0xFF022D6B),
-                    fontSize: 15,
+                    fontSize: MediaQuery.of(context).size.width > 930
+                        ? 20
+                        : 15,
                     fontWeight: FontWeight.w400,
                   ),
                 ),

@@ -3,7 +3,8 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class HomeOwnerProjectPageNavbarAPI {
-  static const String baseUrl = 'http://10.0.2.2:3000';
+  // static const String baseUrl = 'http://10.0.2.2:3000';     // we activate this when using mobile
+  static const String baseUrl = 'http://localhost:3000';     // we activate this when using web
 
   static Future<Map<String, dynamic>> getProjectInformation(String projectId) async {
     try {

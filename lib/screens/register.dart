@@ -28,7 +28,7 @@ class Register extends StatelessWidget {
                   alignment: Alignment.topCenter,
                   child: const Image(
                     image: AssetImage(
-                      'images/Logo_title.png',
+                      'images/Proj_Logo_title.png',
                     ),
                     fit: BoxFit.cover,
                   ),
@@ -424,7 +424,11 @@ class _RegisterPageState extends State<_RegisterPage> {
         ),
         Container(
           height: 70,
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+          padding: MediaQuery.of(context).size.width > 930
+            ?
+              EdgeInsets.only(top: 10, bottom: 10 , right: MediaQuery.of(context).size.width/3.5 , left: MediaQuery.of(context).size.width/3.5)
+            :
+          const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
           child: TextFormField(
             controller: _fncontroller,
             style: TextStyle(color: Color(0xFFF3D69B)),
@@ -455,7 +459,11 @@ class _RegisterPageState extends State<_RegisterPage> {
         ),
         Container(
           height: 70,
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+          padding: MediaQuery.of(context).size.width > 930
+            ?
+              EdgeInsets.only(top: 10, bottom: 10 , right: MediaQuery.of(context).size.width/3.5 , left: MediaQuery.of(context).size.width/3.5)
+            :
+          const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
           child: TextFormField(
             controller: _lncontroller,
             style: TextStyle(color: Color(0xFFF3D69B)),
@@ -486,7 +494,11 @@ class _RegisterPageState extends State<_RegisterPage> {
         ),
         Container(
           height: 70,
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+          padding: MediaQuery.of(context).size.width > 930
+            ?
+              EdgeInsets.only(top: 10, bottom: 10 , right: MediaQuery.of(context).size.width/3.5 , left: MediaQuery.of(context).size.width/3.5)
+            :
+          const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
           child: Container(
             decoration: BoxDecoration(
               color: const Color(0xFF2F4771),
@@ -511,7 +523,11 @@ class _RegisterPageState extends State<_RegisterPage> {
                 DropdownMenuItem<String>(
                   value: 'Your Role',
                   child: Container(
-                    margin: const EdgeInsets.fromLTRB(12, 0, 245, 0),
+                    margin: MediaQuery.of(context).size.width > 930
+                      ?
+                        EdgeInsets.fromLTRB(12, 0, MediaQuery.of(context).size.width / 3, 0)
+                      :
+                    const EdgeInsets.fromLTRB(12, 0, 245, 0),
                     child: const Text('Your Role'),
                   ),
                 ),
@@ -536,7 +552,11 @@ class _RegisterPageState extends State<_RegisterPage> {
         ),
         Container(
           height: 70,
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+          padding: MediaQuery.of(context).size.width > 930
+            ?
+              EdgeInsets.only(top: 10, bottom: 10 , right: MediaQuery.of(context).size.width/3.5 , left: MediaQuery.of(context).size.width/3.5)
+            :
+          const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
           child: TextFormField(
             controller: _emailController,
             style: TextStyle(color: Color(0xFFF3D69B)),
@@ -567,7 +587,11 @@ class _RegisterPageState extends State<_RegisterPage> {
         ),
         Container(
           height: 70,
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+          padding: MediaQuery.of(context).size.width > 930
+            ?
+          EdgeInsets.only(top: 10, bottom: 10 , right: MediaQuery.of(context).size.width/3.5 , left: MediaQuery.of(context).size.width/3.5)
+            :
+          const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
           child: TextFormField(
             controller: _passwordController,
             obscureText: _obsecPass,
@@ -610,7 +634,11 @@ class _RegisterPageState extends State<_RegisterPage> {
         ),
         Container(
           height: 70,
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+          padding: MediaQuery.of(context).size.width > 930
+              ?
+          EdgeInsets.only(top: 10, bottom: 10 , right: MediaQuery.of(context).size.width/3.5 , left: MediaQuery.of(context).size.width/3.5)
+              :
+          const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
           child: TextFormField(
             controller: _confirmPasswordController,
             obscureText: _obsecConfPass,
@@ -653,7 +681,11 @@ class _RegisterPageState extends State<_RegisterPage> {
         ),
         Container(
           height: 50,
-          margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 120),
+          margin: MediaQuery.of(context).size.width > 930
+              ?
+          EdgeInsets.only(top: 20, bottom: 10 , right: MediaQuery.of(context).size.width/2.5 , left: MediaQuery.of(context).size.width/2.5)
+              :
+          const EdgeInsets.symmetric(vertical: 10, horizontal: 120),
           decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -695,10 +727,12 @@ class _RegisterPageState extends State<_RegisterPage> {
                     context, 'Please fill in all the required fields');
               }
             },
-            child: const Text(
+            child: Text(
               'Continue',
               style: TextStyle(
-                fontSize: 16,
+                fontSize: MediaQuery.of(context).size.width > 930
+                    ? 19
+                    : 16,
                 color: Color(0xFF122247),
               ),
             ),
@@ -707,19 +741,25 @@ class _RegisterPageState extends State<_RegisterPage> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
+            Text(
               'Already have an account? ',
-              style: TextStyle(color: Color(0xFFF3D69B)),
+              style: TextStyle(color: Color(0xFFF3D69B) ,
+                fontSize: MediaQuery.of(context).size.width > 930
+                    ? 17
+                    : 15,
+              ),
             ),
             TextButton(
               onPressed: () {
                 // go to login page
                 Get.offNamed('/Login');
               },
-              child: const Text(
+              child: Text(
                 'Login',
                 style: TextStyle(
-                  fontSize: 15,
+                  fontSize: MediaQuery.of(context).size.width > 930
+                      ? 17
+                      : 15,
                   color: Color(0xFFF3D69B),
                 ),
               ),

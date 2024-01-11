@@ -35,7 +35,7 @@ class Login extends StatelessWidget {
                   ),
                   alignment: Alignment.topCenter,
                   child: const Image(
-                    image: AssetImage('images/Logo_title.png'),
+                    image: AssetImage('images/Proj_Logo_title.png'),
                   ),
                 ),
               ),
@@ -46,6 +46,7 @@ class Login extends StatelessWidget {
                   child: const _LoginPage(),
                 ),
               ),
+              // Expanded(child: Text(MediaQuery.of(context).size.width.toString()))  // 930 width
             ],
           ),
         ),
@@ -85,7 +86,11 @@ class _LoginPageState extends State<_LoginPage> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+          padding: MediaQuery.of(context).size.width > 930
+            ?
+              EdgeInsets.only(top: 30, bottom: 10 , right: MediaQuery.of(context).size.width/3.5 , left: MediaQuery.of(context).size.width/3.5)
+            :
+              const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
           child: TextFormField(
             controller: _emailController,
             style: TextStyle(color: Color(0xFFF3D69B)),
@@ -115,7 +120,11 @@ class _LoginPageState extends State<_LoginPage> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+          padding: MediaQuery.of(context).size.width > 930
+          ?
+            EdgeInsets.only(top: 10, bottom: 10 , right: MediaQuery.of(context).size.width/3.5 , left: MediaQuery.of(context).size.width/3.5)
+          :
+          const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
           child: TextFormField(
             controller: _passwordController,
             obscureText: _obsecPass,
@@ -158,23 +167,25 @@ class _LoginPageState extends State<_LoginPage> {
         ),
         Container(
           height: 50,
-          margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 120),
+          margin: MediaQuery.of(context).size.width > 930
+          ?
+            EdgeInsets.only(top: 20, bottom: 10 , right: MediaQuery.of(context).size.width/2.5 , left: MediaQuery.of(context).size.width/2.5)
+          :
+          const EdgeInsets.symmetric(vertical: 10, horizontal: 120),
           decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
           ),
           child: TextButton(
             onPressed: () {
-              // check if the creds equ to the data in the db
               _signIn() ;
-              // Get.toNamed('/HomePage/HomeOwner');
-              // Get.toNamed('/HomePage/ServiceProvider') ;
-
             },
-            child: const Text(
+            child: Text(
               'Login',
               style: TextStyle(
-                fontSize: 16,
+                fontSize: MediaQuery.of(context).size.width > 930
+                ? 19
+                : 16,
                 color: Color(0xFF122247),
               ),
             ),
@@ -183,16 +194,27 @@ class _LoginPageState extends State<_LoginPage> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text('Don\'t have an account yet?,' , style: TextStyle(color: Color(0xFFF3D69B)),),
+            Text(
+              'Don\'t have an account yet?,' ,
+              style: TextStyle(
+                color: Color(0xFFF3D69B),
+                fontSize: MediaQuery.of(context).size.width > 930
+                    ? 17
+                    : 15,
+
+              ),
+            ),
             TextButton(
               onPressed: () {
                 Get.toNamed('/Register');
               },
 
-              child: const Text(
+              child: Text(
                 'Register',
                 style: TextStyle(
-                  fontSize: 15,
+                  fontSize: MediaQuery.of(context).size.width > 930
+                  ? 17
+                  : 15,
                   color: Color(0xFFF3D69B),
                 ),
               ),
@@ -202,16 +224,25 @@ class _LoginPageState extends State<_LoginPage> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text('Forget Your Password?,' , style: TextStyle(color: Color(0xFFF3D69B)),),
+            Text('Forget Your Password?,' ,
+              style: TextStyle(
+                  color: Color(0xFFF3D69B),
+                fontSize: MediaQuery.of(context).size.width > 930
+                  ? 17
+                  : 15
+              ),
+            ),
             TextButton(
               onPressed: () {
 
                 Get.toNamed('/ForgotPass');
               },
-              child: const Text(
+              child: Text(
                 'Reset Password',
                 style: TextStyle(
-                  fontSize: 15,
+                  fontSize: MediaQuery.of(context).size.width > 930
+                  ? 17
+                  : 15,
                   color: Color(0xFFF3D69B),
                 ),
               ),

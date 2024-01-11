@@ -139,7 +139,11 @@ class _ServiceProviderProfilePageState extends State<ServiceProviderProfilePage>
                 ],
               ),
               Positioned(
-                top: MediaQuery.of(context).size.width / 12,
+                top: MediaQuery.of(context).size.width > 930
+                    ?
+                30
+                    :
+                MediaQuery.of(context).size.width / 12,
                 left: MediaQuery.of(context).size.width / 3 ,
                 right: MediaQuery.of(context).size.width / 3 ,
                 child: Container(
@@ -151,7 +155,9 @@ class _ServiceProviderProfilePageState extends State<ServiceProviderProfilePage>
                     shape: BoxShape.circle,
                   ),
                   child: CircleAvatar(
-                    radius: 65,
+                    radius:  MediaQuery.of(context).size.width > 930
+                        ? 75
+                        : 65,
                     backgroundImage: userPic.isNotEmpty
                         ? NetworkImage(userPic) as ImageProvider<Object>?
                         : AssetImage("images/profilePic96.png") as ImageProvider<Object>?,
@@ -160,8 +166,16 @@ class _ServiceProviderProfilePageState extends State<ServiceProviderProfilePage>
               ),
 
               Positioned(
-                top: MediaQuery.of(context).size.width / 9,
-                left: MediaQuery.of(context).size.width / 2,
+                top: MediaQuery.of(context).size.width > 930
+                    ?
+                40
+                    :
+                MediaQuery.of(context).size.width / 9,
+                left: MediaQuery.of(context).size.width > 930
+                    ?
+                MediaQuery.of(context).size.width / 3 - 40
+                    :
+                MediaQuery.of(context).size.width / 2,
                 right: MediaQuery.of(context).size.width / 4,
                 child: GestureDetector(
                   onTap: () async {

@@ -135,7 +135,7 @@ class _SPProfilePageState extends State<SPProfilePage> with ChangeNotifier{
         title: const Text(
           //projectName,
           "Back",
-          style: TextStyle(color: Color(0xFFF3D69B)),
+          style: TextStyle(color: Colors.white),
         ),
         elevation: 0,
         backgroundColor: Color(0xFF122247), //Colors.white,
@@ -147,9 +147,22 @@ class _SPProfilePageState extends State<SPProfilePage> with ChangeNotifier{
             Row(
               children: [
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-                  height: 200,
-                  width: 200,
+                  margin: MediaQuery.of(context).size.width > 930
+                      ?
+                  EdgeInsets.only(left: 90)
+                      :
+                  EdgeInsets.zero,
+                  padding: MediaQuery.of(context).size.width > 930
+                    ?
+                  EdgeInsets.only(top: 20 ,left: 20, bottom: 30)
+                    :
+                  EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                  height: MediaQuery.of(context).size.width > 930
+                      ? MediaQuery.of(context).size.width / 5
+                      : 200,
+                  width: MediaQuery.of(context).size.width > 930
+                      ? MediaQuery.of(context).size.width / 5
+                      : 200,
                   child: Card(
                     shape:  OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15),
@@ -167,7 +180,9 @@ class _SPProfilePageState extends State<SPProfilePage> with ChangeNotifier{
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  padding: MediaQuery.of(context).size.width > 930
+                      ? const EdgeInsets.symmetric(horizontal: 60 , vertical: 20)
+                      : const EdgeInsets.symmetric(vertical: 20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -175,8 +190,10 @@ class _SPProfilePageState extends State<SPProfilePage> with ChangeNotifier{
                         padding: EdgeInsets.symmetric(vertical: 5),
                         child: Text(
                           widget.serviceProviderName,
-                          style: const TextStyle(
-                            fontSize: 30,
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width > 930
+                                ? 50
+                                : 30,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
@@ -186,8 +203,10 @@ class _SPProfilePageState extends State<SPProfilePage> with ChangeNotifier{
                         padding: const EdgeInsets.symmetric(vertical: 5),
                         child: Text(
                           widget.serviceProviderType,
-                          style: const TextStyle(
-                            fontSize: 15,
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width > 930
+                                ? 25
+                                : 15,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -198,7 +217,9 @@ class _SPProfilePageState extends State<SPProfilePage> with ChangeNotifier{
                         child: Text(
                           "Completed Tasks   ${providerCompletedTasks}",
                           style: TextStyle(
-                            fontSize: 15,
+                            fontSize: MediaQuery.of(context).size.width > 930
+                                ? 25
+                                : 15,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -216,8 +237,12 @@ class _SPProfilePageState extends State<SPProfilePage> with ChangeNotifier{
                             await sendRequest(pickedDate!);
                           },
                           child: Container(
-                            width: 155,
-                            height: 30,
+                            width: MediaQuery.of(context).size.width > 930
+                                ? 170
+                                : 155,
+                            height: MediaQuery.of(context).size.width > 930
+                                ? 35
+                                : 30,
                             margin: EdgeInsets.symmetric(horizontal: 10),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
@@ -227,7 +252,9 @@ class _SPProfilePageState extends State<SPProfilePage> with ChangeNotifier{
                               child: Text(
                                 "Request Assign",
                                 style: TextStyle(
-                                  fontSize: 15,
+                                  fontSize: MediaQuery.of(context).size.width > 930
+                                      ? 18
+                                      : 15,
                                   fontWeight: FontWeight.w600,
                                   color: Colors.white
                                 ),
@@ -249,7 +276,19 @@ class _SPProfilePageState extends State<SPProfilePage> with ChangeNotifier{
                   flex: 3,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 20.0 ),
-                    child: Text(
+                    child: MediaQuery.of(context).size.width > 930
+                        ?
+                    Center(
+                      child: Text(
+                        widget.serviceProviderRating.toString(),
+                        style: TextStyle(
+                          fontSize: 60,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    )
+                        :
+                    Text(
                       widget.serviceProviderRating.toString(),
                       style: TextStyle(
                         fontSize: 50,
@@ -273,27 +312,49 @@ class _SPProfilePageState extends State<SPProfilePage> with ChangeNotifier{
               ],
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              padding: MediaQuery.of(context).size.width > 930
+                  ?
+              EdgeInsets.only(left: MediaQuery.of(context).size.width / 7 - 30)
+                  :
+              const EdgeInsets.symmetric(horizontal: 12.0),
               child: RatingBarIndicator(
                 rating: widget.serviceProviderRating,
-                itemSize: 18,
+                itemSize: MediaQuery.of(context).size.width > 930
+                    ? 26
+                    : 18,
                 unratedColor: Colors.grey,
                 itemBuilder: (_, __) => Icon(Icons.star , color: Color(0xFF122247),),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: Text("${providerReviewsCount} Reviews" , style: TextStyle(fontSize: 16,),),
+              padding: MediaQuery.of(context).size.width > 930
+                  ?
+              EdgeInsets.only(left: MediaQuery.of(context).size.width / 7 - 30)
+                  :
+              const EdgeInsets.symmetric(horizontal: 12.0),
+              child: Text("${providerReviewsCount} Reviews" ,
+                style: TextStyle(
+                  fontSize: MediaQuery.of(context).size.width > 930
+                      ? 22
+                      : 16,
+                ),
+              ),
             ),
             SizedBox(height: 10,),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Center(
                 child: ToggleSwitch(
-                  minWidth: 120,
-                  minHeight: 45.0,
+                  minWidth: MediaQuery.of(context).size.width > 930
+                      ? 160
+                      : 120,
+                  minHeight: MediaQuery.of(context).size.width > 930
+                      ? 55
+                      : 45.0,
                   cornerRadius: 30.0,
-                  fontSize: 16.0,
+                  fontSize: MediaQuery.of(context).size.width > 930
+                      ? 22
+                      : 16.0,
                   initialLabelIndex: activeIndex,
                   // borderColor: [Colors.grey[400]!] ,
                   activeBgColor: [Color(0xFF1C437A)] ,
@@ -314,8 +375,10 @@ class _SPProfilePageState extends State<SPProfilePage> with ChangeNotifier{
                 Expanded(
                   child: GridView.builder(
                     itemCount: jsonList.length,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: MediaQuery.of(context).size.width > 930
+                          ? 5
+                          : 2,
                     ),
                     itemBuilder: (context , index){
                       var ItemObject = jsonList[index];
@@ -339,8 +402,10 @@ class _SPProfilePageState extends State<SPProfilePage> with ChangeNotifier{
                       child: Text('There is no items to see here...',
                       style: TextStyle(
                           color: Colors.grey[600] ,
-                          fontSize: 18 , fontWeight:
-                          FontWeight.bold
+                          fontSize: MediaQuery.of(context).size.width > 930
+                              ? 22
+                              : 18 ,
+                          fontWeight: FontWeight.bold
                         ),
                       ),
                     )
@@ -351,8 +416,10 @@ class _SPProfilePageState extends State<SPProfilePage> with ChangeNotifier{
               Expanded(
                 child: GridView.builder(
                   itemCount: workList.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: MediaQuery.of(context).size.width > 930
+                        ? 5
+                        : 2,
                   ),
                   itemBuilder: (context , index){
                     var ItemObject = workList[index];
@@ -372,8 +439,10 @@ class _SPProfilePageState extends State<SPProfilePage> with ChangeNotifier{
                       child: Text('There is no items to see here...',
                         style: TextStyle(
                             color: Colors.grey[600] ,
-                            fontSize: 18 , fontWeight:
-                        FontWeight.bold
+                            fontSize:MediaQuery.of(context).size.width > 930
+                                ? 22
+                                : 18 ,
+                            fontWeight: FontWeight.bold
                         ),
                       ),
                     )
@@ -405,8 +474,10 @@ class _SPProfilePageState extends State<SPProfilePage> with ChangeNotifier{
                       child: Text('There is no reviews yet...',
                         style: TextStyle(
                             color: Colors.grey[600] ,
-                            fontSize: 18 , fontWeight:
-                        FontWeight.bold
+                            fontSize: MediaQuery.of(context).size.width > 930
+                                ? 22
+                                : 18 ,
+                            fontWeight: FontWeight.bold
                         ),
                       ),
                     )

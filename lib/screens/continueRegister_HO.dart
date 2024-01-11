@@ -29,7 +29,7 @@ class HomeOwnerRegister extends StatelessWidget {
                   ),
                   alignment: Alignment.topCenter,
                   child: const Image(
-                    image: AssetImage('images/Logo_title.png'),
+                    image: AssetImage('images/Proj_Logo_title.png'),
                   ),
                 ),
               ),
@@ -89,7 +89,9 @@ class _Forget_PasswordCodePageState extends State<_HomeOwnerRegisterPage> {
               child: Column(
                 children: <Widget>[
                   SizedBox(
-                    width: 120,
+                    width: MediaQuery.of(context).size.width > 930
+                        ? 200
+                        : 120,
                     child: ElevatedButton(
                       onPressed: () {
                         setState(() {
@@ -105,7 +107,9 @@ class _Forget_PasswordCodePageState extends State<_HomeOwnerRegisterPage> {
                     ),
                   ),
                   SizedBox(
-                    width: 120,
+                    width: MediaQuery.of(context).size.width > 930
+                        ? 200
+                        : 120,
                     child: ElevatedButton(
                       onPressed: () {
                         setState(() {
@@ -118,7 +122,9 @@ class _Forget_PasswordCodePageState extends State<_HomeOwnerRegisterPage> {
                     ),
                   ),
                   SizedBox(
-                    width: 120,
+                    width: MediaQuery.of(context).size.width > 930
+                        ? 200
+                        : 120,
                     child: ElevatedButton(
                       onPressed: () {
                         setState(() {
@@ -131,7 +137,9 @@ class _Forget_PasswordCodePageState extends State<_HomeOwnerRegisterPage> {
                     ),
                   ),
                   SizedBox(
-                    width: 120,
+                    width: MediaQuery.of(context).size.width > 930
+                        ? 200
+                        : 120,
                     child: ElevatedButton(
                       onPressed: () {
                         setState(() {
@@ -144,7 +152,9 @@ class _Forget_PasswordCodePageState extends State<_HomeOwnerRegisterPage> {
                     ),
                   ),
                   SizedBox(
-                    width: 120,
+                    width: MediaQuery.of(context).size.width > 930
+                        ? 200
+                        : 120,
                     child: ElevatedButton(
                       onPressed: () {
                         setState(() {
@@ -157,7 +167,9 @@ class _Forget_PasswordCodePageState extends State<_HomeOwnerRegisterPage> {
                     ),
                   ),
                   SizedBox(
-                    width: 120,
+                    width: MediaQuery.of(context).size.width > 930
+                        ? 200
+                        : 120,
                     child: ElevatedButton(
                       onPressed: () {
                         setState(() {
@@ -277,9 +289,11 @@ class _Forget_PasswordCodePageState extends State<_HomeOwnerRegisterPage> {
           ),
         Container(
           // padding: const EdgeInsets.only(left: 8.0),
-          margin: EdgeInsets.symmetric(
-            horizontal: MediaQuery.of(context).size.width / 4,
-          ),
+          margin: MediaQuery.of(context).size.width > 930
+              ?
+          EdgeInsets.only(top: 10, bottom: 10 , right: MediaQuery.of(context).size.width/2.5 , left: MediaQuery.of(context).size.width/2.5)
+              :
+          EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 4,),
           child: ElevatedButton(
             onPressed: () async {
               var imageName = await pickImage();
@@ -297,7 +311,11 @@ class _Forget_PasswordCodePageState extends State<_HomeOwnerRegisterPage> {
         ),
         Container(
           height: 70,
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+          padding: MediaQuery.of(context).size.width > 930
+              ?
+          EdgeInsets.only(top: 10, bottom: 10 , right: MediaQuery.of(context).size.width/3.5 , left: MediaQuery.of(context).size.width/3.5)
+              :
+          const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
           child: TextFormField(
             controller: phoneNumberController,
             keyboardType: TextInputType.number,
@@ -328,7 +346,11 @@ class _Forget_PasswordCodePageState extends State<_HomeOwnerRegisterPage> {
           ),
         ),
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 8),
+          padding: MediaQuery.of(context).size.width > 930
+              ?
+          EdgeInsets.only(top: 10, bottom: 10 , right: MediaQuery.of(context).size.width/3.5 , left: MediaQuery.of(context).size.width/3.5)
+              :
+          const EdgeInsets.symmetric(horizontal: 30, vertical: 8),
           height: 70,
           child: ElevatedButton(
             onPressed: chooseCityBottomSheet,
@@ -355,7 +377,11 @@ class _Forget_PasswordCodePageState extends State<_HomeOwnerRegisterPage> {
         ),
         Container(
           height: 130,
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+          padding: MediaQuery.of(context).size.width > 930
+              ?
+          EdgeInsets.only(top: 10, bottom: 10 , right: MediaQuery.of(context).size.width/3.5 , left: MediaQuery.of(context).size.width/3.5)
+              :
+          const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
           child: TextFormField(
             textInputAction: TextInputAction.newline,
             keyboardType: TextInputType.multiline,
@@ -391,7 +417,9 @@ class _Forget_PasswordCodePageState extends State<_HomeOwnerRegisterPage> {
           ),
         ),
         SizedBox(
-          height: 70,
+          height:MediaQuery.of(context).size.width > 930
+              ? 120
+              : 70,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -434,15 +462,6 @@ class _Forget_PasswordCodePageState extends State<_HomeOwnerRegisterPage> {
                         Get.arguments as Map<String, dynamic>? ?? {};
 
                     Map<String, dynamic> userData = UserData_HO();
-
-                    print(mergedData['firstName']);
-                    print(mergedData['lastName']);
-                    print(mergedData['role']);
-                    print(mergedData['email']);
-                    print(mergedData['password']);
-                    print(mergedData['confirmPassword']);
-
-                    print(userData);
 
                     userRegAPI regAPI = userRegAPI();
 

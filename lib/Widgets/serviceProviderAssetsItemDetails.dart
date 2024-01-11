@@ -109,6 +109,20 @@ class _SPCatalogItemState extends State<SPAssetsItem> {
         children: <Widget>[
           Stack(
               children:[
+                MediaQuery.of(context).size.width > 930
+                    ?
+                Center(
+                  child: Container(
+                    padding: EdgeInsets.all(25),
+                    height: MediaQuery.of(context).size.height / 1.2,
+                    width: MediaQuery.of(context).size.width / 2,
+                    child: Image(
+                      image: NetworkImage(itemDetails['WorkImage']),
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                )
+                    :
                 Padding(
                   padding: EdgeInsets.all(16),
                   child: Image(
@@ -122,8 +136,12 @@ class _SPCatalogItemState extends State<SPAssetsItem> {
                     padding: const EdgeInsets.symmetric(vertical: 25,horizontal: 25),
                     child: FittedBox(
                       child: SizedBox(
-                        height: 30.0,
-                        width: 30.0,
+                        height: MediaQuery.of(context).size.width > 930
+                            ? 40
+                            : 30.0,
+                        width: MediaQuery.of(context).size.width > 930
+                            ? 40
+                            : 30.0,
                         child: FittedBox(
                           child: FloatingActionButton(
                             onPressed: () async{
@@ -135,10 +153,12 @@ class _SPCatalogItemState extends State<SPAssetsItem> {
                             elevation: 0,
                             backgroundColor: const Color(0xfff3fbfe),
 
-                            child: const Icon(
+                            child: Icon(
                               Icons.edit,
                               color: Color(0xff435b83),
-                              size: 35.0,
+                              size: MediaQuery.of(context).size.width > 930
+                                  ? 40
+                                  :35.0,
 
                             ),
 
@@ -150,77 +170,79 @@ class _SPCatalogItemState extends State<SPAssetsItem> {
                 ),
               ]
           ),
-          Arc(
-            edge: Edge.TOP,
-            arcType: ArcType.CONVEY,
-            height: 30,
-            child: Container(
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height,
-              color: Color(0xFF122247),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(top: 50, bottom: 10),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Text(itemDetails['WorkName'],
-                              style: const TextStyle(
-                                  fontSize: 28,
-                                  color: Color(0xFFF9FAFB),
-                                  fontWeight: FontWeight.bold
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 15,),
-                          FittedBox(
-                            child: SizedBox(
-                              height: 30.0,
-                              width: 30.0,
-                              child: FittedBox(
-                                child: FloatingActionButton(
-                                  onPressed: () async {
-                                    List<String>? UpdatedData = await editCatalogItem();
-                                    setState(() {
-                                      if(UpdatedData != null){
-                                        itemDetails['WorkName'] = UpdatedData![0];
-                                        itemDetails['WorkDescription'] = UpdatedData![1];
-                                      }
-                                    });
-                                  },
-                                  elevation: 0,
-                                  backgroundColor: const Color(0xfff3fbfe),
-
-                                  child: const Icon(
-                                    Icons.edit,
-                                    color: Color(0xff435b83),
-                                    size: 35.0,
-
-                                  ),
-
+          Expanded(
+            child: Arc(
+              edge: Edge.TOP,
+              arcType: ArcType.CONVEY,
+              height: 30,
+              child: Container(
+                width: double.infinity,
+                height: MediaQuery.of(context).size.height,
+                color: Color(0xFF122247),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(top: 50, bottom: 10),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(itemDetails['WorkName'],
+                                style: const TextStyle(
+                                    fontSize: 28,
+                                    color: Color(0xFFF9FAFB),
+                                    fontWeight: FontWeight.bold
                                 ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 12),
-                      child: Text(
-                        itemDetails['WorkDescription'],
-                        textAlign: TextAlign.justify,
-                        style: const TextStyle(
-                          fontSize: 17,
-                          color: Color(0xFFF9FAFB),
+                            const SizedBox(width: 15,),
+                            FittedBox(
+                              child: SizedBox(
+                                height: 30.0,
+                                width: 30.0,
+                                child: FittedBox(
+                                  child: FloatingActionButton(
+                                    onPressed: () async {
+                                      List<String>? UpdatedData = await editCatalogItem();
+                                      setState(() {
+                                        if(UpdatedData != null){
+                                          itemDetails['WorkName'] = UpdatedData![0];
+                                          itemDetails['WorkDescription'] = UpdatedData![1];
+                                        }
+                                      });
+                                    },
+                                    elevation: 0,
+                                    backgroundColor: const Color(0xfff3fbfe),
+
+                                    child: const Icon(
+                                      Icons.edit,
+                                      color: Color(0xff435b83),
+                                      size: 35.0,
+
+                                    ),
+
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ),
-                  ],
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 12),
+                        child: Text(
+                          itemDetails['WorkDescription'],
+                          textAlign: TextAlign.justify,
+                          style: const TextStyle(
+                            fontSize: 17,
+                            color: Color(0xFFF9FAFB),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

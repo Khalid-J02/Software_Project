@@ -35,7 +35,7 @@ class ServiceProviderRegister extends StatelessWidget {
                   ),
                   alignment: Alignment.topCenter,
                   child: const Image(
-                    image: AssetImage('images/Logo_title.png'),
+                    image: AssetImage('images/Proj_Logo_title.png'),
                   ),
                 ),
               ),
@@ -99,7 +99,9 @@ class _ServiceProviderRegisterPageState extends State<_ServiceProviderRegisterPa
               child: Column(
                 children: <Widget>[
                   SizedBox(
-                    width: 120,
+                    width: MediaQuery.of(context).size.width > 930
+                        ? 200
+                        : 120,
                     child: ElevatedButton(
                       onPressed: (){
                         setState(() {
@@ -112,7 +114,9 @@ class _ServiceProviderRegisterPageState extends State<_ServiceProviderRegisterPa
                     ),
                   ),
                   SizedBox(
-                    width: 120,
+                    width: MediaQuery.of(context).size.width > 930
+                        ? 200
+                        : 120,
                     child: ElevatedButton(
                       onPressed: (){
                         setState(() {
@@ -125,7 +129,9 @@ class _ServiceProviderRegisterPageState extends State<_ServiceProviderRegisterPa
                     ),
                   ),
                   SizedBox(
-                    width: 120,
+                    width: MediaQuery.of(context).size.width > 930
+                        ? 200
+                        : 120,
                     child: ElevatedButton(
                       onPressed: (){
                         setState(() {
@@ -138,7 +144,9 @@ class _ServiceProviderRegisterPageState extends State<_ServiceProviderRegisterPa
                     ),
                   ),
                   SizedBox(
-                    width: 120,
+                    width: MediaQuery.of(context).size.width > 930
+                        ? 200
+                        : 120,
                     child: ElevatedButton(
                       onPressed: (){
                         setState(() {
@@ -151,7 +159,9 @@ class _ServiceProviderRegisterPageState extends State<_ServiceProviderRegisterPa
                     ),
                   ),
                   SizedBox(
-                    width: 120,
+                    width: MediaQuery.of(context).size.width > 930
+                        ? 200
+                        : 120,
                     child: ElevatedButton(
                       onPressed: (){
                         setState(() {
@@ -164,7 +174,9 @@ class _ServiceProviderRegisterPageState extends State<_ServiceProviderRegisterPa
                     ),
                   ),
                   SizedBox(
-                    width: 120,
+                    width: MediaQuery.of(context).size.width > 930
+                        ? 200
+                        : 120,
                     child: ElevatedButton(
                       onPressed: (){
                         setState(() {
@@ -183,6 +195,7 @@ class _ServiceProviderRegisterPageState extends State<_ServiceProviderRegisterPa
         }
     );
   }
+
   void chooseServiceTypeBottomSheet(){
     showModalBottomSheet(
         context: context,
@@ -452,7 +465,12 @@ class _ServiceProviderRegisterPageState extends State<_ServiceProviderRegisterPa
           ),
         Container(
           // padding: const EdgeInsets.only(left: 8.0),
-          margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/4,),
+          margin: MediaQuery.of(context).size.width > 930
+              ?
+          EdgeInsets.only(top: 10, bottom: 10 , right: MediaQuery.of(context).size.width/2.5 , left: MediaQuery.of(context).size.width/2.5)
+              :
+          EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/4,),
+
           child: ElevatedButton(
             onPressed: () async{
               var imageName = await pickImage() ;
@@ -470,7 +488,11 @@ class _ServiceProviderRegisterPageState extends State<_ServiceProviderRegisterPa
         ),
         Container(
           height:70,
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+          padding: MediaQuery.of(context).size.width > 930
+              ?
+          EdgeInsets.only(top: 10, bottom: 10 , right: MediaQuery.of(context).size.width/3.5 , left: MediaQuery.of(context).size.width/3.5)
+              :
+          const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
           child: TextFormField(
             controller: phoneNumberController,
             keyboardType: TextInputType.number,
@@ -501,7 +523,11 @@ class _ServiceProviderRegisterPageState extends State<_ServiceProviderRegisterPa
           ),
         ),
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 8),
+          padding: MediaQuery.of(context).size.width > 930
+              ?
+          EdgeInsets.only(top: 10, bottom: 10 , right: MediaQuery.of(context).size.width/3.5 , left: MediaQuery.of(context).size.width/3.5)
+              :
+          const EdgeInsets.symmetric(horizontal: 30, vertical: 8),
           height: 70,
           child: ElevatedButton(
             onPressed: chooseCityBottomSheet,
@@ -526,7 +552,11 @@ class _ServiceProviderRegisterPageState extends State<_ServiceProviderRegisterPa
           ),
         ),
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 8),
+          padding: MediaQuery.of(context).size.width > 930
+              ?
+          EdgeInsets.only(top: 10, bottom: 10 , right: MediaQuery.of(context).size.width/3.5 , left: MediaQuery.of(context).size.width/3.5)
+              :
+          const EdgeInsets.symmetric(horizontal: 30, vertical: 8),
           height: 70,
           child: ElevatedButton(
             onPressed: chooseServiceTypeBottomSheet,
@@ -552,7 +582,11 @@ class _ServiceProviderRegisterPageState extends State<_ServiceProviderRegisterPa
         ),
         Container(
           height:130,
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+          padding: MediaQuery.of(context).size.width > 930
+              ?
+          EdgeInsets.only(top: 10, bottom: 10 , right: MediaQuery.of(context).size.width/3.5 , left: MediaQuery.of(context).size.width/3.5)
+              :
+          const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
           child: TextFormField(
             textInputAction: TextInputAction.newline,
             keyboardType: TextInputType.multiline,

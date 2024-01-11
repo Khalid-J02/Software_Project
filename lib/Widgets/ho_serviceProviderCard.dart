@@ -26,7 +26,10 @@ class _SPCardDetailsState extends State<SPCardDetails> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(4.0),
+      margin:
+      MediaQuery.of(context).size.width > 930
+          ? const EdgeInsets.all(6.0)
+          : const EdgeInsets.all(4.0),
       child: PhysicalModel(
         color: const Color(0xFFF9FAFB),
         elevation: 5.0, // Set the elevation
@@ -42,7 +45,9 @@ class _SPCardDetailsState extends State<SPCardDetails> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
-                  height: 120,
+                  height: MediaQuery.of(context).size.width > 930
+                      ? MediaQuery.of(context).size.width / 7
+                      : 120,
                   // width: 190,
                   margin: EdgeInsets.all(5),
                   decoration: BoxDecoration(
@@ -58,21 +63,34 @@ class _SPCardDetailsState extends State<SPCardDetails> {
                   padding: EdgeInsets.only(left: 12 , bottom: 2),
                   child: Text(
                     widget.sPName,
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Color(0xFF022D6B)),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: MediaQuery.of(context).size.width > 930
+                            ? 18
+                            : 14,
+                        color: Color(0xFF022D6B)),
                   ),
                 ),
                 Padding(
                   padding: EdgeInsets.only(left: 12 , bottom: 4),
                   child: Row(
                     children: [
-                      const Icon(
+                      Icon(
                         Icons.perm_identity_sharp,
-                        size: 18,
+                        size: MediaQuery.of(context).size.width > 930
+                            ? 24
+                            : 18,
                         color: Color(0xFF022D6B),
                       ),
                       Text(
                         widget.sPServiceType,
-                        style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 12, color: Color(0xFF022D6B)),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: MediaQuery.of(context).size.width > 930
+                                ? 16
+                                : 12,
+                            color: Color(0xFF022D6B)
+                        ),
                       ),
                     ],
                   ),
@@ -81,14 +99,21 @@ class _SPCardDetailsState extends State<SPCardDetails> {
                   padding: EdgeInsets.only(left: 12 , bottom: 5),
                   child: Row(
                     children: [
-                      const Icon(
+                      Icon(
                         Icons.paid,
-                        size: 14,
+                        size: MediaQuery.of(context).size.width > 930
+                            ? 19
+                            : 14,
                         color: Color(0xFF022D6B),
                       ),
                       Text(
                         " ${widget.sPPrice}",
-                        style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 13, color: Color(0xFF022D6B)),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: MediaQuery.of(context).size.width > 930
+                                ? 17
+                                : 13,
+                            color: Color(0xFF022D6B)),
                       ),
                     ],
                   ),
@@ -100,8 +125,13 @@ class _SPCardDetailsState extends State<SPCardDetails> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 15),
                   child: SizedBox(
-                    width: 45,
-                    height: 25,
+                    width:
+                    MediaQuery.of(context).size.width > 930
+                        ? 60
+                        : 45,
+                    height: MediaQuery.of(context).size.width > 930
+                        ? 33
+                        : 25,
                     child: Card(
                       color: const Color(0xfff3fbfe),
                       shape:  OutlineInputBorder(
@@ -112,15 +142,19 @@ class _SPCardDetailsState extends State<SPCardDetails> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            const Icon(
+                            Icon(
                               Icons.star,
-                              size: 14,
+                              size: MediaQuery.of(context).size.width > 930
+                                  ? 18
+                                  : 14,
                               color: Color(0xffffc841),
                             ),
                             Text(
                               widget.sPRating.toString(),
-                              style: const TextStyle(
-                                  fontSize: 9.5,
+                              style: TextStyle(
+                                  fontSize: MediaQuery.of(context).size.width > 930
+                                      ? 14
+                                      : 9.5,
                                   color: Color(0xFF435b83),
                                   fontWeight: FontWeight.bold
                               ),
