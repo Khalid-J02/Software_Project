@@ -1,4 +1,5 @@
 import 'package:buildnex/APIRequests/homeOwnerDisplayServiceProData.dart';
+import 'package:buildnex/APIRequests/homeOwnerTasksAPI.dart';
 import 'package:buildnex/APIRequests/serviceProviderCatalogAPI.dart';
 import 'package:buildnex/Tasks/taskWidgets/openCatalogSP.dart';
 import 'package:buildnex/Tasks/taskWidgets/taskInformation.dart';
@@ -255,10 +256,8 @@ class _WindowInstallationHOState extends State<WindowInstallationHO> {
                                   BorderRadius.all(Radius.circular(30.0)),
                                 ),
                                 child: TextButton(
-                                  onPressed: () {
-                                    /*
-                                here i want to save the value of them in db
-                                 */
+                                  onPressed: () async {
+                                    await HomeOwnerTasksAPI.saveProjectInfoWindowDesign(taskProjectId , windowDesignCatalogID) ;
                                   },
                                   child: const Text(
                                     'Save',

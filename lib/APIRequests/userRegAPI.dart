@@ -4,8 +4,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class userRegAPI {
 
-  // static const String baseUrl = 'http://10.0.2.2:3000';     // we activate this when using mobile
-  static const String baseUrl = 'http://localhost:3000';     // we activate this when using web
+  static const String baseUrl = 'http://10.0.2.2:3000';     // we activate this when using mobile
+  // static const String baseUrl = 'http://localhost:3000';     // we activate this when using web
 
   Future<dynamic> logIn(String email, String password) async {
     final response = await http.post(Uri.parse('$baseUrl/user/login'),

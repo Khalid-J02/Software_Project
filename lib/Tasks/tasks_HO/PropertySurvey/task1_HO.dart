@@ -17,7 +17,7 @@ class _HOPropertySurveyState extends State<HOPropertySurvey> {
   Map<String, dynamic> propertySurveyData = {};
   String taskID = '';
   String taskProjectId = '';
-  String surveyDocument = '';
+  String? surveyDocument = '';
   double? _progress;
 
   @override
@@ -28,7 +28,9 @@ class _HOPropertySurveyState extends State<HOPropertySurvey> {
       propertySurveyData = arguments['propertySurveyData'];
       taskID = arguments['taskID'];
       taskProjectId = arguments['taskProjectId'];
-      surveyDocument = arguments['docsURL'];
+      if(arguments['docsURL'] != null){
+        surveyDocument = arguments['docsURL'];
+      }
     });
     // fetchArgumentsAndData();
   }
@@ -207,19 +209,25 @@ class _HOPropertySurveyState extends State<HOPropertySurvey> {
                                       ? const CircularProgressIndicator()
                                       : GestureDetector(
                                           onTap: () {
-                                            FileDownloader.downloadFile(
-                                              url: surveyDocument,
-                                              onProgress: (name, progress) {
-                                                setState(() {
-                                                  _progress = _progress;
-                                                });
-                                              },
-                                              onDownloadCompleted: (value) {
-                                                setState(() {
-                                                  _progress = null;
-                                                });
-                                              },
-                                            );
+                                            if(surveyDocument != null){
+                                              FileDownloader.downloadFile(
+                                                url: surveyDocument!,
+                                                onProgress: (name, progress) {
+                                                  setState(() {
+                                                    _progress = _progress;
+                                                  });
+                                                },
+                                                onDownloadCompleted: (value) {
+                                                  setState(() {
+                                                    _progress = null;
+                                                  });
+                                                },
+                                              );
+                                            }
+                                            else{
+                                              Get.snackbar("Hi", "There is no file to download") ;
+                                            }
+
                                           },
                                           child: Container(
                                             margin: const EdgeInsets.only(
@@ -260,9 +268,15 @@ class _HOPropertySurveyState extends State<HOPropertySurvey> {
                                         ),
                                   GestureDetector(
                                     onTap: () {
-                                      Get.to(DocsPdfViewer(
-                                        pdfFileURL: surveyDocument,
-                                      ));
+                                      if(surveyDocument != null){
+                                        Get.to(DocsPdfViewer(
+                                          pdfFileURL: surveyDocument!,
+                                        ));
+                                      }
+                                      else{
+                                        Get.snackbar("Hi", "There is no file to open");
+                                      }
+
                                     },
                                     child: Container(
                                       margin: const EdgeInsets.only(

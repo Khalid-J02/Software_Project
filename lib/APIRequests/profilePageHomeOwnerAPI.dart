@@ -5,8 +5,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../Widgets/customAlertDialog.dart';
 
 class HomeOwnerProfilePageAPI {
-  // static const String baseUrl = 'http://10.0.2.2:3000';     // we activate this when using mobile
-  static const String baseUrl = 'http://localhost:3000';     // we activate this when using web
+  static const String baseUrl = 'http://10.0.2.2:3000';     // we activate this when using mobile
+  // static const String baseUrl = 'http://localhost:3000';     // we activate this when using web
 
   static Future<Map<String, dynamic>> getProfile() async {
     final response = await http.get(

@@ -60,6 +60,7 @@ class _ProfilePageState extends State<ProfilePage> {
         setState(() {
           final url = jsonMap['url'] ;
           imageUrl = url ;
+          userPic = url ;
         });
       }
     }
@@ -187,6 +188,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   /*
                   all you need to do is to send the image url variable to the database and store there.
                    */
+                  await HomeOwnerProfilePageAPI.editUserProfileImage(imageUrl!);
                 },
                 child: Container(
                   width: 30,

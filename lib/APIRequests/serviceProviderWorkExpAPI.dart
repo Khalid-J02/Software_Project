@@ -3,8 +3,8 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class WorkExperienceAPI {
-  // static const String baseUrl = 'http://10.0.2.2:3000';     // we activate this when using mobile
-  static const String baseUrl = 'http://localhost:3000';     // we activate this when using web
+  static const String baseUrl = 'http://10.0.2.2:3000';     // we activate this when using mobile
+  // static const String baseUrl = 'http://localhost:3000';     // we activate this when using web
 
   // Method to get work experiences for a service provider
   static Future<List<Map<String, dynamic>>> getWorkExperiences() async {

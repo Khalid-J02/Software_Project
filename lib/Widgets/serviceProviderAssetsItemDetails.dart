@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:buildnex/APIRequests/serviceProviderWorkExpAPI.dart';
 import 'package:buildnex/Widgets/sp_AssetItemDialog.dart';
 import 'package:clippy_flutter/clippy_flutter.dart';
 import 'package:flutter/material.dart';
@@ -105,7 +106,7 @@ class _SPCatalogItemState extends State<SPAssetsItem> {
       ),
 
       backgroundColor: Color(0xFFF9FAFB),
-      body: ListView(
+      body: Column(
         children: <Widget>[
           Stack(
               children:[
@@ -149,6 +150,10 @@ class _SPCatalogItemState extends State<SPAssetsItem> {
                               /*
                               need api to update photo in the system
                                */
+                              setState(() {
+                                itemDetails['WorkImage'] = imageUrl! ;
+                              });
+                              await WorkExperienceAPI.editWorkExpImage(widget.ItemID , imageUrl!);
                             },
                             elevation: 0,
                             backgroundColor: const Color(0xfff3fbfe),
@@ -177,7 +182,6 @@ class _SPCatalogItemState extends State<SPAssetsItem> {
               height: 30,
               child: Container(
                 width: double.infinity,
-                height: MediaQuery.of(context).size.height,
                 color: Color(0xFF122247),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),

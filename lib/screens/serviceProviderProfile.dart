@@ -68,6 +68,7 @@ class _ServiceProviderProfilePageState extends State<ServiceProviderProfilePage>
         setState(() {
           final url = jsonMap['url'] ;
           imageUrl = url ;
+          userPic = url ;
         });
       }
     }
@@ -251,6 +252,7 @@ class _ServiceProviderProfilePageState extends State<ServiceProviderProfilePage>
                     /*
                   all you need to do is to send the image url variable to the database and store there.
                    */
+                    await ServiceProviderProfilePageAPI.editUserProfileImage(imageUrl!) ;
                   },
                   child: Container(
                     width: 30,

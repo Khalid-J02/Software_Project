@@ -22,7 +22,7 @@ class _LocalGovernoratePermitsState extends State<LocalGovernoratePermits> {
   Map<String, dynamic> task2Data = {};
   String taskID = '';
   String taskProjectId = '';
-  String permitsDocument = '';
+  String? permitsDocument = '';
   double? _progress;
 
   @override
@@ -33,7 +33,9 @@ class _LocalGovernoratePermitsState extends State<LocalGovernoratePermits> {
       taskID = arguments['taskID'];
       taskProjectId = arguments['taskProjectId'];
       task2Data = arguments['localGovernmentData'];
-      permitsDocument = arguments['docsURL'];
+      if(arguments['docsURL'] != null){
+        permitsDocument = arguments['docsURL'];
+      }
     });
     // fetchArgumentsAndData();
   }
@@ -146,19 +148,25 @@ class _LocalGovernoratePermitsState extends State<LocalGovernoratePermits> {
                                     ? const CircularProgressIndicator()
                                     : GestureDetector(
                                         onTap: () {
-                                          FileDownloader.downloadFile(
-                                            url: permitsDocument,
-                                            onProgress: (name, progress) {
-                                              setState(() {
-                                                _progress = _progress;
-                                              });
-                                            },
-                                            onDownloadCompleted: (value) {
-                                              setState(() {
-                                                _progress = null;
-                                              });
-                                            },
-                                          );
+                                          if(permitsDocument != null){
+                                            FileDownloader.downloadFile(
+                                              url: permitsDocument!,
+                                              onProgress: (name, progress) {
+                                                setState(() {
+                                                  _progress = _progress;
+                                                });
+                                              },
+                                              onDownloadCompleted: (value) {
+                                                setState(() {
+                                                  _progress = null;
+                                                });
+                                              },
+                                            );
+                                          }
+                                          else{
+                                            Get.snackbar("Hi", "There is no file to download") ;
+                                          }
+
                                         },
                                         child: Container(
                                           margin: const EdgeInsets.only(
@@ -198,9 +206,15 @@ class _LocalGovernoratePermitsState extends State<LocalGovernoratePermits> {
                                       ),
                                 GestureDetector(
                                   onTap: () {
-                                    Get.to(DocsPdfViewer(
-                                      pdfFileURL: permitsDocument,
-                                    ));
+                                    if(permitsDocument != null){
+                                      Get.to(DocsPdfViewer(
+                                        pdfFileURL: permitsDocument!,
+                                      ));
+                                    }
+                                    else{
+                                      Get.snackbar("Hi", "There is no file to open") ;
+                                    }
+
                                   },
                                   child: Container(
                                     margin:

@@ -77,6 +77,7 @@ class _ProjectDescriptionState extends State<ProjectDescription> {
                         projectBuildArea: projectData['buildingArea']?.toDouble(),
                         projectRoomsNumber: projectData['numberOfRooms'] as int? ,
                         projectFloorNumber: projectData['numberOfFloors'] as int?,
+                        projectDesignDocument: projectData['designDocument'],
                         // projectDesignDocument: projectData['designDocument'] as String?,
                         // projectArchStyle: projectData['architecturalStyle'] as String?,
                         // projectDoorMaterial: projectData['doorMaterial'] as String?,

@@ -3,10 +3,10 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class HomeOwnerTasksAPI {
-  // static const String baseUrl = 'http://10.0.2.2:3000';     // we activate this when using mobile
-  static const String baseUrl = 'http://localhost:3000';     // we activate this when using web
+  static const String baseUrl = 'http://10.0.2.2:3000';     // we activate this when using mobile
+  // static const String baseUrl = 'http://localhost:3000';     // we activate this when using web
 
-  static Future<String> getSurveyDocument(String projectId) async {
+  static Future<String?> getSurveyDocument(String projectId) async {
     try {
       final response = await http.get(
         Uri.parse('$baseUrl/homeowner/getSurveyDocument/$projectId'),
@@ -17,7 +17,7 @@ class HomeOwnerTasksAPI {
       );
 
       if (response.statusCode == 200) {
-        final String surveyDocument = jsonDecode(response.body);
+        final String? surveyDocument = jsonDecode(response.body);
         return surveyDocument;
       } else {
         throw http.ClientException(
@@ -31,7 +31,7 @@ class HomeOwnerTasksAPI {
     }
   }
 
-  static Future<String> getPermitsDocument(String projectId) async {
+  static Future<String?> getPermitsDocument(String projectId) async {
     try {
       final response = await http.get(
         Uri.parse('$baseUrl/homeowner/getPermitsDocument/$projectId'),
@@ -42,7 +42,7 @@ class HomeOwnerTasksAPI {
       );
 
       if (response.statusCode == 200) {
-        final String permitsDocument = jsonDecode(response.body);
+        final String? permitsDocument = jsonDecode(response.body);
         return permitsDocument;
       } else {
         throw http.ClientException(
@@ -56,7 +56,7 @@ class HomeOwnerTasksAPI {
     }
   }
 
-  static Future<String> getSoilDocument(String projectId) async {
+  static Future<String?> getSoilDocument(String projectId) async {
     try {
       final response = await http.get(
         Uri.parse('$baseUrl/homeowner/getSoilDocument/$projectId'),
@@ -67,7 +67,7 @@ class HomeOwnerTasksAPI {
       );
 
       if (response.statusCode == 200) {
-        final String soilDocument = jsonDecode(response.body);
+        final String? soilDocument = jsonDecode(response.body);
         return soilDocument;
       } else {
         throw http.ClientException(

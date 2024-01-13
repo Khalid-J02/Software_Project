@@ -144,7 +144,7 @@ class _SPCatalogItemState extends State<SPCatalogItem> {
         backgroundColor: Color(0xFF122247), //Colors.white,
       ),
       backgroundColor: Color(0xFFF9FAFB),
-      body: ListView(
+      body: Column(
         children: <Widget>[
           Stack(children: [
             MediaQuery.of(context).size.width > 930
@@ -188,10 +188,7 @@ class _SPCatalogItemState extends State<SPCatalogItem> {
                           setState(() {
                             itemImage = imageUrl! ;
                           });
-
-                          /*
-                            I need here api to update the image for the product
-                           */
+                          await CatalogAPI.editItemImage(widget.catalogID, imageUrl!) ;
                         },
                         elevation: 0,
                         backgroundColor: const Color(0xfff3fbfe),
@@ -234,8 +231,26 @@ class _SPCatalogItemState extends State<SPCatalogItem> {
                                   fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(
-                              width: 15,
+                              width: 5,
                             ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(top: 12),
+                                  child: Text(
+                                    "${itemPrice} ILS",
+                                    textAlign: TextAlign.justify,
+                                    style: const TextStyle(
+                                        fontSize: 18,
+                                        color: Color(0xFFF9FAFB),
+                                        fontWeight: FontWeight.w500
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(width: 15,),
                             FittedBox(
                               child: SizedBox(
                                 height: 30.0,
@@ -274,15 +289,6 @@ class _SPCatalogItemState extends State<SPCatalogItem> {
                         child: RatingBarSB(
                           rating: itemRating,
                           size: 23,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 4, bottom: 4),
-                        child: Text('${itemPrice} ILS', // Display the item price here
-                          style: const TextStyle(
-                            fontSize: 16,
-                            color: Color(0xFFF9FAFB),
-                          ),
                         ),
                       ),
                       Padding(

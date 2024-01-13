@@ -158,7 +158,8 @@ class ProjectTasks extends StatelessWidget {
                           // print(taskNumber) ;
                           if(taskNumber == '1'){
                             final Map<String, dynamic> data = await HomeOwnerTasksAPI.getPropertySurvey(taskID);
-                            final String _docsURL = await HomeOwnerTasksAPI.getSurveyDocument(taskProjectId) ;
+                            final String? _docsURL = await HomeOwnerTasksAPI.getSurveyDocument(taskProjectId) ;
+
                             Get.toNamed(path,
                                 arguments: {
                                   'taskID': taskID,
@@ -168,7 +169,7 @@ class ProjectTasks extends StatelessWidget {
                           }
                           if(taskNumber == '2'){
                             final Map<String, dynamic> data = await HomeOwnerTasksAPI.getPermitsRegulatoryInfo(taskID);
-                            final String _docsURL = await HomeOwnerTasksAPI.getPermitsDocument(taskProjectId) ;
+                            final String? _docsURL = await HomeOwnerTasksAPI.getPermitsDocument(taskProjectId) ;
                             Get.toNamed(path,
                                 arguments: {
                                   'taskID': taskID,
@@ -178,7 +179,7 @@ class ProjectTasks extends StatelessWidget {
                           }
                           if(taskNumber == '3'){
                             final Map<String, dynamic> data = await HomeOwnerTasksAPI.getSoilInvestigation(taskID);
-                            final String _docsURL = await HomeOwnerTasksAPI.getSoilDocument(taskProjectId) ;
+                            final String? _docsURL = await HomeOwnerTasksAPI.getSoilDocument(taskProjectId) ;
                             Get.toNamed(path,
                                 arguments: {
                                   'taskID': taskID,

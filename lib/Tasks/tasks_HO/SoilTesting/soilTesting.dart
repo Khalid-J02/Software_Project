@@ -20,7 +20,7 @@ class _SoilTestingState extends State<SoilTesting> {
   Map<String, dynamic> task3Data = {};
   String taskID = '';
   String taskProjectId = '';
-  String soilDocument = '';
+  String? soilDocument = '';
   double? _progress;
 
   @override
@@ -31,7 +31,9 @@ class _SoilTestingState extends State<SoilTesting> {
       taskID = arguments['taskID'];
       taskProjectId = arguments['taskProjectId'];
       task3Data = arguments['soilTesting'];
-      soilDocument = arguments['docsURL'];
+      if(arguments['docsURL'] != null){
+        soilDocument = arguments['docsURL'];
+      }
     });
     // fetchArgumentsAndData();
   }
@@ -145,19 +147,25 @@ class _SoilTestingState extends State<SoilTesting> {
                                     ? const CircularProgressIndicator()
                                     : GestureDetector(
                                         onTap: () {
-                                          FileDownloader.downloadFile(
-                                            url: soilDocument,
-                                            onProgress: (name, progress) {
-                                              setState(() {
-                                                _progress = _progress;
-                                              });
-                                            },
-                                            onDownloadCompleted: (value) {
-                                              setState(() {
-                                                _progress = null;
-                                              });
-                                            },
-                                          );
+                                          if(soilDocument != null){
+                                            FileDownloader.downloadFile(
+                                              url: soilDocument!,
+                                              onProgress: (name, progress) {
+                                                setState(() {
+                                                  _progress = _progress;
+                                                });
+                                              },
+                                              onDownloadCompleted: (value) {
+                                                setState(() {
+                                                  _progress = null;
+                                                });
+                                              },
+                                            );
+                                          }
+                                          else{
+                                            Get.snackbar("Hi", "There is no file to download") ;
+                                          }
+
                                         },
                                         child: Container(
                                           margin: const EdgeInsets.only(
@@ -197,9 +205,14 @@ class _SoilTestingState extends State<SoilTesting> {
                                       ),
                                 GestureDetector(
                                   onTap: () {
-                                    Get.to(DocsPdfViewer(
-                                      pdfFileURL: soilDocument,
-                                    ));
+                                    if(soilDocument != null){
+                                      Get.to(DocsPdfViewer(
+                                        pdfFileURL: soilDocument!,
+                                      ));
+                                    }
+                                    else{
+                                      Get.snackbar("Hi", "There is no file to open") ;
+                                    }
                                   },
                                   child: Container(
                                     margin:
