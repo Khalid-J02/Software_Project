@@ -195,11 +195,11 @@ class _ProfilePageState extends State<ProfilePage> {
                     shape: BoxShape.circle,
                     color: Colors.grey[500],
                   ),
-                  child: Center(
+                  child: const Center(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        const Icon(
+                        Icon(
                           Icons.edit,
                           size: 20,
                           color: Color(0xFFF3D69B),
@@ -216,8 +216,6 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-
-  //Functions from Tala
   Future<void> _loadProfile() async {
     try {
       final profile = await HomeOwnerProfilePageAPI.getProfile();

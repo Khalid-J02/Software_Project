@@ -516,6 +516,7 @@ class _DoorFrameInstallSPSPState extends State<DoorFrameInstallSP> {
                                           taskID,
                                           _userNotes.text,
                                           'Update Data',
+                                          taskProjectId,
                                         );
                                       },
                                       child: const Text(
@@ -556,7 +557,8 @@ class _DoorFrameInstallSPSPState extends State<DoorFrameInstallSP> {
                                                           String message = await ServiceProviderGetTasksAPI.setTask6Data(
                                                               taskID,
                                                               _userNotes.text,
-                                                              'Submit'
+                                                              'Submit',
+                                                            taskProjectId,
                                                           );
                                                           setState(() {
                                                             doorFrameData['TaskStatus'] = 'Completed' ;

@@ -50,7 +50,7 @@ class _SearchPageState extends State<SearchPage> {
       "Icon": Icons.electric_bolt_outlined,
     },
     {
-      "serviceName": "Insulation & HVAC Contractors",
+      "serviceName": "Insulation Technician",
       "Icon": Icons.hvac,
     },
     {

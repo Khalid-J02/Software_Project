@@ -1,39 +1,43 @@
-import 'package:buildnex/Widgets/projectData.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import '../APIRequests/NavbarProjectPageHomeOwnerAPI.dart';
+import '../APIRequests/serviceProviderRequestsAPI.dart';
+import '../Widgets/ProjectDataDetails.dart';
 
-class ProjectDescription extends StatefulWidget {
+class ProjectDescriptionSeeDetails extends StatefulWidget {
   final String projectId;
+  final String taskId;
 
-  const ProjectDescription({
+  const ProjectDescriptionSeeDetails({
     Key? key,
     required this.projectId,
+    required this.taskId,
   }) : super(key: key);
 
   @override
-  State<ProjectDescription> createState() => _ProjectDescriptionState();
+  State<ProjectDescriptionSeeDetails> createState() => _ProjectDescriptionSeeDetailsState();
 }
 
-class _ProjectDescriptionState extends State<ProjectDescription> {
+class _ProjectDescriptionSeeDetailsState extends State<ProjectDescriptionSeeDetails> {
+  bool _isLoading = true;
   Map<String, dynamic> projectData = {};
 
   @override
   void initState() {
     super.initState();
-    fetchProjectInformation(widget.projectId);
+    fetchProjectInformation();
   }
 
-  Future<void> fetchProjectInformation(String projectId) async {
+  Future<void> fetchProjectInformation() async {
     try {
-      final fetchedProjectData =
-          await HomeOwnerProjectPageNavbarAPI.getProjectInformation(projectId);
+      final fetchedProjectData = await RequestsAPI.getProjectDetails(widget.projectId, widget.taskId);
       setState(() {
         projectData = fetchedProjectData;
+        _isLoading = false;
       });
     } catch (e) {
       // Handle errors
       print('Error fetching project information: $e');
+      setState(() => _isLoading = false);
     }
   }
 
@@ -44,7 +48,7 @@ class _ProjectDescriptionState extends State<ProjectDescription> {
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: SizedBox(
-          height: MediaQuery.of(context).size.height,
+          height: MediaQuery.of(context).size.height/1.25,
           child: Stack(
             fit: StackFit.expand,
             children: [
@@ -61,37 +65,18 @@ class _ProjectDescriptionState extends State<ProjectDescription> {
                     ),
                   ),
                   Expanded(
-                    flex: 9,
+                    flex: 6,
                     child: Container(
                       color: const Color(0xFF2F4771),
                       width: MediaQuery.of(context).size.width,
-                      child: ProjectData(
+                      child: ProjectDataDetails(
                         projectName: projectData['projectName'] ?? '',
                         projectOwner: projectData['ownerUserName'] ?? '',
                         projectCity: projectData['projectCity'] ?? '',
                         projectLocation: projectData['projectLocation'] ?? '',
-                        basinNumber: projectData['BasinNumber'] ?? '',
-                        plotNumber: projectData['PlotNumber'] ?? '',
-                        projectStatus: projectData['projectStatus'] ?? '',
-                        projectProgress: (projectData['projectProgress'])?.toDouble() ?? 0.0,
-                        projectBuildArea: projectData['buildingArea']?.toDouble(),
-                        projectRoomsNumber: projectData['numberOfRooms'] as int? ,
-                        projectFloorNumber: projectData['numberOfFloors'] as int?,
-                        // projectDesignDocument: projectData['designDocument'] as String?,
-                        // projectArchStyle: projectData['architecturalStyle'] as String?,
-                        // projectDoorMaterial: projectData['doorMaterial'] as String?,
-                        // projectDoorColor: projectData['doorColor'] as String?,
-                        // projectDoorDesign: projectData['doorDesign'] as String?,
-                        // projectTileType: projectData['tileType'] as String?,
-                        // projectTileColor: projectData['tileColor'] as String?,
-                        // projectTileSize: projectData['tileSize'] as String?,
-                        // projectTilePattern: projectData['tilePattern'] as String?,
-                        // projectPaintType: projectData['paintType'] as String?,
-                        // projectPaintColor: projectData['paintColor'] as String?,
-                        // projectPaintFinish: projectData['paintFinish'] as String?,
-                        // projectWindowType: projectData['windowType'] as String?,
-                        // projectWindowColor: projectData['windowColor'] as String?,
-                        // projectWindowDesign: projectData['windowDesign'] as String?,
+                        taskDescription: projectData['taskDescription'] ?? '',
+                        taskName: projectData['taskName'] ?? '',
+                        taskDate: projectData['taskDate'] ?? '',
                       ),
                     ),
                   ),
@@ -114,28 +99,21 @@ class _ProjectDescriptionState extends State<ProjectDescription> {
                       animationDuration: 1200,
                       radius: 69,
                       lineWidth: 10,
-                      percent: (double.tryParse(projectData['projectProgress'].toString()) ?? 0.0) / 100,
+                      percent: 1.0,
                       progressColor: Color(0xFFEEAF2F),
                       backgroundColor: Color(0xFFEAD6AC),
                       circularStrokeCap: CircularStrokeCap.round,
-                      center: CircleAvatar(
+                      center: const CircleAvatar(
                         radius: 60,
                         backgroundColor: Color(0xFF2F4771),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
-                            const Icon(
+                            Icon(
                               Icons.house,
                               size: 60,
                               color: Color(0xFFF3D69B),
                             ),
-                            Text(
-                              '${(double.tryParse(projectData['projectProgress'].toString()) ?? 0.0) }%',
-                              style: const TextStyle(
-                                  color: Color(0xFFF3D69B),
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500),
-                            )
                           ],
                         ),
                       )),

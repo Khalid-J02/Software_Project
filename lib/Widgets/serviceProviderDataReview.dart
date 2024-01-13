@@ -1,19 +1,15 @@
 import 'package:buildnex/Widgets/ratingBar_ServiceProvider.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 
-class SPProfileData extends StatelessWidget {
-  final String taskId;
+class SPProfileDataReview extends StatelessWidget {
   final String userPicture;
   final String userName ;
   final double rating;
   final int numReviews;
 
-  const SPProfileData({
+  const SPProfileDataReview({
     Key? key,
-    required this.taskId,
     required this.userPicture,
     required this.userName,
     required this.rating,
@@ -24,7 +20,7 @@ class SPProfileData extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20 , vertical: 10),
-      height: MediaQuery.of(context).size.height/7 + 25,
+      height: MediaQuery.of(context).size.height/7 + 10,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20.0),
       ),
@@ -75,43 +71,13 @@ class SPProfileData extends StatelessWidget {
                     backgroundImage: NetworkImage(userPicture),
                   ),
                   const SizedBox(width: 16.0),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween, // Align items in the row
-                      children: [
-                        Text(
-                          userName,
-                          style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            Get.toNamed('/HomeOwner/AddReview',
-                              arguments: {
-                              'taskID': taskId,
-                              'userPicture': userPicture ,
-                              'userName' : userName,
-                              'rating': rating,
-                              'numReviews': numReviews,
-                            });
-                          },
-                          child: const Text(
-                            'Review',
-                            style: TextStyle(
-                              fontSize: 14.0,
-                              color: Colors.white,
-                            ),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            primary: Color(0xFF2F4771), // Background color
-                            shape: StadiumBorder(), // Oval shape
-                            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10), // Button size
-                          ),
-                        ),
-                      ],
-                    ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        userName,
+                        style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                      ),
                       const SizedBox(height: 3.0),
                       Row(
                         children: [
@@ -129,7 +95,6 @@ class SPProfileData extends StatelessWidget {
                         ],
                       )
                     ],
-                  )
                   )
                 ],
               ),

@@ -3,13 +3,9 @@ import 'package:buildnex/APIRequests/serviceProviderCatalogAPI.dart';
 import 'package:buildnex/Tasks/taskWidgets/openCatalogSP.dart';
 import 'package:buildnex/Tasks/taskWidgets/taskInformation.dart';
 import 'package:buildnex/Tasks/tasks_HO/LocalGovernorate_Permits/Widgets/serviceProviderProfleData.dart';
-import 'package:buildnex/Tasks/taskWidgets/catalogDialog.dart';
 import 'package:buildnex/Widgets/catalogItem.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../APIRequests/homeOwnerTasksAPI.dart';
-
 
 void main() {
   runApp(GetMaterialApp(home: DoorFrameInstallHO()));
@@ -23,9 +19,7 @@ class DoorFrameInstallHO extends StatefulWidget {
 }
 
 class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
-
   List<Map<String, dynamic>> userChoices = [];
-
 
   Map<String, dynamic> task10Data = {};
   String taskID = '';
@@ -36,7 +30,7 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
   int? livingroomDoorCatalogID;
   int? guestroomDoorCatalogID;
 
-  late Map<String, dynamic> projectInfoData ;
+  late Map<String, dynamic> projectInfoData;
 
   @override
   void initState() {
@@ -45,8 +39,8 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
     setState(() {
       taskID = arguments['taskID'];
       taskProjectId = arguments['taskProjectId'];
-      task10Data = arguments['task10data'] ;
-      projectInfoData = arguments['ProjectInfo'] ;
+      task10Data = arguments['task10data'];
+      projectInfoData = arguments['ProjectInfo'];
     });
     // print(task10Data) ;
     fetchArgumentsAndData();
@@ -55,30 +49,26 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
   Future<void> fetchArgumentsAndData() async {
     try {
       setState(() {
-
         bedroomDoorCatalogID = projectInfoData['BedroomDoor'] != null
-            ? int.tryParse(projectInfoData['BedroomDoor'])
+            ? projectInfoData['BedroomDoor']
             : 0;
 
         bathroomDoorCatalogID = projectInfoData['BathroomDoor'] != null
-            ? int.tryParse(projectInfoData['BathroomDoor'])
+            ? projectInfoData['BathroomDoor']
             : 0;
 
         livingroomDoorCatalogID = projectInfoData['LivingroomDoor'] != null
-            ? int.tryParse(projectInfoData['LivingroomDoor'])
+            ? projectInfoData['LivingroomDoor']
             : 0;
 
         guestroomDoorCatalogID = projectInfoData['GuestroomDoor'] != null
-            ? int.tryParse(projectInfoData['GuestroomDoor'])
+            ? projectInfoData['GuestroomDoor']
             : 0;
-
       });
-
     } catch (e) {
       print('Error fetching task10 data: $e');
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +80,8 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
           color: Color(0xFFF3D69B),
         ),
         title: Padding(
-          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/5),
+          padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width / 5),
           child: const Text(
             "Task Details",
             style: TextStyle(color: Color(0xFFF3D69B)),
@@ -104,11 +95,24 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
           padding: const EdgeInsets.only(top: 10),
           child: Column(
             children: [
-              TaskInformation(taskID: task10Data['TaskID']?? 0, taskName: task10Data['TaskName']?? 'Unknown', projectName: task10Data['ProjectName']?? 'Unknown', taskStatus: task10Data['TaskStatus']?? 'Unknown',),
-              SPProfileData(userPicture: task10Data['UserPicture']?? 'images/profilePic96.png', rating: (task10Data['Rating'] as num?)?.toDouble() ?? 0.0, numReviews: task10Data['ReviewCount']?? 0, userName:task10Data['Username']?? 'Unknown',),
+              TaskInformation(
+                taskID: task10Data['TaskID'] ?? 0,
+                taskName: task10Data['TaskName'] ?? 'Unknown',
+                projectName: task10Data['ProjectName'] ?? 'Unknown',
+                taskStatus: task10Data['TaskStatus'] ?? 'Unknown',
+              ),
+              SPProfileData(
+                userPicture:
+                    task10Data['UserPicture'] ?? 'images/profilePic96.png',
+                rating: (task10Data['Rating'] as num?)?.toDouble() ?? 0.0,
+                numReviews: task10Data['ReviewCount'] ?? 0,
+                userName: task10Data['Username'] ?? 'Unknown',
+                taskId: taskID,
+              ),
               Container(
                 margin: const EdgeInsets.only(top: 5),
-                padding: const EdgeInsets.symmetric(horizontal: 20 , vertical: 5),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
@@ -145,8 +149,7 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                             style: TextStyle(
                                 color: Color(0xFFF9FAFB),
                                 fontSize: 19,
-                                fontWeight: FontWeight.bold
-                            ),
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),
@@ -156,14 +159,14 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Padding(
-                              padding: EdgeInsets.only(left: 8, top: 10, bottom: 8),
+                              padding:
+                                  EdgeInsets.only(left: 8, top: 10, bottom: 8),
                               child: Text(
                                 "Choose Door Design For The Following: ",
                                 style: TextStyle(
                                     color: Color(0xFF2F4771),
                                     fontSize: 17,
-                                    fontWeight: FontWeight.w400
-                                ),
+                                    fontWeight: FontWeight.w500),
                               ),
                             ),
                             Row(
@@ -172,69 +175,83 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                                 const Expanded(
                                   flex: 1,
                                   child: Padding(
-                                    padding: EdgeInsets.only(left: 8 ,right: 8),
+                                    padding: EdgeInsets.only(
+                                        left: 8, right: 8, top: 6),
                                     child: Text(
-                                      "Bedroom Door:",
+                                      "Bedroom:",
                                       style: TextStyle(
                                           color: Color(0xFF2F4771),
                                           fontWeight: FontWeight.w500,
-                                          fontSize: 16
-                                      ),
+                                          fontSize: 16),
                                     ),
                                   ),
                                 ),
                                 bedroomDoorCatalogID != 0
-                                    ?
-                                GestureDetector(
-                                  onTap: () async{
-                                    final Map<String, dynamic> itemDetails = await CatalogAPI.getItemDetails(bedroomDoorCatalogID.toString());
-                                    Get.to(SPCatalogItem_HO(itemDetails: itemDetails,));
-                                  },
-                                  child: Container(
-                                    margin: const EdgeInsets.only(top: 5 , right: 5),
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFF2F4771),
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    ),
-                                    child: const Row(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 8 , right: 4),
-                                          child: Icon(
-                                            Icons.remove_red_eye,
-                                            size: 20,
-                                            color: Color(0xFFF9FAFB),
+                                    ? GestureDetector(
+                                        onTap: () async {
+                                          final Map<String, dynamic>
+                                              itemDetails =
+                                              await CatalogAPI.getItemDetails(
+                                                  bedroomDoorCatalogID
+                                                      .toString());
+                                          Get.to(SPCatalogItem_HO(
+                                            itemDetails: itemDetails,
+                                          ));
+                                        },
+                                        child: Container(
+                                          margin: const EdgeInsets.only(
+                                              top: 5, right: 5),
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                            color: const Color(0xFF2F4771),
+                                            borderRadius:
+                                                BorderRadius.circular(20.0),
+                                          ),
+                                          child: const Row(
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: 8, right: 4),
+                                                child: Icon(
+                                                  Icons.remove_red_eye,
+                                                  size: 20,
+                                                  color: Color(0xFFF9FAFB),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    EdgeInsets.only(right: 8.0),
+                                                child: Text(
+                                                  "See Item",
+                                                  style: TextStyle(
+                                                    color: Color(0xFFF9FAFB),
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                        Padding(
-                                          padding: EdgeInsets.only(right: 5.0),
-                                          child: Text(
-                                            "See Item",
-                                            style: TextStyle(
-                                              color: Color(0xFFF9FAFB),
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                )
-                                    :
-                                SizedBox(),
+                                      )
+                                    : SizedBox(),
                                 GestureDetector(
-                                  onTap: () async{
+                                  onTap: () async {
                                     // await openCatalog();
-                                    final List<Map<String, dynamic>> SPCatalog = await ServiceProviderDataAPI.getServiceProCatalogItems(task10Data['UserID'].toString());
-                                    final int? choosenID = await Get.to(OpenCatalogSP() , arguments: SPCatalog);
+                                    final List<Map<String, dynamic>> SPCatalog =
+                                        await ServiceProviderDataAPI
+                                            .getServiceProCatalogItems(
+                                                task10Data['UserID']
+                                                    .toString());
+                                    final int? choosenID = await Get.to(
+                                        OpenCatalogSP(),
+                                        arguments: SPCatalog);
                                     setState(() {
-                                      bedroomDoorCatalogID = choosenID ;
+                                      bedroomDoorCatalogID = choosenID;
                                     });
                                   },
                                   child: Container(
-                                    margin: const EdgeInsets.only(top: 5 , right: 5),
+                                    margin: const EdgeInsets.only(top: 5),
                                     height: 40,
                                     decoration: BoxDecoration(
                                       color: const Color(0xFF2F4771),
@@ -243,7 +260,8 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                                     child: const Row(
                                       children: [
                                         Padding(
-                                          padding: EdgeInsets.only(left: 12 , right: 8),
+                                          padding: EdgeInsets.only(
+                                              left: 12, right: 4),
                                           child: Icon(
                                             Icons.folder_copy,
                                             size: 20,
@@ -256,7 +274,7 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                                             "Open Catalog",
                                             style: TextStyle(
                                               color: Color(0xFFF9FAFB),
-                                              fontSize: 15,
+                                              fontSize: 14,
                                               fontWeight: FontWeight.w400,
                                             ),
                                           ),
@@ -273,69 +291,83 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                                 const Expanded(
                                   flex: 1,
                                   child: Padding(
-                                    padding: EdgeInsets.only(left: 8 ,right: 8),
+                                    padding: EdgeInsets.only(
+                                        left: 8, right: 8, top: 6),
                                     child: Text(
-                                      "Bathroom Door:",
+                                      "Bathroom:",
                                       style: TextStyle(
                                           color: Color(0xFF2F4771),
                                           fontWeight: FontWeight.w500,
-                                          fontSize: 16
-                                      ),
+                                          fontSize: 16),
                                     ),
                                   ),
                                 ),
                                 bathroomDoorCatalogID != 0
-                                    ?
-                                GestureDetector(
-                                  onTap: ()async{
-                                    final Map<String, dynamic> itemDetails = await CatalogAPI.getItemDetails(bathroomDoorCatalogID.toString());
-                                    Get.to(SPCatalogItem_HO(itemDetails: itemDetails,));
-                                  },
-                                  child: Container(
-                                    margin: const EdgeInsets.only(top: 5 , right: 5),
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFF2F4771),
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    ),
-                                    child: const Row(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 8 , right: 4),
-                                          child: Icon(
-                                            Icons.remove_red_eye,
-                                            size: 20,
-                                            color: Color(0xFFF9FAFB),
+                                    ? GestureDetector(
+                                        onTap: () async {
+                                          final Map<String, dynamic>
+                                              itemDetails =
+                                              await CatalogAPI.getItemDetails(
+                                                  bathroomDoorCatalogID
+                                                      .toString());
+                                          Get.to(SPCatalogItem_HO(
+                                            itemDetails: itemDetails,
+                                          ));
+                                        },
+                                        child: Container(
+                                          margin: const EdgeInsets.only(
+                                              top: 5, right: 5),
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                            color: const Color(0xFF2F4771),
+                                            borderRadius:
+                                                BorderRadius.circular(20.0),
+                                          ),
+                                          child: const Row(
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: 8, right: 4),
+                                                child: Icon(
+                                                  Icons.remove_red_eye,
+                                                  size: 20,
+                                                  color: Color(0xFFF9FAFB),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    EdgeInsets.only(right: 8.0),
+                                                child: Text(
+                                                  "See Item",
+                                                  style: TextStyle(
+                                                    color: Color(0xFFF9FAFB),
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                        Padding(
-                                          padding: EdgeInsets.only(right: 8.0),
-                                          child: Text(
-                                            "See Item",
-                                            style: TextStyle(
-                                              color: Color(0xFFF9FAFB),
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                )
-                                    :
-                                SizedBox(),
+                                      )
+                                    : SizedBox(),
                                 GestureDetector(
-                                  onTap: () async{
+                                  onTap: () async {
                                     // await openCatalog();
-                                    final List<Map<String, dynamic>> SPCatalog = await ServiceProviderDataAPI.getServiceProCatalogItems(task10Data['UserID'].toString());
-                                    final int? choosenID = await Get.to(OpenCatalogSP() , arguments: SPCatalog);
+                                    final List<Map<String, dynamic>> SPCatalog =
+                                        await ServiceProviderDataAPI
+                                            .getServiceProCatalogItems(
+                                                task10Data['UserID']
+                                                    .toString());
+                                    final int? choosenID = await Get.to(
+                                        OpenCatalogSP(),
+                                        arguments: SPCatalog);
                                     setState(() {
-                                      bedroomDoorCatalogID = choosenID ;
+                                      bedroomDoorCatalogID = choosenID;
                                     });
                                   },
                                   child: Container(
-                                    margin: const EdgeInsets.only(top: 5 , right: 5),
+                                    margin: const EdgeInsets.only(top: 5),
                                     height: 40,
                                     decoration: BoxDecoration(
                                       color: const Color(0xFF2F4771),
@@ -344,7 +376,8 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                                     child: const Row(
                                       children: [
                                         Padding(
-                                          padding: EdgeInsets.only(left: 12 , right: 8),
+                                          padding: EdgeInsets.only(
+                                              left: 12, right: 4),
                                           child: Icon(
                                             Icons.folder_copy,
                                             size: 20,
@@ -357,7 +390,7 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                                             "Open Catalog",
                                             style: TextStyle(
                                               color: Color(0xFFF9FAFB),
-                                              fontSize: 15,
+                                              fontSize: 14,
                                               fontWeight: FontWeight.w400,
                                             ),
                                           ),
@@ -366,7 +399,6 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                                     ),
                                   ),
                                 ),
-
                               ],
                             ),
                             Row(
@@ -375,68 +407,82 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                                 const Expanded(
                                   flex: 1,
                                   child: Padding(
-                                    padding: EdgeInsets.only(left: 8 ,right: 8),
+                                    padding: EdgeInsets.only(
+                                        left: 8, right: 8, top: 6),
                                     child: Text(
-                                      "Living Room Door:",
+                                      "Living Room:",
                                       style: TextStyle(
                                           color: Color(0xFF2F4771),
                                           fontWeight: FontWeight.w500,
-                                          fontSize: 16
-                                      ),
+                                          fontSize: 16),
                                     ),
                                   ),
                                 ),
                                 livingroomDoorCatalogID != 0
-                                    ?
-                                GestureDetector(
-                                  onTap: () async{
-                                    final Map<String, dynamic> itemDetails = await CatalogAPI.getItemDetails(livingroomDoorCatalogID.toString());
-                                    Get.to(SPCatalogItem_HO(itemDetails: itemDetails,));
-                                  },
-                                  child: Container(
-                                    margin: const EdgeInsets.only(top: 5 , right: 5),
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFF2F4771),
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    ),
-                                    child: const Row(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 8 , right: 4),
-                                          child: Icon(
-                                            Icons.remove_red_eye,
-                                            size: 20,
-                                            color: Color(0xFFF9FAFB),
+                                    ? GestureDetector(
+                                        onTap: () async {
+                                          final Map<String, dynamic>
+                                              itemDetails =
+                                              await CatalogAPI.getItemDetails(
+                                                  livingroomDoorCatalogID
+                                                      .toString());
+                                          Get.to(SPCatalogItem_HO(
+                                            itemDetails: itemDetails,
+                                          ));
+                                        },
+                                        child: Container(
+                                          margin: const EdgeInsets.only(
+                                              top: 5, right: 5),
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                            color: const Color(0xFF2F4771),
+                                            borderRadius:
+                                                BorderRadius.circular(20.0),
+                                          ),
+                                          child: const Row(
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: 8, right: 4),
+                                                child: Icon(
+                                                  Icons.remove_red_eye,
+                                                  size: 20,
+                                                  color: Color(0xFFF9FAFB),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    EdgeInsets.only(right: 8.0),
+                                                child: Text(
+                                                  "See Item",
+                                                  style: TextStyle(
+                                                    color: Color(0xFFF9FAFB),
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                        Padding(
-                                          padding: EdgeInsets.only(right: 12.0),
-                                          child: Text(
-                                            "See Item",
-                                            style: TextStyle(
-                                              color: Color(0xFFF9FAFB),
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                )
-                                    :
-                                SizedBox(),
+                                      )
+                                    : SizedBox(),
                                 GestureDetector(
-                                  onTap: () async{
-                                    final List<Map<String, dynamic>> SPCatalog = await ServiceProviderDataAPI.getServiceProCatalogItems(task10Data['UserID'].toString());
-                                    final int? choosenID = await Get.to(OpenCatalogSP() , arguments: SPCatalog);
+                                  onTap: () async {
+                                    final List<Map<String, dynamic>> SPCatalog =
+                                        await ServiceProviderDataAPI
+                                            .getServiceProCatalogItems(
+                                                task10Data['UserID']
+                                                    .toString());
+                                    final int? choosenID = await Get.to(
+                                        OpenCatalogSP(),
+                                        arguments: SPCatalog);
                                     setState(() {
-                                      livingroomDoorCatalogID = choosenID ;
+                                      livingroomDoorCatalogID = choosenID;
                                     });
                                   },
                                   child: Container(
-                                    margin: const EdgeInsets.only(top: 5 , right: 5),
+                                    margin: const EdgeInsets.only(top: 5),
                                     height: 40,
                                     decoration: BoxDecoration(
                                       color: const Color(0xFF2F4771),
@@ -445,7 +491,8 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                                     child: const Row(
                                       children: [
                                         Padding(
-                                          padding: EdgeInsets.only(left: 12 , right: 8),
+                                          padding: EdgeInsets.only(
+                                              left: 12, right: 4),
                                           child: Icon(
                                             Icons.folder_copy,
                                             size: 20,
@@ -458,7 +505,7 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                                             "Open Catalog",
                                             style: TextStyle(
                                               color: Color(0xFFF9FAFB),
-                                              fontSize: 15,
+                                              fontSize: 14,
                                               fontWeight: FontWeight.w400,
                                             ),
                                           ),
@@ -475,68 +522,82 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                                 const Expanded(
                                   flex: 1,
                                   child: Padding(
-                                    padding: EdgeInsets.only(left: 8 ,right: 8),
+                                    padding: EdgeInsets.only(
+                                        left: 8, right: 8, top: 6),
                                     child: Text(
-                                      "Guest Room Door:",
+                                      "Guest Room:",
                                       style: TextStyle(
                                           color: Color(0xFF2F4771),
                                           fontWeight: FontWeight.w500,
-                                          fontSize: 16
-                                      ),
+                                          fontSize: 16),
                                     ),
                                   ),
                                 ),
                                 guestroomDoorCatalogID != 0
-                                    ?
-                                GestureDetector(
-                                  onTap: () async{
-                                    final Map<String, dynamic> itemDetails = await CatalogAPI.getItemDetails(guestroomDoorCatalogID.toString());
-                                    Get.to(SPCatalogItem_HO(itemDetails: itemDetails,));
-                                  },
-                                  child: Container(
-                                    margin: const EdgeInsets.only(top: 5 , right: 5),
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFF2F4771),
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    ),
-                                    child: const Row(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 8 , right: 4),
-                                          child: Icon(
-                                            Icons.remove_red_eye,
-                                            size: 20,
-                                            color: Color(0xFFF9FAFB),
+                                    ? GestureDetector(
+                                        onTap: () async {
+                                          final Map<String, dynamic>
+                                              itemDetails =
+                                              await CatalogAPI.getItemDetails(
+                                                  guestroomDoorCatalogID
+                                                      .toString());
+                                          Get.to(SPCatalogItem_HO(
+                                            itemDetails: itemDetails,
+                                          ));
+                                        },
+                                        child: Container(
+                                          margin: const EdgeInsets.only(
+                                              top: 5, right: 5),
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                            color: const Color(0xFF2F4771),
+                                            borderRadius:
+                                                BorderRadius.circular(20.0),
+                                          ),
+                                          child: const Row(
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: 8, right: 4),
+                                                child: Icon(
+                                                  Icons.remove_red_eye,
+                                                  size: 20,
+                                                  color: Color(0xFFF9FAFB),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    EdgeInsets.only(right: 8.0),
+                                                child: Text(
+                                                  "See Item",
+                                                  style: TextStyle(
+                                                    color: Color(0xFFF9FAFB),
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                        Padding(
-                                          padding: EdgeInsets.only(right: 12.0),
-                                          child: Text(
-                                            "See Item",
-                                            style: TextStyle(
-                                              color: Color(0xFFF9FAFB),
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                )
-                                    :
-                                SizedBox(),
+                                      )
+                                    : SizedBox(),
                                 GestureDetector(
-                                  onTap: () async{
-                                    final List<Map<String, dynamic>> SPCatalog = await ServiceProviderDataAPI.getServiceProCatalogItems(task10Data['UserID'].toString());
-                                    final int? choosenID = await Get.to(OpenCatalogSP() , arguments: SPCatalog);
+                                  onTap: () async {
+                                    final List<Map<String, dynamic>> SPCatalog =
+                                        await ServiceProviderDataAPI
+                                            .getServiceProCatalogItems(
+                                                task10Data['UserID']
+                                                    .toString());
+                                    final int? choosenID = await Get.to(
+                                        OpenCatalogSP(),
+                                        arguments: SPCatalog);
                                     setState(() {
-                                      guestroomDoorCatalogID = choosenID ;
+                                      guestroomDoorCatalogID = choosenID;
                                     });
                                   },
                                   child: Container(
-                                    margin: const EdgeInsets.only(top: 5 , right: 5),
+                                    margin: const EdgeInsets.only(top: 5),
                                     height: 40,
                                     decoration: BoxDecoration(
                                       color: const Color(0xFF2F4771),
@@ -545,7 +606,8 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                                     child: const Row(
                                       children: [
                                         Padding(
-                                          padding: EdgeInsets.only(left: 12 , right: 8),
+                                          padding: EdgeInsets.only(
+                                              left: 12, right: 4),
                                           child: Icon(
                                             Icons.folder_copy,
                                             size: 20,
@@ -558,7 +620,7 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                                             "Open Catalog",
                                             style: TextStyle(
                                               color: Color(0xFFF9FAFB),
-                                              fontSize: 15,
+                                              fontSize: 14,
                                               fontWeight: FontWeight.w400,
                                             ),
                                           ),
@@ -569,7 +631,34 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 10,),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Center(
+                              child: Container(
+                                width: 250,
+                                margin: EdgeInsets.symmetric(vertical: 12),
+                                decoration: const BoxDecoration(
+                                  color: Color(0xFF2F4771),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(30.0)),
+                                ),
+                                child: TextButton(
+                                  onPressed: () {
+                                    /*
+                                here i want to save the value of them in db
+                                 */
+                                  },
+                                  child: const Text(
+                                    'Save',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      color: Color(0xFFF9FAFB),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -579,7 +668,8 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
               ),
               Container(
                 margin: const EdgeInsets.only(top: 5),
-                padding: const EdgeInsets.symmetric(horizontal: 20 , vertical: 5),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
@@ -616,8 +706,7 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                             style: TextStyle(
                                 color: Color(0xFFF9FAFB),
                                 fontSize: 19,
-                                fontWeight: FontWeight.bold
-                            ),
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),
@@ -629,25 +718,27 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                             const Padding(
                               padding: EdgeInsets.all(10),
                               child: Text(
-                                "Provider Notes: ",
+                                "Service Provider Notes: ",
                                 style: TextStyle(
                                     color: Color(0xFF2F4771),
                                     fontSize: 17,
-                                    fontWeight: FontWeight.w400
-                                ),
+                                    fontWeight: FontWeight.w500),
                               ),
                             ),
                             Container(
                               height: 140,
-                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
                               child: TextFormField(
                                 maxLines: 5,
                                 minLines: 5,
                                 enabled: false,
                                 readOnly: true,
                                 decoration: InputDecoration(
-                                  hintText:  task10Data['Notes'] ?? 'No notes available',
-                                  hintStyle: TextStyle(color: Color(0xFF2F4771)),
+                                  hintText: task10Data['Notes'] ??
+                                      'No notes available',
+                                  hintStyle:
+                                      TextStyle(color: Color(0xFF2F4771)),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10.0),
                                     borderSide: const BorderSide(
@@ -664,33 +755,13 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 10,),
+                            const SizedBox(
+                              height: 10,
+                            ),
                           ],
                         ),
                       ),
                     ],
-                  ),
-                ),
-              ),
-              Container(
-                width: 250,
-                margin: EdgeInsets.symmetric(vertical: 12),
-                decoration: const BoxDecoration(
-                  color: Color(0xFF2F4771),
-                  borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                ),
-                child: TextButton(
-                  onPressed: () {
-                    /*
-                    here i want to save the value of them in db
-                     */
-                  },
-                  child: const Text(
-                    'Save',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Color(0xFFF9FAFB),
-                    ),
                   ),
                 ),
               ),

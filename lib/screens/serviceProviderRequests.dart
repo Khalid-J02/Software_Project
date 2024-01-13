@@ -53,6 +53,8 @@ class _ServiceProviderRequestsState extends State<ServiceProviderRequests> {
                 taskProjectId: request['projectId'].toString(),
                 taskHomeOwnerId: request['homeOwnerId'].toString(),
                 requestId: request['requestId'].toString(),
+                taskId: request['taskId'].toString(),
+
                 removeProject: _removeproject,
               );
             },

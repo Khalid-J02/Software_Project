@@ -2,6 +2,7 @@ import 'package:buildnex/screens/searchPage_HO.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../APIRequests/NavbarProjectPageHomeOwnerAPI.dart';
 import '../APIRequests/homeOwnerTasksAPI.dart';
 import 'customAlertDialog.dart';
 
@@ -28,19 +29,35 @@ class ProjectTasks extends StatelessWidget {
   }) : super(key: key);
 
   late String serviceType;
+  late String projectEntryPoint;
 
+  Color getBorderColorBasedOnStatus(String status) {
+    if (status == 'Not Started') {
+      return const Color(0xFFB22D00);
+    } else if (status == 'In Progress') {
+      return const Color(0xFFFF9637);
+    } else  {
+      return const Color(0xFF2BD066);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final borderColor = getBorderColorBasedOnStatus(taskStatus);
+
     return Padding(
-      padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
+      padding: const EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 8),
       child: Container(
         padding: const EdgeInsets.only(top: 10, left: 15, right: 10),
         decoration: BoxDecoration(
           color: const Color(0xFF6781A6),
           borderRadius: BorderRadius.circular(12),
+          // border: Border.all(
+          //   color: Color(0xFFF3D69B),
+          // ),
           border: Border.all(
-            color: Color(0xFFF3D69B),
+            color: borderColor,
+            width: 2.0,
           ),
         ),
         child: Column(
@@ -84,16 +101,18 @@ class ProjectTasks extends StatelessWidget {
               padding: const EdgeInsets.only(top: 4.0),
               child: Row(
                 children: [
-                  const Icon(
+                   Icon(
                     Icons.info,
-                    color: Color(0xFFF9FAFB),
+                    color: getBorderColorBasedOnStatus(taskStatus),
+                   // color: Color(0xFFF9FAFB),
                     size: 18,
                   ),
                   Text(
                     " $taskStatus",
-                    style: const TextStyle(
+                    style:  TextStyle(
                       fontSize: 14,
-                      color: Color(0xFFF9FAFB),
+                      color: getBorderColorBasedOnStatus(taskStatus),
+                      //color: Color(0xFFF9FAFB),
                     ),
                   ),
                 ],
@@ -334,38 +353,62 @@ class ProjectTasks extends StatelessWidget {
                     child: TextButton(
                       onPressed: () async  {
                         String previousTaskStatus;
-                        if(int.parse(taskNumber) > 1)
-                        {
-                               previousTaskStatus = await HomeOwnerTasksAPI
+                        final Map<String, dynamic> projectInfo = await HomeOwnerProjectPageNavbarAPI.getProjectData(taskProjectId);
+                        if (projectInfo['ProjectEntryPoint'] == 'From Scratch') {
+                          if(int.parse(taskNumber) > 1) {
+                            previousTaskStatus = await HomeOwnerTasksAPI
+                                .checkPreviousTaskStatus(int.parse(taskProjectId),
+                                int.parse(taskNumber));
+
+                            // Check the status of the previous task
+                            if ((int.parse(taskNumber) >= 7 && int.parse(taskNumber) <= 9) )
+                            {
+                              previousTaskStatus = await HomeOwnerTasksAPI
+                                  .checkPreviousTaskStatus(int.parse(taskProjectId),
+                                  int.parse("7"));
+
+                              await CustomAlertDialog.showParallelTasksDialog(context);
+
+                            }
+                            if (int.parse(taskNumber) == 10 ){
+                              previousTaskStatus = await HomeOwnerTasksAPI
+                                  .checkPreviousTaskStatus(int.parse(taskProjectId),
+                                  int.parse("9"));
+                            }
+
+                            if (previousTaskStatus == "In Progress" ||
+                                previousTaskStatus == "Not Started") {
+                              CustomAlertDialog.showErrorDialog(
+                                  context,
+                                  'You can not go to the next task before complete previous one.');
+                              return;
+                            }
+                          }
+                        }
+                        else if (projectInfo['ProjectEntryPoint'] == 'From Middle') {
+                          if(int.parse(taskNumber) > 10) {
+                              previousTaskStatus = await HomeOwnerTasksAPI
                                   .checkPreviousTaskStatus(int.parse(taskProjectId),
                                   int.parse(taskNumber));
 
-                              // Check the status of the previous task
-                              if ((int.parse(taskNumber) >= 7 && int.parse(taskNumber) <= 9) )
-                                {
-                                  previousTaskStatus = await HomeOwnerTasksAPI
-                                      .checkPreviousTaskStatus(int.parse(taskProjectId),
-                                      int.parse("7"));
-
-                                  await CustomAlertDialog.showParallelTasksDialog(context);
-
-                                }
-                               if (int.parse(taskNumber) == 10 ){
-                                 previousTaskStatus = await HomeOwnerTasksAPI
-                                     .checkPreviousTaskStatus(int.parse(taskProjectId),
-                                     int.parse("9"));
-                               }
-
-                                 if (previousTaskStatus == "In Progress" ||
+                              if (previousTaskStatus == "In Progress" ||
                                   previousTaskStatus == "Not Started") {
                                 CustomAlertDialog.showErrorDialog(
                                     context,
-                                    'You can not go to the next task while current task in progress');
+                                    'You can not go to the next task before complete previous one.');
                                 return;
                               }
-                          }
+                            }
 
-                          if (int.parse(taskNumber) == 1) {
+                        }
+
+                        if (int.parse(taskNumber) == 16) {
+                          CustomAlertDialog.showErrorDialogForTask16(
+                              context,
+                              taskDescription);
+                          return;                        }
+
+                        if (int.parse(taskNumber) == 1) {
                             serviceType = "Surveyor";
                           }
                           else if (int.parse(taskNumber) >= 2 && int.parse(
@@ -382,7 +425,7 @@ class ProjectTasks extends StatelessWidget {
                             serviceType = "Electrical Technician";
                           }
                           else if (int.parse(taskNumber) == 9) {
-                            serviceType = "Insulation & HVAC Contractors";
+                            serviceType = "Insulation Technician";
                           }
                           else if (int.parse(taskNumber) == 10) {
                             serviceType = "Carpenter";

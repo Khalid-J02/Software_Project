@@ -250,6 +250,7 @@ class _ConstructionSPState extends State<ConstructionSP> {
                                           taskID,
                                           _userNotes.text,
                                           'Update Data',
+                                           taskProjectId,
                                         );
                                       },
                                       child: const Text(
@@ -290,7 +291,8 @@ class _ConstructionSPState extends State<ConstructionSP> {
                                                           String message = await ServiceProviderGetTasksAPI.setTask6Data(
                                                               taskID,
                                                               _userNotes.text,
-                                                              'Submit'
+                                                              'Submit',
+                                                              taskProjectId
                                                           );
                                                           setState(() {
                                                             constructionData['TaskStatus'] = 'Completed' ;

@@ -33,8 +33,7 @@ class WorkExperienceAPI {
   }
 
   // Method to add a work experience
-  static Future<int> addWorkExperience(
-      String workImage, String workName, String workDescription) async {
+  static Future<int> addWorkExperience(String workImage, String workName, String workDescription) async {
     try {
       final response = await http.post(
         Uri.parse('$baseUrl/serviceprovider/addworkExperience'),
@@ -91,8 +90,7 @@ class WorkExperienceAPI {
   }
 
   // Method to edit work experience details by WorkID
-  static Future<String> editWorkExpDetails(
-      String workExpId, String workName, String workDescription) async {
+  static Future<String> editWorkExpDetails(String workExpId, String workName, String workDescription) async {
     try {
       final response = await http.put(
         Uri.parse('$baseUrl/serviceprovider/workExperiences/$workExpId/edit'),
@@ -120,4 +118,33 @@ class WorkExperienceAPI {
       throw e;
     }
   }
+
+  static Future<String> editWorkExpImage(String workExpId, String workImage) async {
+    try {
+      final response = await http.put(
+        Uri.parse('$baseUrl/serviceprovider/workExperiences/$workExpId/editImage'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': '${dotenv.env['token']}',
+        },
+        body: jsonEncode({
+          'workImage': workImage,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        String message = jsonDecode(response.body);
+        return message;
+      } else {
+        throw http.ClientException(
+          'Failed to edit work experience image\nStatus code: ${response.statusCode}',
+          Uri.parse('$baseUrl/serviceprovider/workExperiences/$workExpId/editImage'),
+        );
+      }
+    } catch (e) {
+      print('Exception during editWorkExpImage API call: $e');
+      throw e;
+    }
+  }
+
 }

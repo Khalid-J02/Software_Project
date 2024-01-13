@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
         usersProject.add({
           'projectId': newProject['projectId'],
           'projectName': newProject['projectName'],
-          // Add other project details as needed
+          'projectStatus': 'Not Started',
         });
       });
     }
@@ -96,7 +96,8 @@ class _HomePageState extends State<HomePage> {
               itemBuilder: (context, index) {
                 return UserProjects(
                 projectId: usersProject[index]['projectId'].toString(),
-                projectName: usersProject[index]['projectName'] ,
+                projectName: usersProject[index]['projectName'],
+                projectStatus: usersProject[index]['projectStatus'].toString(),
                 );
               },
             ),
@@ -112,8 +113,6 @@ class _HomePageState extends State<HomePage> {
       List<Map<String, dynamic>> projects = await HomeOwnerHomePageAPI.getHomeOwnerProjects();
       setState(() {
         usersProject = projects;
-        print('Projects: $projects'); // Print retrieved projects
-
       });
     } catch (error) {
       print('Error updating projects: $error');

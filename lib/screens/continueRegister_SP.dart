@@ -278,12 +278,12 @@ class _ServiceProviderRegisterPageState extends State<_ServiceProviderRegisterPa
                         child: ElevatedButton(
                           onPressed: (){
                             setState(() {
-                              serviceType = "Insulation & HVAC Contractors" ;
+                              serviceType = "Insulation Technician" ;
                             });
                             Navigator.pop(context);
                           },
                           style: ElevatedButtonStyle(),
-                          child: Text("Insulation & HVAC Contractors" , style: ElevatedButtonTextStyle()),
+                          child: Text("Insulation Technician" , style: ElevatedButtonTextStyle()),
                         ),
                       ),
                       SizedBox(

@@ -32,7 +32,6 @@ class RequestsAPI {
     }
   }
 
-
   // Method to accept a request
   static Future<dynamic> acceptRequest(String requestId) async {
     try {
@@ -70,9 +69,7 @@ class RequestsAPI {
         },
         body: jsonEncode({'declineReason': declineReason}),
       );
-      print(requestId);
-      print(declineReason);
-      print(response.statusCode);
+
       if (response.statusCode == 200) {
         String message= jsonDecode(response.body);
         return {'message': message};
@@ -86,6 +83,46 @@ class RequestsAPI {
     } catch (e) {
       print('Exception during declineRequest API call: $e');
       throw e; // Rethrow the exception to let the caller handle it
+    }
+  }
+
+  static Future<Map<String, dynamic>> getProjectDetails(String projectId, String taskId) async {
+    try {
+      final response = await http.get(
+        Uri.parse('$baseUrl/serviceprovider/projectDetails/$projectId/$taskId'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': '${dotenv.env['token']}',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> projectData = jsonDecode(response.body);
+        return projectData;
+      } else {
+        throw http.ClientException(
+          'Failed to load project Details\nStatus code: ${response.statusCode}',
+          Uri.parse('$baseUrl/serviceprovider/projectDetails/$projectId/$taskId'),
+        );
+      }
+    } catch (e) {
+      print('Exception during getProjectDetails API call: $e');
+      rethrow;
+    }
+  }
+
+  static Future<Map<String, dynamic>> getProfilefromID(String userId) async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/user/profilefromID/$userId'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': '${dotenv.env['token']}',
+      },
+    );
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to load profile');
     }
   }
 }

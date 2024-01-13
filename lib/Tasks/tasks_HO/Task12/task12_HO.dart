@@ -3,12 +3,10 @@ import 'package:buildnex/APIRequests/serviceProviderCatalogAPI.dart';
 import 'package:buildnex/Tasks/taskWidgets/openCatalogSP.dart';
 import 'package:buildnex/Tasks/taskWidgets/taskInformation.dart';
 import 'package:buildnex/Tasks/tasks_HO/LocalGovernorate_Permits/Widgets/serviceProviderProfleData.dart';
-import 'package:buildnex/Tasks/taskWidgets/catalogDialog.dart';
 import 'package:buildnex/Widgets/catalogItem.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../APIRequests/homeOwnerTasksAPI.dart';
 
 
 void main() {
@@ -53,15 +51,13 @@ class _TileInstallHOState extends State<TileInstallHO> {
     try {
       setState(() {
         bathroomTileCatalogID = projectInfoData['BathroomTile'] != null
-            ? int.tryParse(projectInfoData['BathroomTile'])
+            ? projectInfoData['BathroomTile']
             : 0;
 
         houseTileCatalogID = projectInfoData['HouseTile'] != null
-            ? int.tryParse(projectInfoData['HouseTile'])
+            ? projectInfoData['HouseTile']
             : 0;
-
       });
-
     } catch (e) {
       print('Error fetching task12 data: $e');
     }
@@ -93,7 +89,7 @@ class _TileInstallHOState extends State<TileInstallHO> {
           child: Column(
             children: [
               TaskInformation(taskID: task12Data['TaskID']?? 0, taskName: task12Data['TaskName']?? 'Unknown', projectName: task12Data['ProjectName']?? 'Unknown', taskStatus: task12Data['TaskStatus']?? 'Unknown',),
-              SPProfileData(userPicture: task12Data['UserPicture']?? 'images/profilePic96.png', rating: (task12Data['Rating'] as num?)?.toDouble() ?? 0.0, numReviews: task12Data['ReviewCount']?? 0, userName:task12Data['Username']?? 'Unknown',),
+              SPProfileData(userPicture: task12Data['UserPicture']?? 'images/profilePic96.png', rating: (task12Data['Rating'] as num?)?.toDouble() ?? 0.0, numReviews: task12Data['ReviewCount']?? 0, userName:task12Data['Username']?? 'Unknown', taskId: taskID,),
               Container(
                 margin: const EdgeInsets.only(top: 5),
                 padding: const EdgeInsets.symmetric(horizontal: 20 , vertical: 5),
@@ -150,7 +146,7 @@ class _TileInstallHOState extends State<TileInstallHO> {
                                 style: TextStyle(
                                     color: Color(0xFF2F4771),
                                     fontSize: 17,
-                                    fontWeight: FontWeight.w400
+                                    fontWeight: FontWeight.w500
                                 ),
                               ),
                             ),
@@ -160,9 +156,10 @@ class _TileInstallHOState extends State<TileInstallHO> {
                                 const Expanded(
                                   flex: 1,
                                   child: Padding(
-                                    padding: EdgeInsets.only(left: 8 ,right: 8),
+                                    padding: EdgeInsets.only(
+                                        left: 8, right: 8, top: 6),
                                     child: Text(
-                                      "Bathroom Tile:",
+                                      "Bathroom:",
                                       style: TextStyle(
                                           color: Color(0xFF2F4771),
                                           fontWeight: FontWeight.w500,
@@ -201,7 +198,7 @@ class _TileInstallHOState extends State<TileInstallHO> {
                                             "See Item",
                                             style: TextStyle(
                                               color: Color(0xFFF9FAFB),
-                                              fontSize: 15,
+                                              fontSize: 14,
                                               fontWeight: FontWeight.w400,
                                             ),
                                           ),
@@ -243,7 +240,7 @@ class _TileInstallHOState extends State<TileInstallHO> {
                                             "Open Catalog",
                                             style: TextStyle(
                                               color: Color(0xFFF9FAFB),
-                                              fontSize: 15,
+                                              fontSize: 14,
                                               fontWeight: FontWeight.w400,
                                             ),
                                           ),
@@ -260,9 +257,10 @@ class _TileInstallHOState extends State<TileInstallHO> {
                                 const Expanded(
                                   flex: 1,
                                   child: Padding(
-                                    padding: EdgeInsets.only(left: 8 ,right: 8),
+                                    padding: EdgeInsets.only(
+                                        left: 8, right: 8, top: 6),
                                     child: Text(
-                                      "House Tile:",
+                                      "House:",
                                       style: TextStyle(
                                           color: Color(0xFF2F4771),
                                           fontWeight: FontWeight.w500,
@@ -288,9 +286,9 @@ class _TileInstallHOState extends State<TileInstallHO> {
                                     child: const Row(
                                       children: [
                                         Padding(
-                                          padding: EdgeInsets.only(left: 12 , right: 8),
+                                          padding: EdgeInsets.only(left: 8 , right: 4),
                                           child: Icon(
-                                            Icons.folder_copy,
+                                            Icons.remove_red_eye,
                                             size: 20,
                                             color: Color(0xFFF9FAFB),
                                           ),
@@ -298,10 +296,10 @@ class _TileInstallHOState extends State<TileInstallHO> {
                                         Padding(
                                           padding: EdgeInsets.only(right: 12.0),
                                           child: Text(
-                                            "Open Catalog",
+                                            "See Item",
                                             style: TextStyle(
                                               color: Color(0xFFF9FAFB),
-                                              fontSize: 15,
+                                              fontSize: 14,
                                               fontWeight: FontWeight.w400,
                                             ),
                                           ),
@@ -343,7 +341,7 @@ class _TileInstallHOState extends State<TileInstallHO> {
                                             "Open Catalog",
                                             style: TextStyle(
                                               color: Color(0xFFF9FAFB),
-                                              fontSize: 15,
+                                              fontSize: 14,
                                               fontWeight: FontWeight.w400,
                                             ),
                                           ),
@@ -355,6 +353,31 @@ class _TileInstallHOState extends State<TileInstallHO> {
                               ],
                             ),
                             const SizedBox(height: 10,),
+                            Center(
+                              child: Container(
+                                width: 250,
+                                margin: EdgeInsets.symmetric(vertical: 12),
+                                decoration: const BoxDecoration(
+                                  color: Color(0xFF2F4771),
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(30.0)),
+                                ),
+                                child: TextButton(
+                                  onPressed: () {
+                                    /*
+                                here i want to save the value of them in db
+                                 */
+                                  },
+                                  child: const Text(
+                                    'Save',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      color: Color(0xFFF9FAFB),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -418,7 +441,7 @@ class _TileInstallHOState extends State<TileInstallHO> {
                                 style: TextStyle(
                                     color: Color(0xFF2F4771),
                                     fontSize: 17,
-                                    fontWeight: FontWeight.w400
+                                    fontWeight: FontWeight.w500
                                 ),
                               ),
                             ),
@@ -457,28 +480,7 @@ class _TileInstallHOState extends State<TileInstallHO> {
                   ),
                 ),
               ),
-              Container(
-                width: 250,
-                margin: EdgeInsets.symmetric(vertical: 12),
-                decoration: const BoxDecoration(
-                  color: Color(0xFF2F4771),
-                  borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                ),
-                child: TextButton(
-                  onPressed: () {
-                    /*
-                    here i want to save the value of them in db
-                     */
-                  },
-                  child: const Text(
-                    'Save',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Color(0xFFF9FAFB),
-                    ),
-                  ),
-                ),
-              ),
+
             ],
           ),
         ),

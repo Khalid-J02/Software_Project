@@ -106,8 +106,7 @@ class ServiceProviderDataAPI {
     }
   }
 
-  static Future<String> sendRequestForServiceProvider(
-      String serviceProviderID, String taskID, String reqTaskDate) async {
+  static Future<String> sendRequestForServiceProvider(String serviceProviderID, String taskID, String reqTaskDate) async {
     try {
       final response = await http.post(
         Uri.parse('$baseUrl/homeowner/request/${serviceProviderID}/${taskID}'),
@@ -126,7 +125,6 @@ class ServiceProviderDataAPI {
 
       } else if (response.statusCode == 404) {
         final String requestStatus = jsonDecode(response.body);
-        print(requestStatus);
         return requestStatus ;
       }
       else{

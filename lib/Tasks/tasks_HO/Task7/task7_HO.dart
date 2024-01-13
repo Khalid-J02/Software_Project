@@ -1,11 +1,7 @@
 import 'package:buildnex/Tasks/taskWidgets/taskInformation.dart';
 import 'package:buildnex/Tasks/tasks_HO/LocalGovernorate_Permits/Widgets/serviceProviderProfleData.dart';
-import 'package:buildnex/Tasks/tasks_SP/PropertSurvey/widgets/textFieldTasks.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../APIRequests/homeOwnerTasksAPI.dart';
-
 
 void main() {
   runApp(GetMaterialApp(home: PlumbingInstallHO()));
@@ -19,9 +15,7 @@ class PlumbingInstallHO extends StatefulWidget {
 }
 
 class _PlumbingInstallHOState extends State<PlumbingInstallHO> {
-
-  final _userNotes = TextEditingController() ;
-
+  final _userNotes = TextEditingController();
 
   Map<String, dynamic> task7Data = {};
   String taskID = '';
@@ -38,7 +32,6 @@ class _PlumbingInstallHOState extends State<PlumbingInstallHO> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +42,8 @@ class _PlumbingInstallHOState extends State<PlumbingInstallHO> {
           color: Color(0xFFF3D69B),
         ),
         title: Padding(
-          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/5),
+          padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width / 5),
           child: const Text(
             "Task Details",
             style: TextStyle(color: Color(0xFFF3D69B)),
@@ -63,11 +57,24 @@ class _PlumbingInstallHOState extends State<PlumbingInstallHO> {
           padding: const EdgeInsets.only(top: 10),
           child: Column(
             children: [
-              TaskInformation(taskID: task7Data['TaskID']?? 0, taskName: task7Data['TaskName']?? 'Unknown', projectName: task7Data['ProjectName']?? 'Unknown', taskStatus: task7Data['TaskStatus']?? 'Unknown',),
-              SPProfileData(userPicture: task7Data['UserPicture']?? 'images/profilePic96.png', rating: (task7Data['Rating'] as num?)?.toDouble() ?? 0.0, numReviews: task7Data['ReviewCount']?? 0, userName:task7Data['Username']?? 'Unknown',),
+              TaskInformation(
+                taskID: task7Data['TaskID'] ?? 0,
+                taskName: task7Data['TaskName'] ?? 'Unknown',
+                projectName: task7Data['ProjectName'] ?? 'Unknown',
+                taskStatus: task7Data['TaskStatus'] ?? 'Unknown',
+              ),
+              SPProfileData(
+                userPicture:
+                    task7Data['UserPicture'] ?? 'images/profilePic96.png',
+                rating: (task7Data['Rating'] as num?)?.toDouble() ?? 0.0,
+                numReviews: task7Data['ReviewCount'] ?? 0,
+                userName: task7Data['Username'] ?? 'Unknown',
+                taskId: taskID,
+              ),
               Container(
                 margin: const EdgeInsets.only(top: 5),
-                padding: const EdgeInsets.symmetric(horizontal: 20 , vertical: 5),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
@@ -100,12 +107,11 @@ class _PlumbingInstallHOState extends State<PlumbingInstallHO> {
                         ),
                         child: const Center(
                           child: Text(
-                            "Task Details",
+                            "Service Provider Details",
                             style: TextStyle(
                                 color: Color(0xFFF9FAFB),
                                 fontSize: 19,
-                                fontWeight: FontWeight.bold
-                            ),
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),
@@ -121,21 +127,23 @@ class _PlumbingInstallHOState extends State<PlumbingInstallHO> {
                                 style: TextStyle(
                                     color: Color(0xFF2F4771),
                                     fontSize: 17,
-                                    fontWeight: FontWeight.w400
-                                ),
+                                    fontWeight: FontWeight.w500),
                               ),
                             ),
                             Container(
                               height: 140,
-                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
                               child: TextFormField(
                                 maxLines: 5,
                                 minLines: 5,
                                 enabled: false,
                                 readOnly: true,
                                 decoration: InputDecoration(
-                                  hintText:  task7Data['Notes'] ?? 'No notes available',
-                                  hintStyle: TextStyle(color: Color(0xFF2F4771)),
+                                  hintText: task7Data['Notes'] ??
+                                      'No notes available',
+                                  hintStyle:
+                                      TextStyle(color: Color(0xFF2F4771)),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10.0),
                                     borderSide: const BorderSide(
@@ -152,6 +160,9 @@ class _PlumbingInstallHOState extends State<PlumbingInstallHO> {
                                 ),
                               ),
                             ),
+                            const SizedBox(
+                              height: 10,
+                            ),
                           ],
                         ),
                       ),
@@ -161,7 +172,6 @@ class _PlumbingInstallHOState extends State<PlumbingInstallHO> {
               ),
             ],
           ),
-
         ),
       ),
     );

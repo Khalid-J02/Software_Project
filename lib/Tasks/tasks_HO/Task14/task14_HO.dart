@@ -3,12 +3,9 @@ import 'package:buildnex/APIRequests/serviceProviderCatalogAPI.dart';
 import 'package:buildnex/Tasks/taskWidgets/openCatalogSP.dart';
 import 'package:buildnex/Tasks/taskWidgets/taskInformation.dart';
 import 'package:buildnex/Tasks/tasks_HO/LocalGovernorate_Permits/Widgets/serviceProviderProfleData.dart';
-import 'package:buildnex/Tasks/taskWidgets/catalogDialog.dart';
 import 'package:buildnex/Widgets/catalogItem.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../APIRequests/homeOwnerTasksAPI.dart';
 
 
 void main() {
@@ -50,7 +47,7 @@ class _WindowInstallationHOState extends State<WindowInstallationHO> {
     try {
       setState(() {
         windowDesignCatalogID = projectInfoData['WindowDesign'] != null
-            ? int.tryParse(projectInfoData['WindowDesign'])
+            ? projectInfoData['WindowDesign']
             : 0;
       });
 
@@ -58,7 +55,6 @@ class _WindowInstallationHOState extends State<WindowInstallationHO> {
       print('Error fetching task13 data: $e');
     }
   }
-
 
 
   @override
@@ -86,7 +82,7 @@ class _WindowInstallationHOState extends State<WindowInstallationHO> {
           child: Column(
             children: [
               TaskInformation(taskID: task13Data['TaskID']?? 0, taskName: task13Data['TaskName']?? 'Unknown', projectName: task13Data['ProjectName']?? 'Unknown', taskStatus: task13Data['TaskStatus']?? 'Unknown',),
-              SPProfileData(userPicture: task13Data['UserPicture']?? 'images/profilePic96.png', rating: (task13Data['Rating'] as num?)?.toDouble() ?? 0.0, numReviews: task13Data['ReviewCount']?? 0, userName:task13Data['Username']?? 'Unknown',),
+              SPProfileData(userPicture: task13Data['UserPicture']?? 'images/profilePic96.png', rating: (task13Data['Rating'] as num?)?.toDouble() ?? 0.0, numReviews: task13Data['ReviewCount']?? 0, userName:task13Data['Username']?? 'Unknown', taskId: taskID,),
               Container(
                 margin: const EdgeInsets.only(top: 5),
                 padding: const EdgeInsets.symmetric(horizontal: 20 , vertical: 5),
@@ -143,7 +139,7 @@ class _WindowInstallationHOState extends State<WindowInstallationHO> {
                                 style: TextStyle(
                                     color: Color(0xFF2F4771),
                                     fontSize: 17,
-                                    fontWeight: FontWeight.w400
+                                    fontWeight: FontWeight.w500
                                 ),
                               ),
                             ),
@@ -153,7 +149,8 @@ class _WindowInstallationHOState extends State<WindowInstallationHO> {
                                 const Expanded(
                                   flex: 1,
                                   child: Padding(
-                                    padding: EdgeInsets.only(left: 8 ,right: 8),
+                                    padding: EdgeInsets.only(
+                                        left: 8, right: 8, top: 5),
                                     child: Text(
                                       "Window Design:",
                                       style: TextStyle(
@@ -248,6 +245,31 @@ class _WindowInstallationHOState extends State<WindowInstallationHO> {
                               ],
                             ),
                             const SizedBox(height: 10,),
+                            Center(
+                              child: Container(
+                                width: 250,
+                                margin: EdgeInsets.symmetric(vertical: 12),
+                                decoration: const BoxDecoration(
+                                  color: Color(0xFF2F4771),
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(30.0)),
+                                ),
+                                child: TextButton(
+                                  onPressed: () {
+                                    /*
+                                here i want to save the value of them in db
+                                 */
+                                  },
+                                  child: const Text(
+                                    'Save',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      color: Color(0xFFF9FAFB),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -307,11 +329,11 @@ class _WindowInstallationHOState extends State<WindowInstallationHO> {
                             const Padding(
                               padding: EdgeInsets.all(10),
                               child: Text(
-                                "Provider Notes: ",
+                                "Service Provider Notes: ",
                                 style: TextStyle(
                                     color: Color(0xFF2F4771),
                                     fontSize: 17,
-                                    fontWeight: FontWeight.w400
+                                    fontWeight: FontWeight.w500
                                 ),
                               ),
                             ),
@@ -347,28 +369,6 @@ class _WindowInstallationHOState extends State<WindowInstallationHO> {
                         ),
                       ),
                     ],
-                  ),
-                ),
-              ),
-              Container(
-                width: 250,
-                margin: EdgeInsets.symmetric(vertical: 12),
-                decoration: const BoxDecoration(
-                  color: Color(0xFF2F4771),
-                  borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                ),
-                child: TextButton(
-                  onPressed: () {
-                    /*
-                    here i want to save the value of them in db
-                     */
-                  },
-                  child: const Text(
-                    'Save',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Color(0xFFF9FAFB),
-                    ),
                   ),
                 ),
               ),
