@@ -79,8 +79,8 @@ class _DesignAndPlanningInformationState extends State<DesignAndPlanningInformat
                 child: Text(
                   widget.title,
                   style: const TextStyle(
-                      color: Color(0xFFF9FAFB),
-                      fontSize: 16,
+                      color: Color(0xFFFFFFFF),
+                      fontSize: 18,
                       fontWeight: FontWeight.bold),
                 ),
               ),
@@ -95,7 +95,7 @@ class _DesignAndPlanningInformationState extends State<DesignAndPlanningInformat
                       Expanded(
                         flex: 1,
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 8, right: 8),
+                          padding: const EdgeInsets.only(left: 0, right: 0, top:8),
                           child: Text(
                             widget.documentName1,
                             style: const TextStyle(
@@ -119,8 +119,8 @@ class _DesignAndPlanningInformationState extends State<DesignAndPlanningInformat
                           }
                         },
                         child: Container(
-                          margin: const EdgeInsets.only(top: 5, right: 5),
-                          height: 35,
+                          margin: const EdgeInsets.only(top: 5, right: 4),
+                          height: 33,
                           decoration: BoxDecoration(
                             color: const Color(0xFF2F4771),
                             borderRadius: BorderRadius.circular(20.0),
@@ -128,20 +128,20 @@ class _DesignAndPlanningInformationState extends State<DesignAndPlanningInformat
                           child: const Row(
                             children: [
                               Padding(
-                                padding: EdgeInsets.only(left: 8, right: 8),
+                                padding: EdgeInsets.only(left: 6, right: 2),
                                 child: Icon(
                                   Icons.sim_card_download,
-                                  size: 20,
+                                  size: 19,
                                   color: Color(0xFFF9FAFB),
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsets.only(right: 12.0),
+                                padding: EdgeInsets.only(right: 8.0),
                                 child: Text(
                                   "Download",
                                   style: TextStyle(
                                     color: Color(0xFFF9FAFB),
-                                    fontSize: 15,
+                                    fontSize: 14,
                                     fontWeight: FontWeight.w400,
                                   ),
                                 ),
@@ -165,8 +165,8 @@ class _DesignAndPlanningInformationState extends State<DesignAndPlanningInformat
                           }
                         },
                         child: Container(
-                          margin: const EdgeInsets.only(top: 5, right: 5),
-                          height: 35,
+                          margin: const EdgeInsets.only(top: 5, right: 0),
+                          height: 33,
                           decoration: BoxDecoration(
                             color: const Color(0xFF2F4771),
                             borderRadius: BorderRadius.circular(20.0),
@@ -174,20 +174,20 @@ class _DesignAndPlanningInformationState extends State<DesignAndPlanningInformat
                           child: const Row(
                             children: [
                               Padding(
-                                padding: EdgeInsets.only(left: 8, right: 8),
+                                padding: EdgeInsets.only(left: 8, right: 3),
                                 child: Icon(
                                   Icons.file_open_outlined,
-                                  size: 20,
+                                  size: 19,
                                   color: Color(0xFFF9FAFB),
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsets.only(right: 12.0),
+                                padding: EdgeInsets.only(right: 10.0),
                                 child: Text(
                                   "Open",
                                   style: TextStyle(
                                     color: Color(0xFFF9FAFB),
-                                    fontSize: 15,
+                                    fontSize: 14,
                                     fontWeight: FontWeight.w400,
                                   ),
                                 ),
@@ -204,7 +204,7 @@ class _DesignAndPlanningInformationState extends State<DesignAndPlanningInformat
                       Expanded(
                         flex: 1,
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 8, right: 8),
+                          padding: const EdgeInsets.only(left: 8, right: 8, top:8),
                           child: Text(
                             widget.documentName2,
                             style: const TextStyle(
@@ -228,8 +228,8 @@ class _DesignAndPlanningInformationState extends State<DesignAndPlanningInformat
                           }
                         },
                         child: Container(
-                          margin: const EdgeInsets.only(top: 5, right: 5),
-                          height: 35,
+                          margin: const EdgeInsets.only(top: 5, right: 4),
+                          height: 33,
                           decoration: BoxDecoration(
                             color: const Color(0xFF2F4771),
                             borderRadius: BorderRadius.circular(20.0),
@@ -237,20 +237,20 @@ class _DesignAndPlanningInformationState extends State<DesignAndPlanningInformat
                           child: const Row(
                             children: [
                               Padding(
-                                padding: EdgeInsets.only(left: 8, right: 8),
+                                padding: EdgeInsets.only(left: 6, right: 2),
                                 child: Icon(
                                   Icons.sim_card_download,
-                                  size: 20,
+                                  size: 19,
                                   color: Color(0xFFF9FAFB),
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsets.only(right: 12.0),
+                                padding: EdgeInsets.only(right: 8.0),
                                 child: Text(
                                   "Download",
                                   style: TextStyle(
                                     color: Color(0xFFF9FAFB),
-                                    fontSize: 15,
+                                    fontSize: 14,
                                     fontWeight: FontWeight.w400,
                                   ),
                                 ),
@@ -274,8 +274,8 @@ class _DesignAndPlanningInformationState extends State<DesignAndPlanningInformat
                           }
                         },
                         child: Container(
-                          margin: const EdgeInsets.only(top: 5, right: 5),
-                          height: 35,
+                          margin: const EdgeInsets.only(top: 5, right: 0),
+                          height: 33,
                           decoration: BoxDecoration(
                             color: const Color(0xFF2F4771),
                             borderRadius: BorderRadius.circular(20.0),
@@ -283,20 +283,20 @@ class _DesignAndPlanningInformationState extends State<DesignAndPlanningInformat
                           child: const Row(
                             children: [
                               Padding(
-                                padding: EdgeInsets.only(left: 8, right: 8),
+                                padding: EdgeInsets.only(left: 8, right: 3),
                                 child: Icon(
                                   Icons.file_open_outlined,
-                                  size: 20,
+                                  size: 19,
                                   color: Color(0xFFF9FAFB),
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsets.only(right: 12.0),
+                                padding: EdgeInsets.only(right: 10.0),
                                 child: Text(
                                   "Open",
                                   style: TextStyle(
                                     color: Color(0xFFF9FAFB),
-                                    fontSize: 15,
+                                    fontSize: 14,
                                     fontWeight: FontWeight.w400,
                                   ),
                                 ),

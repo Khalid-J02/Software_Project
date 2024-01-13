@@ -132,6 +132,10 @@ class _TaskInformationState extends State<TaskInformation> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Expanded(
+                          flex:1,  child: Padding(
+                      padding: const EdgeInsets.only(
+                        left: 8,
+                      ),
                           child: Text(
                             widget.taskName,
                             style: const TextStyle(
@@ -141,6 +145,7 @@ class _TaskInformationState extends State<TaskInformation> {
                             ),
                             textAlign: TextAlign.center,
                           ),
+                        ),
                         ),
                         Expanded(
                           child: Text(
@@ -170,7 +175,7 @@ class _TaskInformationState extends State<TaskInformation> {
                 ],
               ),
             ),
-            const SizedBox(height: 8,),
+            const SizedBox(height: 3,),
           ],
         ),
       ),
