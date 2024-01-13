@@ -13,7 +13,6 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
-
 const cloudinaryUrl = 'https://api.cloudinary.com/v1_1/df1qhofpr/upload';
 const uploadPreset = 'buildnex';
 
@@ -25,14 +24,13 @@ class GovernemntalPermittiveSP extends StatefulWidget {
   const GovernemntalPermittiveSP({super.key});
 
   @override
-  State<GovernemntalPermittiveSP> createState() => _GovernemntalPermittiveSPState();
+  State<GovernemntalPermittiveSP> createState() =>
+      _GovernemntalPermittiveSPState();
 }
 
 class _GovernemntalPermittiveSPState extends State<GovernemntalPermittiveSP> {
-
   //String _docsApprove = "Select an Option";
   final _userNotes = TextEditingController();
-
 
   Map<String, dynamic> approvalData = {};
   String taskID = '';
@@ -62,11 +60,10 @@ class _GovernemntalPermittiveSPState extends State<GovernemntalPermittiveSP> {
       } else {
         _userNotes.text = '';
       }
-
     });
   }
 
-  bool areFieldsValid( String approvalDocumentValue, String userNotes) {
+  bool areFieldsValid(String approvalDocumentValue, String userNotes) {
     if (approvalDocumentValue.isNotEmpty && userNotes.isNotEmpty) {
       return true;
     } else {
@@ -81,7 +78,9 @@ class _GovernemntalPermittiveSPState extends State<GovernemntalPermittiveSP> {
     );
 
     if (result != null) {
-      return result.files.map((platformFile) => File(platformFile.path!)).toList(); // Convert PlatformFile to File
+      return result.files
+          .map((platformFile) => File(platformFile.path!))
+          .toList(); // Convert PlatformFile to File
     } else {
       return null;
     }
@@ -100,7 +99,8 @@ class _GovernemntalPermittiveSPState extends State<GovernemntalPermittiveSP> {
       final yourApiSecret = 'txthSPtmmjuu8KiEuBxXhBP-2kA';
 
       // Set authorization header
-      final credentials = Base64Encoder().convert('$yourApiKey:$yourApiSecret'.codeUnits);
+      final credentials =
+          Base64Encoder().convert('$yourApiKey:$yourApiSecret'.codeUnits);
       req.headers['Authorization'] = 'Basic $credentials';
 
       // Add upload preset and file
@@ -147,7 +147,8 @@ class _GovernemntalPermittiveSPState extends State<GovernemntalPermittiveSP> {
           color: Color(0xFFF3D69B),
         ),
         title: Padding(
-          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/5),
+          padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width / 5),
           child: const Text(
             "Task Details",
             style: TextStyle(color: Color(0xFFF3D69B)),
@@ -163,22 +164,24 @@ class _GovernemntalPermittiveSPState extends State<GovernemntalPermittiveSP> {
             children: [
               TaskInformation(
                 taskID: approvalData['TaskID'] ?? 0,
-                taskName: approvalData['TaskName'] ?? 'Unknown',
+                taskName: 'Obtaining Approvals',
                 projectName: approvalData['ProjectName'] ?? 'Unknown',
                 taskStatus: approvalData['TaskStatus'] ?? 'Unknown',
               ),
               Information(
-                title: 'Required Documents for This Task', documentName: 'Design Documents:', document: approvalData['DesignDocument'],
+                title: 'Required Drawings for This Task',
+                documentName: 'Design Drawings:',
+                document: approvalData['DesignDocument']??'',
               ),
               TaskProviderInformation(
                 userPicture: approvalData['UserPicture'],
-                rating:
-                (approvalData['Rating'] as num?)?.toDouble() ?? 0.0,
+                rating: (approvalData['Rating'] as num?)?.toDouble() ?? 0.0,
                 numOfReviews: approvalData['ReviewCount'] ?? 0,
               ),
               Container(
-                margin: const EdgeInsets.only(top: 5 , bottom: 20),
-                padding: const EdgeInsets.symmetric(horizontal: 20 , vertical: 5),
+                margin: const EdgeInsets.only(top: 5),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
@@ -215,8 +218,7 @@ class _GovernemntalPermittiveSPState extends State<GovernemntalPermittiveSP> {
                             style: TextStyle(
                                 color: Color(0xFFF9FAFB),
                                 fontSize: 19,
-                                fontWeight: FontWeight.bold
-                            ),
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),
@@ -225,258 +227,321 @@ class _GovernemntalPermittiveSPState extends State<GovernemntalPermittiveSP> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Expanded(
-                                  flex: 1,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(left: 8 ,right: 8),
-                                    child: Text(
-                                      "Approvals Documents:",
-                                      style: TextStyle(
-                                          color: Color(0xFF2F4771),
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16
+                            Padding(
+                              padding: const EdgeInsets.only(top: 4.0),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Expanded(
+                                    flex: 1,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(
+                                        left: 0,
+                                        top: 14,
+                                      ),
+                                      child: Text(
+                                        "Approvals Document: ",
+                                        style: TextStyle(
+                                            color: Color(0xFF2F4771),
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500),
                                       ),
                                     ),
                                   ),
-                                ),
-                                GestureDetector(
-                                  onTap: () async {
-                                    await uploadFileToCloudinaryNew() ;
-                                  },
-                                  child: Container(
-                                    margin: const EdgeInsets.only(top: 5 , right: 5),
-                                    height: 35,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFF2F4771),
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    ),
-                                    child: const Row(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 8 , right: 8),
-                                          child: Icon(
-                                            Icons.upload_file_outlined,
-                                            size: 20,
-                                            color: Color(0xFFF9FAFB),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(right: 12.0),
-                                          child: Text(
-                                            "Upload",
-                                            style: TextStyle(
+                                  GestureDetector(
+                                    onTap: () async {
+                                      await uploadFileToCloudinaryNew();
+                                    },
+                                    child: Container(
+                                      margin: const EdgeInsets.only(
+                                          top: 5, right: 5),
+                                      height: 35,
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFF2F4771),
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                      ),
+                                      child: const Row(
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                left: 8, right: 4),
+                                            child: Icon(
+                                              Icons.upload_file_outlined,
+                                              size: 20,
                                               color: Color(0xFFF9FAFB),
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w400,
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: (){
-                                    if(fileURL != null){
-                                      Get.to(DocsPdfViewer(pdfFileURL: fileURL,)) ;
-                                    }
-                                    else{
-                                      Get.snackbar('Hi' ,
-                                          'There is no file to open' ,
-                                          colorText: Colors.white,
-                                          backgroundColor: Color(0xFF2F4771)) ;
-                                    }
-                                  },
-                                  child: Container(
-                                    margin: const EdgeInsets.only(top: 5 , right: 5),
-                                    height: 35,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFF2F4771),
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    ),
-                                    child: const Row(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 8 , right: 8),
-                                          child: Icon(
-                                            Icons.remove_red_eye,
-                                            size: 20,
-                                            color: Color(0xFFF9FAFB),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(right: 12.0),
-                                          child: Text(
-                                            "Open",
-                                            style: TextStyle(
-                                              color: Color(0xFFF9FAFB),
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w400,
+                                          Padding(
+                                            padding:
+                                                EdgeInsets.only(right: 12.0),
+                                            child: Text(
+                                              "Upload",
+                                              style: TextStyle(
+                                                color: Color(0xFFF9FAFB),
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w400,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.all(10),
-                              child: Text(
-                                "Your Notes: ",
-                                style: TextStyle(
-                                    color: Color(0xFF2F4771),
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400),
+                                  GestureDetector(
+                                    onTap: () {
+                                      if (fileURL != null) {
+                                        Get.to(DocsPdfViewer(
+                                          pdfFileURL: fileURL,
+                                        ));
+                                      } else {
+                                        Get.snackbar(
+                                            'Hi', 'There is no file to open',
+                                            colorText: Colors.white,
+                                            backgroundColor: Color(0xFF2F4771));
+                                      }
+                                    },
+                                    child: Container(
+                                      margin: const EdgeInsets.only(
+                                          top: 5, right: 5),
+                                      height: 35,
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFF2F4771),
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                      ),
+                                      child: const Row(
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                left: 8, right: 6),
+                                            child: Icon(
+                                              Icons.remove_red_eye,
+                                              size: 20,
+                                              color: Color(0xFFF9FAFB),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding:
+                                                EdgeInsets.only(right: 10.0),
+                                            child: Text(
+                                              "Open",
+                                              style: TextStyle(
+                                                color: Color(0xFFF9FAFB),
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                             Container(
-                              height: 140,
-                              padding: const EdgeInsets.symmetric(horizontal: 8),
-                              child: TextFormField(
-                                keyboardType: TextInputType.multiline,
-                                textInputAction: TextInputAction.newline,
-                                maxLines: null,
-                                minLines: 4,
-                                controller: _userNotes,
-                                style: TextStyle(color: Color(0xFF2F4771)),
-                                decoration: InputDecoration(
-                                  hintText: "Enter Notes here if any",
-                                  hintStyle: TextStyle(color: Color(0xFF2F4771)),
-                                  filled: true,
-                                  fillColor: Color(0xFFF9FAFB),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    borderSide: const BorderSide(
-                                      color: Color(0xFF2F4771),
+                              padding: EdgeInsets.only(bottom: 5),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Padding(
+                                    padding: EdgeInsets.all(10),
+                                    child: Text(
+                                      "Your Notes: ",
+                                      style: TextStyle(
+                                          color: Color(0xFF2F4771),
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w500),
                                     ),
                                   ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    borderSide: const BorderSide(
-                                      color: Color(0xFF2F4771),
-                                      width: 1.5,
+                                  Container(
+                                    height: 140,
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 8,
                                     ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    margin: EdgeInsets.symmetric(horizontal: 8),
-                                    decoration: const BoxDecoration(
-                                      color: Color(0xFF2F4771),
-                                      borderRadius:
-                                      BorderRadius.all(Radius.circular(30.0)),
-                                    ),
-                                    child: TextButton(
-                                      onPressed: () async {
-                                        await ServiceProviderGetTasksAPI
-                                            .setTask5Data(
-                                          taskID,
-                                          taskProjectId,
-                                          fileURL,
-                                          _userNotes.text,
-                                          'Update Data',
-                                        );
-                                      },
-                                      child: const Text(
-                                        'Save',
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          color: Color(0xFFF9FAFB),
+                                    child: TextFormField(
+                                      maxLines: 5,
+                                      minLines: 5,
+                                      controller: _userNotes,
+                                      style:
+                                          TextStyle(color: Color(0xFF2F4771)),
+                                      decoration: InputDecoration(
+                                        hintText: "Enter Notes here if any",
+                                        hintStyle:
+                                            TextStyle(color: Color(0xFF2F4771)),
+                                        filled: true,
+                                        fillColor: Color(0xFFF9FAFB),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          borderSide: const BorderSide(
+                                            color: Color(0xFF2F4771),
+                                          ),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          borderSide: const BorderSide(
+                                            color: Color(0xFF2F4771),
+                                            width: 1.5,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                if(isSubmitVisible)
-                                  Expanded(
-                                    child: Container(
-                                        margin: EdgeInsets.symmetric(horizontal: 8),
-                                        decoration: const BoxDecoration(
-                                          color: Color(0xFF2F4771),
-                                          borderRadius:
-                                          BorderRadius.all(Radius.circular(30.0)),
-                                        ),
-                                        child: TextButton(
-                                          onPressed: () {
-                                            showDialog(
-                                              context: context,
-                                              builder: (BuildContext context) {
-                                                return AlertDialog(
-                                                  backgroundColor: Colors.white,
-                                                  title: const Text("Complete Task"),
-                                                  content: const Text("By clicking OK, you will mark the task as complete."),
-                                                  actions: [
-                                                    TextButton(
-                                                      style: TextButton.styleFrom(
-                                                        backgroundColor: Color(0xFFF3D69B), // Set background color to yellow
-                                                      ),
-                                                      onPressed: () async {
-                                                        if (areFieldsValid(fileURL, _userNotes.text)) {
-                                                          String message = await ServiceProviderGetTasksAPI.setTask5Data(
-                                                              taskID,
-                                                              taskProjectId,
-                                                              fileURL,
-                                                              _userNotes.text,
-                                                              'Submit'
-                                                          );
-                                                          setState(() {
-                                                            approvalData['TaskStatus'] = 'Completed' ;
-                                                            isSubmitVisible = false ;
-                                                          });
-                                                          Navigator.pop(context); // Close the dialog
-                                                        } else {
-                                                          CustomAlertDialog.showErrorDialog(context, 'Please fill in all the required fields.');
-                                                          Navigator.pop(context); // Close the dialog
-                                                        }
-                                                      },
-                                                      child: const Text("OK" , style: TextStyle(
-                                                          color: Color(0xFF2F4771),
-                                                          fontSize: 15
-                                                      ),),
-                                                    ),
-                                                    TextButton(
-                                                      style: TextButton.styleFrom(
-                                                        backgroundColor: Color(0xFFF3D69B), // Set background color to yellow
-                                                      ),
-                                                      onPressed: () {
-                                                        Navigator.pop(context); // Close the dialog
-                                                      },
-                                                      child: const Text("Cancel" , style: TextStyle(
-                                                          color: Color(0xFF2F4771),
-                                                          fontSize: 15
-                                                      ),),
-                                                    ),
-                                                  ],
-                                                );
-                                              },
-                                            );
-                                          },
-                                          child: const Text(
-                                            'Mark as Done',
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              color: Color(0xFFF9FAFB),
+                                  const SizedBox(height: 5.0),
+
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Expanded(
+                                        child: Container(
+                                          margin: EdgeInsets.symmetric(
+                                              horizontal: 8),
+                                          decoration: const BoxDecoration(
+                                            color: Color(0xFF2F4771),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(30.0)),
+                                          ),
+                                          child: TextButton(
+                                            onPressed: () async {
+                                              await ServiceProviderGetTasksAPI
+                                                  .setTask5Data(
+                                                taskID,
+                                                taskProjectId,
+                                                fileURL,
+                                                _userNotes.text,
+                                                'Update Data',
+                                              );
+                                            },
+                                            child: const Text(
+                                              'Save',
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                color: Color(0xFFF9FAFB),
+                                              ),
                                             ),
                                           ),
-                                        )
-                                    ),
+                                        ),
+                                      ),
+                                      if (isSubmitVisible)
+                                        Expanded(
+                                          child: Container(
+                                              margin: EdgeInsets.symmetric(
+                                                  horizontal: 8),
+                                              decoration: const BoxDecoration(
+                                                color: Color(0xFF2F4771),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(30.0)),
+                                              ),
+                                              child: TextButton(
+                                                onPressed: () {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder:
+                                                        (BuildContext context) {
+                                                      return AlertDialog(
+                                                        backgroundColor:
+                                                            Colors.white,
+                                                        title: const Text(
+                                                            "Complete Task"),
+                                                        content: const Text(
+                                                            "By clicking OK, you will mark the task as complete."),
+                                                        actions: [
+                                                          TextButton(
+                                                            style: TextButton
+                                                                .styleFrom(
+                                                              backgroundColor:
+                                                                  Color(
+                                                                      0xFFF3D69B), // Set background color to yellow
+                                                            ),
+                                                            onPressed:
+                                                                () async {
+                                                              if (areFieldsValid(
+                                                                  fileURL,
+                                                                  _userNotes
+                                                                      .text)) {
+                                                                String message =
+                                                                    await ServiceProviderGetTasksAPI.setTask5Data(
+                                                                        taskID,
+                                                                        taskProjectId,
+                                                                        fileURL,
+                                                                        _userNotes
+                                                                            .text,
+                                                                        'Submit');
+                                                                setState(() {
+                                                                  approvalData[
+                                                                          'TaskStatus'] =
+                                                                      'Completed';
+                                                                  isSubmitVisible =
+                                                                      false;
+                                                                });
+                                                                Navigator.pop(
+                                                                    context); // Close the dialog
+                                                              } else {
+                                                                CustomAlertDialog
+                                                                    .showErrorDialog(
+                                                                        context,
+                                                                        'Please fill in all the required fields.');
+                                                                Navigator.pop(
+                                                                    context); // Close the dialog
+                                                              }
+                                                            },
+                                                            child: const Text(
+                                                              "OK",
+                                                              style: TextStyle(
+                                                                  color: Color(
+                                                                      0xFF2F4771),
+                                                                  fontSize: 15),
+                                                            ),
+                                                          ),
+                                                          TextButton(
+                                                            style: TextButton
+                                                                .styleFrom(
+                                                              backgroundColor:
+                                                                  Color(
+                                                                      0xFFF3D69B), // Set background color to yellow
+                                                            ),
+                                                            onPressed: () {
+                                                              Navigator.pop(
+                                                                  context); // Close the dialog
+                                                            },
+                                                            child: const Text(
+                                                              "Cancel",
+                                                              style: TextStyle(
+                                                                  color: Color(
+                                                                      0xFF2F4771),
+                                                                  fontSize: 15),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      );
+                                                    },
+                                                  );
+                                                },
+                                                child: const Text(
+                                                  'Mark as Done',
+                                                  style: TextStyle(
+                                                    fontSize: 18,
+                                                    color: Color(0xFFF9FAFB),
+                                                  ),
+                                                ),
+                                              )),
+                                        ),
+                                    ],
                                   ),
-                              ],
-                            ),
+                                ],
+                              ),
+                            )
                           ],
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),

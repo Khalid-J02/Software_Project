@@ -6,8 +6,6 @@ import 'package:get/get.dart' ;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
-
-
 class Information extends StatefulWidget {
   String title;
   String documentName;
@@ -54,7 +52,7 @@ class _TaskInformationState extends State<Information> {
         child: Column(
           children: [
             Container(
-              height: MediaQuery.of(context).size.height / 17,
+              padding: EdgeInsets.symmetric(vertical: 14),
               decoration: BoxDecoration(
                 color: Color(0xFF6781A6),
                 borderRadius: const BorderRadius.only(
@@ -72,14 +70,14 @@ class _TaskInformationState extends State<Information> {
                 child: Text(
                   widget.title,
                   style: const TextStyle(
-                      color: Color(0xFFF9FAFB),
-                      fontSize: 16,
+                      color: Color(0xFFFFFFFF),
+                      fontSize: 19,
                       fontWeight: FontWeight.bold),
                 ),
               ),
             ),
             Container(
-              padding: EdgeInsets.only(bottom: 8),
+              padding: EdgeInsets.only(bottom: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -91,18 +89,72 @@ class _TaskInformationState extends State<Information> {
                       children: [
                         Expanded(
                           child: Padding(
-                            padding: EdgeInsets.all(12),
+                            padding: EdgeInsets.all(10),
                             child: Text(
                               widget.documentName,
                               style: TextStyle(
                                   color: Color(0xFF2F4771),
                                   fontSize: 16,
-                                  fontWeight: FontWeight.w400),
+                                  fontWeight: FontWeight.w500),
                             ),
                           ),
                         ),
                         Row(
                           children: [
+                            _progress != null
+                                ? const CircularProgressIndicator()
+                                :
+                            GestureDetector(
+                              onTap: (){
+                                if(widget.document != null){
+                                  FileDownloader.downloadFile(
+                                    url: widget.document,
+                                    onProgress: (name, progress) {
+                                      setState(() {
+                                        _progress = _progress;
+                                      });
+                                    },
+                                    onDownloadCompleted: (value) {
+                                      setState(() {
+                                        _progress = null;
+                                      });
+                                    },
+                                  );
+                                }
+                                else{
+                                  Get.snackbar('Hi' , 'There is no file to download') ;
+                                }
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.only(top: 5, right: 4),
+                                height: 35,
+                                width: 95,
+                                decoration: BoxDecoration(
+                                  color: Color(0xFF2F4771),
+                                  borderRadius: BorderRadius.circular(20.0),
+                                ),
+                                child: const Row(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          top: 6.0, left: 4, bottom: 8, right: 1),
+                                      child: Icon(
+                                        Icons.sim_card_download_outlined,
+                                        size: 20,
+                                        color: Color(0xFFF9FAFB),
+                                      ),
+                                    ),
+                                    Text(
+                                      "Download",
+                                      style: TextStyle(
+                                          color: Color(0xFFF9FAFB),
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 14),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                             GestureDetector(
                               onTap: (){
                                 if(widget.document != null){
@@ -130,7 +182,7 @@ class _TaskInformationState extends State<Information> {
                                   children: [
                                     Padding(
                                       padding: EdgeInsets.only(
-                                          top: 8.0, left: 8, bottom: 8, right: 4),
+                                          top: 6.0, left: 8, bottom: 6, right: 4),
                                       child: Icon(
                                         Icons.file_open_outlined,
                                         size: 20,
@@ -148,65 +200,12 @@ class _TaskInformationState extends State<Information> {
                                 ),
                               ),
                             ),
-                            _progress != null
-                                ? const CircularProgressIndicator()
-                                :
-                            GestureDetector(
-                              onTap: (){
-                                if(widget.document != null){
-                                  FileDownloader.downloadFile(
-                                    url: widget.document,
-                                    onProgress: (name, progress) {
-                                      setState(() {
-                                        _progress = _progress;
-                                      });
-                                    },
-                                    onDownloadCompleted: (value) {
-                                      setState(() {
-                                        _progress = null;
-                                      });
-                                    },
-                                  );
-                                }
-                                else{
-                                  Get.snackbar('Hi' , 'There is no file to download') ;
-                                }
-                              },
-                              child: Container(
-                                margin: const EdgeInsets.only(top: 5, right: 12),
-                                height: 35,
-                                width: 100,
-                                decoration: BoxDecoration(
-                                  color: Color(0xFF2F4771),
-                                  borderRadius: BorderRadius.circular(20.0),
-                                ),
-                                child: const Row(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          top: 8.0, left: 8, bottom: 8, right: 4),
-                                      child: Icon(
-                                        Icons.sim_card_download_outlined,
-                                        size: 20,
-                                        color: Color(0xFFF9FAFB),
-                                      ),
-                                    ),
-                                    Text(
-                                      "Download",
-                                      style: TextStyle(
-                                          color: Color(0xFFF9FAFB),
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 14),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
                           ],
                         ),
                       ],
                     ),
                   ),
+                  const SizedBox(height: 5.0),
                 ],
               ),
             )

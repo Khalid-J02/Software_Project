@@ -82,15 +82,11 @@ class _InsulationInstallSPState extends State<InsulationInstallSP> {
             children: [
               TaskInformation(
                 taskID: hvacData['TaskID'] ?? 0,
-                taskName: hvacData['TaskName'] ?? 'Unknown',
+                taskName: 'Insulation Work',
                 projectName: hvacData['ProjectName'] ?? 'Unknown',
                 taskStatus: hvacData['TaskStatus'] ?? 'Unknown',
               ),
-              Information(
-                title: 'Required Documents for This Task',
-                documentName: 'Insulation & HVAC Document:',
-                document: hvacData['InsulationAndHVACDocument'],
-              ),
+
               TaskProviderInformation(
                 userPicture: hvacData['UserPicture'],
                 rating: (hvacData['Rating'] as num?)?.toDouble() ?? 0.0,
@@ -99,7 +95,7 @@ class _InsulationInstallSPState extends State<InsulationInstallSP> {
               Container(
                 margin: const EdgeInsets.only(top: 5),
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
@@ -142,12 +138,12 @@ class _InsulationInstallSPState extends State<InsulationInstallSP> {
                       ),
                       const SizedBox(height: 10.0),
                       Container(
-                        padding: const EdgeInsets.all(10),
+                        padding: EdgeInsets.only(bottom: 5),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              padding: const EdgeInsets.all(10),
+                              padding: EdgeInsets.only(bottom: 5, left:8, right:8),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -157,19 +153,18 @@ class _InsulationInstallSPState extends State<InsulationInstallSP> {
                                       "Your Notes: ",
                                       style: TextStyle(
                                           color: Color(0xFF2F4771),
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400),
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w500),
                                     ),
                                   ),
                                   Container(
                                     height: 140,
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 8),
+                                      horizontal: 8,
+                                    ),
                                     child: TextFormField(
-                                      keyboardType: TextInputType.multiline,
-                                      textInputAction: TextInputAction.newline,
-                                      maxLines: null,
-                                      minLines: 4,
+                                      maxLines: 5,
+                                      minLines: 5,
                                       controller: _userNotes,
                                       style:
                                           TextStyle(color: Color(0xFF2F4771)),
@@ -197,17 +192,21 @@ class _InsulationInstallSPState extends State<InsulationInstallSP> {
                                       ),
                                     ),
                                   ),
+                                  const SizedBox(height: 5.0),
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.center,
                                     children: [
                                       Expanded(
                                         child: Container(
-                                          margin: EdgeInsets.symmetric(horizontal: 8),
+                                          margin: EdgeInsets.symmetric(
+                                              horizontal: 8),
                                           decoration: const BoxDecoration(
                                             color: Color(0xFF2F4771),
-                                            borderRadius:
-                                            BorderRadius.all(Radius.circular(30.0)),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(30.0)),
                                           ),
                                           child: TextButton(
                                             onPressed: () async {
