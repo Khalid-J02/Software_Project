@@ -209,6 +209,7 @@ class _PlumbingInstallSPState extends State<PlumbingInstallSP> {
                                           taskID,
                                           _userNotes.text,
                                           'Update Data',
+                                          taskProjectId,
                                         );
                                       },
                                       child: const Text(
@@ -249,7 +250,8 @@ class _PlumbingInstallSPState extends State<PlumbingInstallSP> {
                                                           String message = await ServiceProviderGetTasksAPI.setTask6Data(
                                                               taskID,
                                                               _userNotes.text,
-                                                              'Submit'
+                                                              'Submit',
+                                                              taskProjectId,
                                                           );
                                                           setState(() {
                                                             plumbingData['TaskStatus'] = 'Completed' ;

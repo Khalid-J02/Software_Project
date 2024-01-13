@@ -347,6 +347,7 @@ class _WindowInstallationSPState extends State<WindowInstallationSP> {
                                           taskID,
                                           _userNotes.text,
                                           'Update Data',
+                                          taskProjectId,
                                         );
                                       },
                                       child: const Text(
@@ -387,7 +388,8 @@ class _WindowInstallationSPState extends State<WindowInstallationSP> {
                                                           String message = await ServiceProviderGetTasksAPI.setTask6Data(
                                                               taskID,
                                                               _userNotes.text,
-                                                              'Submit'
+                                                              'Submit',
+                                                            taskProjectId,
                                                           );
                                                           setState(() {
                                                             windowData['TaskStatus'] = 'Completed' ;

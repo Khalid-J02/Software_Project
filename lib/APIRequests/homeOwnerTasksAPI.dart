@@ -116,7 +116,6 @@ class HomeOwnerTasksAPI {
           'Authorization': '${dotenv.env['token']}',
         },
       );
-
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         return data;
@@ -398,4 +397,163 @@ class HomeOwnerTasksAPI {
     }
   } //I used it from task6 to task 15
 
+  //-------------------------------------------------------------------------------------------//
+
+  static Future<Map<String, dynamic>> saveProjectInfoDoors(String projectId, int? bedroomDoor, int? bathroomDoor, int? livingroomDoor, int?guestroomDoor) async {
+    try {
+      final Map<String, dynamic> requestBody = {
+        'bedroomDoor': bedroomDoor,
+        'bathroomDoor': bathroomDoor,
+        'livingroomDoor': livingroomDoor,
+        'guestroomDoor': guestroomDoor,
+      };
+
+      final response = await http.post(
+        Uri.parse('$baseUrl/homeowner/saveProjectInfoDoors/$projectId'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': '${dotenv.env['token']}',
+        },
+        body: jsonEncode(requestBody),
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        return data;
+      } else {
+        throw http.ClientException(
+          'Failed to load saveProjectInfoDoors \nStatus code: ${response.statusCode}',
+          Uri.parse('$baseUrl/homeowner/saveProjectInfoDoors/$projectId'),
+        );
+      }
+    } catch (e) {
+      print('Exception during saveProjectInfoDoors API call: $e');
+      rethrow;
+    }
+  }
+
+  static Future<Map<String, dynamic>> saveProjectInfoTiles(String projectId, int? bathroomTile, int? houseTile) async {
+    try {
+      final Map<String, dynamic> requestBody = {
+        'bathroomTile': bathroomTile,
+        'houseTile': houseTile,
+      };
+
+      final response = await http.post(
+        Uri.parse('$baseUrl/homeowner/saveProjectInfoTiles/$projectId'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': '${dotenv.env['token']}',
+        },
+        body: jsonEncode(requestBody),
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        return data;
+      } else {
+        throw http.ClientException(
+          'Failed to load saveProjectInfoTiles \nStatus code: ${response.statusCode}',
+          Uri.parse('$baseUrl/homeowner/saveProjectInfoTiles/$projectId'),
+        );
+      }
+    } catch (e) {
+      print('Exception during saveProjectInfoTiles API call: $e');
+      rethrow;
+    }
+  }
+
+  static Future<Map<String, dynamic>> saveProjectInfoWindowDesign(String projectId, int? windowDesign) async {
+    try {
+      final Map<String, dynamic> requestBody = {
+        'windowDesign': windowDesign,
+      };
+
+      final response = await http.post(
+        Uri.parse('$baseUrl/homeowner/saveProjectInfoWindowDesign/$projectId'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': '${dotenv.env['token']}',
+        },
+        body: jsonEncode(requestBody),
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        return data;
+      } else {
+        throw http.ClientException(
+          'Failed to load saveProjectInfoWindowDesign \nStatus code: ${response.statusCode}',
+          Uri.parse('$baseUrl/homeowner/saveProjectInfoWindowDesign/$projectId'),
+        );
+      }
+    } catch (e) {
+      print('Exception during saveProjectInfoWindowDesign API call: $e');
+      rethrow;
+    }
+  }
+
+  static Future<Map<String, dynamic>> saveProjectInfoDoorDesign(String projectId, int? doorDesign) async {
+    try {
+      final Map<String, dynamic> requestBody = {
+        'doorDesign': doorDesign,
+      };
+
+      final response = await http.post(
+        Uri.parse('$baseUrl/homeowner/saveProjectInfoDoorDesign/$projectId'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': '${dotenv.env['token']}',
+        },
+        body: jsonEncode(requestBody),
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        return data;
+      } else {
+        throw http.ClientException(
+          'Failed to load saveProjectInfoDoorDesign \nStatus code: ${response.statusCode}',
+          Uri.parse('$baseUrl/homeowner/saveProjectInfoDoorDesign/$projectId'),
+        );
+      }
+    } catch (e) {
+      print('Exception during saveProjectInfoDoorDesign API call: $e');
+      rethrow;
+    }
+  }
+
+  static Future<Map<String, dynamic>> saveProjectInfoPaints(String projectId, int? bedroomPaint, int? bathroomPaint, int? livingroomPaint, int? guestroomPaint, int? kitchenPaint) async {
+    try {
+      final Map<String, dynamic> requestBody = {
+        'bedroomPaint': bedroomPaint,
+        'bathroomPaint': bathroomPaint,
+        'livingroomPaint': livingroomPaint,
+        'guestroomPaint': guestroomPaint,
+        'kitchenPaint': kitchenPaint,
+      };
+
+      final response = await http.post(
+        Uri.parse('$baseUrl/homeowner/saveProjectInfoPaints/$projectId'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': '${dotenv.env['token']}',
+        },
+        body: jsonEncode(requestBody),
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        return data;
+      } else {
+        throw http.ClientException(
+          'Failed to load saveProjectInfoPaints \nStatus code: ${response.statusCode}',
+          Uri.parse('$baseUrl/homeowner/saveProjectInfoPaints/$projectId'),
+        );
+      }
+    } catch (e) {
+      print('Exception during saveProjectInfoPaints API call: $e');
+      rethrow;
+    }
+  }
 }

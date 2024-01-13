@@ -1,5 +1,6 @@
 import 'package:buildnex/Widgets/forgotPasswordCode.dart';
 import 'package:buildnex/Widgets/resetPassword.dart';
+import 'package:buildnex/screens/MSG_System/listChatScreen.dart';
 import 'package:buildnex/screens/continueRegister_HO.dart';
 import 'package:buildnex/screens/continueRegister_SP.dart';
 import 'package:buildnex/screens/forgot_Password.dart';
@@ -10,6 +11,7 @@ import 'package:buildnex/screens/login.dart';
 import 'package:buildnex/screens/projectDesc_HO.dart';
 import 'package:buildnex/screens/projectNav_homeOwner.dart';
 import 'package:buildnex/screens/register.dart';
+import 'package:buildnex/screens/taskReview_HO.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:buildnex/screens/welcomePage.dart';
@@ -84,6 +86,7 @@ class MyApp extends StatelessWidget {
         '/HomePage/HomeOwner':(context) => NavBarHomeOwner(),
         '/HomePage/HomeOwner/ProjectPage':(context) => ProjectNavBar(),
         '/HomePage/ServiceProvider':(context) => NavBarServiceProvider(),
+        '/HomeOwner/AddReview':(context) =>  TaskReviewHO(),
 
         '/ServiceProviderTasks/Task1':(context) => SpPropertySurvey(),
         '/ServiceProviderTasks/Task2':(context) => LocalGovernoratePermitsSP(),

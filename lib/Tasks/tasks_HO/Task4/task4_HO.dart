@@ -20,11 +20,9 @@ class DesignAndPlanningHO extends StatefulWidget {
 }
 
 class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
-
-  final _numRooms = TextEditingController() ;
-  final _numFloors = TextEditingController() ;
-  final _buildingArea = TextEditingController() ;
-
+  final _numRooms = TextEditingController();
+  final _numFloors = TextEditingController();
+  final _buildingArea = TextEditingController();
 
   Map<String, dynamic> task4Data = {};
   String taskID = '';
@@ -37,9 +35,9 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
   int? numRooms;
   int? numFloors;
   double? buildingArea;
-  double? _progress ;
+  double? _progress;
 
-  late Map<String, dynamic> getbuildingData ;
+  late Map<String, dynamic> getbuildingData;
 
   @override
   void initState() {
@@ -48,8 +46,8 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
     setState(() {
       taskID = arguments['taskID'];
       taskProjectId = arguments['taskProjectId'];
-      task4Data = arguments['DesignData'] ;
-      getbuildingData  = arguments['buildingData'] ;
+      task4Data = arguments['DesignData'];
+      getbuildingData = arguments['buildingData'];
     });
     fetchArgumentsAndData();
   }
@@ -69,16 +67,15 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
             ? double.tryParse(getbuildingData['BuildingArea'].toString())
             : null;
 
-        if(numRooms != null) {
+        if (numRooms != null) {
           _numRooms.text = numRooms.toString();
         }
-        if(numFloors != null) {
+        if (numFloors != null) {
           _numFloors.text = numFloors.toString();
         }
-        if(buildingArea != null) {
+        if (buildingArea != null) {
           _buildingArea.text = buildingArea.toString();
         }
-
       });
     } catch (e) {
       print('Error fetching task4 data: $e');
@@ -87,31 +84,29 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
 
   Future<bool> validateInput() async {
     // Check if the number of rooms is not empty and greater than 0
-    if ( _numRooms.text.isEmpty || int.tryParse(_numRooms.text)! <= 0) {
+    if (_numRooms.text.isEmpty || int.tryParse(_numRooms.text)! <= 0) {
       print(_numRooms.text);
-      CustomAlertDialog.showErrorDialog(
-          context, 'Invalid number of rooms');
+      CustomAlertDialog.showErrorDialog(context, 'Invalid number of rooms');
       return false;
     }
 
     // Check if the number of floors is not empty and greater than 0
     if (_numFloors.text.isEmpty || int.tryParse(_numFloors.text)! <= 0) {
-      CustomAlertDialog.showErrorDialog(
-          context, 'Invalid number of floors');
+      CustomAlertDialog.showErrorDialog(context, 'Invalid number of floors');
       return false;
     }
 
     // Check if the building area is not empty and greater than 0
-    if ( _buildingArea.text.isEmpty || double.tryParse(_buildingArea.text)! <= 0.0) {
-      CustomAlertDialog.showErrorDialog(
-          context, 'Invalid building area');
+    if (_buildingArea.text.isEmpty ||
+        double.tryParse(_buildingArea.text)! <= 0.0) {
+      CustomAlertDialog.showErrorDialog(context, 'Invalid building area');
       return false;
     }
 
     return true;
   }
 
-  void downloadFile(String _docs){
+  void downloadFile(String _docs) {
     FileDownloader.downloadFile(
       url: _docs,
       onProgress: (name, progress) {
@@ -137,7 +132,8 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
           color: Color(0xFFF3D69B),
         ),
         title: Padding(
-          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/5),
+          padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width / 5),
           child: const Text(
             "Task Details",
             style: TextStyle(color: Color(0xFFF3D69B)),
@@ -151,11 +147,24 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
           padding: const EdgeInsets.only(top: 10),
           child: Column(
             children: [
-              TaskInformation(taskID: task4Data['TaskID']?? 0, taskName: task4Data['TaskName']?? 'Unknown', projectName: task4Data['ProjectName']?? 'Unknown', taskStatus: task4Data['TaskStatus']?? 'Unknown',),
-              SPProfileData(userPicture: task4Data['UserPicture']?? 'images/profilePic96.png', rating: (task4Data['Rating'] as num?)?.toDouble() ?? 0.0, numReviews: task4Data['ReviewCount']?? 0, userName:task4Data['Username']?? 'Unknown',),
+              TaskInformation(
+                taskID: task4Data['TaskID'] ?? 0,
+                taskName: task4Data['TaskName'] ?? 'Unknown',
+                projectName: task4Data['ProjectName'] ?? 'Unknown',
+                taskStatus: task4Data['TaskStatus'] ?? 'Unknown',
+              ),
+              SPProfileData(
+                userPicture:
+                    task4Data['UserPicture'] ?? 'images/profilePic96.png',
+                rating: (task4Data['Rating'] as num?)?.toDouble() ?? 0.0,
+                numReviews: task4Data['ReviewCount'] ?? 0,
+                userName: task4Data['Username'] ?? 'Unknown',
+                taskId: taskID,
+              ),
               Container(
                 margin: const EdgeInsets.only(top: 5),
-                padding: const EdgeInsets.symmetric(horizontal: 20 , vertical: 5),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
@@ -192,14 +201,13 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                             style: TextStyle(
                                 color: Color(0xFFF9FAFB),
                                 fontSize: 19,
-                                fontWeight: FontWeight.bold
-                            ),
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),
                       const SizedBox(height: 10.0),
                       Container(
-                        padding: const EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(7),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -208,90 +216,114 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                                 const Expanded(
                                   flex: 1,
                                   child: Padding(
-                                    padding: EdgeInsets.only(left: 8 ,right: 8),
+                                    padding: EdgeInsets.only(left: 8, right: 8),
                                     child: Text(
                                       "Enter Num. of Rooms:",
                                       style: TextStyle(
                                           color: Color(0xFF2F4771),
                                           fontWeight: FontWeight.w500,
-                                          fontSize: 16
-                                      ),
+                                          fontSize: 16),
                                     ),
                                   ),
                                 ),
                                 Expanded(
                                   flex: 1,
-                                  child: TextfieldTasks(controller: _numRooms,
-                                    hintText: 'Enter # of Rooms', labelText: 'Rooms Number',),
+                                  child: TextfieldTasks(
+                                    controller: _numRooms,
+                                    hintText: 'Enter # of Rooms',
+                                    labelText: 'Rooms Number',
+                                  ),
                                 ),
                               ],
                             ),
-                            const SizedBox( height: 10,),
+                            const SizedBox(
+                              height: 10,
+                            ),
                             Row(
                               children: [
                                 const Expanded(
                                   flex: 1,
                                   child: Padding(
-                                    padding: EdgeInsets.only(left: 8 ,right: 8),
+                                    padding: EdgeInsets.only(left: 8, right: 8),
                                     child: Text(
                                       "Enter Num. of Floors:",
                                       style: TextStyle(
                                           color: Color(0xFF2F4771),
                                           fontWeight: FontWeight.w500,
-                                          fontSize: 16
-                                      ),
+                                          fontSize: 16),
                                     ),
                                   ),
                                 ),
                                 Expanded(
                                   flex: 1,
-                                  child: TextfieldTasks(controller: _numFloors,
-                                    hintText: 'Enter # of Rooms', labelText: 'Floors Number',),
+                                  child: TextfieldTasks(
+                                    controller: _numFloors,
+                                    hintText: 'Enter # of Rooms',
+                                    labelText: 'Floors Number',
+                                  ),
                                 ),
                               ],
                             ),
-                            const SizedBox( height: 10,),
+                            const SizedBox(
+                              height: 10,
+                            ),
                             Row(
                               children: [
                                 const Expanded(
                                   flex: 1,
                                   child: Padding(
-                                    padding: EdgeInsets.only(left: 8 ,right: 8),
+                                    padding: EdgeInsets.only(left: 8, right: 8),
                                     child: Text(
                                       "House Building Area:",
                                       style: TextStyle(
                                           color: Color(0xFF2F4771),
                                           fontWeight: FontWeight.w500,
-                                          fontSize: 16
-                                      ),
+                                          fontSize: 16),
                                     ),
                                   ),
                                 ),
                                 Expanded(
                                   flex: 1,
-                                  child: TextfieldTasks(controller: _buildingArea,
+                                  child: TextfieldTasks(
+                                    controller: _buildingArea,
                                     hintText: 'Enter desired Building Area',
-                                    labelText: 'Building Area',),
+                                    labelText: 'Building Area',
+                                  ),
                                 ),
                               ],
                             ),
-                            const SizedBox( height: 15,),
+                            const SizedBox(
+                              height: 15,
+                            ),
                             Center(
                               child: Container(
                                 width: 250,
                                 margin: EdgeInsets.only(bottom: 12),
                                 decoration: const BoxDecoration(
                                   color: Color(0xFF2F4771),
-                                  borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(30.0)),
                                 ),
                                 child: TextButton(
                                   onPressed: () async {
                                     if (await validateInput()) {
-                                      final savedData = await HomeOwnerTasksAPI.saveBuildingData(int.parse(taskProjectId),int.tryParse(_numRooms.text),int.tryParse(_numFloors.text),double.tryParse(_buildingArea.text));
-                                      _numRooms.text = savedData['NumberOfRooms'].toString();
-                                      _numFloors.text = savedData['NumberOfFloors'].toString();
-                                      _buildingArea.text = savedData['BuildingArea'].toString();
-                                      CustomAlertDialog.showSuccessDialog(context, "Building data saved successfully");
+                                      final savedData = await HomeOwnerTasksAPI
+                                          .saveBuildingData(
+                                              int.parse(taskProjectId),
+                                              int.tryParse(_numRooms.text),
+                                              int.tryParse(_numFloors.text),
+                                              double.tryParse(
+                                                  _buildingArea.text));
+                                      _numRooms.text =
+                                          savedData['NumberOfRooms'].toString();
+                                      _numFloors.text =
+                                          savedData['NumberOfFloors']
+                                              .toString();
+                                      _buildingArea.text =
+                                          savedData['BuildingArea'].toString();
+                                      CustomAlertDialog.showSuccessDialog(
+                                          context,
+                                          "Building data saved successfully");
                                       return;
                                     }
                                   },
@@ -314,7 +346,8 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
               ),
               Container(
                 margin: const EdgeInsets.only(top: 5),
-                padding: const EdgeInsets.symmetric(horizontal: 20 , vertical: 5),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
@@ -347,16 +380,15 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                         ),
                         child: const Center(
                           child: Text(
-                            "Task Details",
+                            "Service Provider Details",
                             style: TextStyle(
                                 color: Color(0xFFF9FAFB),
                                 fontSize: 19,
-                                fontWeight: FontWeight.bold
-                            ),
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),
-                      const SizedBox(height: 10.0),
+                      const SizedBox(height: 5.0),
                       Container(
                         padding: const EdgeInsets.all(10),
                         child: Column(
@@ -368,77 +400,84 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                                 const Expanded(
                                   flex: 1,
                                   child: Padding(
-                                    padding: EdgeInsets.only(left: 8 ,right: 8),
+                                    padding: EdgeInsets.only(left: 8, right: 8),
                                     child: Text(
-                                      "Design Document:",
+                                      "Design Drawings:",
                                       style: TextStyle(
                                           color: Color(0xFF2F4771),
                                           fontWeight: FontWeight.w500,
-                                          fontSize: 16
-                                      ),
+                                          fontSize: 16),
                                     ),
                                   ),
                                 ),
                                 _progress != null
                                     ? const CircularProgressIndicator()
-                                    :
-                                GestureDetector(
-                                  onTap: (){
-                                    if(getbuildingData['DesignDocument'] != null){
-                                      downloadFile(getbuildingData['DesignDocument']) ;
-                                    }
-                                    else{
-                                      Get.snackbar('Hi' , 'There is no file to download') ;
-                                    }
-                                  },
-                                  child: Container(
-                                    margin: const EdgeInsets.only(top: 5 , right: 5),
-                                    height: 35,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFF2F4771),
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    ),
-                                    child: const Row(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 8 , right: 8),
-                                          child: Icon(
-                                            Icons.sim_card_download,
-                                            size: 20,
-                                            color: Color(0xFFF9FAFB),
+                                    : GestureDetector(
+                                        onTap: () {
+                                          if (getbuildingData[
+                                                  'DesignDocument'] !=
+                                              null) {
+                                            downloadFile(getbuildingData[
+                                                'DesignDocument']);
+                                          } else {
+                                            Get.snackbar('Hi',
+                                                'There is no file to download');
+                                          }
+                                        },
+                                        child: Container(
+                                          margin: const EdgeInsets.only(
+                                              top: 5, right: 5),
+                                          height: 35,
+                                          decoration: BoxDecoration(
+                                            color: const Color(0xFF2F4771),
+                                            borderRadius:
+                                                BorderRadius.circular(20.0),
+                                          ),
+                                          child: const Row(
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: 8, right: 8),
+                                                child: Icon(
+                                                  Icons.sim_card_download,
+                                                  size: 20,
+                                                  color: Color(0xFFF9FAFB),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    right: 12.0),
+                                                child: Text(
+                                                  "Download",
+                                                  style: TextStyle(
+                                                    color: Color(0xFFF9FAFB),
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                        Padding(
-                                          padding: EdgeInsets.only(right: 12.0),
-                                          child: Text(
-                                            "Download",
-                                            style: TextStyle(
-                                              color: Color(0xFFF9FAFB),
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
+                                      ),
                                 GestureDetector(
-                                  onTap: (){
-                                    if(getbuildingData['DesignDocument'] != null){
+                                  onTap: () {
+                                    if (getbuildingData['DesignDocument'] !=
+                                        null) {
                                       Get.to(DocsPdfViewer(
-                                        pdfFileURL: getbuildingData['DesignDocument'],
+                                        pdfFileURL:
+                                            getbuildingData['DesignDocument'],
                                       ));
-                                    }
-                                    else{
-                                      Get.snackbar('Hi' ,
-                                          'There is no file to open' ,
+                                    } else {
+                                      Get.snackbar(
+                                          'Hi', 'There is no file to open',
                                           colorText: Colors.white,
-                                          backgroundColor: Color(0xFF2F4771)) ;
+                                          backgroundColor: Color(0xFF2F4771));
                                     }
                                   },
                                   child: Container(
-                                    margin: const EdgeInsets.only(top: 5 , right: 5),
+                                    margin:
+                                        const EdgeInsets.only(top: 5, right: 5),
                                     height: 35,
                                     decoration: BoxDecoration(
                                       color: const Color(0xFF2F4771),
@@ -447,7 +486,8 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                                     child: const Row(
                                       children: [
                                         Padding(
-                                          padding: EdgeInsets.only(left: 8 , right: 8),
+                                          padding: EdgeInsets.only(
+                                              left: 8, right: 8),
                                           child: Icon(
                                             Icons.file_open_outlined,
                                             size: 20,
@@ -471,84 +511,93 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                                 ),
                               ],
                             ),
-                            const SizedBox( height: 10,),
+                            const SizedBox(
+                              height: 10,
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 const Expanded(
                                   flex: 1,
                                   child: Padding(
-                                    padding: EdgeInsets.only(left: 8 ,right: 8),
+                                    padding: EdgeInsets.only(left: 8, right: 8),
                                     child: Text(
-                                      "Foundation Document:",
+                                      "Architectural Drawings:", // Foundation became Architectural
                                       style: TextStyle(
                                           color: Color(0xFF2F4771),
                                           fontWeight: FontWeight.w500,
-                                          fontSize: 16
-                                      ),
+                                          fontSize: 16),
                                     ),
                                   ),
                                 ),
                                 _progress != null
                                     ? const CircularProgressIndicator()
-                                    :
-                                GestureDetector(
-                                  onTap: (){
-                                    if(getbuildingData['FoundationDocument'] != null){
-                                      downloadFile(getbuildingData['FoundationDocument']) ;
-                                    }
-                                    else{
-                                      Get.snackbar('Hi' , 'There is no file to download') ;
-                                    }
-                                  },
-                                  child: Container(
-                                    margin: const EdgeInsets.only(top: 5 , right: 5),
-                                    height: 35,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFF2F4771),
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    ),
-                                    child: const Row(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 8 , right: 8),
-                                          child: Icon(
-                                            Icons.sim_card_download,
-                                            size: 20,
-                                            color: Color(0xFFF9FAFB),
+                                    : GestureDetector(
+                                        onTap: () {
+                                          if (getbuildingData[
+                                                  'FoundationDocument'] !=
+                                              null) {
+                                            downloadFile(getbuildingData[
+                                                'FoundationDocument']);
+                                          } else {
+                                            Get.snackbar('Hi',
+                                                'There is no file to download');
+                                          }
+                                        },
+                                        child: Container(
+                                          margin: const EdgeInsets.only(
+                                              top: 5, right: 5),
+                                          height: 35,
+                                          decoration: BoxDecoration(
+                                            color: const Color(0xFF2F4771),
+                                            borderRadius:
+                                                BorderRadius.circular(20.0),
+                                          ),
+                                          child: const Row(
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: 8, right: 8),
+                                                child: Icon(
+                                                  Icons.sim_card_download,
+                                                  size: 20,
+                                                  color: Color(0xFFF9FAFB),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    right: 12.0),
+                                                child: Text(
+                                                  "Download",
+                                                  style: TextStyle(
+                                                    color: Color(0xFFF9FAFB),
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                        Padding(
-                                          padding: EdgeInsets.only(right: 12.0),
-                                          child: Text(
-                                            "Download",
-                                            style: TextStyle(
-                                              color: Color(0xFFF9FAFB),
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
+                                      ),
                                 GestureDetector(
-                                  onTap: (){
-                                    if(getbuildingData['FoundationDocument'] != null){
+                                  onTap: () {
+                                    if (getbuildingData['FoundationDocument'] !=
+                                        null) {
                                       Get.to(DocsPdfViewer(
-                                        pdfFileURL: getbuildingData['FoundationDocument'],
+                                        pdfFileURL: getbuildingData[
+                                            'FoundationDocument'],
                                       ));
-                                    }
-                                    else{
-                                      Get.snackbar('Hi' ,
-                                          'There is no file to open' ,
+                                    } else {
+                                      Get.snackbar(
+                                          'Hi', 'There is no file to open',
                                           colorText: Colors.white,
-                                          backgroundColor: Color(0xFF2F4771)) ;
+                                          backgroundColor: Color(0xFF2F4771));
                                     }
                                   },
                                   child: Container(
-                                    margin: const EdgeInsets.only(top: 5 , right: 5),
+                                    margin:
+                                        const EdgeInsets.only(top: 5, right: 5),
                                     height: 35,
                                     decoration: BoxDecoration(
                                       color: const Color(0xFF2F4771),
@@ -557,7 +606,8 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                                     child: const Row(
                                       children: [
                                         Padding(
-                                          padding: EdgeInsets.only(left: 8 , right: 8),
+                                          padding: EdgeInsets.only(
+                                              left: 8, right: 8),
                                           child: Icon(
                                             Icons.file_open_outlined,
                                             size: 20,
@@ -581,84 +631,94 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                                 ),
                               ],
                             ),
-                            const SizedBox( height: 10,),
+                            const SizedBox(
+                              height: 10,
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 const Expanded(
                                   flex: 1,
                                   child: Padding(
-                                    padding: EdgeInsets.only(left: 8 ,right: 8),
+                                    padding: EdgeInsets.only(left: 8, right: 8),
                                     child: Text(
-                                      "Plumbing Document:",
+                                      "Civil     Drawings:", // Insulation became For Civil
                                       style: TextStyle(
                                           color: Color(0xFF2F4771),
                                           fontWeight: FontWeight.w500,
-                                          fontSize: 16
-                                      ),
+                                          fontSize: 16),
                                     ),
                                   ),
                                 ),
                                 _progress != null
                                     ? const CircularProgressIndicator()
-                                    :
-                                GestureDetector(
-                                  onTap: (){
-                                    if(getbuildingData['PlumbingDocument'] != null){
-                                      downloadFile(getbuildingData['PlumbingDocument']) ;
-                                    }
-                                    else{
-                                      Get.snackbar('Hi' , 'There is no file to download') ;
-                                    }
-                                  },
-                                  child: Container(
-                                    margin: const EdgeInsets.only(top: 5 , right: 5),
-                                    height: 35,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFF2F4771),
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    ),
-                                    child: const Row(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 8 , right: 8),
-                                          child: Icon(
-                                            Icons.sim_card_download,
-                                            size: 20,
-                                            color: Color(0xFFF9FAFB),
+                                    : GestureDetector(
+                                        onTap: () {
+                                          if (getbuildingData[
+                                                  'InsulationAndHVACDocument'] !=
+                                              null) {
+                                            downloadFile(getbuildingData[
+                                                'InsulationAndHVACDocument']);
+                                          } else {
+                                            Get.snackbar('Hi',
+                                                'There is no file to download');
+                                          }
+                                        },
+                                        child: Container(
+                                          margin: const EdgeInsets.only(
+                                              top: 5, right: 5),
+                                          height: 35,
+                                          decoration: BoxDecoration(
+                                            color: const Color(0xFF2F4771),
+                                            borderRadius:
+                                                BorderRadius.circular(20.0),
+                                          ),
+                                          child: const Row(
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: 8, right: 8),
+                                                child: Icon(
+                                                  Icons.sim_card_download,
+                                                  size: 20,
+                                                  color: Color(0xFFF9FAFB),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    right: 12.0),
+                                                child: Text(
+                                                  "Download",
+                                                  style: TextStyle(
+                                                    color: Color(0xFFF9FAFB),
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                        Padding(
-                                          padding: EdgeInsets.only(right: 12.0),
-                                          child: Text(
-                                            "Download",
-                                            style: TextStyle(
-                                              color: Color(0xFFF9FAFB),
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
+                                      ),
                                 GestureDetector(
-                                  onTap: (){
-                                    if(getbuildingData['PlumbingDocument'] != null){
+                                  onTap: () {
+                                    if (getbuildingData[
+                                            'InsulationAndHVACDocument'] !=
+                                        null) {
                                       Get.to(DocsPdfViewer(
-                                        pdfFileURL: getbuildingData['PlumbingDocument'],
+                                        pdfFileURL: getbuildingData[
+                                            'InsulationAndHVACDocument'],
                                       ));
-                                    }
-                                    else{
-                                      Get.snackbar('Hi' ,
-                                          'There is no file to open' ,
+                                    } else {
+                                      Get.snackbar(
+                                          'Hi', 'There is no file to open',
                                           colorText: Colors.white,
-                                          backgroundColor: Color(0xFF2F4771)) ;
+                                          backgroundColor: Color(0xFF2F4771));
                                     }
                                   },
                                   child: Container(
-                                    margin: const EdgeInsets.only(top: 5 , right: 5),
+                                    margin:
+                                        const EdgeInsets.only(top: 5, right: 5),
                                     height: 35,
                                     decoration: BoxDecoration(
                                       color: const Color(0xFF2F4771),
@@ -667,7 +727,8 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                                     child: const Row(
                                       children: [
                                         Padding(
-                                          padding: EdgeInsets.only(left: 8 , right: 8),
+                                          padding: EdgeInsets.only(
+                                              left: 8, right: 8),
                                           child: Icon(
                                             Icons.file_open_outlined,
                                             size: 20,
@@ -691,85 +752,93 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                                 ),
                               ],
                             ),
-                            const SizedBox( height: 10,),
+                            const SizedBox(
+                              height: 10,
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 const Expanded(
                                   flex: 1,
                                   child: Padding(
-                                    padding: EdgeInsets.only(left: 8 ,right: 8),
+                                    padding: EdgeInsets.only(left: 8, right: 8),
                                     child: Text(
-                                      "Electrical Document:",
+                                      "Mechanical Drawings:", // Plumbing became Mechanical
                                       style: TextStyle(
                                           color: Color(0xFF2F4771),
                                           fontWeight: FontWeight.w500,
-                                          fontSize: 16
-                                      ),
+                                          fontSize: 16),
                                     ),
                                   ),
                                 ),
                                 _progress != null
                                     ? const CircularProgressIndicator()
-                                    :
-                                GestureDetector(
-                                  onTap: (){
-                                    if(getbuildingData['ElectricalDocument'] != null){
-                                      downloadFile(getbuildingData['ElectricalDocument']) ;
-                                    }
-                                    else{
-                                      Get.snackbar('Hi' , 'There is no file to download') ;
-                                    }
-                                  },
-                                  child: Container(
-                                    margin: const EdgeInsets.only(top: 5 , right: 5),
-                                    height: 35,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFF2F4771),
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    ),
-                                    child: const Row(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 8 , right: 8),
-                                          child: Icon(
-                                            Icons.sim_card_download,
-                                            size: 20,
-                                            color: Color(0xFFF9FAFB),
+                                    : GestureDetector(
+                                        onTap: () {
+                                          if (getbuildingData[
+                                                  'PlumbingDocument'] !=
+                                              null) {
+                                            downloadFile(getbuildingData[
+                                                'PlumbingDocument']);
+                                          } else {
+                                            Get.snackbar('Hi',
+                                                'There is no file to download');
+                                          }
+                                        },
+                                        child: Container(
+                                          margin: const EdgeInsets.only(
+                                              top: 5, right: 5),
+                                          height: 35,
+                                          decoration: BoxDecoration(
+                                            color: const Color(0xFF2F4771),
+                                            borderRadius:
+                                                BorderRadius.circular(20.0),
+                                          ),
+                                          child: const Row(
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: 8, right: 8),
+                                                child: Icon(
+                                                  Icons.sim_card_download,
+                                                  size: 20,
+                                                  color: Color(0xFFF9FAFB),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    right: 12.0),
+                                                child: Text(
+                                                  "Download",
+                                                  style: TextStyle(
+                                                    color: Color(0xFFF9FAFB),
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                        Padding(
-                                          padding: EdgeInsets.only(right: 12.0),
-                                          child: Text(
-                                            "Download",
-                                            style: TextStyle(
-                                              color: Color(0xFFF9FAFB),
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
+                                      ),
                                 GestureDetector(
-                                  onTap: (){
-                                    if(getbuildingData['ElectricalDocument'] != null){
+                                  onTap: () {
+                                    if (getbuildingData['PlumbingDocument'] !=
+                                        null) {
                                       Get.to(DocsPdfViewer(
-                                        pdfFileURL: getbuildingData['ElectricalDocument'],
+                                        pdfFileURL:
+                                            getbuildingData['PlumbingDocument'],
                                       ));
-                                    }
-                                    else{
-                                      Get.snackbar('Hi' ,
-                                          'There is no file to open' ,
+                                    } else {
+                                      Get.snackbar(
+                                          'Hi', 'There is no file to open',
                                           colorText: Colors.white,
-                                          backgroundColor: Color(0xFF2F4771)) ;
+                                          backgroundColor: Color(0xFF2F4771));
                                     }
-
                                   },
                                   child: Container(
-                                    margin: const EdgeInsets.only(top: 5 , right: 5),
+                                    margin:
+                                        const EdgeInsets.only(top: 5, right: 5),
                                     height: 35,
                                     decoration: BoxDecoration(
                                       color: const Color(0xFF2F4771),
@@ -778,7 +847,8 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                                     child: const Row(
                                       children: [
                                         Padding(
-                                          padding: EdgeInsets.only(left: 8 , right: 8),
+                                          padding: EdgeInsets.only(
+                                              left: 8, right: 8),
                                           child: Icon(
                                             Icons.file_open_outlined,
                                             size: 20,
@@ -802,84 +872,93 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                                 ),
                               ],
                             ),
-                            const SizedBox( height: 10,),
+                            const SizedBox(
+                              height: 10,
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 const Expanded(
                                   flex: 1,
                                   child: Padding(
-                                    padding: EdgeInsets.only(left: 8 ,right: 8),
+                                    padding: EdgeInsets.only(left: 8, right: 8),
                                     child: Text(
-                                      "Insulation Document:",
+                                      "Electrical Drawings:",
                                       style: TextStyle(
                                           color: Color(0xFF2F4771),
                                           fontWeight: FontWeight.w500,
-                                          fontSize: 16
-                                      ),
+                                          fontSize: 16),
                                     ),
                                   ),
                                 ),
                                 _progress != null
                                     ? const CircularProgressIndicator()
-                                    :
-                                GestureDetector(
-                                  onTap: (){
-                                    if(getbuildingData['InsulationAndHVACDocument'] != null){
-                                      downloadFile(getbuildingData['InsulationAndHVACDocument']) ;
-                                    }
-                                    else{
-                                      Get.snackbar('Hi' , 'There is no file to download') ;
-                                    }
-                                  },
-                                  child: Container(
-                                    margin: const EdgeInsets.only(top: 5 , right: 5),
-                                    height: 35,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFF2F4771),
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    ),
-                                    child: const Row(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 8 , right: 8),
-                                          child: Icon(
-                                            Icons.sim_card_download,
-                                            size: 20,
-                                            color: Color(0xFFF9FAFB),
+                                    : GestureDetector(
+                                        onTap: () {
+                                          if (getbuildingData[
+                                                  'ElectricalDocument'] !=
+                                              null) {
+                                            downloadFile(getbuildingData[
+                                                'ElectricalDocument']);
+                                          } else {
+                                            Get.snackbar('Hi',
+                                                'There is no file to download');
+                                          }
+                                        },
+                                        child: Container(
+                                          margin: const EdgeInsets.only(
+                                              top: 5, right: 5),
+                                          height: 35,
+                                          decoration: BoxDecoration(
+                                            color: const Color(0xFF2F4771),
+                                            borderRadius:
+                                                BorderRadius.circular(20.0),
+                                          ),
+                                          child: const Row(
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: 8, right: 8),
+                                                child: Icon(
+                                                  Icons.sim_card_download,
+                                                  size: 20,
+                                                  color: Color(0xFFF9FAFB),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    right: 12.0),
+                                                child: Text(
+                                                  "Download",
+                                                  style: TextStyle(
+                                                    color: Color(0xFFF9FAFB),
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                        Padding(
-                                          padding: EdgeInsets.only(right: 12.0),
-                                          child: Text(
-                                            "Download",
-                                            style: TextStyle(
-                                              color: Color(0xFFF9FAFB),
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
+                                      ),
                                 GestureDetector(
-                                  onTap: (){
-                                    if(getbuildingData['InsulationAndHVACDocument'] != null){
+                                  onTap: () {
+                                    if (getbuildingData['ElectricalDocument'] !=
+                                        null) {
                                       Get.to(DocsPdfViewer(
-                                        pdfFileURL: getbuildingData['InsulationAndHVACDocument'],
+                                        pdfFileURL: getbuildingData[
+                                            'ElectricalDocument'],
                                       ));
-                                    }
-                                    else{
-                                      Get.snackbar('Hi' ,
-                                          'There is no file to open' ,
+                                    } else {
+                                      Get.snackbar(
+                                          'Hi', 'There is no file to open',
                                           colorText: Colors.white,
-                                          backgroundColor: Color(0xFF2F4771)) ;
+                                          backgroundColor: Color(0xFF2F4771));
                                     }
                                   },
                                   child: Container(
-                                    margin: const EdgeInsets.only(top: 5 , right: 5),
+                                    margin:
+                                        const EdgeInsets.only(top: 5, right: 5),
                                     height: 35,
                                     decoration: BoxDecoration(
                                       color: const Color(0xFF2F4771),
@@ -888,7 +967,8 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                                     child: const Row(
                                       children: [
                                         Padding(
-                                          padding: EdgeInsets.only(left: 8 , right: 8),
+                                          padding: EdgeInsets.only(
+                                              left: 8, right: 8),
                                           child: Icon(
                                             Icons.file_open_outlined,
                                             size: 20,
@@ -912,42 +992,55 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                                 ),
                               ],
                             ),
-                            const Padding(
-                              padding: EdgeInsets.all(10),
-                              child: Text(
-                                "Task Provider Notes: ",
-                                style: TextStyle(
-                                    color: Color(0xFF2F4771),
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w400
-                                ),
-                              ),
-                            ),
+                            const SizedBox(height: 5.0),
                             Container(
-                              height: 140,
-                              padding: const EdgeInsets.symmetric(horizontal: 8),
-                              child: TextFormField(
-                                maxLines: 5,
-                                minLines: 5,
-                                enabled: false,
-                                readOnly: true,
-                                decoration: InputDecoration(
-                                  hintText:  task4Data['Notes'] ?? 'No notes available',
-                                  hintStyle: TextStyle(color: Color(0xFF2F4771)),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    borderSide: const BorderSide(
-                                      color: Color(0xFF2F4771),
+                              padding: EdgeInsets.only(bottom: 10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Padding(
+                                    padding: EdgeInsets.all(10),
+                                    child: Text(
+                                      "Service Provider Notes: ",
+                                      style: TextStyle(
+                                          color: Color(0xFF2F4771),
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w500),
                                     ),
                                   ),
-                                  disabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    borderSide: const BorderSide(
-                                      color: Color(0xFF2F4771),
-                                      width: 1.5,
+                                  Container(
+                                    height: 140,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8),
+                                    child: TextFormField(
+                                      maxLines: 5,
+                                      minLines: 5,
+                                      enabled: false,
+                                      readOnly: true,
+                                      decoration: InputDecoration(
+                                        hintText: task4Data['Notes'] ??
+                                            'No notes available',
+                                        hintStyle:
+                                            TextStyle(color: Color(0xFF2F4771)),
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          borderSide: const BorderSide(
+                                            color: Color(0xFF2F4771),
+                                          ),
+                                        ),
+                                        disabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          borderSide: const BorderSide(
+                                            color: Color(0xFF2F4771),
+                                            width: 1.5,
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
+                                ],
                               ),
                             ),
                           ],
@@ -959,7 +1052,6 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
               ),
             ],
           ),
-
         ),
       ),
     );

@@ -337,6 +337,7 @@ class _DoorInstallationSPState extends State<DoorInstallationSP> {
                                           taskID,
                                           _userNotes.text,
                                           'Update Data',
+                                          taskProjectId,
                                         );
                                       },
                                       child: const Text(
@@ -377,7 +378,8 @@ class _DoorInstallationSPState extends State<DoorInstallationSP> {
                                                           String message = await ServiceProviderGetTasksAPI.setTask6Data(
                                                               taskID,
                                                               _userNotes.text,
-                                                              'Submit'
+                                                              'Submit',
+                                                            taskProjectId,
                                                           );
                                                           setState(() {
                                                             doorData['TaskStatus'] = 'Completed' ;

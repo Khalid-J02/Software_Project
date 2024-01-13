@@ -1,5 +1,5 @@
-import 'package:buildnex/screens/Profile.dart';
-import 'package:buildnex/screens/projectDesc_HO.dart';
+import 'package:buildnex/screens/seeDetailsProfile_SP.dart';
+import 'package:buildnex/screens/seeDetailsRequest_SP.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:get/get.dart';
@@ -21,21 +21,27 @@ class ProjectDetailsSP extends StatefulWidget {
 class _ProjectDetailsSPState extends State<ProjectDetailsSP> {
 
   late String projectId;
+  late String taskId;
+  late String homeownerId;
+
   int pageIndex = 0 ;
   late List<Widget> screens;
 
   @override
   void initState() {
     super.initState();
-    final routeArguments = Get.arguments;
-    projectId = routeArguments?['projectId'] as String? ?? '';
+    Map<String, dynamic> arguments = Get.arguments;
+
+    projectId = arguments['projectId'] ;
+    taskId = arguments['taskId'];
+    homeownerId = arguments['HomeOwnerId'];
+
 
     screens = [
-      ProjectDescription(projectId: projectId),
-      ProfilePage(),
+      ProjectDescriptionSeeDetails(projectId: projectId, taskId: taskId,),
+      SeeDetailsProfilePage(homeownerId:homeownerId),
     ];
   }
-
 
 
   @override
@@ -81,7 +87,7 @@ class _ProjectDetailsSPState extends State<ProjectDetailsSP> {
               ),
               GButton(
                 icon: Icons.account_circle_outlined,
-                text: 'User Profile',
+                text: 'HomeOwner Profile',
               ),
             ],
           ),

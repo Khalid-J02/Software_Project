@@ -233,7 +233,6 @@ class _LoginPageState extends State<_LoginPage> {
       CustomAlertDialog.showErrorDialog(context, 'Please fill in all the required fields.');
       return;
     }
-
     final loginAPI = userRegAPI();
     final userData = await loginAPI.logIn(_email, _password) as Map;
 
@@ -243,7 +242,7 @@ class _LoginPageState extends State<_LoginPage> {
     else
     {
         if(dotenv.env['userType'] == 'HomeOwner'){
-          Get.toNamed('/HomePage/HomeOwner');
+          Get.offNamed('/HomePage/HomeOwner');
         }
         else{
           Get.offNamed('/HomePage/ServiceProvider');

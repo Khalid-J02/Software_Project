@@ -9,7 +9,9 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../APIRequests/profilePageServiceProviderAPI.dart';
+import '../APIRequests/serviceProviderReviewsAPI.dart';
 import '../Widgets/customAlertDialog.dart';
+import 'package:buildnex/Widgets/reviewTab.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -36,6 +38,7 @@ class _ServiceProviderProfilePageState extends State<ServiceProviderProfilePage>
   double userRating = 0.0 ;
   int userPrice = 0 ;
   late String userPic = '';
+  late List<Map<String, dynamic>> reviewList ;
 
   Image? image;
   String? imageUrl;
@@ -73,10 +76,61 @@ class _ServiceProviderProfilePageState extends State<ServiceProviderProfilePage>
   @override
   void initState() {
     super.initState();
-    // Load the profile data when the screen initializes
     _loadProfile();
+    _loadReviews();
   }
 
+  Future<void> _loadReviews() async {
+    try {
+      final response = await ReviewsAPI.getAllReviews();
+        setState(() {
+          reviewList = response;
+        });
+    } catch (e) {
+      print('Error loading reviews: $e');
+    }
+  }
+
+  void _showReviewsDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Service Provider Reviews'),
+          content: Container(
+            width: double.maxFinite,
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: reviewList.length,
+              itemBuilder: (BuildContext context, int index) {
+                final review = reviewList[index];
+                      return SPReviews(
+                        imageURL: review["HomeOwnerPicture"],
+                        name: review["HomeOwnerName"],
+                        rating: review["Rating"].toDouble(),
+                        date: review["ReviewDate"],
+                        reviewText: review["ReviewContent"],
+                );
+              },
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text(
+                'Close',
+                style: TextStyle(
+                  color: Color(0xFF122247),
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -120,6 +174,7 @@ class _ServiceProviderProfilePageState extends State<ServiceProviderProfilePage>
                                }
                              },
                             child: const Icon(Icons.edit, color: Color(0xFFF3D69B),),
+
                           )
                         ],
                       ),
@@ -136,7 +191,34 @@ class _ServiceProviderProfilePageState extends State<ServiceProviderProfilePage>
                       ),
                     ),
                   ),
+                  // Expanded(
+                  //   flex: 3,
+                  //   child: ListView.builder(
+                  //     itemCount: reviewList.length,
+                  //     itemBuilder: (context, index) {
+                  //       final review = reviewList[index];
+                  //       return SPReviews(
+                  //         imageURL: review["HomeOwnerPicture"],
+                  //         name: review["HomeOwnerName"],
+                  //         rating: review["Rating"].toDouble(),
+                  //         date: review["ReviewDate"],
+                  //         reviewText: review["ReviewContent"],
+                  //       );
+                  //     },
+                  //   ),
+                  // ),
                 ],
+              ),
+              Positioned(
+                top: MediaQuery.of(context).size.width / 25,
+                left: MediaQuery.of(context).size.width / 25,
+                child: GestureDetector(
+                  onTap: _showReviewsDialog, // Invoke the reviews dialog function
+                  child: const Icon(
+                    Icons.reviews, // You can choose any icon that represents "reviews" for you
+                    color: Color(0xFFF3D69B),
+                  ),
+                ),
               ),
               Positioned(
                 top: MediaQuery.of(context).size.width / 12,
@@ -227,5 +309,6 @@ class _ServiceProviderProfilePageState extends State<ServiceProviderProfilePage>
       );
     },
   );
+
 
 }

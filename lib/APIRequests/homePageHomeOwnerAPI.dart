@@ -24,6 +24,7 @@ class HomeOwnerHomePageAPI {
               .map((project) => {
             'projectId': project['projectId'],
             'projectName': project['projectName'],
+            'projectStatus': project['projectStatus'],
           })
               .toList();
           return projects;

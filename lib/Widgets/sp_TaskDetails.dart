@@ -7,7 +7,6 @@ class SPTasksDetails extends StatefulWidget {
   final String taskProjectName ;
   final String taskProjectOwner ;
   final String taskProjectId ;
-
   final String taskStatus ;
   final String taskID ;
   final String taskNumber ;
@@ -30,19 +29,36 @@ class SPTasksDetails extends StatefulWidget {
 
 class _SPTasksDetailsState extends State<SPTasksDetails> {
 
+  Color getBorderColorBasedOnStatus(String status) {
+    if (status == 'Not Started') {
+      return const Color(0xFFB22D00);
+    } else if (status == 'In Progress') {
+      return const Color(0xFFFF9637);
+    } else  {
+      return const Color(0xFF2BD066);
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
+    final borderColor = getBorderColorBasedOnStatus(widget.taskStatus);
+
     return Padding(
-      padding: const EdgeInsets.only(left: 15 , right: 15 , top: 15),
+      padding: const EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 8),
       child: Container(
         padding: const EdgeInsets.only(top: 10 , left: 15, right: 10),
         decoration: BoxDecoration(
             color: const  Color(0xFF6781A6),
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-                color: Color(0xFFF3D69B)
-            )
+
+            // border: Border.all(
+            //     color: Color(0xFFF3D69B)
+            // )
+          border: Border.all(
+            color: borderColor,
+            width: 2.0,
+          ),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,16 +92,19 @@ class _SPTasksDetailsState extends State<SPTasksDetails> {
               padding: const EdgeInsets.only(top: 4.0),
               child: Row(
                 children: [
-                  const Icon(
+                   Icon(
                     Icons.info,
-                    color: Color(0xFFF9FAFB),
+                     color: getBorderColorBasedOnStatus(widget.taskStatus),
+                     //color: Color(0xFFF9FAFB),
+
                     size: 20,
                   ),
                   SizedBox(width: 4,),
                   Text(widget.taskStatus,
-                    style: const TextStyle(
+                    style:  TextStyle(
                         fontSize: 14,
-                        color: Color(0xFFF9FAFB)
+                      color: getBorderColorBasedOnStatus(widget.taskStatus),
+                      //color: Color(0xFFF9FAFB)
                     ),
                   ),
                 ],

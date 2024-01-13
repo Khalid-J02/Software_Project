@@ -10,6 +10,7 @@ class SPRequestDetails extends StatelessWidget {
   final String taskHomeOwnerName ;
   final String taskProjectId;
   final String taskHomeOwnerId;
+  final String taskId;
   final String requestId;
   final Function (String name) removeProject ;
 
@@ -20,8 +21,9 @@ class SPRequestDetails extends StatelessWidget {
         required this.taskHomeOwnerName,
         required this.taskProjectId,
         required this.taskHomeOwnerId,
+        required this.taskId,
         required this.requestId,
-        required this.removeProject
+        required this.removeProject,
       }
   );
 
@@ -78,15 +80,7 @@ class SPRequestDetails extends StatelessWidget {
                   margin: const EdgeInsets.only(bottom: 5 , top: 5),
                   child: TextButton(
                     onPressed: (){
-
-                     // Get.toNamed('/', arguments: {'': });
-                      /*
-                      READ MEE !!!!!!!!!!!!!!!!!!!!!! TALA !!!!!!!!!!!!!!!!!!!!!
-                      you need to figure a way to pass the homeowner id to the page of the homeowner in the ProjectDetailsSP widget
-                       */
-                      Get.to(ProjectDetailsSP() , arguments: {'projectId' : taskProjectId});
-
-
+                      Get.to(ProjectDetailsSP() , arguments: {'projectId' : taskProjectId,'taskId':taskId, 'HomeOwnerId': taskHomeOwnerId});
 
                     },
                     child: const Text("See Details",

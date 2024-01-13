@@ -1,6 +1,5 @@
 import 'package:buildnex/Tasks/taskWidgets/taskInformation.dart';
 import 'package:buildnex/Tasks/tasks_HO/LocalGovernorate_Permits/Widgets/serviceProviderProfleData.dart';
-import 'package:buildnex/Tasks/tasks_SP/PropertSurvey/widgets/textFieldTasks.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -88,7 +87,7 @@ class _ConstructionHOState extends State<ConstructionHO> {
           child: Column(
             children: [
               TaskInformation(taskID: task6Data['TaskID']?? 0, taskName: task6Data['TaskName']?? 'Unknown', projectName: task6Data['ProjectName']?? 'Unknown', taskStatus: task6Data['TaskStatus']?? 'Unknown',),
-              SPProfileData(userPicture: task6Data['UserPicture']?? 'images/profilePic96.png', rating: (task6Data['Rating'] as num?)?.toDouble() ?? 0.0, numReviews: task6Data['ReviewCount']?? 0, userName:task6Data['Username']?? 'Unknown',),
+              SPProfileData(userPicture: task6Data['UserPicture']?? 'images/profilePic96.png', rating: (task6Data['Rating'] as num?)?.toDouble() ?? 0.0, numReviews: task6Data['ReviewCount']?? 0, userName:task6Data['Username']?? 'Unknown', taskId: taskID,),
               Container(
                 margin: const EdgeInsets.only(top: 5),
                 padding: const EdgeInsets.symmetric(horizontal: 20 , vertical: 5),
@@ -283,7 +282,7 @@ class _ConstructionHOState extends State<ConstructionHO> {
                         ),
                         child: const Center(
                           child: Text(
-                            "Task Details",
+                            "Service Provider Details",
                             style: TextStyle(
                                 color: Color(0xFFF9FAFB),
                                 fontSize: 19,
@@ -300,11 +299,11 @@ class _ConstructionHOState extends State<ConstructionHO> {
                             const Padding(
                               padding: EdgeInsets.all(10),
                               child: Text(
-                                "Task Provider Notes: ",
+                                "Service Provider Notes: ",
                                 style: TextStyle(
                                     color: Color(0xFF2F4771),
                                     fontSize: 17,
-                                    fontWeight: FontWeight.w400
+                                    fontWeight: FontWeight.w500
                                 ),
                               ),
                             ),
@@ -335,6 +334,7 @@ class _ConstructionHOState extends State<ConstructionHO> {
                                 ),
                               ),
                             ),
+                            const SizedBox(height: 10,),
                           ],
                         ),
                       ),

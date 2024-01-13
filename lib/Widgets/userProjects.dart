@@ -7,12 +7,27 @@ class UserProjects extends StatelessWidget {
 
   final String projectName ;
   final String projectId;
+  final String projectStatus ;
+
   //const UserProjects({super.key, required this.projectName});
-  const UserProjects({Key? key, required this.projectId, required this.projectName})
+  const UserProjects({Key? key, required this.projectId, required this.projectName, required this.projectStatus})
       : super(key: key);
+
+  Color getBorderColorBasedOnStatus(String status) {
+    if (status == 'Not Started') {
+      return const Color(0xFFB22D00);
+    } else if (status == 'In Progress') {
+      return const Color(0xFFFF9637);
+    } else  {
+      return const Color(0xFF2BD066);
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
+    final borderColor = getBorderColorBasedOnStatus(projectStatus);
+
     return GestureDetector(
       onTap: (){
         //Get.toNamed('/HomePage/HomeOwner/ProjectPage');
@@ -26,9 +41,13 @@ class UserProjects extends StatelessWidget {
           decoration: BoxDecoration(
             color: Color(0xFF6781A6),
             borderRadius: BorderRadius.circular(12),
+            // border: Border.all(
+            //   color: Color(0xFFF3D69B)
+            // )
             border: Border.all(
-              color: Color(0xFFF3D69B)
-            )
+              color: borderColor,
+              width: 2.0,
+            ),
           ),
           child: Text(projectName,
             style: const TextStyle(

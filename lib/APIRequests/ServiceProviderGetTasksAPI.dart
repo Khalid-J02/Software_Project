@@ -305,10 +305,10 @@ class ServiceProviderGetTasksAPI {
     }
   } //getTask4
 
-  static Future<String> setTask6Data( String taskId, String serProNotes, String status) async {
+  static Future<String> setTask6Data( String taskId, String serProNotes, String status, String projectId) async {
     try {
       final response = await http.post(
-        Uri.parse('$baseUrl/serviceprovider/setTask6/$taskId'),
+        Uri.parse('$baseUrl/serviceprovider/setTask6/$taskId/$projectId'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': '${dotenv.env['token']}',

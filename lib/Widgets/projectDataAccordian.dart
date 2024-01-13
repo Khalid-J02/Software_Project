@@ -121,7 +121,7 @@ class MainProjectDataAccordion extends StatelessWidget {
                             fontWeight: FontWeight.w400
                         ),
                       ),
-                      Text( projectRoomsNumber.toString() ?? ' - ',
+                      Text(projectRoomsNumber != null ? projectRoomsNumber.toString() : ' - ',
                         style: const TextStyle(
                             color: Color(0xFFF9FAFB),
                             fontSize: 15,
@@ -143,7 +143,7 @@ class MainProjectDataAccordion extends StatelessWidget {
                             fontWeight: FontWeight.w400
                         ),
                       ),
-                      Text( projectFloorNumber.toString(),
+                      Text(projectFloorNumber != null ? projectFloorNumber.toString() : ' - ',
                         style: const TextStyle(
                             color: Color(0xFFF9FAFB),
                             fontSize: 15,
@@ -158,7 +158,7 @@ class MainProjectDataAccordion extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      const Text('Design Document',
+                      const Text('Design Drawings',
                         style: TextStyle(
                             color: Color(0xFFF9FAFB),
                             fontSize: 15,
@@ -193,324 +193,324 @@ class MainProjectDataAccordion extends StatelessWidget {
               ],
             )
           ),
-          AccordionSection(
-              isOpen: false,
-              contentVerticalPadding: 15,
-              leftIcon: const Icon(
-                Icons.info,
-                color: Color(0xFFF3D69B),
-              ),
-              header: const Text(
-                'Optional Project Information',
-                style: TextStyle(
-                    color: Color(0xFFF9FAFB),
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500
-                ),
-              ),
-              content: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        const Text('Architectural Style',
-                          style: TextStyle(
-                              color: Color(0xFFF9FAFB),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400
-                          ),
-                        ),
-                        Text( '${projectArchStyle ?? ' - '}',
-                          style: const TextStyle(
-                              color: Color(0xFFF9FAFB),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        const Text('Door Material',
-                          style: TextStyle(
-                              color: Color(0xFFF9FAFB),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400
-                          ),
-                        ),
-                        Text( '${projectDoorMaterial ?? ' - '}',
-                          style: const TextStyle(
-                              color: Color(0xFFF9FAFB),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        const Text('Door Color',
-                          style: TextStyle(
-                              color: Color(0xFFF9FAFB),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400
-                          ),
-                        ),
-                        Text( '${projectDoorColor ?? ' - '}',
-                          style: const TextStyle(
-                              color: Color(0xFFF9FAFB),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        const Text('Door Design',
-                          style: TextStyle(
-                              color: Color(0xFFF9FAFB),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400
-                          ),
-                        ),
-                        Text( '${projectDoorDesign ?? ' - '}',
-                          style: const TextStyle(
-                              color: Color(0xFFF9FAFB),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        const Text('Tile Type',
-                          style: TextStyle(
-                              color: Color(0xFFF9FAFB),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400
-                          ),
-                        ),
-                        Text( '${projectTileType ?? ' - '}',
-                          style: const TextStyle(
-                              color: Color(0xFFF9FAFB),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        const Text('Tile Color',
-                          style: TextStyle(
-                              color: Color(0xFFF9FAFB),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400
-                          ),
-                        ),
-                        Text( '${projectTileColor ?? ' - '}',
-                          style: const TextStyle(
-                              color: Color(0xFFF9FAFB),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        const Text('Tile Size',
-                          style: TextStyle(
-                              color: Color(0xFFF9FAFB),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400
-                          ),
-                        ),
-                        Text( '${projectTileSize ?? ' - '}',
-                          style: const TextStyle(
-                              color: Color(0xFFF9FAFB),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        const Text('Tile Pattern',
-                          style: TextStyle(
-                              color: Color(0xFFF9FAFB),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400
-                          ),
-                        ),
-                        Text( '${projectTilePattern ?? ' - '}',
-                          style: const TextStyle(
-                              color: Color(0xFFF9FAFB),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        const Text('Paint Type',
-                          style: TextStyle(
-                              color: Color(0xFFF9FAFB),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400
-                          ),
-                        ),
-                        Text( '${projectPaintType ?? ' - '}',
-                          style: const TextStyle(
-                              color: Color(0xFFF9FAFB),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        const Text('Paint Color',
-                          style: TextStyle(
-                              color: Color(0xFFF9FAFB),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400
-                          ),
-                        ),
-                        Text( '${projectPaintColor ?? ' - '}',
-                          style: const TextStyle(
-                              color: Color(0xFFF9FAFB),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        const Text('Paint Finish',
-                          style: TextStyle(
-                              color: Color(0xFFF9FAFB),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400
-                          ),
-                        ),
-                        Text( '${projectPaintFinish ?? ' - '}',
-                          style: const TextStyle(
-                              color: Color(0xFFF9FAFB),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        const Text('Window Type',
-                          style: TextStyle(
-                              color: Color(0xFFF9FAFB),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400
-                          ),
-                        ),
-                        Text( '${projectWindowType ?? ' - '}',
-                          style: const TextStyle(
-                              color: Color(0xFFF9FAFB),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        const Text('Window Color',
-                          style: TextStyle(
-                              color: Color(0xFFF9FAFB),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400
-                          ),
-                        ),
-                        Text( '${projectWindowColor ?? ' - '}',
-                          style: const TextStyle(
-                              color: Color(0xFFF9FAFB),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        const Text('Window Design',
-                          style: TextStyle(
-                              color: Color(0xFFF9FAFB),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400
-                          ),
-                        ),
-                        Text( '${projectWindowDesign ?? ' - '}',
-                          style: const TextStyle(
-                              color: Color(0xFFF9FAFB),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                ],
-
-              )
-          ),
+          // AccordionSection(
+          //     isOpen: false,
+          //     contentVerticalPadding: 15,
+          //     leftIcon: const Icon(
+          //       Icons.info,
+          //       color: Color(0xFFF3D69B),
+          //     ),
+          //     header: const Text(
+          //       'Optional Project Information',
+          //       style: TextStyle(
+          //           color: Color(0xFFF9FAFB),
+          //           fontSize: 18,
+          //           fontWeight: FontWeight.w500
+          //       ),
+          //     ),
+          //     content: Column(
+          //       mainAxisAlignment: MainAxisAlignment.start,
+          //       crossAxisAlignment: CrossAxisAlignment.center,
+          //       children: <Widget>[
+          //         Container(
+          //           child: Row(
+          //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //             children: <Widget>[
+          //               const Text('Architectural Style',
+          //                 style: TextStyle(
+          //                     color: Color(0xFFF9FAFB),
+          //                     fontSize: 16,
+          //                     fontWeight: FontWeight.w400
+          //                 ),
+          //               ),
+          //               Text( '${projectArchStyle ?? ' - '}',
+          //                 style: const TextStyle(
+          //                     color: Color(0xFFF9FAFB),
+          //                     fontSize: 16,
+          //                     fontWeight: FontWeight.w400
+          //                 ),
+          //               ),
+          //             ],
+          //           ),
+          //         ),
+          //         Container(
+          //           child: Row(
+          //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //             children: <Widget>[
+          //               const Text('Door Material',
+          //                 style: TextStyle(
+          //                     color: Color(0xFFF9FAFB),
+          //                     fontSize: 16,
+          //                     fontWeight: FontWeight.w400
+          //                 ),
+          //               ),
+          //               Text( '${projectDoorMaterial ?? ' - '}',
+          //                 style: const TextStyle(
+          //                     color: Color(0xFFF9FAFB),
+          //                     fontSize: 16,
+          //                     fontWeight: FontWeight.w400
+          //                 ),
+          //               ),
+          //             ],
+          //           ),
+          //         ),
+          //         Container(
+          //           child: Row(
+          //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //             children: <Widget>[
+          //               const Text('Door Color',
+          //                 style: TextStyle(
+          //                     color: Color(0xFFF9FAFB),
+          //                     fontSize: 16,
+          //                     fontWeight: FontWeight.w400
+          //                 ),
+          //               ),
+          //               Text( '${projectDoorColor ?? ' - '}',
+          //                 style: const TextStyle(
+          //                     color: Color(0xFFF9FAFB),
+          //                     fontSize: 16,
+          //                     fontWeight: FontWeight.w400
+          //                 ),
+          //               ),
+          //             ],
+          //           ),
+          //         ),
+          //         Container(
+          //           child: Row(
+          //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //             children: <Widget>[
+          //               const Text('Door Design',
+          //                 style: TextStyle(
+          //                     color: Color(0xFFF9FAFB),
+          //                     fontSize: 16,
+          //                     fontWeight: FontWeight.w400
+          //                 ),
+          //               ),
+          //               Text( '${projectDoorDesign ?? ' - '}',
+          //                 style: const TextStyle(
+          //                     color: Color(0xFFF9FAFB),
+          //                     fontSize: 16,
+          //                     fontWeight: FontWeight.w400
+          //                 ),
+          //               ),
+          //             ],
+          //           ),
+          //         ),
+          //         Container(
+          //           child: Row(
+          //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //             children: <Widget>[
+          //               const Text('Tile Type',
+          //                 style: TextStyle(
+          //                     color: Color(0xFFF9FAFB),
+          //                     fontSize: 16,
+          //                     fontWeight: FontWeight.w400
+          //                 ),
+          //               ),
+          //               Text( '${projectTileType ?? ' - '}',
+          //                 style: const TextStyle(
+          //                     color: Color(0xFFF9FAFB),
+          //                     fontSize: 16,
+          //                     fontWeight: FontWeight.w400
+          //                 ),
+          //               ),
+          //             ],
+          //           ),
+          //         ),
+          //         Container(
+          //           child: Row(
+          //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //             children: <Widget>[
+          //               const Text('Tile Color',
+          //                 style: TextStyle(
+          //                     color: Color(0xFFF9FAFB),
+          //                     fontSize: 16,
+          //                     fontWeight: FontWeight.w400
+          //                 ),
+          //               ),
+          //               Text( '${projectTileColor ?? ' - '}',
+          //                 style: const TextStyle(
+          //                     color: Color(0xFFF9FAFB),
+          //                     fontSize: 16,
+          //                     fontWeight: FontWeight.w400
+          //                 ),
+          //               ),
+          //             ],
+          //           ),
+          //         ),
+          //         Container(
+          //           child: Row(
+          //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //             children: <Widget>[
+          //               const Text('Tile Size',
+          //                 style: TextStyle(
+          //                     color: Color(0xFFF9FAFB),
+          //                     fontSize: 16,
+          //                     fontWeight: FontWeight.w400
+          //                 ),
+          //               ),
+          //               Text( '${projectTileSize ?? ' - '}',
+          //                 style: const TextStyle(
+          //                     color: Color(0xFFF9FAFB),
+          //                     fontSize: 16,
+          //                     fontWeight: FontWeight.w400
+          //                 ),
+          //               ),
+          //             ],
+          //           ),
+          //         ),
+          //         Container(
+          //           child: Row(
+          //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //             children: <Widget>[
+          //               const Text('Tile Pattern',
+          //                 style: TextStyle(
+          //                     color: Color(0xFFF9FAFB),
+          //                     fontSize: 16,
+          //                     fontWeight: FontWeight.w400
+          //                 ),
+          //               ),
+          //               Text( '${projectTilePattern ?? ' - '}',
+          //                 style: const TextStyle(
+          //                     color: Color(0xFFF9FAFB),
+          //                     fontSize: 16,
+          //                     fontWeight: FontWeight.w400
+          //                 ),
+          //               ),
+          //             ],
+          //           ),
+          //         ),
+          //         Container(
+          //           child: Row(
+          //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //             children: <Widget>[
+          //               const Text('Paint Type',
+          //                 style: TextStyle(
+          //                     color: Color(0xFFF9FAFB),
+          //                     fontSize: 16,
+          //                     fontWeight: FontWeight.w400
+          //                 ),
+          //               ),
+          //               Text( '${projectPaintType ?? ' - '}',
+          //                 style: const TextStyle(
+          //                     color: Color(0xFFF9FAFB),
+          //                     fontSize: 16,
+          //                     fontWeight: FontWeight.w400
+          //                 ),
+          //               ),
+          //             ],
+          //           ),
+          //         ),
+          //         Container(
+          //           child: Row(
+          //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //             children: <Widget>[
+          //               const Text('Paint Color',
+          //                 style: TextStyle(
+          //                     color: Color(0xFFF9FAFB),
+          //                     fontSize: 16,
+          //                     fontWeight: FontWeight.w400
+          //                 ),
+          //               ),
+          //               Text( '${projectPaintColor ?? ' - '}',
+          //                 style: const TextStyle(
+          //                     color: Color(0xFFF9FAFB),
+          //                     fontSize: 16,
+          //                     fontWeight: FontWeight.w400
+          //                 ),
+          //               ),
+          //             ],
+          //           ),
+          //         ),
+          //         Container(
+          //           child: Row(
+          //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //             children: <Widget>[
+          //               const Text('Paint Finish',
+          //                 style: TextStyle(
+          //                     color: Color(0xFFF9FAFB),
+          //                     fontSize: 16,
+          //                     fontWeight: FontWeight.w400
+          //                 ),
+          //               ),
+          //               Text( '${projectPaintFinish ?? ' - '}',
+          //                 style: const TextStyle(
+          //                     color: Color(0xFFF9FAFB),
+          //                     fontSize: 16,
+          //                     fontWeight: FontWeight.w400
+          //                 ),
+          //               ),
+          //             ],
+          //           ),
+          //         ),
+          //         Container(
+          //           child: Row(
+          //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //             children: <Widget>[
+          //               const Text('Window Type',
+          //                 style: TextStyle(
+          //                     color: Color(0xFFF9FAFB),
+          //                     fontSize: 16,
+          //                     fontWeight: FontWeight.w400
+          //                 ),
+          //               ),
+          //               Text( '${projectWindowType ?? ' - '}',
+          //                 style: const TextStyle(
+          //                     color: Color(0xFFF9FAFB),
+          //                     fontSize: 16,
+          //                     fontWeight: FontWeight.w400
+          //                 ),
+          //               ),
+          //             ],
+          //           ),
+          //         ),
+          //         Container(
+          //           child: Row(
+          //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //             children: <Widget>[
+          //               const Text('Window Color',
+          //                 style: TextStyle(
+          //                     color: Color(0xFFF9FAFB),
+          //                     fontSize: 16,
+          //                     fontWeight: FontWeight.w400
+          //                 ),
+          //               ),
+          //               Text( '${projectWindowColor ?? ' - '}',
+          //                 style: const TextStyle(
+          //                     color: Color(0xFFF9FAFB),
+          //                     fontSize: 16,
+          //                     fontWeight: FontWeight.w400
+          //                 ),
+          //               ),
+          //             ],
+          //           ),
+          //         ),
+          //         Container(
+          //           child: Row(
+          //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //             children: <Widget>[
+          //               const Text('Window Design',
+          //                 style: TextStyle(
+          //                     color: Color(0xFFF9FAFB),
+          //                     fontSize: 16,
+          //                     fontWeight: FontWeight.w400
+          //                 ),
+          //               ),
+          //               Text( '${projectWindowDesign ?? ' - '}',
+          //                 style: const TextStyle(
+          //                     color: Color(0xFFF9FAFB),
+          //                     fontSize: 16,
+          //                     fontWeight: FontWeight.w400
+          //                 ),
+          //               ),
+          //             ],
+          //           ),
+          //         ),
+          //
+          //       ],
+          //
+          //     )
+          // ),
         ],
     );
   }

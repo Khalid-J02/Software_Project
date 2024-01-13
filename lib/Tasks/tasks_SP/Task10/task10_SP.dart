@@ -202,6 +202,7 @@ class _PlasteringSPSPState extends State<PlasteringSP> {
                                           taskID,
                                           _userNotes.text,
                                           'Update Data',
+                                          taskProjectId,
                                         );
                                       },
                                       child: const Text(
@@ -242,7 +243,8 @@ class _PlasteringSPSPState extends State<PlasteringSP> {
                                                           String message = await ServiceProviderGetTasksAPI.setTask6Data(
                                                               taskID,
                                                               _userNotes.text,
-                                                              'Submit'
+                                                              'Submit',
+                                                            taskProjectId,
                                                           );
                                                           setState(() {
                                                             plasteringData['TaskStatus'] = 'Completed' ;

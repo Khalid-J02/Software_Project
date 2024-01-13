@@ -33,8 +33,7 @@ class CatalogAPI {
   }
 
   // Method to add an item to the catalog
-  static Future<int> addItemToCatalog(
-      String itemName, String itemImage, double itemPrice, String itemDescription, List<String> itemColors) async {
+  static Future<int> addItemToCatalog(String itemName, String itemImage, double itemPrice, String itemDescription, List<String> itemColors) async {
     try {
       final response = await http.post(
         Uri.parse('$baseUrl/serviceprovider/catalog/addItem'),
@@ -119,6 +118,34 @@ class CatalogAPI {
       }
     } catch (e) {
       print('Exception during editItemDetails API call: $e');
+      throw e;
+    }
+  }
+
+  static Future<String> editItemImage(String catalogId, String itemImage) async {
+    try {
+      final response = await http.put(
+        Uri.parse('$baseUrl/serviceprovider/catalog/$catalogId/editItemImage'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': '${dotenv.env['token']}',
+        },
+        body: jsonEncode({
+          'itemImage': itemImage,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        String message = jsonDecode(response.body);
+        return message;
+      } else {
+        throw http.ClientException(
+          'Failed to edit item image in catalog\nStatus code: ${response.statusCode}',
+          Uri.parse('$baseUrl/serviceprovider/catalog/$catalogId/editItemImage'),
+        );
+      }
+    } catch (e) {
+      print('Exception during editItemImage API call: $e');
       throw e;
     }
   }

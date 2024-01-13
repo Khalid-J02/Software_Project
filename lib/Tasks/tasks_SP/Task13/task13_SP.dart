@@ -569,6 +569,7 @@ class _PaintingSPState extends State<PaintingSP> {
                                           taskID,
                                           _userNotes.text,
                                           'Update Data',
+                                          taskProjectId,
                                         );
                                       },
                                       child: const Text(
@@ -609,7 +610,8 @@ class _PaintingSPState extends State<PaintingSP> {
                                                           String message = await ServiceProviderGetTasksAPI.setTask6Data(
                                                               taskID,
                                                               _userNotes.text,
-                                                              'Submit'
+                                                              'Submit',
+                                                            taskProjectId,
                                                           );
                                                           setState(() {
                                                             paintingData['TaskStatus'] = 'Completed' ;

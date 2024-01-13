@@ -22,6 +22,26 @@ class CustomAlertDialog {
     );
   }
 
+  static void showErrorDialogForTask16(BuildContext context, String errorMessage) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Static Task'),
+          content: Text(errorMessage),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   static void showSuccessDialog(BuildContext context, String successMessage) {
     showDialog(
       context: context,
@@ -122,7 +142,7 @@ class CustomAlertDialog {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Parallel Tasks Available'),
-          content: Text('You can perform tasks related to Plumbing, Electrical, and HVAC in parallel to save time, with the HVAC being an optional Task'),
+          content: Text('You can perform tasks related to Mechanical, Electrical, and Insulation in parallel to save time, with the Insulation being an optional Task'),
           actions: <Widget>[
             TextButton(
               onPressed: () {

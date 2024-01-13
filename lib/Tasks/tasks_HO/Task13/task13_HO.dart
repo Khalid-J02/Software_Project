@@ -3,13 +3,9 @@ import 'package:buildnex/APIRequests/serviceProviderCatalogAPI.dart';
 import 'package:buildnex/Tasks/taskWidgets/openCatalogSP.dart';
 import 'package:buildnex/Tasks/taskWidgets/taskInformation.dart';
 import 'package:buildnex/Tasks/tasks_HO/LocalGovernorate_Permits/Widgets/serviceProviderProfleData.dart';
-import 'package:buildnex/Tasks/taskWidgets/catalogDialog.dart';
 import 'package:buildnex/Widgets/catalogItem.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../APIRequests/homeOwnerTasksAPI.dart';
-
 
 void main() {
   runApp(GetMaterialApp(home: PaintingHO()));
@@ -23,7 +19,6 @@ class PaintingHO extends StatefulWidget {
 }
 
 class _PaintingHOState extends State<PaintingHO> {
-
   List<Map<String, dynamic>> userChoices = [];
   Map<String, dynamic> task15Data = {};
   String taskID = '';
@@ -35,7 +30,7 @@ class _PaintingHOState extends State<PaintingHO> {
   int? guestroomPaintCatalogID;
   int? kitchenPaintCatalogID;
 
-  late Map<String, dynamic> projectInfoData ;
+  late Map<String, dynamic> projectInfoData;
 
   @override
   void initState() {
@@ -53,33 +48,31 @@ class _PaintingHOState extends State<PaintingHO> {
   Future<void> fetchArgumentsAndData() async {
     try {
       setState(() {
-
+        print(projectInfoData);
         bedroomPaintCatalogID = projectInfoData['BedroomPaint'] != null
-            ? int.tryParse(projectInfoData['BedroomPaint'])
+            ? projectInfoData['BedroomPaint']
             : 0;
 
         bathroomPaintCatalogID = projectInfoData['BathroomPaint'] != null
-            ? int.tryParse(projectInfoData['BathroomPaint'])
+            ? projectInfoData['BathroomPaint']
             : 0;
 
         livingroomPaintCatalogID = projectInfoData['LivingroomPaint'] != null
-            ? int.tryParse(projectInfoData['LivingroomPaint'])
+            ? projectInfoData['LivingroomPaint']
             : 0;
 
         guestroomPaintCatalogID = projectInfoData['GuestroomPaint'] != null
-            ? int.tryParse(projectInfoData['GuestroomPaint'])
+            ? projectInfoData['GuestroomPaint']
             : 0;
 
         kitchenPaintCatalogID = projectInfoData['KitchenPaint'] != null
-            ? int.tryParse(projectInfoData['KitchenPaint'])
+            ? projectInfoData['KitchenPaint']
             : 0;
       });
-
     } catch (e) {
       print('Error fetching task15 data: $e');
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +84,8 @@ class _PaintingHOState extends State<PaintingHO> {
           color: Color(0xFFF3D69B),
         ),
         title: Padding(
-          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/5),
+          padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width / 5),
           child: const Text(
             "Task Details",
             style: TextStyle(color: Color(0xFFF3D69B)),
@@ -105,11 +99,24 @@ class _PaintingHOState extends State<PaintingHO> {
           padding: const EdgeInsets.only(top: 10),
           child: Column(
             children: [
-              TaskInformation(taskID: task15Data['TaskID']?? 0, taskName: task15Data['TaskName']?? 'Unknown', projectName: task15Data['ProjectName']?? 'Unknown', taskStatus: task15Data['TaskStatus']?? 'Unknown',),
-              SPProfileData(userPicture: task15Data['UserPicture']?? 'images/profilePic96.png', rating: (task15Data['Rating'] as num?)?.toDouble() ?? 0.0, numReviews: task15Data['ReviewCount']?? 0, userName:task15Data['Username']?? 'Unknown',),
+              TaskInformation(
+                taskID: task15Data['TaskID'] ?? 0,
+                taskName: task15Data['TaskName'] ?? 'Unknown',
+                projectName: task15Data['ProjectName'] ?? 'Unknown',
+                taskStatus: task15Data['TaskStatus'] ?? 'Unknown',
+              ),
+              SPProfileData(
+                userPicture:
+                    task15Data['UserPicture'] ?? 'images/profilePic96.png',
+                rating: (task15Data['Rating'] as num?)?.toDouble() ?? 0.0,
+                numReviews: task15Data['ReviewCount'] ?? 0,
+                userName: task15Data['Username'] ?? 'Unknown',
+                taskId: taskID,
+              ),
               Container(
                 margin: const EdgeInsets.only(top: 5),
-                padding: const EdgeInsets.symmetric(horizontal: 20 , vertical: 5),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
@@ -146,8 +153,7 @@ class _PaintingHOState extends State<PaintingHO> {
                             style: TextStyle(
                                 color: Color(0xFFF9FAFB),
                                 fontSize: 19,
-                                fontWeight: FontWeight.bold
-                            ),
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),
@@ -157,14 +163,14 @@ class _PaintingHOState extends State<PaintingHO> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Padding(
-                              padding: EdgeInsets.only(left: 8, top: 10, bottom: 8),
+                              padding:
+                                  EdgeInsets.only(left: 8, top: 10, bottom: 8),
                               child: Text(
                                 "Choose Paint Color For The Following: ",
                                 style: TextStyle(
                                     color: Color(0xFF2F4771),
                                     fontSize: 17,
-                                    fontWeight: FontWeight.w400
-                                ),
+                                    fontWeight: FontWeight.w500),
                               ),
                             ),
                             Row(
@@ -173,68 +179,82 @@ class _PaintingHOState extends State<PaintingHO> {
                                 const Expanded(
                                   flex: 1,
                                   child: Padding(
-                                    padding: EdgeInsets.only(left: 8 ,right: 8),
+                                    padding: EdgeInsets.only(
+                                        left: 8, right: 8, top: 6),
                                     child: Text(
-                                      "Bedroom Paint:",
+                                      "Bedroom:",
                                       style: TextStyle(
                                           color: Color(0xFF2F4771),
                                           fontWeight: FontWeight.w500,
-                                          fontSize: 16
-                                      ),
+                                          fontSize: 16),
                                     ),
                                   ),
                                 ),
                                 bedroomPaintCatalogID != 0
-                                    ?
-                                GestureDetector(
-                                  onTap: () async{
-                                    final Map<String, dynamic> itemDetails = await CatalogAPI.getItemDetails(bedroomPaintCatalogID.toString());
-                                    Get.to(SPCatalogItem_HO(itemDetails: itemDetails,));
-                                  },
-                                  child: Container(
-                                    margin: const EdgeInsets.only(top: 5 , right: 5),
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFF2F4771),
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    ),
-                                    child: const Row(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 8 , right: 4),
-                                          child: Icon(
-                                            Icons.remove_red_eye,
-                                            size: 20,
-                                            color: Color(0xFFF9FAFB),
+                                    ? GestureDetector(
+                                        onTap: () async {
+                                          final Map<String, dynamic>
+                                              itemDetails =
+                                              await CatalogAPI.getItemDetails(
+                                                  bedroomPaintCatalogID
+                                                      .toString());
+                                          Get.to(SPCatalogItem_HO(
+                                            itemDetails: itemDetails,
+                                          ));
+                                        },
+                                        child: Container(
+                                          margin: const EdgeInsets.only(
+                                              top: 5, right: 5),
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                            color: const Color(0xFF2F4771),
+                                            borderRadius:
+                                                BorderRadius.circular(20.0),
+                                          ),
+                                          child: const Row(
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: 8, right: 4),
+                                                child: Icon(
+                                                  Icons.remove_red_eye,
+                                                  size: 20,
+                                                  color: Color(0xFFF9FAFB),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    EdgeInsets.only(right: 8.0),
+                                                child: Text(
+                                                  "See Item",
+                                                  style: TextStyle(
+                                                    color: Color(0xFFF9FAFB),
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                        Padding(
-                                          padding: EdgeInsets.only(right: 8.0),
-                                          child: Text(
-                                            "See Item",
-                                            style: TextStyle(
-                                              color: Color(0xFFF9FAFB),
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                )
-                                    :
-                                SizedBox(),
+                                      )
+                                    : SizedBox(),
                                 GestureDetector(
-                                  onTap: () async{
-                                    final List<Map<String, dynamic>> SPCatalog = await ServiceProviderDataAPI.getServiceProCatalogItems(task15Data['UserID'].toString());
-                                    final int? choosenID = await Get.to(OpenCatalogSP() , arguments: SPCatalog);
+                                  onTap: () async {
+                                    final List<Map<String, dynamic>> SPCatalog =
+                                        await ServiceProviderDataAPI
+                                            .getServiceProCatalogItems(
+                                                task15Data['UserID']
+                                                    .toString());
+                                    final int? choosenID = await Get.to(
+                                        OpenCatalogSP(),
+                                        arguments: SPCatalog);
                                     setState(() {
-                                      bedroomPaintCatalogID = choosenID ;
+                                      bedroomPaintCatalogID = choosenID;
                                     });
                                   },
                                   child: Container(
-                                    margin: const EdgeInsets.only(top: 5 , right: 5),
+                                    margin: const EdgeInsets.only(top: 5),
                                     height: 40,
                                     decoration: BoxDecoration(
                                       color: const Color(0xFF2F4771),
@@ -243,7 +263,8 @@ class _PaintingHOState extends State<PaintingHO> {
                                     child: const Row(
                                       children: [
                                         Padding(
-                                          padding: EdgeInsets.only(left: 12 , right: 8),
+                                          padding: EdgeInsets.only(
+                                              left: 12, right: 4),
                                           child: Icon(
                                             Icons.folder_copy,
                                             size: 20,
@@ -256,7 +277,7 @@ class _PaintingHOState extends State<PaintingHO> {
                                             "Open Catalog",
                                             style: TextStyle(
                                               color: Color(0xFFF9FAFB),
-                                              fontSize: 15,
+                                              fontSize: 14,
                                               fontWeight: FontWeight.w400,
                                             ),
                                           ),
@@ -273,68 +294,82 @@ class _PaintingHOState extends State<PaintingHO> {
                                 const Expanded(
                                   flex: 1,
                                   child: Padding(
-                                    padding: EdgeInsets.only(left: 8 ,right: 8),
+                                    padding: EdgeInsets.only(
+                                        left: 8, right: 8, top: 6),
                                     child: Text(
-                                      "Bathroom Paint:",
+                                      "Bathroom:",
                                       style: TextStyle(
                                           color: Color(0xFF2F4771),
                                           fontWeight: FontWeight.w500,
-                                          fontSize: 16
-                                      ),
+                                          fontSize: 16),
                                     ),
                                   ),
                                 ),
                                 bathroomPaintCatalogID != 0
-                                    ?
-                                GestureDetector(
-                                  onTap: () async{
-                                    final Map<String, dynamic> itemDetails = await CatalogAPI.getItemDetails(bathroomPaintCatalogID.toString());
-                                    Get.to(SPCatalogItem_HO(itemDetails: itemDetails,));
-                                  },
-                                  child: Container(
-                                    margin: const EdgeInsets.only(top: 5 , right: 5),
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFF2F4771),
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    ),
-                                    child: const Row(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 8 , right: 4),
-                                          child: Icon(
-                                            Icons.remove_red_eye,
-                                            size: 20,
-                                            color: Color(0xFFF9FAFB),
+                                    ? GestureDetector(
+                                        onTap: () async {
+                                          final Map<String, dynamic>
+                                              itemDetails =
+                                              await CatalogAPI.getItemDetails(
+                                                  bathroomPaintCatalogID
+                                                      .toString());
+                                          Get.to(SPCatalogItem_HO(
+                                            itemDetails: itemDetails,
+                                          ));
+                                        },
+                                        child: Container(
+                                          margin: const EdgeInsets.only(
+                                              top: 5, right: 5),
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                            color: const Color(0xFF2F4771),
+                                            borderRadius:
+                                                BorderRadius.circular(20.0),
+                                          ),
+                                          child: const Row(
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: 8, right: 4),
+                                                child: Icon(
+                                                  Icons.remove_red_eye,
+                                                  size: 20,
+                                                  color: Color(0xFFF9FAFB),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    EdgeInsets.only(right: 8.0),
+                                                child: Text(
+                                                  "See Item",
+                                                  style: TextStyle(
+                                                    color: Color(0xFFF9FAFB),
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                        Padding(
-                                          padding: EdgeInsets.only(right: 8.0),
-                                          child: Text(
-                                            "See Item",
-                                            style: TextStyle(
-                                              color: Color(0xFFF9FAFB),
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                )
-                                    :
-                                SizedBox(),
+                                      )
+                                    : SizedBox(),
                                 GestureDetector(
-                                  onTap: () async{
-                                    final List<Map<String, dynamic>> SPCatalog = await ServiceProviderDataAPI.getServiceProCatalogItems(task15Data['UserID'].toString());
-                                    final int? choosenID = await Get.to(OpenCatalogSP() , arguments: SPCatalog);
+                                  onTap: () async {
+                                    final List<Map<String, dynamic>> SPCatalog =
+                                        await ServiceProviderDataAPI
+                                            .getServiceProCatalogItems(
+                                                task15Data['UserID']
+                                                    .toString());
+                                    final int? choosenID = await Get.to(
+                                        OpenCatalogSP(),
+                                        arguments: SPCatalog);
                                     setState(() {
-                                      bathroomPaintCatalogID = choosenID ;
+                                      bathroomPaintCatalogID = choosenID;
                                     });
                                   },
                                   child: Container(
-                                    margin: const EdgeInsets.only(top: 5 , right: 5),
+                                    margin: const EdgeInsets.only(top: 5),
                                     height: 40,
                                     decoration: BoxDecoration(
                                       color: const Color(0xFF2F4771),
@@ -343,7 +378,8 @@ class _PaintingHOState extends State<PaintingHO> {
                                     child: const Row(
                                       children: [
                                         Padding(
-                                          padding: EdgeInsets.only(left: 12 , right: 8),
+                                          padding: EdgeInsets.only(
+                                              left: 12, right: 4),
                                           child: Icon(
                                             Icons.folder_copy,
                                             size: 20,
@@ -356,7 +392,7 @@ class _PaintingHOState extends State<PaintingHO> {
                                             "Open Catalog",
                                             style: TextStyle(
                                               color: Color(0xFFF9FAFB),
-                                              fontSize: 15,
+                                              fontSize: 14,
                                               fontWeight: FontWeight.w400,
                                             ),
                                           ),
@@ -373,68 +409,82 @@ class _PaintingHOState extends State<PaintingHO> {
                                 const Expanded(
                                   flex: 1,
                                   child: Padding(
-                                    padding: EdgeInsets.only(left: 8 ,right: 8),
+                                    padding: EdgeInsets.only(
+                                        left: 8, right: 8, top: 6),
                                     child: Text(
-                                      "Living Room Paint:",
+                                      "Living Room:",
                                       style: TextStyle(
                                           color: Color(0xFF2F4771),
                                           fontWeight: FontWeight.w500,
-                                          fontSize: 16
-                                      ),
+                                          fontSize: 16),
                                     ),
                                   ),
                                 ),
                                 livingroomPaintCatalogID != 0
-                                    ?
-                                GestureDetector(
-                                  onTap: () async{
-                                    final Map<String, dynamic> itemDetails = await CatalogAPI.getItemDetails(livingroomPaintCatalogID.toString());
-                                    Get.to(SPCatalogItem_HO(itemDetails: itemDetails,));
-                                  },
-                                  child: Container(
-                                    margin: const EdgeInsets.only(top: 5 , right: 5),
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFF2F4771),
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    ),
-                                    child: const Row(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 8 , right: 4),
-                                          child: Icon(
-                                            Icons.remove_red_eye,
-                                            size: 20,
-                                            color: Color(0xFFF9FAFB),
+                                    ? GestureDetector(
+                                        onTap: () async {
+                                          final Map<String, dynamic>
+                                              itemDetails =
+                                              await CatalogAPI.getItemDetails(
+                                                  livingroomPaintCatalogID
+                                                      .toString());
+                                          Get.to(SPCatalogItem_HO(
+                                            itemDetails: itemDetails,
+                                          ));
+                                        },
+                                        child: Container(
+                                          margin: const EdgeInsets.only(
+                                              top: 5, right: 5),
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                            color: const Color(0xFF2F4771),
+                                            borderRadius:
+                                                BorderRadius.circular(20.0),
+                                          ),
+                                          child: const Row(
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: 8, right: 4),
+                                                child: Icon(
+                                                  Icons.remove_red_eye,
+                                                  size: 20,
+                                                  color: Color(0xFFF9FAFB),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    EdgeInsets.only(right: 8.0),
+                                                child: Text(
+                                                  "See Item",
+                                                  style: TextStyle(
+                                                    color: Color(0xFFF9FAFB),
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                        Padding(
-                                          padding: EdgeInsets.only(right: 8.0),
-                                          child: Text(
-                                            "See Item",
-                                            style: TextStyle(
-                                              color: Color(0xFFF9FAFB),
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                )
-                                    :
-                                SizedBox(),
+                                      )
+                                    : SizedBox(),
                                 GestureDetector(
-                                  onTap: () async{
-                                    final List<Map<String, dynamic>> SPCatalog = await ServiceProviderDataAPI.getServiceProCatalogItems(task15Data['UserID'].toString());
-                                    final int? choosenID = await Get.to(OpenCatalogSP() , arguments: SPCatalog);
+                                  onTap: () async {
+                                    final List<Map<String, dynamic>> SPCatalog =
+                                        await ServiceProviderDataAPI
+                                            .getServiceProCatalogItems(
+                                                task15Data['UserID']
+                                                    .toString());
+                                    final int? choosenID = await Get.to(
+                                        OpenCatalogSP(),
+                                        arguments: SPCatalog);
                                     setState(() {
-                                      livingroomPaintCatalogID = choosenID ;
+                                      livingroomPaintCatalogID = choosenID;
                                     });
                                   },
                                   child: Container(
-                                    margin: const EdgeInsets.only(top: 5 , right: 5),
+                                    margin: const EdgeInsets.only(top: 5),
                                     height: 40,
                                     decoration: BoxDecoration(
                                       color: const Color(0xFF2F4771),
@@ -443,7 +493,8 @@ class _PaintingHOState extends State<PaintingHO> {
                                     child: const Row(
                                       children: [
                                         Padding(
-                                          padding: EdgeInsets.only(left: 12 , right: 8),
+                                          padding: EdgeInsets.only(
+                                              left: 12, right: 4),
                                           child: Icon(
                                             Icons.folder_copy,
                                             size: 20,
@@ -456,7 +507,7 @@ class _PaintingHOState extends State<PaintingHO> {
                                             "Open Catalog",
                                             style: TextStyle(
                                               color: Color(0xFFF9FAFB),
-                                              fontSize: 15,
+                                              fontSize: 14,
                                               fontWeight: FontWeight.w400,
                                             ),
                                           ),
@@ -473,68 +524,82 @@ class _PaintingHOState extends State<PaintingHO> {
                                 const Expanded(
                                   flex: 1,
                                   child: Padding(
-                                    padding: EdgeInsets.only(left: 8 ,right: 8),
+                                    padding: EdgeInsets.only(
+                                        left: 8, right: 8, top: 6),
                                     child: Text(
-                                      "Guest Room Paint:",
+                                      "Guest Room:",
                                       style: TextStyle(
                                           color: Color(0xFF2F4771),
                                           fontWeight: FontWeight.w500,
-                                          fontSize: 16
-                                      ),
+                                          fontSize: 16),
                                     ),
                                   ),
                                 ),
                                 guestroomPaintCatalogID != 0
-                                    ?
-                                GestureDetector(
-                                  onTap: () async{
-                                    final Map<String, dynamic> itemDetails = await CatalogAPI.getItemDetails(guestroomPaintCatalogID.toString());
-                                    Get.to(SPCatalogItem_HO(itemDetails: itemDetails,));
-                                  },
-                                  child: Container(
-                                    margin: const EdgeInsets.only(top: 5 , right: 5),
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFF2F4771),
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    ),
-                                    child: const Row(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 8 , right: 4),
-                                          child: Icon(
-                                            Icons.remove_red_eye,
-                                            size: 20,
-                                            color: Color(0xFFF9FAFB),
+                                    ? GestureDetector(
+                                        onTap: () async {
+                                          final Map<String, dynamic>
+                                              itemDetails =
+                                              await CatalogAPI.getItemDetails(
+                                                  guestroomPaintCatalogID
+                                                      .toString());
+                                          Get.to(SPCatalogItem_HO(
+                                            itemDetails: itemDetails,
+                                          ));
+                                        },
+                                        child: Container(
+                                          margin: const EdgeInsets.only(
+                                              top: 5, right: 5),
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                            color: const Color(0xFF2F4771),
+                                            borderRadius:
+                                                BorderRadius.circular(20.0),
+                                          ),
+                                          child: const Row(
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: 8, right: 4),
+                                                child: Icon(
+                                                  Icons.remove_red_eye,
+                                                  size: 20,
+                                                  color: Color(0xFFF9FAFB),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    EdgeInsets.only(right: 8.0),
+                                                child: Text(
+                                                  "See Item",
+                                                  style: TextStyle(
+                                                    color: Color(0xFFF9FAFB),
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                        Padding(
-                                          padding: EdgeInsets.only(right: 8.0),
-                                          child: Text(
-                                            "See Item",
-                                            style: TextStyle(
-                                              color: Color(0xFFF9FAFB),
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                )
-                                    :
-                                SizedBox(),
+                                      )
+                                    : SizedBox(),
                                 GestureDetector(
-                                  onTap: () async{
-                                    final List<Map<String, dynamic>> SPCatalog = await ServiceProviderDataAPI.getServiceProCatalogItems(task15Data['UserID'].toString());
-                                    final int? choosenID = await Get.to(OpenCatalogSP() , arguments: SPCatalog);
+                                  onTap: () async {
+                                    final List<Map<String, dynamic>> SPCatalog =
+                                        await ServiceProviderDataAPI
+                                            .getServiceProCatalogItems(
+                                                task15Data['UserID']
+                                                    .toString());
+                                    final int? choosenID = await Get.to(
+                                        OpenCatalogSP(),
+                                        arguments: SPCatalog);
                                     setState(() {
-                                      guestroomPaintCatalogID = choosenID ;
+                                      guestroomPaintCatalogID = choosenID;
                                     });
                                   },
                                   child: Container(
-                                    margin: const EdgeInsets.only(top: 5 , right: 5),
+                                    margin: const EdgeInsets.only(top: 5),
                                     height: 40,
                                     decoration: BoxDecoration(
                                       color: const Color(0xFF2F4771),
@@ -543,7 +608,8 @@ class _PaintingHOState extends State<PaintingHO> {
                                     child: const Row(
                                       children: [
                                         Padding(
-                                          padding: EdgeInsets.only(left: 12 , right: 8),
+                                          padding: EdgeInsets.only(
+                                              left: 12, right: 4),
                                           child: Icon(
                                             Icons.folder_copy,
                                             size: 20,
@@ -556,7 +622,7 @@ class _PaintingHOState extends State<PaintingHO> {
                                             "Open Catalog",
                                             style: TextStyle(
                                               color: Color(0xFFF9FAFB),
-                                              fontSize: 15,
+                                              fontSize: 14,
                                               fontWeight: FontWeight.w400,
                                             ),
                                           ),
@@ -573,68 +639,82 @@ class _PaintingHOState extends State<PaintingHO> {
                                 const Expanded(
                                   flex: 1,
                                   child: Padding(
-                                    padding: EdgeInsets.only(left: 8 ,right: 8),
+                                    padding: EdgeInsets.only(
+                                        left: 8, right: 8, top: 6),
                                     child: Text(
-                                      "Kitchen Paint:",
+                                      "Kitchen:",
                                       style: TextStyle(
                                           color: Color(0xFF2F4771),
                                           fontWeight: FontWeight.w500,
-                                          fontSize: 16
-                                      ),
+                                          fontSize: 16),
                                     ),
                                   ),
                                 ),
                                 kitchenPaintCatalogID != 0
-                                    ?
-                                GestureDetector(
-                                  onTap: () async{
-                                    final Map<String, dynamic> itemDetails = await CatalogAPI.getItemDetails(kitchenPaintCatalogID.toString());
-                                    Get.to(SPCatalogItem_HO(itemDetails: itemDetails,));
-                                  },
-                                  child: Container(
-                                    margin: const EdgeInsets.only(top: 5 , right: 5),
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFF2F4771),
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    ),
-                                    child: const Row(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 8 , right: 4),
-                                          child: Icon(
-                                            Icons.remove_red_eye,
-                                            size: 20,
-                                            color: Color(0xFFF9FAFB),
+                                    ? GestureDetector(
+                                        onTap: () async {
+                                          final Map<String, dynamic>
+                                              itemDetails =
+                                              await CatalogAPI.getItemDetails(
+                                                  kitchenPaintCatalogID
+                                                      .toString());
+                                          Get.to(SPCatalogItem_HO(
+                                            itemDetails: itemDetails,
+                                          ));
+                                        },
+                                        child: Container(
+                                          margin: const EdgeInsets.only(
+                                              top: 5, right: 5),
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                            color: const Color(0xFF2F4771),
+                                            borderRadius:
+                                                BorderRadius.circular(20.0),
+                                          ),
+                                          child: const Row(
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: 8, right: 4),
+                                                child: Icon(
+                                                  Icons.remove_red_eye,
+                                                  size: 20,
+                                                  color: Color(0xFFF9FAFB),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    EdgeInsets.only(right: 8.0),
+                                                child: Text(
+                                                  "See Item",
+                                                  style: TextStyle(
+                                                    color: Color(0xFFF9FAFB),
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                        Padding(
-                                          padding: EdgeInsets.only(right: 8.0),
-                                          child: Text(
-                                            "See Item",
-                                            style: TextStyle(
-                                              color: Color(0xFFF9FAFB),
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                )
-                                    :
-                                SizedBox(),
+                                      )
+                                    : SizedBox(),
                                 GestureDetector(
-                                  onTap: () async{
-                                    final List<Map<String, dynamic>> SPCatalog = await ServiceProviderDataAPI.getServiceProCatalogItems(task15Data['UserID'].toString());
-                                    final int? choosenID = await Get.to(OpenCatalogSP() , arguments: SPCatalog);
+                                  onTap: () async {
+                                    final List<Map<String, dynamic>> SPCatalog =
+                                        await ServiceProviderDataAPI
+                                            .getServiceProCatalogItems(
+                                                task15Data['UserID']
+                                                    .toString());
+                                    final int? choosenID = await Get.to(
+                                        OpenCatalogSP(),
+                                        arguments: SPCatalog);
                                     setState(() {
-                                      kitchenPaintCatalogID = choosenID ;
+                                      kitchenPaintCatalogID = choosenID;
                                     });
                                   },
                                   child: Container(
-                                    margin: const EdgeInsets.only(top: 5 , right: 5),
+                                    margin: const EdgeInsets.only(top: 5),
                                     height: 40,
                                     decoration: BoxDecoration(
                                       color: const Color(0xFF2F4771),
@@ -643,7 +723,8 @@ class _PaintingHOState extends State<PaintingHO> {
                                     child: const Row(
                                       children: [
                                         Padding(
-                                          padding: EdgeInsets.only(left: 12 , right: 8),
+                                          padding: EdgeInsets.only(
+                                              left: 12, right: 4),
                                           child: Icon(
                                             Icons.folder_copy,
                                             size: 20,
@@ -656,7 +737,7 @@ class _PaintingHOState extends State<PaintingHO> {
                                             "Open Catalog",
                                             style: TextStyle(
                                               color: Color(0xFFF9FAFB),
-                                              fontSize: 15,
+                                              fontSize: 14,
                                               fontWeight: FontWeight.w400,
                                             ),
                                           ),
@@ -667,7 +748,34 @@ class _PaintingHOState extends State<PaintingHO> {
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 10,),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Center(
+                              child: Container(
+                                width: 250,
+                                margin: EdgeInsets.symmetric(vertical: 12),
+                                decoration: const BoxDecoration(
+                                  color: Color(0xFF2F4771),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(30.0)),
+                                ),
+                                child: TextButton(
+                                  onPressed: () {
+                                    /*
+                                here i want to save the value of them in db
+                                 */
+                                  },
+                                  child: const Text(
+                                    'Save',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      color: Color(0xFFF9FAFB),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -677,7 +785,8 @@ class _PaintingHOState extends State<PaintingHO> {
               ),
               Container(
                 margin: const EdgeInsets.only(top: 5),
-                padding: const EdgeInsets.symmetric(horizontal: 20 , vertical: 5),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
@@ -714,8 +823,7 @@ class _PaintingHOState extends State<PaintingHO> {
                             style: TextStyle(
                                 color: Color(0xFFF9FAFB),
                                 fontSize: 19,
-                                fontWeight: FontWeight.bold
-                            ),
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),
@@ -727,25 +835,27 @@ class _PaintingHOState extends State<PaintingHO> {
                             const Padding(
                               padding: EdgeInsets.all(10),
                               child: Text(
-                                "Provider Notes: ",
+                                "Service Provider Notes: ",
                                 style: TextStyle(
                                     color: Color(0xFF2F4771),
                                     fontSize: 17,
-                                    fontWeight: FontWeight.w400
-                                ),
+                                    fontWeight: FontWeight.w500),
                               ),
                             ),
                             Container(
                               height: 140,
-                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
                               child: TextFormField(
                                 maxLines: 5,
                                 minLines: 5,
                                 enabled: false,
                                 readOnly: true,
                                 decoration: InputDecoration(
-                                  hintText:  task15Data['Notes'] ?? 'No notes available',
-                                  hintStyle: TextStyle(color: Color(0xFF2F4771)),
+                                  hintText: task15Data['Notes'] ??
+                                      'No notes available',
+                                  hintStyle:
+                                      TextStyle(color: Color(0xFF2F4771)),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10.0),
                                     borderSide: const BorderSide(
@@ -762,33 +872,13 @@ class _PaintingHOState extends State<PaintingHO> {
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 10,),
+                            const SizedBox(
+                              height: 10,
+                            ),
                           ],
                         ),
                       ),
                     ],
-                  ),
-                ),
-              ),
-              Container(
-                width: 250,
-                margin: EdgeInsets.symmetric(vertical: 12),
-                decoration: const BoxDecoration(
-                  color: Color(0xFF2F4771),
-                  borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                ),
-                child: TextButton(
-                  onPressed: () {
-                    /*
-                      save values to the db
-                     */
-                  },
-                  child: const Text(
-                    'Save',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Color(0xFFF9FAFB),
-                    ),
                   ),
                 ),
               ),

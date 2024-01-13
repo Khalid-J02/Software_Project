@@ -57,6 +57,7 @@ class _ProjectNavBarState extends State<ProjectNavBar> {
         body: screens[pageIndex],
 
         bottomNavigationBar: Container(
+
           color: const Color(0xFF122247),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 50.0, vertical: 12),

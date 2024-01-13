@@ -56,4 +56,29 @@ class HomeOwnerProjectPageNavbarAPI {
       rethrow; // Rethrow the exception to let the caller handle it
     }
   }
+
+  static Future<Map<String, dynamic>>  getProjectData(String projectId) async {
+    try {
+      final response = await http.get(
+        Uri.parse('$baseUrl/homeowner/project/$projectId'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': '${dotenv.env['token']}',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        Map<String, dynamic> projectData = jsonDecode(response.body);
+        return projectData;
+      } else {
+        throw http.ClientException(
+          'Failed to load project Data\nStatus code: ${response.statusCode}',
+          Uri.parse('$baseUrl/project/$projectId'),
+        );
+      }
+    } catch (e) {
+      print('Exception during getProjectData API call: $e');
+      rethrow; // Rethrow the exception to let the caller handle it
+    }
+  }
 }

@@ -1,11 +1,7 @@
 import 'package:buildnex/Tasks/taskWidgets/taskInformation.dart';
 import 'package:buildnex/Tasks/tasks_HO/LocalGovernorate_Permits/Widgets/serviceProviderProfleData.dart';
-import 'package:buildnex/Tasks/tasks_SP/PropertSurvey/widgets/textFieldTasks.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../APIRequests/homeOwnerTasksAPI.dart';
-
 
 void main() {
   runApp(GetMaterialApp(home: ElectricalInstallHO()));
@@ -19,7 +15,6 @@ class ElectricalInstallHO extends StatefulWidget {
 }
 
 class _ElectricalInstallHOState extends State<ElectricalInstallHO> {
-
   Map<String, dynamic> task8Data = {};
   String taskID = '';
   String taskProjectId = '';
@@ -31,7 +26,7 @@ class _ElectricalInstallHOState extends State<ElectricalInstallHO> {
     setState(() {
       taskID = arguments['taskID'];
       taskProjectId = arguments['taskProjectId'];
-      task8Data = arguments['task8data'] ;
+      task8Data = arguments['task8data'];
     });
   }
 
@@ -45,7 +40,8 @@ class _ElectricalInstallHOState extends State<ElectricalInstallHO> {
           color: Color(0xFFF3D69B),
         ),
         title: Padding(
-          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/5),
+          padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width / 5),
           child: const Text(
             "Task Details",
             style: TextStyle(color: Color(0xFFF3D69B)),
@@ -59,11 +55,24 @@ class _ElectricalInstallHOState extends State<ElectricalInstallHO> {
           padding: const EdgeInsets.only(top: 10),
           child: Column(
             children: [
-              TaskInformation(taskID: task8Data['TaskID']?? 0, taskName: task8Data['TaskName']?? 'Unknown', projectName: task8Data['ProjectName']?? 'Unknown', taskStatus: task8Data['TaskStatus']?? 'Unknown',),
-              SPProfileData(userPicture: task8Data['UserPicture']?? 'images/profilePic96.png', rating: (task8Data['Rating'] as num?)?.toDouble() ?? 0.0, numReviews: task8Data['ReviewCount']?? 0, userName:task8Data['Username']?? 'Unknown',),
+              TaskInformation(
+                taskID: task8Data['TaskID'] ?? 0,
+                taskName: task8Data['TaskName'] ?? 'Unknown',
+                projectName: task8Data['ProjectName'] ?? 'Unknown',
+                taskStatus: task8Data['TaskStatus'] ?? 'Unknown',
+              ),
+              SPProfileData(
+                userPicture:
+                    task8Data['UserPicture'] ?? 'images/profilePic96.png',
+                rating: (task8Data['Rating'] as num?)?.toDouble() ?? 0.0,
+                numReviews: task8Data['ReviewCount'] ?? 0,
+                userName: task8Data['Username'] ?? 'Unknown',
+                taskId: taskID,
+              ),
               Container(
                 margin: const EdgeInsets.only(top: 5),
-                padding: const EdgeInsets.symmetric(horizontal: 20 , vertical: 5),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
@@ -96,16 +105,14 @@ class _ElectricalInstallHOState extends State<ElectricalInstallHO> {
                         ),
                         child: const Center(
                           child: Text(
-                            "Task Details",
+                            "Service Provider Details",
                             style: TextStyle(
                                 color: Color(0xFFF9FAFB),
                                 fontSize: 19,
-                                fontWeight: FontWeight.bold
-                            ),
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),
-                      const SizedBox(height: 10.0),
                       Container(
                         padding: const EdgeInsets.all(10),
                         child: Column(
@@ -118,21 +125,23 @@ class _ElectricalInstallHOState extends State<ElectricalInstallHO> {
                                 style: TextStyle(
                                     color: Color(0xFF2F4771),
                                     fontSize: 17,
-                                    fontWeight: FontWeight.w400
-                                ),
+                                    fontWeight: FontWeight.w500),
                               ),
                             ),
                             Container(
                               height: 140,
-                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
                               child: TextFormField(
                                 maxLines: 5,
                                 minLines: 5,
                                 enabled: false,
                                 readOnly: true,
                                 decoration: InputDecoration(
-                                  hintText:  task8Data['Notes'] ?? 'No notes available',
-                                  hintStyle: TextStyle(color: Color(0xFF2F4771)),
+                                  hintText: task8Data['Notes'] ??
+                                      'No notes available',
+                                  hintStyle:
+                                      TextStyle(color: Color(0xFF2F4771)),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10.0),
                                     borderSide: const BorderSide(
@@ -149,6 +158,9 @@ class _ElectricalInstallHOState extends State<ElectricalInstallHO> {
                                 ),
                               ),
                             ),
+                            const SizedBox(
+                              height: 10,
+                            ),
                           ],
                         ),
                       ),
@@ -158,7 +170,6 @@ class _ElectricalInstallHOState extends State<ElectricalInstallHO> {
               ),
             ],
           ),
-
         ),
       ),
     );

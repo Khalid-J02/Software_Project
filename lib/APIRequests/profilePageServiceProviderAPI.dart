@@ -44,4 +44,32 @@ class ServiceProviderProfilePageAPI {
       throw Exception('Failed to update profile');
     }
   }
+
+  static Future<String> editUserProfileImage(String userImage) async {
+    try {
+      final response = await http.put(
+        Uri.parse('$baseUrl/user/editProfileImage'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': '${dotenv.env['token']}',
+        },
+        body: jsonEncode({
+          'userImage': userImage,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        String message = jsonDecode(response.body);
+        return message;
+      } else {
+        throw http.ClientException(
+          'Failed to edit user profile image\nStatus code: ${response.statusCode}',
+          Uri.parse('$baseUrl/editProfileImage'),
+        );
+      }
+    } catch (e) {
+      print('Exception during editUserProfileImage API call: $e');
+      throw e;
+    }
+  }
 }
