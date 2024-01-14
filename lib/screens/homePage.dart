@@ -57,50 +57,52 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        // backgroundColor: Colors.white, //#abcdd2 chose this color instead
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Color(0xFFF3D69B),
-            onPressed: () async {
-              await addNewProject();
-            },
-          child: const Icon(Icons.add , color: Color(0xFF122247),),
-        ),
-        appBar: AppBar(
-          leading: Icon(Icons.house_outlined , color: Color(0xFFF3D69B),),
-          title: const Text(
-            'Your Constructions',
-            style: TextStyle(
+    return Scaffold(
+      // backgroundColor: Colors.white, //#abcdd2 chose this color instead
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Color(0xFFF3D69B),
+        onPressed: () async {
+          await addNewProject();
+        },
+        child: const Icon(Icons.add , color: Color(0xFF122247),),
+      ),
+      appBar: AppBar(
+        leading: Icon(Icons.house_outlined , color: Color(0xFFF3D69B),),
+        title: const Text(
+          'Your Constructions',
+          style: TextStyle(
               color: Color(0xFFF3D69B)
-            ),
           ),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.message , color: Colors.white ,), // Choose your preferred icon
-              onPressed: () {
-                Get.to(ListChatScreen());
-              },
-            ),
-          ],
-          elevation: 0,
-          backgroundColor: Color(0xFF122247),//Colors.white,
         ),
-
-        body: SafeArea(
-          child: Container(
-            color: Color(0xFF2F4771), // 0xFF42747B
-            child: ListView.builder(
-              itemCount: usersProject.length,
-              itemBuilder: (context, index) {
-                return UserProjects(
+        actions: [
+          IconButton(
+            icon: Icon(Icons.message , color: Colors.white , size: 24), // Choose your preferred icon
+            onPressed: () {
+              Get.to(ListChatScreen());
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.logout , color: Colors.white , size: 24,), // Choose your preferred icon
+            onPressed: () {
+              Get.offAllNamed('/');
+            },
+          ),
+        ],
+        elevation: 0,
+        backgroundColor: Color(0xFF122247),//Colors.white,
+      ),
+      body: SafeArea(
+        child: Container(
+          color: Color(0xFF2F4771), // 0xFF42747B
+          child: ListView.builder(
+            itemCount: usersProject.length,
+            itemBuilder: (context, index) {
+              return UserProjects(
                 projectId: usersProject[index]['projectId'].toString(),
                 projectName: usersProject[index]['projectName'],
                 projectStatus: usersProject[index]['projectStatus'].toString(),
-                );
-              },
-            ),
+              );
+            },
           ),
         ),
       ),

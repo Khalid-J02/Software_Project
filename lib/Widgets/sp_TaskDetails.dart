@@ -52,9 +52,6 @@ class _SPTasksDetailsState extends State<SPTasksDetails> {
             color: const  Color(0xFF6781A6),
             borderRadius: BorderRadius.circular(12),
 
-            // border: Border.all(
-            //     color: Color(0xFFF3D69B)
-            // )
           border: Border.all(
             color: borderColor,
             width: 2.0,
@@ -127,7 +124,7 @@ class _SPTasksDetailsState extends State<SPTasksDetails> {
 
                       if(widget.taskNumber == '1'){
                         final Map<String, dynamic> data = await ServiceProviderGetTasksAPI.getTask1Data(widget.taskID);
-                        Get.toNamed(path,
+                        Get.offNamed(path,
                             arguments: {
                               'taskID': widget.taskID,
                               'taskProjectId': widget.taskProjectId ,
@@ -137,7 +134,7 @@ class _SPTasksDetailsState extends State<SPTasksDetails> {
 
                       if(widget.taskNumber == '2'){
                         final Map<String, dynamic> data = await ServiceProviderGetTasksAPI.getTask2Data(widget.taskID,widget.taskProjectId);
-                        Get.toNamed(path,
+                        Get.offNamed(path,
                             arguments: {
                               'taskID': widget.taskID,
                               'taskProjectId': widget.taskProjectId ,
@@ -147,7 +144,7 @@ class _SPTasksDetailsState extends State<SPTasksDetails> {
 
                       if(widget.taskNumber == '3'){
                         final Map<String, dynamic> data = await ServiceProviderGetTasksAPI.getTask3Data(widget.taskID);
-                        Get.toNamed(path,
+                        Get.offNamed(path,
                             arguments: {
                               'taskID': widget.taskID,
                               'taskProjectId': widget.taskProjectId ,
@@ -157,7 +154,7 @@ class _SPTasksDetailsState extends State<SPTasksDetails> {
 
                       if(widget.taskNumber == '4'){
                         final Map<String, dynamic> data = await ServiceProviderGetTasksAPI.getTask4Data(widget.taskID,widget.taskProjectId);
-                        Get.toNamed(path,
+                        Get.offNamed(path,
                             arguments: {
                               'taskID': widget.taskID,
                               'taskProjectId': widget.taskProjectId ,
@@ -167,7 +164,7 @@ class _SPTasksDetailsState extends State<SPTasksDetails> {
 
                       if(widget.taskNumber == '5'){
                         final Map<String, dynamic> data = await ServiceProviderGetTasksAPI.getTask5Data(widget.taskID,widget.taskProjectId);
-                        Get.toNamed(path,
+                        Get.offNamed(path,
                             arguments: {
                               'taskID': widget.taskID,
                               'taskProjectId': widget.taskProjectId ,
@@ -177,7 +174,7 @@ class _SPTasksDetailsState extends State<SPTasksDetails> {
 
                       if(widget.taskNumber == '6'){
                         final Map<String, dynamic> data = await ServiceProviderGetTasksAPI.getTask6Data(widget.taskID,widget.taskProjectId);
-                        Get.toNamed(path,
+                        Get.offNamed(path,
                             arguments: {
                               'taskID': widget.taskID,
                               'taskProjectId': widget.taskProjectId ,
@@ -187,7 +184,7 @@ class _SPTasksDetailsState extends State<SPTasksDetails> {
 
                       if(widget.taskNumber == '7'){
                         final Map<String, dynamic> data = await ServiceProviderGetTasksAPI.getTask6Data(widget.taskID,widget.taskProjectId);
-                        Get.toNamed(path,
+                        Get.offNamed(path,
                             arguments: {
                               'taskID': widget.taskID,
                               'taskProjectId': widget.taskProjectId ,
@@ -197,7 +194,7 @@ class _SPTasksDetailsState extends State<SPTasksDetails> {
 
                       if(widget.taskNumber == '8'){
                         final Map<String, dynamic> data = await ServiceProviderGetTasksAPI.getTask6Data(widget.taskID,widget.taskProjectId);
-                        Get.toNamed(path,
+                        Get.offNamed(path,
                             arguments: {
                               'taskID': widget.taskID,
                               'taskProjectId': widget.taskProjectId ,
@@ -207,7 +204,7 @@ class _SPTasksDetailsState extends State<SPTasksDetails> {
 
                       if(widget.taskNumber == '9'){
                         final Map<String, dynamic> data = await ServiceProviderGetTasksAPI.getTask6Data(widget.taskID,widget.taskProjectId);
-                        Get.toNamed(path,
+                        Get.offNamed(path,
                             arguments: {
                               'taskID': widget.taskID,
                               'taskProjectId': widget.taskProjectId ,
@@ -217,7 +214,7 @@ class _SPTasksDetailsState extends State<SPTasksDetails> {
 
                       if(widget.taskNumber == '10'){
                         final Map<String, dynamic> data = await ServiceProviderGetTasksAPI.getTask6Data(widget.taskID,widget.taskProjectId);
-                        Get.toNamed(path,
+                        Get.offNamed(path,
                             arguments: {
                               'taskID': widget.taskID,
                               'taskProjectId': widget.taskProjectId ,
@@ -227,7 +224,7 @@ class _SPTasksDetailsState extends State<SPTasksDetails> {
 
                       if(widget.taskNumber == '11'){
                         final Map<String, dynamic> data = await ServiceProviderGetTasksAPI.getTask6Data(widget.taskID,widget.taskProjectId);
-                        Get.toNamed(path,
+                        Get.offNamed(path,
                             arguments: {
                               'taskID': widget.taskID,
                               'taskProjectId': widget.taskProjectId ,
@@ -237,7 +234,7 @@ class _SPTasksDetailsState extends State<SPTasksDetails> {
 
                       if(widget.taskNumber == '12'){
                         final Map<String, dynamic> data = await ServiceProviderGetTasksAPI.getTask6Data(widget.taskID,widget.taskProjectId);
-                        Get.toNamed(path,
+                        Get.offNamed(path,
                             arguments: {
                               'taskID': widget.taskID,
                               'taskProjectId': widget.taskProjectId ,
@@ -247,7 +244,7 @@ class _SPTasksDetailsState extends State<SPTasksDetails> {
 
                       if(widget.taskNumber == '13'){
                         final Map<String, dynamic> data = await ServiceProviderGetTasksAPI.getTask6Data(widget.taskID,widget.taskProjectId);
-                        Get.toNamed(path,
+                        Get.offNamed(path,
                             arguments: {
                               'taskID': widget.taskID,
                               'taskProjectId': widget.taskProjectId ,
@@ -257,7 +254,7 @@ class _SPTasksDetailsState extends State<SPTasksDetails> {
 
                       if(widget.taskNumber == '14'){
                         final Map<String, dynamic> data = await ServiceProviderGetTasksAPI.getTask6Data(widget.taskID,widget.taskProjectId);
-                        Get.toNamed(path,
+                        Get.offNamed(path,
                             arguments: {
                               'taskID': widget.taskID,
                               'taskProjectId': widget.taskProjectId ,
@@ -267,7 +264,7 @@ class _SPTasksDetailsState extends State<SPTasksDetails> {
 
                       if(widget.taskNumber == '15'){
                         final Map<String, dynamic> data = await ServiceProviderGetTasksAPI.getTask6Data(widget.taskID,widget.taskProjectId);
-                        Get.toNamed(path,
+                        Get.offNamed(path,
                             arguments: {
                               'taskID': widget.taskID,
                               'taskProjectId': widget.taskProjectId ,

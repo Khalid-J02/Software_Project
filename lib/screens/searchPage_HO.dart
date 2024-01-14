@@ -235,15 +235,6 @@ class _SearchPageState extends State<SearchPage> {
           'Search',
           style: TextStyle(color: Color(0xFFF3D69B)),
         ),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.only(right: 12.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage(
-                  'images/Profile Icon.png'), // add gesturewidget on tap function
-            ),
-          ),
-        ],
         elevation: 0,
         backgroundColor: Color(0xFF122247), //Colors.white,
       ),

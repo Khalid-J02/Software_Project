@@ -57,7 +57,7 @@ class _ElectricalInstallHOState extends State<ElectricalInstallHO> {
             children: [
               TaskInformation(
                 taskID: task8Data['TaskID'] ?? 0,
-                taskName: task8Data['TaskName'] ?? 'Unknown',
+                taskName: 'Electrical Work',
                 projectName: task8Data['ProjectName'] ?? 'Unknown',
                 taskStatus: task8Data['TaskStatus'] ?? 'Unknown',
               ),

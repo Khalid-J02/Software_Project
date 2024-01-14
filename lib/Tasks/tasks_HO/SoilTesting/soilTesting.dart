@@ -65,7 +65,7 @@ class _SoilTestingState extends State<SoilTesting> {
             children: [
               TaskInformation(
                 taskID: task3Data['TaskID'] ?? 0,
-                taskName: task3Data['TaskName'] ?? 'Unknown',
+                taskName: 'Soil Investigation',
                 projectName: task3Data['ProjectName'] ?? 'Unknown',
                 taskStatus: task3Data['TaskStatus'] ?? 'Unknown',
               ),

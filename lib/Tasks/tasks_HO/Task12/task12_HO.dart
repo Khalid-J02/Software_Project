@@ -89,7 +89,7 @@ class _TileInstallHOState extends State<TileInstallHO> {
           padding: const EdgeInsets.only(top: 10),
           child: Column(
             children: [
-              TaskInformation(taskID: task12Data['TaskID']?? 0, taskName: task12Data['TaskName']?? 'Unknown', projectName: task12Data['ProjectName']?? 'Unknown', taskStatus: task12Data['TaskStatus']?? 'Unknown',),
+              TaskInformation(taskID: task12Data['TaskID']?? 0, taskName: 'Tile Work', projectName: task12Data['ProjectName']?? 'Unknown', taskStatus: task12Data['TaskStatus']?? 'Unknown',),
               SPProfileData(userPicture: task12Data['UserPicture']?? 'images/profilePic96.png', rating: (task12Data['Rating'] as num?)?.toDouble() ?? 0.0, numReviews: task12Data['ReviewCount']?? 0, userName:task12Data['Username']?? 'Unknown', taskId: taskID,),
               Container(
                 margin: const EdgeInsets.only(top: 5),

@@ -83,7 +83,7 @@ class _DoorInstallationHOState extends State<DoorInstallationHO> {
           padding: const EdgeInsets.only(top: 10),
           child: Column(
             children: [
-              TaskInformation(taskID: task14Data['TaskID']?? 0, taskName: task14Data['TaskName']?? 'Unknown', projectName: task14Data['ProjectName']?? 'Unknown', taskStatus: task14Data['TaskStatus']?? 'Unknown',),
+              TaskInformation(taskID: task14Data['TaskID']?? 0, taskName: 'Carpentry Work', projectName: task14Data['ProjectName']?? 'Unknown', taskStatus: task14Data['TaskStatus']?? 'Unknown',),
               SPProfileData(userPicture: task14Data['UserPicture']?? 'images/profilePic96.png', rating: (task14Data['Rating'] as num?)?.toDouble() ?? 0.0, numReviews: task14Data['ReviewCount']?? 0, userName:task14Data['Username']?? 'Unknown', taskId: taskID,),
               Container(
                 margin: const EdgeInsets.only(top: 5),

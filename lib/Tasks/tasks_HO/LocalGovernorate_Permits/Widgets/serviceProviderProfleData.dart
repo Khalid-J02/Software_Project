@@ -97,17 +97,17 @@ class SPProfileData extends StatelessWidget {
                               'numReviews': numReviews,
                             });
                           },
+                          style: ElevatedButton.styleFrom(
+                            primary: Color(0xFF2F4771), // Background color
+                            shape: StadiumBorder(), // Oval shape
+                            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10), // Button size
+                          ),
                           child: const Text(
                             'Review',
                             style: TextStyle(
                               fontSize: 14.0,
                               color: Colors.white,
                             ),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            primary: Color(0xFF2F4771), // Background color
-                            shape: StadiumBorder(), // Oval shape
-                            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10), // Button size
                           ),
                         ),
                       ],

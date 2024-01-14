@@ -40,6 +40,19 @@ class _ServiceProviderRequestsState extends State<ServiceProviderRequests> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: const Icon(
+          Icons.question_answer_sharp,
+          color: Color(0xFFF3D69B),
+        ),
+        title: const Text(
+          //projectName,
+          "Requests",
+          style: TextStyle(color: Color(0xFFF3D69B)),
+        ),
+        elevation: 0,
+        backgroundColor: Color(0xFF122247), //Colors.white,
+      ),
       body: SafeArea(
         child: Container(
           color: Color(0xFF2F4771),

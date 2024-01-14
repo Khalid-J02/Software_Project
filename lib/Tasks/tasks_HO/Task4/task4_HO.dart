@@ -149,7 +149,7 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
             children: [
               TaskInformation(
                 taskID: task4Data['TaskID'] ?? 0,
-                taskName: task4Data['TaskName'] ?? 'Unknown',
+                taskName: 'Design and Planning',
                 projectName: task4Data['ProjectName'] ?? 'Unknown',
                 taskStatus: task4Data['TaskStatus'] ?? 'Unknown',
               ),

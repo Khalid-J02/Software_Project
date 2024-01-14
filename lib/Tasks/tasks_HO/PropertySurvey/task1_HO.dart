@@ -62,7 +62,7 @@ class _HOPropertySurveyState extends State<HOPropertySurvey> {
             children: [
               TaskInformation(
                 taskID: propertySurveyData['TaskID'] ?? 0,
-                taskName: propertySurveyData['TaskName'] ?? 'Unknown',
+                taskName: 'Property Survey',
                 projectName: propertySurveyData['ProjectName'] ?? 'Unknown',
                 taskStatus: propertySurveyData['TaskStatus'] ?? 'Unknown',
               ),

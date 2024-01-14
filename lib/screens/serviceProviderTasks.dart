@@ -1,8 +1,10 @@
 
+import 'package:buildnex/screens/MSG_System/listChatScreen.dart';
 import 'package:flutter/material.dart';
 
 import '../APIRequests/serviceProviderTasksAPI.dart';
 import '../Widgets/sp_TaskDetails.dart';
+import 'package:get/get.dart';
 
 class ServiceProviderTasks extends StatefulWidget {
   const ServiceProviderTasks({super.key});
@@ -42,6 +44,27 @@ class _ServiceProviderTasksState extends State<ServiceProviderTasks> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: const Icon(
+          Icons.home,
+          color: Color(0xFFF3D69B),
+        ),
+        title: const Text(
+          //projectName,
+          "Home",
+          style: TextStyle(color: Color(0xFFF3D69B)),
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.message , color: Colors.white ,), // Choose your preferred icon
+            onPressed: () {
+              Get.to(ListChatScreen());
+            },
+          ),
+        ],
+        elevation: 0,
+        backgroundColor: Color(0xFF122247), //Colors.white,
+      ),
       body: SafeArea(
         child: Container(
           color: Color(0xFF2F4771),

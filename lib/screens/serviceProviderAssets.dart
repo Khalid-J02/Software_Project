@@ -57,6 +57,19 @@ class _ServiceProviderAssetsState extends State<ServiceProviderAssets> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: const Icon(
+          Icons.work,
+          color: Color(0xFFF3D69B),
+        ),
+        title: const Text(
+          //projectName,
+          "My Work",
+          style: TextStyle(color: Color(0xFFF3D69B)),
+        ),
+        elevation: 0,
+        backgroundColor: Color(0xFF122247), //Colors.white,
+      ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color(0xFFF9FAFB),
         onPressed: () async {

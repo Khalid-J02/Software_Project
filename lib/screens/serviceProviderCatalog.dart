@@ -46,6 +46,19 @@ class _ServiceProviderCatalogState extends State<ServiceProviderCatalog> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: const Icon(
+          Icons.folder_copy,
+          color: Color(0xFFF3D69B),
+        ),
+        title: const Text(
+          //projectName,
+          "Catalog",
+          style: TextStyle(color: Color(0xFFF3D69B)),
+        ),
+        elevation: 0,
+        backgroundColor: Color(0xFF122247), //Colors.white,
+      ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color(0xFFF9FAFB),
         onPressed: () async {

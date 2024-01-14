@@ -57,7 +57,7 @@ class _InsulationInstallHOState extends State<InsulationInstallHO> {
             children: [
               TaskInformation(
                 taskID: task9Data['TaskID'] ?? 0,
-                taskName: task9Data['TaskName'] ?? 'Unknown',
+                taskName: 'Insulation Work',
                 projectName: task9Data['ProjectName'] ?? 'Unknown',
                 taskStatus: task9Data['TaskStatus'] ?? 'Unknown',
               ),

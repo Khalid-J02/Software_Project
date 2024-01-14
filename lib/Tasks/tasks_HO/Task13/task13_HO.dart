@@ -102,7 +102,7 @@ class _PaintingHOState extends State<PaintingHO> {
             children: [
               TaskInformation(
                 taskID: task15Data['TaskID'] ?? 0,
-                taskName: task15Data['TaskName'] ?? 'Unknown',
+                taskName: 'Painting Work',
                 projectName: task15Data['ProjectName'] ?? 'Unknown',
                 taskStatus: task15Data['TaskStatus'] ?? 'Unknown',
               ),

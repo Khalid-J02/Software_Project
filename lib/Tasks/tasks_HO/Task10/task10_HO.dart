@@ -57,7 +57,7 @@ class _PlasteringHOState extends State<PlasteringHO> {
           padding: const EdgeInsets.only(top: 10),
           child: Column(
             children: [
-              TaskInformation(taskID: task11Data['TaskID']?? 0, taskName: task11Data['TaskName']?? 'Unknown', projectName: task11Data['ProjectName']?? 'Unknown', taskStatus: task11Data['TaskStatus']?? 'Unknown',),
+              TaskInformation(taskID: task11Data['TaskID']?? 0, taskName: 'Plastering Work', projectName: task11Data['ProjectName']?? 'Unknown', taskStatus: task11Data['TaskStatus']?? 'Unknown',),
               SPProfileData(userPicture: task11Data['UserPicture']?? 'images/profilePic96.png', rating: (task11Data['Rating'] as num?)?.toDouble() ?? 0.0, numReviews: task11Data['ReviewCount']?? 0, userName:task11Data['Username']?? 'Unknown', taskId: taskID,),
               Container(
                 margin: const EdgeInsets.only(top: 5),

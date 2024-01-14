@@ -98,7 +98,7 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
             children: [
               TaskInformation(
                 taskID: task10Data['TaskID'] ?? 0,
-                taskName: task10Data['TaskName'] ?? 'Unknown',
+                taskName: 'Door Frame Installation',
                 projectName: task10Data['ProjectName'] ?? 'Unknown',
                 taskStatus: task10Data['TaskStatus'] ?? 'Unknown',
               ),

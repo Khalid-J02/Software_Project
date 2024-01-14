@@ -26,43 +26,63 @@ class _NavBarHomeOwnerState extends State<NavBarHomeOwner> {
 
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
-      home: Scaffold(
-        backgroundColor: const Color(0xFF2F4771),
-        // body: SafeArea(
-        //   child:
-        // ),
-        body: screens[pageIndex],
-        bottomNavigationBar: Container(
-          color: const Color(0xFF122247),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0 , vertical: 12),
-            child: GNav(
-              gap: 8,
-              backgroundColor: const Color(0xFF122247),
-              color: const Color(0xFFF3D69B),
-              activeColor: const Color(0xFFF3D69B),
-              tabBackgroundColor: const Color(0xFF2F4991),
-              padding: const EdgeInsets.all(16),
-              onTabChange: (activeIndex) {
-                setState(() {
-                  pageIndex = activeIndex ;
-                });
-              },
-              tabs: const [
-                GButton(
-                  icon: Icons.home,
-                  text: 'Home',
-                ),
-                GButton(
-                  icon: Icons.search,
-                  text: 'Search',
-                ),
-                GButton(
-                  icon: Icons.account_circle_outlined,
-                  text: 'Profile',
-                ),
-              ],
+    return  WillPopScope(
+      onWillPop: () async {
+        final shouldPop = await showDialog<bool>(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Are you sure?'),
+            content: Text('Do you want to Logout?'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: Text('No'),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: Text('Yes'),
+              ),
+            ],
+          ),
+        );
+        return shouldPop ?? false; // Default to false if dialog is dismissed
+      },
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          backgroundColor: const Color(0xFF2F4771),
+          body: screens[pageIndex],
+          bottomNavigationBar: Container(
+            color: const Color(0xFF122247),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0 , vertical: 12),
+              child: GNav(
+                gap: 8,
+                backgroundColor: const Color(0xFF122247),
+                color: const Color(0xFFF3D69B),
+                activeColor: const Color(0xFFF3D69B),
+                tabBackgroundColor: const Color(0xFF2F4991),
+                padding: const EdgeInsets.all(16),
+                onTabChange: (activeIndex) {
+                  setState(() {
+                    pageIndex = activeIndex ;
+                  });
+                },
+                tabs: const [
+                  GButton(
+                    icon: Icons.home,
+                    text: 'Home',
+                  ),
+                  GButton(
+                    icon: Icons.search,
+                    text: 'Search',
+                  ),
+                  GButton(
+                    icon: Icons.account_circle_outlined,
+                    text: 'Profile',
+                  ),
+                ],
+              ),
             ),
           ),
         ),

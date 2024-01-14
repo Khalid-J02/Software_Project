@@ -86,7 +86,7 @@ class _ConstructionHOState extends State<ConstructionHO> {
           padding: const EdgeInsets.only(top: 10),
           child: Column(
             children: [
-              TaskInformation(taskID: task6Data['TaskID']?? 0, taskName: task6Data['TaskName']?? 'Unknown', projectName: task6Data['ProjectName']?? 'Unknown', taskStatus: task6Data['TaskStatus']?? 'Unknown',),
+              TaskInformation(taskID: task6Data['TaskID']?? 0, taskName: 'Foundation and Framing Construction', projectName: task6Data['ProjectName']?? 'Unknown', taskStatus: task6Data['TaskStatus']?? 'Unknown',),
               SPProfileData(userPicture: task6Data['UserPicture']?? 'images/profilePic96.png', rating: (task6Data['Rating'] as num?)?.toDouble() ?? 0.0, numReviews: task6Data['ReviewCount']?? 0, userName:task6Data['Username']?? 'Unknown', taskId: taskID,),
               Container(
                 margin: const EdgeInsets.only(top: 5),

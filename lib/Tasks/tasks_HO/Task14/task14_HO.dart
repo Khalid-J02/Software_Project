@@ -82,7 +82,7 @@ class _WindowInstallationHOState extends State<WindowInstallationHO> {
           padding: const EdgeInsets.only(top: 10),
           child: Column(
             children: [
-              TaskInformation(taskID: task13Data['TaskID']?? 0, taskName: task13Data['TaskName']?? 'Unknown', projectName: task13Data['ProjectName']?? 'Unknown', taskStatus: task13Data['TaskStatus']?? 'Unknown',),
+              TaskInformation(taskID: task13Data['TaskID']?? 0, taskName: 'Aluminum Work', projectName: task13Data['ProjectName']?? 'Unknown', taskStatus: task13Data['TaskStatus']?? 'Unknown',),
               SPProfileData(userPicture: task13Data['UserPicture']?? 'images/profilePic96.png', rating: (task13Data['Rating'] as num?)?.toDouble() ?? 0.0, numReviews: task13Data['ReviewCount']?? 0, userName:task13Data['Username']?? 'Unknown', taskId: taskID,),
               Container(
                 margin: const EdgeInsets.only(top: 5),
