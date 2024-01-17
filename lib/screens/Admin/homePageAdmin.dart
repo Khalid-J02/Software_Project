@@ -136,7 +136,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: const Text(
-                      "Project / City Distribution :",
+                      "Projects per City :",
                       style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
@@ -148,7 +148,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: const Text(
-                      "Projects Progress Distribution :",
+                      "Projects Completion :",
                       style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
@@ -165,7 +165,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 12),
                           child: const Text(
-                            "Projects Status Dist. :",
+                            "Projects Status :",
                             style: TextStyle(
                               fontSize: 17,
                               fontWeight: FontWeight.w500,
@@ -330,7 +330,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: const Text(
-                      "HomeOwner / City Distribution :",
+                      "HomeOwners per City :",
                       style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
@@ -342,7 +342,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: const Text(
-                      "Service Provider / City Distribution :",
+                      "Service Provider per City :",
                       style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
@@ -351,18 +351,6 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                     ),
                   ),
                   ServiceProvidersCityDist(),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: const Text(
-                      " Finished Tasks / Service Distribution :",
-                      style: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xFF022D6B),
-                      ),
-                    ),
-                  ),
-                  TasksToServiceDist(),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 12.0),
                     child: Row(
@@ -371,7 +359,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 12),
                           child: const Text(
-                            "Service Provider Dist. :",
+                            "Service Provider Rating :",
                             style: TextStyle(
                               fontSize: 17,
                               fontWeight: FontWeight.w500,
@@ -403,11 +391,11 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                                 if(_dropDownValueSPRating == 'General'){
                                   setState(() {
                                     chartDataSPRating = [
-                                      [40 , '1' , const Color.fromRGBO(255, 80, 57, 1)],
-                                      [12 , '2' , const Color.fromRGBO(255, 171, 67, 1)],
-                                      [20 , '3' , const Color.fromRGBO(123, 201, 82, 1)],
-                                      [20 , '4' , const Color.fromRGBO(123, 201, 82, 1)],
-                                      [20 , '5' , const Color.fromRGBO(123, 201, 82, 1)],
+                                      [40 , '★' , const Color.fromRGBO(255, 80, 57, 1)],
+                                      [12 , '★★' , const Color.fromRGBO(255, 171, 67, 1)],
+                                      [20 , '★★★' , const Color.fromRGBO(123, 201, 82, 1)],
+                                      [20 , '★★★★' , const Color.fromRGBO(123, 201, 82, 1)],
+                                      [20 , '★★★★★' , const Color.fromRGBO(123, 201, 82, 1)],
                                     ];
                                   });
                                 }
@@ -415,11 +403,11 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                                   // هون الاحسن تعملي زي فنكشن ببعثله انا المدينة و هو برجع الشي مباشرة بس انا هون عشان بتست ستاتيك داتا عملتها هيك
                                   setState(() {
                                     chartDataSPRating = [
-                                      [40 , '1' , const Color.fromRGBO(255, 80, 57, 1)],
-                                      [12 , '2' , const Color.fromRGBO(255, 171, 67, 1)],
-                                      [20 , '3' , const Color.fromRGBO(123, 201, 82, 1)],
-                                      [20 , '4' , const Color.fromRGBO(123, 201, 82, 1)],
-                                      [20 , '5' , const Color.fromRGBO(123, 201, 82, 1)],
+                                      [40 , '★' , const Color.fromRGBO(255, 80, 57, 1)],
+                                      [12 , '★★' , const Color.fromRGBO(255, 171, 67, 1)],
+                                      [20 , '★★★' , const Color.fromRGBO(123, 201, 82, 1)],
+                                      [20 , '★★★★' , const Color.fromRGBO(123, 201, 82, 1)],
+                                      [20 , '★★★★★' , const Color.fromRGBO(123, 201, 82, 1)],
                                     ];
                                   });
                                 }
@@ -427,11 +415,11 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                                   // هون الاحسن تعملي زي فنكشن ببعثله انا المدينة و هو برجع الشي مباشرة بس انا هون عشان بتست ستاتيك داتا عملتها هيك
                                   setState(() {
                                     chartDataSPRating = [
-                                      [40 , '1' , const Color.fromRGBO(255, 80, 57, 1)],
-                                      [12 , '2' , const Color.fromRGBO(255, 171, 67, 1)],
-                                      [20 , '3' , const Color.fromRGBO(123, 201, 82, 1)],
-                                      [20 , '4' , const Color.fromRGBO(123, 201, 82, 1)],
-                                      [20 , '5' , const Color.fromRGBO(123, 201, 82, 1)],
+                                      [40 , '★' , const Color.fromRGBO(255, 80, 57, 1)],
+                                      [12 , '★★' , const Color.fromRGBO(255, 171, 67, 1)],
+                                      [20 , '★★★' , const Color.fromRGBO(123, 201, 82, 1)],
+                                      [20 , '★★★★' , const Color.fromRGBO(123, 201, 82, 1)],
+                                      [20 , '★★★★★' , const Color.fromRGBO(123, 201, 82, 1)],
                                     ];
                                   });
                                 }
@@ -439,11 +427,11 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                                   // هون الاحسن تعملي زي فنكشن ببعثله انا المدينة و هو برجع الشي مباشرة بس انا هون عشان بتست ستاتيك داتا عملتها هيك
                                   setState(() {
                                     chartDataSPRating = [
-                                      [40 , '1' , const Color.fromRGBO(255, 80, 57, 1)],
-                                      [12 , '2' , const Color.fromRGBO(255, 171, 67, 1)],
-                                      [20 , '3' , const Color.fromRGBO(123, 201, 82, 1)],
-                                      [20 , '4' , const Color.fromRGBO(123, 201, 82, 1)],
-                                      [20 , '5' , const Color.fromRGBO(123, 201, 82, 1)],
+                                      [40 , '★' , const Color.fromRGBO(255, 80, 57, 1)],
+                                      [12 , '★★' , const Color.fromRGBO(255, 171, 67, 1)],
+                                      [20 , '★★★' , const Color.fromRGBO(123, 201, 82, 1)],
+                                      [20 , '★★★★' , const Color.fromRGBO(123, 201, 82, 1)],
+                                      [20 , '★★★★★' , const Color.fromRGBO(123, 201, 82, 1)],
                                     ];
                                   });
                                 }
@@ -451,11 +439,11 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                                   // هون الاحسن تعملي زي فنكشن ببعثله انا المدينة و هو برجع الشي مباشرة بس انا هون عشان بتست ستاتيك داتا عملتها هيك
                                   setState(() {
                                     chartDataSPRating = [
-                                      [40 , '1' , const Color.fromRGBO(255, 80, 57, 1)],
-                                      [12 , '2' , const Color.fromRGBO(255, 171, 67, 1)],
-                                      [20 , '3' , const Color.fromRGBO(123, 201, 82, 1)],
-                                      [20 , '4' , const Color.fromRGBO(123, 201, 82, 1)],
-                                      [20 , '5' , const Color.fromRGBO(123, 201, 82, 1)],
+                                      [40 , '★' , const Color.fromRGBO(255, 80, 57, 1)],
+                                      [12 , '★★' , const Color.fromRGBO(255, 171, 67, 1)],
+                                      [20 , '★★★' , const Color.fromRGBO(123, 201, 82, 1)],
+                                      [20 , '★★★★' , const Color.fromRGBO(123, 201, 82, 1)],
+                                      [20 , '★★★★★' , const Color.fromRGBO(123, 201, 82, 1)],
                                     ];
                                   });
                                 }
@@ -463,11 +451,11 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                                   // هون الاحسن تعملي زي فنكشن ببعثله انا المدينة و هو برجع الشي مباشرة بس انا هون عشان بتست ستاتيك داتا عملتها هيك
                                   setState(() {
                                     chartDataSPRating = [
-                                      [40 , '1' , const Color.fromRGBO(255, 80, 57, 1)],
-                                      [12 , '2' , const Color.fromRGBO(255, 171, 67, 1)],
-                                      [20 , '3' , const Color.fromRGBO(123, 201, 82, 1)],
-                                      [20 , '4' , const Color.fromRGBO(123, 201, 82, 1)],
-                                      [20 , '5' , const Color.fromRGBO(123, 201, 82, 1)],
+                                      [40 , '★' , const Color.fromRGBO(255, 80, 57, 1)],
+                                      [12 , '★★' , const Color.fromRGBO(255, 171, 67, 1)],
+                                      [20 , '★★★' , const Color.fromRGBO(123, 201, 82, 1)],
+                                      [20 , '★★★★' , const Color.fromRGBO(123, 201, 82, 1)],
+                                      [20 , '★★★★★' , const Color.fromRGBO(123, 201, 82, 1)],
                                     ];
                                   });
                                 }
@@ -548,7 +536,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: const Text(
-                      " Finished Tasks / Service Distribution :",
+                      "Finished Tasks per Service :",
                       style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
