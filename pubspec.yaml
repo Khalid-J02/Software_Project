@@ -61,6 +61,7 @@ dependencies:
   open_file: ^3.3.2
   flutter_file_downloader: ^1.2.0
   syncfusion_flutter_charts: ^22.2.12
+  url_launcher: ^6.2.3
 
 dev_dependencies:
   flutter_test:
