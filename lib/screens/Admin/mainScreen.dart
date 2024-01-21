@@ -27,24 +27,25 @@ class _MainAdminPageState extends State<MainAdminPage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        final shouldPop = await showDialog<bool>(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text('Are you sure?'),
-            content: Text('Do you want to Logout?'),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(false),
-                child: Text('No'),
-              ),
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(true),
-                child: Text('Yes'),
-              ),
-            ],
-          ),
-        );
-        return shouldPop ?? false; // Default to false if dialog is dismissed
+        // final shouldPop = await showDialog<bool>(
+        //   context: context,
+        //   builder: (context) => AlertDialog(
+        //     title: Text('Are you sure?'),
+        //     content: Text('Do you want to Logout?'),
+        //     actions: [
+        //       TextButton(
+        //         onPressed: () => Navigator.of(context).pop(false),
+        //         child: Text('No'),
+        //       ),
+        //       TextButton(
+        //         onPressed: () => Navigator.of(context).pop(true),
+        //         child: Text('Yes'),
+        //       ),
+        //     ],
+        //   ),
+        // );
+        // return shouldPop ?? false; // Default to false if dialog is dismissed
+        return false;
       },
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -53,14 +54,14 @@ class _MainAdminPageState extends State<MainAdminPage> {
           bottomNavigationBar: Container(
             color: const Color(0xFF122247),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 50 , vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 50 , vertical: 10),
               child: GNav(
                 gap: 8,
                 backgroundColor: const Color(0xFF122247),
                 color: const Color(0xFFF3D69B),
                 activeColor: const Color(0xFFF3D69B),
                 tabBackgroundColor: const Color(0xFF2F4991),
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(12),
                 onTabChange: (activeIndex) {
                   setState(() {
                     pageIndex = activeIndex ;

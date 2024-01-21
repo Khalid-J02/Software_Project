@@ -59,7 +59,7 @@ class MessagingAPI {
   }
 
   // Function to get service providers for a homeowner
-  static Future<List<dynamic>> getServiceProvidersForHomeowner() async {
+  static Future<Map<String, dynamic>> getServiceProvidersForHomeowner() async {
     final response = await http.get(
       Uri.parse('$baseUrl/user/getServiceProviders'),
       headers: {
@@ -75,7 +75,7 @@ class MessagingAPI {
   }
 
   // Function to get homeowners for a service provider
-  static Future<List<dynamic>> getHomeOwnersForServiceProvider() async {
+  static Future<Map<String, dynamic>> getHomeOwnersForServiceProvider() async {
     final response = await http.get(
       Uri.parse('$baseUrl/user/getHomeOwners'),
       headers: {

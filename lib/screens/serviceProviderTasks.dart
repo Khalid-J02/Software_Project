@@ -2,9 +2,14 @@
 import 'package:buildnex/screens/MSG_System/listChatScreen.dart';
 import 'package:flutter/material.dart';
 
+import '../APIRequests/messageSystem.dart';
+import '../APIRequests/notificationsSystem.dart';
 import '../APIRequests/serviceProviderTasksAPI.dart';
+import '../Widgets/customAlertDialog.dart';
 import '../Widgets/sp_TaskDetails.dart';
 import 'package:get/get.dart';
+
+import 'Notification/homepageNotification.dart';
 
 class ServiceProviderTasks extends StatefulWidget {
   const ServiceProviderTasks({super.key});
@@ -16,27 +21,55 @@ class ServiceProviderTasks extends StatefulWidget {
 class _ServiceProviderTasksState extends State<ServiceProviderTasks> {
 
   List<Map<String, dynamic>> serviceProviderTasks = [];
+  int notificationCount = 0;
+  int unreadMessageCount = 0;
 
   @override
   void initState() {
     super.initState();
-    // Call the API to fetch service provider projects when the widget is initialized
+    _fetchUnreadMessageCount();
+    _fetchNotifications();
     fetchServiceProviderProjects();
+  }
+
+
+  Future<void> _fetchUnreadMessageCount() async {
+    try {
+      Map<String, dynamic> responseData = await MessagingAPI.getHomeOwnersForServiceProvider();
+
+      if (responseData.containsKey('unreadConversationsCount')) {
+        unreadMessageCount = responseData['unreadConversationsCount'];
+      } else {
+        throw Exception('unreadConversationsCount key not found in response');
+      }
+
+      setState(() {
+        // Update your state if necessary
+      });
+    } catch (e) {
+      print('Error fetching unread message count: $e');
+    }
+  }
+
+  Future<void> _fetchNotifications() async {
+    try {
+      int count = await NotificationAPI.getNotificationCount();
+      setState(() {
+        notificationCount = count;
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<void> fetchServiceProviderProjects() async {
     try {
-      // Fetch service provider projects using the API client
       final List<Map<String, dynamic>> projects = await ServiceProviderProjectsAPI.getServiceProviderProjects();
-
-      // Update the state with the fetched projects
       setState(() {
         serviceProviderTasks = projects;
       });
     } catch (e) {
-      // Handle any errors or exceptions during the API call
       print('Error fetching service provider projects: $e');
-      // You might want to show an error message to the user
     }
   }
 
@@ -56,9 +89,84 @@ class _ServiceProviderTasksState extends State<ServiceProviderTasks> {
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.message , color: Colors.white ,), // Choose your preferred icon
+            icon: Stack(
+              clipBehavior: Clip.none,
+              children: <Widget>[
+                Icon(Icons.message, color: Color(0xFFF3D69B), size: 24),
+                if (unreadMessageCount > 0) // Only show if count is greater than 0
+                  Positioned(
+                    right: -3.2,
+                    top: -3.2,
+                    child: Container(
+                      padding: EdgeInsets.all(1.5),
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      constraints: const BoxConstraints(
+                        minWidth: 13,
+                        minHeight: 13,
+                      ),
+                      child: Text(
+                        '$unreadMessageCount', // Show the count here
+                        style: TextStyle(
+                          color:Color(0xFFF3D69B),
+                          fontSize: 10,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
             onPressed: () {
-              Get.to(ListChatScreen());
+              Get.offNamed('/Messages');
+            },
+          ),
+          IconButton(
+            icon: Stack(
+              clipBehavior: Clip.none,
+              children: <Widget>[
+                Icon(Icons.notifications, color: Color(0xFFF3D69B) , size: 24),
+                if (notificationCount > 0) // Only show if count is greater than 0
+                  Positioned(
+                    right: -3.2,
+                    top: -3.2,
+                    child: Container(
+                      padding: EdgeInsets.all(1.5),
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      constraints: const BoxConstraints(
+                        minWidth: 13,
+                        minHeight: 13,
+                      ),
+                      child: Text(
+                        '$notificationCount', // Show the count here
+                        style: TextStyle(
+                          color: Color(0xFFF3D69B),
+                          fontSize: 10,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+            onPressed: () {
+              Get.offNamed('/Notifications');
+            },
+
+          ),
+          IconButton(
+            icon: Icon(Icons.logout , color: Color(0xFFF3D69B) , size: 24,), // Choose your preferred icon
+            onPressed: () async {
+              bool? shouldLogout = await CustomAlertDialog.showLogoutConfirmationDialog(context);
+              if (shouldLogout == true) {
+                Get.offAllNamed('/');
+
+              }
             },
           ),
         ],

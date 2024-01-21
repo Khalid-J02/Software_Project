@@ -188,12 +188,12 @@ class _RegisterPageState extends State<_RegisterPage> {
                         child: ElevatedButton(
                           onPressed: () {
                             setState(() {
-                              serviceType = "Insulation & HVAC Contractors";
+                              serviceType = "Insulation Technician";
                             });
                             Navigator.pop(context);
                           },
                           style: ElevatedButtonStyle(),
-                          child: Text("Insulation & HVAC Contractors",
+                          child: Text("Insulation Technician",
                               style: ElevatedButtonTextStyle()),
                         ),
                       ),

@@ -123,7 +123,7 @@ class ServiceProviderDataAPI {
         final String requestStatus = jsonDecode(response.body);
         return requestStatus ;
 
-      } else if (response.statusCode == 404) {
+      } else if (response.statusCode == 400) {
         final String requestStatus = jsonDecode(response.body);
         return requestStatus ;
       }

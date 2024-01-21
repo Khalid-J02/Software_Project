@@ -7,6 +7,7 @@ class UserModel {
   late final String image ;
   late final String lastActive ;
   late final bool isOnline ;
+  late final String conversationStatus ;
 
   UserModel({
     required this.uid,
@@ -14,7 +15,8 @@ class UserModel {
     required this.email,
     required this.image,
     required this.isOnline,
-    required this.lastActive
+    required this.lastActive,
+    required this.conversationStatus,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -25,6 +27,7 @@ class UserModel {
       image: json['UserPicture'],
       isOnline: json['OnlineStatus'] == 'true',
       lastActive: json['LastActive'],
+      conversationStatus: json['conversationStatus'],
     );
   }
 }

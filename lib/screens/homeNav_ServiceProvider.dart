@@ -35,24 +35,25 @@ class _NavBarServiceProviderState extends State<NavBarServiceProvider> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        final shouldPop = await showDialog<bool>(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text('Are you sure?'),
-            content: Text('Do you want to Logout?'),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(false),
-                child: Text('No'),
-              ),
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(true),
-                child: Text('Yes'),
-              ),
-            ],
-          ),
-        );
-        return shouldPop ?? false; // Default to false if dialog is dismissed
+        // final shouldPop = await showDialog<bool>(
+        //   context: context,
+        //   builder: (context) => AlertDialog(
+        //     title: Text('Are you sure?'),
+        //     content: Text('Do you want to Logout?'),
+        //     actions: [
+        //       TextButton(
+        //         onPressed: () => Navigator.of(context).pop(false),
+        //         child: Text('No'),
+        //       ),
+        //       TextButton(
+        //         onPressed: () => Navigator.of(context).pop(true),
+        //         child: Text('Yes'),
+        //       ),
+        //     ],
+        //   ),
+        // );
+        // return shouldPop ?? false;
+        return false;
       },
       child: Scaffold(
         backgroundColor: const Color(0xFF2F4771),

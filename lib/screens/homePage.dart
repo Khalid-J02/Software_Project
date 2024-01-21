@@ -1,4 +1,6 @@
 
+import 'dart:convert';
+
 import 'package:buildnex/Widgets/projectDialog.dart';
 import 'package:buildnex/screens/MSG_System/listChatScreen.dart';
 import 'package:buildnex/screens/projectNav_homeOwner.dart';
@@ -6,6 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:buildnex/Widgets/userProjects.dart';
 import 'package:buildnex/APIRequests/homePageHomeOwnerAPI.dart';
 import 'package:get/get.dart';
+
+import '../APIRequests/messageSystem.dart';
+import '../APIRequests/notificationsSystem.dart';
+import '../Widgets/customAlertDialog.dart';
+import 'Notification/homepageNotification.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -24,16 +31,49 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   List<Map<String, dynamic>> usersProject = [];
+  int notificationCount = 0;
+  int unreadMessageCount = 0;
 
   @override
   void initState() {
     super.initState();
-    // Call the API and update usersProject when the widget is initialized
+    _fetchUnreadMessageCount();
+    _fetchNotifications();
     updateProjects();
   }
 
 
-  // create new project
+  Future<void> _fetchUnreadMessageCount() async {
+    try {
+      Map<String, dynamic> responseData = await MessagingAPI.getServiceProvidersForHomeowner();
+
+      if (responseData.containsKey('unreadConversationsCount')) {
+        unreadMessageCount = responseData['unreadConversationsCount'];
+      } else {
+        throw Exception('unreadConversationsCount key not found in response');
+      }
+
+      setState(() {
+        // Update your state if necessary
+      });
+    } catch (e) {
+      print('Error fetching unread message count: $e');
+    }
+  }
+
+  Future<void> _fetchNotifications() async {
+    try {
+      int count = await NotificationAPI.getNotificationCount();
+      setState(() {
+        notificationCount = count;
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+
+      // create new project
   Future<void> addNewProject() async {
     Map<String, dynamic>? newProject = await showDialog<Map<String, dynamic>>(
       context: context,
@@ -76,15 +116,84 @@ class _HomePageState extends State<HomePage> {
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.message , color: Colors.white , size: 24), // Choose your preferred icon
+            icon: Stack(
+              clipBehavior: Clip.none,
+              children: <Widget>[
+                Icon(Icons.message, color: Color(0xFFF3D69B), size: 24),
+                if (unreadMessageCount > 0) // Only show if count is greater than 0
+                  Positioned(
+                    right: -3.2,
+                    top: -3.2,
+                    child: Container(
+                      padding: EdgeInsets.all(1.5),
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      constraints: const BoxConstraints(
+                        minWidth: 13,
+                        minHeight: 13,
+                      ),
+                      child: Text(
+                        '$unreadMessageCount', // Show the count here
+                        style: TextStyle(
+                          color:Color(0xFFF3D69B),
+                          fontSize: 10,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
             onPressed: () {
-              Get.to(ListChatScreen());
+              Get.offNamed('/Messages');
             },
           ),
           IconButton(
-            icon: Icon(Icons.logout , color: Colors.white , size: 24,), // Choose your preferred icon
+            icon: Stack(
+              clipBehavior: Clip.none,
+              children: <Widget>[
+                Icon(Icons.notifications, color: Color(0xFFF3D69B) , size: 24),
+                if (notificationCount > 0) // Only show if count is greater than 0
+                  Positioned(
+                    right: -3.2,
+                    top: -3.2,
+                    child: Container(
+                      padding: EdgeInsets.all(1.5),
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      constraints: const BoxConstraints(
+                        minWidth: 13,
+                        minHeight: 13,
+                      ),
+                      child: Text(
+                        '$notificationCount', // Show the count here
+                        style: TextStyle(
+                          color: Color(0xFFF3D69B),
+                          fontSize: 10,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
             onPressed: () {
-              Get.offAllNamed('/');
+              Get.offNamed('/Notifications');
+            },
+
+          ),
+          IconButton(
+            icon: Icon(Icons.logout , color: Color(0xFFF3D69B) , size: 24,), // Choose your preferred icon
+            onPressed: () async {
+              bool? shouldLogout = await CustomAlertDialog.showLogoutConfirmationDialog(context);
+             if (shouldLogout == true) {
+               Get.offAllNamed('/');
+
+             }
             },
           ),
         ],

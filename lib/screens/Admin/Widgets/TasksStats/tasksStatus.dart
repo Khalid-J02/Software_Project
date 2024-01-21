@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 
-class TasksStatusDist extends StatefulWidget {
+class TasksStatusList extends StatefulWidget {
   List chartData ;
-  TasksStatusDist({super.key , required this.chartData});
+  TasksStatusList({super.key , required this.chartData});
 
   @override
-  State<TasksStatusDist> createState() => _TasksStatusDistState();
+  State<TasksStatusList> createState() => _TasksStatusListState();
 }
 
-class _TasksStatusDistState extends State<TasksStatusDist> {
+class _TasksStatusListState extends State<TasksStatusList> {
 
   List chartData = [];
 
   @override
-  void didUpdateWidget(covariant TasksStatusDist oldWidget) {
+  void didUpdateWidget(covariant TasksStatusList oldWidget) {
     super.didUpdateWidget(oldWidget);
 
     if (widget.chartData != oldWidget.chartData) {

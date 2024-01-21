@@ -1,17 +1,17 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:buildnex/screens/MSG_System/Widgets/customTextFormField.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../Widgets/customAlertDialog.dart';
+
 
 class ChatTextField extends StatefulWidget {
-  final String receiverId; // Add this line
-  final Function? onSendMessage; // For callback approach
-
-  const ChatTextField({super.key, required this.receiverId , required this.onSendMessage}); // Modify this line
+  final String receiverId;
+  final Function? onSendMessage;
+  const ChatTextField({super.key, required this.receiverId , required this.onSendMessage,});
 
   @override
   State<ChatTextField> createState() => _ChatTextFieldState();
@@ -23,14 +23,13 @@ class _ChatTextFieldState extends State<ChatTextField> {
   Future<void> sendMessage() async {
     if (controller.text.isNotEmpty) {
       try {
-        // var response = await MessagingAPI.sendMessage(widget.receiverId, controller.text);
         widget.onSendMessage!(controller);
         controller.clear();
       } catch (e) {
         print('Error sending message: $e');
       }
     } else {
-     // CustomAlertDialog.showErrorDialog(context, 'Please enter a message before sending.');
+      CustomAlertDialog.showErrorDialog(context, 'Please enter a message before sending.');
     }
   }
 

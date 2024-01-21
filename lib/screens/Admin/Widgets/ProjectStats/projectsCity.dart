@@ -2,26 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 
-class ProjectsCityDist extends StatefulWidget {
-  const ProjectsCityDist({super.key});
+class ProjectsCityList extends StatefulWidget {
+  final List<dynamic> chartData;
+  const ProjectsCityList({super.key, required this.chartData});
 
   @override
-  State<ProjectsCityDist> createState() => _ProjectsCityDistState();
+  State<ProjectsCityList> createState() => _ProjectsCityListState();
 }
 
-class _ProjectsCityDistState extends State<ProjectsCityDist> {
+class _ProjectsCityListState extends State<ProjectsCityList> {
 
-  List chartData = [
-    [40 , 'Nablus' , const Color.fromRGBO(82, 98, 255, 1)],
-    [12 , 'Ramallah' , const Color.fromRGBO(46, 198, 255, 1)],
-    [20 , 'Tulkarm' , const Color.fromRGBO(123, 201, 82, 1)],
-    [25 , 'Qalqilya' , const Color.fromRGBO(255, 171, 67, 1)],
-    [15 , 'Jenin' , const Color.fromRGBO(252, 91, 57, 1)],
-    [11 , 'Jericho' , const Color.fromRGBO(139, 135, 130, 1)],
-  ];
+  Map<String, Color> cityColors = {
+    "Nablus": const Color.fromRGBO(82, 98, 255, 1),
+    "Ramallah": const Color.fromRGBO(46, 198, 255, 1),
+    "Tulkarm": const Color.fromRGBO(123, 201, 82, 1),
+    "Qalqilya": const Color.fromRGBO(255, 171, 67, 1),
+    "Jenin": const Color.fromRGBO(252, 91, 57, 1),
+    "Jericho": const Color.fromRGBO(139, 135, 130, 1),
+  };
 
   @override
   Widget build(BuildContext context) {
+    List convertedChartData = widget.chartData.map((item) {
+      String city = item["ProjectCity"];
+      int count = item["projectCount"];
+      Color color = cityColors[city] ?? Colors.grey;
+      return [count, city, color];
+    }).toList();
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 5),
       child: SfCircularChart(
@@ -29,7 +37,7 @@ class _ProjectsCityDistState extends State<ProjectsCityDist> {
         margin: const EdgeInsets.all(0),
         series: [
           PieSeries(
-            dataSource: chartData,
+            dataSource: convertedChartData,
             yValueMapper: (data,_) => data[0],
             xValueMapper: (data,_) => data[1],
             radius: '90%',

@@ -16,36 +16,38 @@ class NavBarHomeOwner extends StatefulWidget {
 }
 
 class _NavBarHomeOwnerState extends State<NavBarHomeOwner> {
-
-  int pageIndex = 0 ;
+  int pageIndex = 0;
   final screens = [
     HomePage(),
-    SearchPage(askForRequest: false,),
+    SearchPage(
+      askForRequest: false,
+    ),
     ProfilePage(),
   ];
 
   @override
   Widget build(BuildContext context) {
-    return  WillPopScope(
+    return WillPopScope(
       onWillPop: () async {
-        final shouldPop = await showDialog<bool>(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text('Are you sure?'),
-            content: Text('Do you want to Logout?'),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(false),
-                child: Text('No'),
-              ),
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(true),
-                child: Text('Yes'),
-              ),
-            ],
-          ),
-        );
-        return shouldPop ?? false; // Default to false if dialog is dismissed
+        // final shouldPop = await showDialog<bool>(
+        //   context: context,
+        //   builder: (context) => AlertDialog(
+        //     title: Text('Are you sure?'),
+        //     content: Text('Do you want to Logout?'),
+        //     actions: [
+        //       TextButton(
+        //         onPressed: () => Navigator.of(context).pop(false),
+        //         child: Text('No'),
+        //       ),
+        //       TextButton(
+        //         onPressed: () => Navigator.of(context).pop(true),
+        //         child: Text('Yes'),
+        //       ),
+        //     ],
+        //   ),
+        // );
+        // return shouldPop ?? false;
+        return false;
       },
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -55,7 +57,8 @@ class _NavBarHomeOwnerState extends State<NavBarHomeOwner> {
           bottomNavigationBar: Container(
             color: const Color(0xFF122247),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0 , vertical: 12),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12),
               child: GNav(
                 gap: 8,
                 backgroundColor: const Color(0xFF122247),
@@ -65,7 +68,7 @@ class _NavBarHomeOwnerState extends State<NavBarHomeOwner> {
                 padding: const EdgeInsets.all(16),
                 onTabChange: (activeIndex) {
                   setState(() {
-                    pageIndex = activeIndex ;
+                    pageIndex = activeIndex;
                   });
                 },
                 tabs: const [

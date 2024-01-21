@@ -224,4 +224,30 @@ class CustomAlertDialog {
       },
     );
   }
+
+  static Future<bool?> showLogoutConfirmationDialog(BuildContext context) async {
+    return showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Logout Confirmation'),
+          content: Text('Are you sure you want to log out?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(false); // Cancel logout
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(true); // Confirm logout
+              },
+              child: Text('Log Out'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 }

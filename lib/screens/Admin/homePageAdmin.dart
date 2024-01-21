@@ -10,6 +10,9 @@ import 'package:buildnex/screens/Admin/Widgets/statsCategories.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../APIRequests/adminSystem.dart';
+import '../../Widgets/customAlertDialog.dart';
+
 class HomePageAdmin extends StatefulWidget {
   const HomePageAdmin({super.key});
 
@@ -27,9 +30,17 @@ class _HomePageAdminState extends State<HomePageAdmin> {
   List chartDataSPRating = [] ;
   List chartDataTaskStatus = [] ;
 
+  //////////////////////////////////
+  List ProjectCountByCity = [];
+  List ProjectCountByCompletion = [];
+  List HomeownerCountByCity = [];
+  List ServiceProviderCountByCity = [];
+  List TaskCountByServiceType = [];
+
   final List<Map<String, dynamic>> categoryList = [
     {
-      "serviceName": "Projects",
+
+      "serviceName": "Constructions",
       "Icon": Icons.analytics,
       'backgroundColor': Colors.blueGrey[300],
       'IconColor' : Colors.blueGrey[700]
@@ -63,23 +74,139 @@ class _HomePageAdminState extends State<HomePageAdmin> {
     }
   }
 
+  @override
+  void initState() {
+    super.initState();
+    fetchInitialData();
+  }
+
+  void fetchInitialData() async {
+    try {
+      var projectCountByCity = await AdminAPI.getProjectCountByCity();
+      var projectCountByCompletion = await AdminAPI.getProjectCountByCompletion();
+      var homeownerCountByCity =  await AdminAPI.getHomeownerCountByCity();
+      var serviceProviderCountByCity =  await AdminAPI.getServiceProviderCountByCity();
+      var taskCountByServiceType = await AdminAPI.getTaskCountByServiceType(); // Make sure this matches your API method
+
+      setState(() {
+        ProjectCountByCity = projectCountByCity;
+        ProjectCountByCompletion = projectCountByCompletion;
+        HomeownerCountByCity = homeownerCountByCity;
+        ServiceProviderCountByCity = serviceProviderCountByCity;
+        TaskCountByServiceType = taskCountByServiceType;
+
+      });
+    } catch (e) {
+      // Handle exceptions
+      print("Error fetching data: $e");
+    }
+  }
+
+  Color getColorForStatus(String status) {
+    switch (status) {
+      case 'Not Started':
+        return const Color.fromRGBO(255, 80, 57, 1);
+      case 'In Progress':
+        return const Color.fromRGBO(255, 171, 67, 1);
+      case 'Completed':
+        return const Color.fromRGBO(123, 201, 82, 1);
+      default:
+        return Colors.grey;
+    }
+  }
+
+  void fetchSPRatingData(String city) async {
+    try {
+      var response = await AdminAPI.getServiceProviderCountByRating(city);
+      List<dynamic> newChartData = [];
+      response.forEach((key, value) {
+        int rating = int.parse(key.split('_')[1]);
+        String label = '★' * rating;
+        Color color;
+        switch (rating) {
+          case 1:
+            color = const Color.fromRGBO(255, 80, 57, 1);
+            break;
+          case 2:
+            color = const Color.fromRGBO(255, 171, 67, 1);
+            break;
+          case 3:
+            color = const Color.fromRGBO(123, 201, 82, 1);
+            break;
+          case 4:
+            color = const Color.fromRGBO(123, 201, 255, 1);
+            break;
+          case 5:
+            color = const Color.fromRGBO(0, 117, 194, 1);
+            break;
+          default:
+            color = Colors.grey;
+        }
+        newChartData.add([value, label, color]);
+      });
+
+      setState(() {
+        chartDataSPRating = newChartData;
+      });
+    } catch (e) {
+      // Handle exceptions
+      print("Error fetching data: $e");
+    }
+  }
+
+  fetchTaskStatusData(String city) async {
+    try {
+      var taskStatusData = await AdminAPI.getTaskCountByStatusForCity(city);
+      setState(() {
+        chartDataTaskStatus = taskStatusData.map((data) {
+          return [
+            data['taskCount'],
+            data['TaskStatus'],
+            getTaskStatusColor(data['TaskStatus'])
+          ];
+        }).toList();
+      });
+    } catch (e) {
+      print('Error fetching task status data: $e');
+    }
+  }
+
+  Color getTaskStatusColor(String status) {
+    Map<String, Color> statusColorMap = {
+      'Not Started': const Color.fromRGBO(255, 80, 57, 1),
+      'In Progress': const Color.fromRGBO(255, 171, 67, 1),
+      'Completed': const  Color.fromRGBO(123, 201, 82, 1),
+    };
+    return statusColorMap[status] ?? Colors.grey;
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Center(
-          child: Text(
+        appBar: AppBar(
+          leading: Icon(Icons.home, color: Color(0xFFF3D69B),),
+          title: const Text(
             'Home',
             style: TextStyle(
-                color: Color(0xFF122247),
-                fontSize: 20
+                color: Color(0xFFF3D69B)
             ),
           ),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.logout , color: Color(0xFFF3D69B) , size: 24,),
+              onPressed: () async {
+                bool? shouldLogout = await CustomAlertDialog.showLogoutConfirmationDialog(context);
+                if (shouldLogout == true) {
+                  Get.offAllNamed('/');
+
+                }
+              },
+            ),
+          ],
+          elevation: 0,
+          backgroundColor: Color(0xFF122247),//Colors.white,
         ),
-        elevation: 0,
-        backgroundColor: Colors.white,//Colors.white,
-      ),
       backgroundColor: Colors.grey[300],
       body: SingleChildScrollView(
         child: SafeArea(
@@ -91,7 +218,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                 height: 130,
                 child: Padding(
                   padding: const EdgeInsets.only(
-                      top: 8, bottom: 10, right: 15, left: 15),
+                      top: 15, bottom: 15, right: 50, left: 65),
                   child: GestureDetector(
                     onTap: () {
                       selectedCategory(categoryList[0]["serviceName"]);
@@ -128,7 +255,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                     ),
                   ),
               // here for the project screen
-              activeCategory == 'Projects'
+              activeCategory == 'Constructions'
                   ?
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -136,7 +263,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: const Text(
-                      "Projects per City :",
+                      "Constructions Per City :",
                       style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
@@ -144,11 +271,11 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                       ),
                     ),
                   ),
-                  ProjectsCityDist(),
+                  ProjectsCityList(chartData: ProjectCountByCity),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: const Text(
-                      "Projects Completion :",
+                      "Constructions Completion :",
                       style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
@@ -156,7 +283,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                       ),
                     ),
                   ),
-                  ProjectsProgressDist(),
+                  ProjectsProgressList(chartData: ProjectCountByCompletion,),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 12.0),
                     child: Row(
@@ -165,7 +292,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 12),
                           child: const Text(
-                            "Projects Status :",
+                            "Constructions Status :",
                             style: TextStyle(
                               fontSize: 17,
                               fontWeight: FontWeight.w500,
@@ -191,69 +318,23 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                             style: const TextStyle(
                               color: Colors.white,
                             ),
-                            onChanged: (String? newValue) {
+                            onChanged: (String? newValue) async {
                               setState(() {
                                 _dropDownValueProjectStatus = newValue!;
-                                if(_dropDownValueProjectStatus == 'General'){
-                                  setState(() {
-                                    chartDataprojectStatus = [
-                                      [40 , 'Not Started' , const Color.fromRGBO(255, 80, 57, 1)],
-                                      [12 , 'In Progress' , const Color.fromRGBO(255, 171, 67, 1)],
-                                      [20 , 'Finished' , const Color.fromRGBO(123, 201, 82, 1)],
-                                    ];
-                                  });
-                                }
-                                else if(_dropDownValueProjectStatus == 'Nablus'){
-                                  // هون الاحسن تعملي زي فنكشن ببعثله انا المدينة و هو برجع الشي مباشرة بس انا هون عشان بتست ستاتيك داتا عملتها هيك
-                                  setState(() {
-                                    chartDataprojectStatus = [
-                                      [22 , 'Not Started' , const Color.fromRGBO(255, 80, 57, 1)],
-                                      [18 , 'In Progress' , const Color.fromRGBO(255, 171, 67, 1)],
-                                      [6 , 'Finished' , const Color.fromRGBO(123, 201, 82, 1)],
-                                    ];
-                                  });
-                                }
-                                else if(_dropDownValueProjectStatus == 'Ramallah'){
-                                  // هون الاحسن تعملي زي فنكشن ببعثله انا المدينة و هو برجع الشي مباشرة بس انا هون عشان بتست ستاتيك داتا عملتها هيك
-                                  setState(() {
-                                    chartDataprojectStatus = [
-                                      [34 , 'Not Started' , const Color.fromRGBO(255, 80, 57, 1)],
-                                      [60 , 'In Progress' , const Color.fromRGBO(255, 171, 67, 1)],
-                                      [17 , 'Finished' , const Color.fromRGBO(123, 201, 82, 1)],
-                                    ];
-                                  });
-                                }
-                                else if(_dropDownValueProjectStatus == 'Qalqilya'){
-                                  // هون الاحسن تعملي زي فنكشن ببعثله انا المدينة و هو برجع الشي مباشرة بس انا هون عشان بتست ستاتيك داتا عملتها هيك
-                                  setState(() {
-                                    chartDataprojectStatus = [
-                                      [22 , 'Not Started' , const Color.fromRGBO(255, 80, 57, 1)],
-                                      [18 , 'In Progress' , const Color.fromRGBO(255, 171, 67, 1)],
-                                      [6 , 'Finished' , const Color.fromRGBO(123, 201, 82, 1)],
-                                    ];
-                                  });
-                                }
-                                else if(_dropDownValueProjectStatus == 'Jenin'){
-                                  // هون الاحسن تعملي زي فنكشن ببعثله انا المدينة و هو برجع الشي مباشرة بس انا هون عشان بتست ستاتيك داتا عملتها هيك
-                                  setState(() {
-                                    chartDataprojectStatus = [
-                                      [13 , 'Not Started' , const Color.fromRGBO(255, 80, 57, 1)],
-                                      [6 , 'In Progress' , const Color.fromRGBO(255, 171, 67, 1)],
-                                      [33, 'Finished' , const Color.fromRGBO(123, 201, 82, 1)],
-                                    ];
-                                  });
-                                }
-                                else if(_dropDownValueProjectStatus == 'Jericho'){
-                                  // هون الاحسن تعملي زي فنكشن ببعثله انا المدينة و هو برجع الشي مباشرة بس انا هون عشان بتست ستاتيك داتا عملتها هيك
-                                  setState(() {
-                                    chartDataprojectStatus = [
-                                      [22 , 'Not Started' , const Color.fromRGBO(255, 80, 57, 1)],
-                                      [18 , 'In Progress' , const Color.fromRGBO(255, 171, 67, 1)],
-                                      [6 , 'Finished' , const Color.fromRGBO(123, 201, 82, 1)],
-                                    ];
-                                  });
-                                }
                               });
+                              try {
+                                var projectStatusData = await AdminAPI.getProjectCountByStatusForCity(_dropDownValueProjectStatus);
+                                List<dynamic> formattedData = projectStatusData.entries.map((entry) {
+                                  return [entry.value, entry.key, getColorForStatus(entry.key)];
+                                }).toList();
+
+                                setState(() {
+                                  chartDataprojectStatus = formattedData;
+                                });
+                              } catch (e) {
+                                // Handle exceptions
+                                print("Error fetching data: $e");
+                              }
                             },
                             items: [
                               DropdownMenuItem<String>(
@@ -316,7 +397,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                       ],
                     ),
                   ),
-                  ProjectsStatusDist(chartData: chartDataprojectStatus,)
+                  ProjectsStatusList(chartData: chartDataprojectStatus,)
                 ],
               )
                   :
@@ -330,7 +411,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: const Text(
-                      "HomeOwners per City :",
+                      "Home Owners Per City :",
                       style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
@@ -338,11 +419,12 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                       ),
                     ),
                   ),
-                  HomeOwnersCityDist(),
+                  HomeOwnersCityList(chartData: HomeownerCountByCity),
+
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: const Text(
-                      "Service Provider per City :",
+                      "Service Providers Per City :",
                       style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
@@ -350,7 +432,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                       ),
                     ),
                   ),
-                  ServiceProvidersCityDist(),
+                  ServiceProvidersCityList(chartData: ServiceProviderCountByCity),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 12.0),
                     child: Row(
@@ -386,80 +468,12 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                               color: Colors.white,
                             ),
                             onChanged: (String? newValue) {
-                              setState(() {
-                                _dropDownValueSPRating = newValue!;
-                                if(_dropDownValueSPRating == 'General'){
-                                  setState(() {
-                                    chartDataSPRating = [
-                                      [40 , '★' , const Color.fromRGBO(255, 80, 57, 1)],
-                                      [12 , '★★' , const Color.fromRGBO(255, 171, 67, 1)],
-                                      [20 , '★★★' , const Color.fromRGBO(123, 201, 82, 1)],
-                                      [20 , '★★★★' , const Color.fromRGBO(123, 201, 82, 1)],
-                                      [20 , '★★★★★' , const Color.fromRGBO(123, 201, 82, 1)],
-                                    ];
-                                  });
-                                }
-                                else if(_dropDownValueSPRating == 'Nablus'){
-                                  // هون الاحسن تعملي زي فنكشن ببعثله انا المدينة و هو برجع الشي مباشرة بس انا هون عشان بتست ستاتيك داتا عملتها هيك
-                                  setState(() {
-                                    chartDataSPRating = [
-                                      [40 , '★' , const Color.fromRGBO(255, 80, 57, 1)],
-                                      [12 , '★★' , const Color.fromRGBO(255, 171, 67, 1)],
-                                      [20 , '★★★' , const Color.fromRGBO(123, 201, 82, 1)],
-                                      [20 , '★★★★' , const Color.fromRGBO(123, 201, 82, 1)],
-                                      [20 , '★★★★★' , const Color.fromRGBO(123, 201, 82, 1)],
-                                    ];
-                                  });
-                                }
-                                else if(_dropDownValueSPRating == 'Ramallah'){
-                                  // هون الاحسن تعملي زي فنكشن ببعثله انا المدينة و هو برجع الشي مباشرة بس انا هون عشان بتست ستاتيك داتا عملتها هيك
-                                  setState(() {
-                                    chartDataSPRating = [
-                                      [40 , '★' , const Color.fromRGBO(255, 80, 57, 1)],
-                                      [12 , '★★' , const Color.fromRGBO(255, 171, 67, 1)],
-                                      [20 , '★★★' , const Color.fromRGBO(123, 201, 82, 1)],
-                                      [20 , '★★★★' , const Color.fromRGBO(123, 201, 82, 1)],
-                                      [20 , '★★★★★' , const Color.fromRGBO(123, 201, 82, 1)],
-                                    ];
-                                  });
-                                }
-                                else if(_dropDownValueSPRating == 'Qalqilya'){
-                                  // هون الاحسن تعملي زي فنكشن ببعثله انا المدينة و هو برجع الشي مباشرة بس انا هون عشان بتست ستاتيك داتا عملتها هيك
-                                  setState(() {
-                                    chartDataSPRating = [
-                                      [40 , '★' , const Color.fromRGBO(255, 80, 57, 1)],
-                                      [12 , '★★' , const Color.fromRGBO(255, 171, 67, 1)],
-                                      [20 , '★★★' , const Color.fromRGBO(123, 201, 82, 1)],
-                                      [20 , '★★★★' , const Color.fromRGBO(123, 201, 82, 1)],
-                                      [20 , '★★★★★' , const Color.fromRGBO(123, 201, 82, 1)],
-                                    ];
-                                  });
-                                }
-                                else if(_dropDownValueSPRating == 'Jenin'){
-                                  // هون الاحسن تعملي زي فنكشن ببعثله انا المدينة و هو برجع الشي مباشرة بس انا هون عشان بتست ستاتيك داتا عملتها هيك
-                                  setState(() {
-                                    chartDataSPRating = [
-                                      [40 , '★' , const Color.fromRGBO(255, 80, 57, 1)],
-                                      [12 , '★★' , const Color.fromRGBO(255, 171, 67, 1)],
-                                      [20 , '★★★' , const Color.fromRGBO(123, 201, 82, 1)],
-                                      [20 , '★★★★' , const Color.fromRGBO(123, 201, 82, 1)],
-                                      [20 , '★★★★★' , const Color.fromRGBO(123, 201, 82, 1)],
-                                    ];
-                                  });
-                                }
-                                else if(_dropDownValueSPRating == 'Jericho'){
-                                  // هون الاحسن تعملي زي فنكشن ببعثله انا المدينة و هو برجع الشي مباشرة بس انا هون عشان بتست ستاتيك داتا عملتها هيك
-                                  setState(() {
-                                    chartDataSPRating = [
-                                      [40 , '★' , const Color.fromRGBO(255, 80, 57, 1)],
-                                      [12 , '★★' , const Color.fromRGBO(255, 171, 67, 1)],
-                                      [20 , '★★★' , const Color.fromRGBO(123, 201, 82, 1)],
-                                      [20 , '★★★★' , const Color.fromRGBO(123, 201, 82, 1)],
-                                      [20 , '★★★★★' , const Color.fromRGBO(123, 201, 82, 1)],
-                                    ];
-                                  });
-                                }
-                              });
+                              if (newValue != null) {
+                                setState(() {
+                                  _dropDownValueSPRating = newValue;
+                                });
+                                fetchSPRatingData(newValue);
+                              }
                             },
                             items: [
                               DropdownMenuItem<String>(
@@ -522,7 +536,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                       ],
                     ),
                   ),
-                  ServiceProviderRatingDist(chartData: chartDataSPRating,),
+                  ServiceProviderRatingList(chartData: chartDataSPRating,),
                 ],
               )
                   :
@@ -536,7 +550,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: const Text(
-                      "Finished Tasks per Service :",
+                      "Completed Tasks Per Service :",
                       style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
@@ -544,7 +558,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                       ),
                     ),
                   ),
-                  TasksToServiceDist(),
+                  TasksToServiceList(chartData: TaskCountByServiceType,),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 12.0),
                     child: Row(
@@ -580,68 +594,12 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                               color: Colors.white,
                             ),
                             onChanged: (String? newValue) {
-                              setState(() {
-                                _dropDownValueTaskStatus = newValue!;
-                                if(_dropDownValueTaskStatus == 'General'){
-                                  setState(() {
-                                    chartDataTaskStatus = [
-                                      [40 , 'Not Started' , const Color.fromRGBO(255, 80, 57, 1)],
-                                      [12 , 'In Progress' , const Color.fromRGBO(255, 171, 67, 1)],
-                                      [20 , 'Finished' , const Color.fromRGBO(123, 201, 82, 1)],
-                                    ];
-                                  });
-                                }
-                                else if(_dropDownValueTaskStatus == 'Nablus'){
-                                  // هون الاحسن تعملي زي فنكشن ببعثله انا المدينة و هو برجع الشي مباشرة بس انا هون عشان بتست ستاتيك داتا عملتها هيك
-                                  setState(() {
-                                    chartDataTaskStatus = [
-                                      [40 , 'Not Started' , const Color.fromRGBO(255, 80, 57, 1)],
-                                      [12 , 'In Progress' , const Color.fromRGBO(255, 171, 67, 1)],
-                                      [20 , 'Finished' , const Color.fromRGBO(123, 201, 82, 1)],
-                                    ];
-                                  });
-                                }
-                                else if(_dropDownValueTaskStatus == 'Ramallah'){
-                                  // هون الاحسن تعملي زي فنكشن ببعثله انا المدينة و هو برجع الشي مباشرة بس انا هون عشان بتست ستاتيك داتا عملتها هيك
-                                  setState(() {
-                                    chartDataTaskStatus = [
-                                      [40 , 'Not Started' , const Color.fromRGBO(255, 80, 57, 1)],
-                                      [12 , 'In Progress' , const Color.fromRGBO(255, 171, 67, 1)],
-                                      [20 , 'Finished' , const Color.fromRGBO(123, 201, 82, 1)],
-                                    ];
-                                  });
-                                }
-                                else if(_dropDownValueTaskStatus == 'Qalqilya'){
-                                  // هون الاحسن تعملي زي فنكشن ببعثله انا المدينة و هو برجع الشي مباشرة بس انا هون عشان بتست ستاتيك داتا عملتها هيك
-                                  setState(() {
-                                    chartDataTaskStatus = [
-                                      [40 , 'Not Started' , const Color.fromRGBO(255, 80, 57, 1)],
-                                      [12 , 'In Progress' , const Color.fromRGBO(255, 171, 67, 1)],
-                                      [20 , 'Finished' , const Color.fromRGBO(123, 201, 82, 1)],
-                                    ];
-                                  });
-                                }
-                                else if(_dropDownValueTaskStatus == 'Jenin'){
-                                  // هون الاحسن تعملي زي فنكشن ببعثله انا المدينة و هو برجع الشي مباشرة بس انا هون عشان بتست ستاتيك داتا عملتها هيك
-                                  setState(() {
-                                    chartDataTaskStatus = [
-                                      [40 , 'Not Started' , const Color.fromRGBO(255, 80, 57, 1)],
-                                      [12 , 'In Progress' , const Color.fromRGBO(255, 171, 67, 1)],
-                                      [20 , 'Finished' , const Color.fromRGBO(123, 201, 82, 1)],
-                                    ];
-                                  });
-                                }
-                                else if(_dropDownValueTaskStatus == 'Jericho'){
-                                  // هون الاحسن تعملي زي فنكشن ببعثله انا المدينة و هو برجع الشي مباشرة بس انا هون عشان بتست ستاتيك داتا عملتها هيك
-                                  setState(() {
-                                    chartDataTaskStatus = [
-                                      [40 , 'Not Started' , const Color.fromRGBO(255, 80, 57, 1)],
-                                      [12 , 'In Progress' , const Color.fromRGBO(255, 171, 67, 1)],
-                                      [20 , 'Finished' , const Color.fromRGBO(123, 201, 82, 1)],
-                                    ];
-                                  });
-                                }
-                              });
+                              if (newValue != null) {
+                                setState(() {
+                                  _dropDownValueTaskStatus = newValue;
+                                });
+                                fetchTaskStatusData(newValue); // Fetch new data for the selected city
+                              }
                             },
                             items: [
                               DropdownMenuItem<String>(
@@ -704,7 +662,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                       ],
                     ),
                   ),
-                  TasksStatusDist(chartData: chartDataTaskStatus,),
+                  TasksStatusList(chartData: chartDataTaskStatus,),
                 ],
               )
                   :

@@ -275,8 +275,8 @@ class _LoginPageState extends State<_LoginPage> {
         if(dotenv.env['userType'] == 'HomeOwner'){
           Get.offNamed('/HomePage/HomeOwner');
         }
-        else{
-          Get.offNamed('/HomePage/ServiceProvider');
+        else if(dotenv.env['userType'] == 'Admin'){
+          Get.offNamed('/HomePage/Admin');
         }
     }
   }
