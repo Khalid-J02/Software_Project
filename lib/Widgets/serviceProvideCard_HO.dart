@@ -55,8 +55,6 @@ class _SPCardState extends State<SPCard> {
               final List<Map<String, dynamic>> providerWorkExp = await ServiceProviderDataAPI.getServiceProWorkExperiences(widget.topServiceProviders[index]["UserID"].toString()) ;
               final List<Map<String, dynamic>> providerReviews = await ServiceProviderDataAPI.getServiceProReviews(widget.topServiceProviders[index]["UserID"].toString()) ;
 
-              // print(widget.topServiceProviders[index]["UserID"],);
-
               Get.to(SPProfilePage(
                 askForRequest: widget.askForRequest,
                 serviceProviderName: widget.topServiceProviders[index]["Username"],

@@ -143,6 +143,7 @@ class _SPProfilePageState extends State<SPProfilePage> with ChangeNotifier{
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
@@ -180,94 +181,97 @@ class _SPProfilePageState extends State<SPProfilePage> with ChangeNotifier{
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: MediaQuery.of(context).size.width > 930
-                        ? const EdgeInsets.symmetric(horizontal: 60 , vertical: 20)
-                        : const EdgeInsets.symmetric(vertical: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 5),
-                          child: Text(
-                            widget.serviceProviderName,
-                            style: TextStyle(
-                              fontSize: MediaQuery.of(context).size.width > 930
-                                  ? 50
-                                  : 30,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 5),
-                          child: Text(
-                            widget.serviceProviderType,
-                            style: TextStyle(
-                              fontSize: MediaQuery.of(context).size.width > 930
-                                  ? 25
-                                  : 15,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 5),
-                          child: Text(
-                            "Completed Tasks   ${providerCompletedTasks}",
-                            style: TextStyle(
-                              fontSize: MediaQuery.of(context).size.width > 930
-                                  ? 25
-                                  : 15,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-
-                        ),
-                        SizedBox(height: 10,),
-                        widget.askForRequest
-                        ? GestureDetector(
-                            onTap: () async {
-                              String? pickedDate = await CustomAlertDialog.showExpectedStartDatefortheTask(context);
-                              if (pickedDate != null) {
-                              } else {
-                                // do nothing
-                              }
-                              await sendRequest(pickedDate!);
-                            },
-                            child: Container(
-                              width: MediaQuery.of(context).size.width > 930
-                                  ? 170
-                                  : 155,
-                              height: MediaQuery.of(context).size.width > 930
-                                  ? 35
-                                  : 30,
-                              margin: EdgeInsets.symmetric(horizontal: 10),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: Color(0xFF122247),
+                  Expanded(
+                    child: Padding(
+                      padding: MediaQuery.of(context).size.width > 930
+                          ? const EdgeInsets.symmetric(horizontal: 60 , vertical: 20)
+                          : const EdgeInsets.symmetric(vertical: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 5),
+                            child: Text(
+                              widget.serviceProviderName,
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width > 930
+                                    ? 50
+                                    : 30,
+                                fontWeight: FontWeight.w700,
                               ),
-                              child: Center(
-                                child: Text(
-                                  "Request Assign",
-                                  style: TextStyle(
-                                    fontSize: MediaQuery.of(context).size.width > 930
-                                        ? 18
-                                        : 15,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.white
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 3,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5),
+                            child: Text(
+                              widget.serviceProviderType,
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width > 930
+                                    ? 25
+                                    : 15,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 5),
+                            child: Text(
+                              "Completed Tasks   ${providerCompletedTasks}",
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width > 930
+                                    ? 25
+                                    : 15,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+
+                          ),
+                          SizedBox(height: 10,),
+                          widget.askForRequest
+                          ? GestureDetector(
+                              onTap: () async {
+                                String? pickedDate = await CustomAlertDialog.showExpectedStartDatefortheTask(context);
+                                if (pickedDate != null) {
+                                } else {
+                                  // do nothing
+                                }
+                                await sendRequest(pickedDate!);
+                              },
+                              child: Container(
+                                width: MediaQuery.of(context).size.width > 930
+                                    ? 170
+                                    : 155,
+                                height: MediaQuery.of(context).size.width > 930
+                                    ? 35
+                                    : 30,
+                                margin: EdgeInsets.symmetric(horizontal: 10),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: Color(0xFF122247),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "Request Assign",
+                                    style: TextStyle(
+                                      fontSize: MediaQuery.of(context).size.width > 930
+                                          ? 18
+                                          : 15,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          )
-                        :
-                          SizedBox(width: 2,),
-                      ],
-                    ),
+                            )
+                          :
+                            SizedBox(width: 2,),
+                        ],
+                      ),
 
+                    ),
                   ),
                 ],
               ),
@@ -401,18 +405,25 @@ class _SPProfilePageState extends State<SPProfilePage> with ChangeNotifier{
                     ),
                   ),
               if(activeIndex == 0 && jsonList.length == 0)
-                Expanded(
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.width > 930
+                      ? ((MediaQuery.of(context).size.width / 5) - (0)) * (4 / 5).ceil() * (1/1)
+                      : ((MediaQuery.of(context).size.width / 2) - (0)) * (4 / 2).ceil() * (1/1),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Center(
-                        child: Text('There is no items to see here...',
-                        style: TextStyle(
-                            color: Colors.grey[600] ,
-                            fontSize: MediaQuery.of(context).size.width > 930
-                                ? 22
-                                : 18 ,
-                            fontWeight: FontWeight.bold
+                      Expanded(
+                        child: Center(
+                          child: Text('There is no items to see here...',
+                          style: TextStyle(
+                              color: Colors.grey[600] ,
+                              fontSize: MediaQuery.of(context).size.width > 930
+                                  ? 22
+                                  : 18 ,
+                              fontWeight: FontWeight.bold
+                            ),
                           ),
                         ),
                       )
@@ -444,18 +455,25 @@ class _SPProfilePageState extends State<SPProfilePage> with ChangeNotifier{
                   ),
                 ),
               if(activeIndex == 1 && workList.length == 0)
-                Expanded(
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.width > 930
+                      ? ((MediaQuery.of(context).size.width / 5) - (0)) * (4 / 5).ceil() * (1/1)
+                      : ((MediaQuery.of(context).size.width / 2) - (0)) * (4 / 2).ceil() * (1/1),
                   child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Center(
-                        child: Text('There is no items to see here...',
-                          style: TextStyle(
-                              color: Colors.grey[600] ,
-                              fontSize:MediaQuery.of(context).size.width > 930
-                                  ? 22
-                                  : 18 ,
-                              fontWeight: FontWeight.bold
+                      Expanded(
+                        child: Center(
+                          child: Text('There is no items to see here...',
+                            style: TextStyle(
+                                color: Colors.grey[600] ,
+                                fontSize:MediaQuery.of(context).size.width > 930
+                                    ? 22
+                                    : 18 ,
+                                fontWeight: FontWeight.bold
+                            ),
                           ),
                         ),
                       )
@@ -483,18 +501,25 @@ class _SPProfilePageState extends State<SPProfilePage> with ChangeNotifier{
                   ),
                 ),
               if(activeIndex == 2 && workList.length == 0)
-                Expanded(
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.width > 930
+                      ? ((MediaQuery.of(context).size.width / 5) - (0)) * (4 / 5).ceil() * (1/1)
+                      : ((MediaQuery.of(context).size.width / 2) - (0)) * (4 / 2).ceil() * (1/1),
                   child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Center(
-                        child: Text('There is no reviews yet...',
-                          style: TextStyle(
-                              color: Colors.grey[600] ,
-                              fontSize: MediaQuery.of(context).size.width > 930
-                                  ? 22
-                                  : 18 ,
-                              fontWeight: FontWeight.bold
+                      Expanded(
+                        child: Center(
+                          child: Text('There is no reviews yet...',
+                            style: TextStyle(
+                                color: Colors.grey[600] ,
+                                fontSize: MediaQuery.of(context).size.width > 930
+                                    ? 22
+                                    : 18 ,
+                                fontWeight: FontWeight.bold
+                            ),
                           ),
                         ),
                       )
