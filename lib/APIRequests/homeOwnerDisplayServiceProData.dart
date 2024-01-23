@@ -125,6 +125,36 @@ class ServiceProviderDataAPI {
 
       } else if (response.statusCode == 400) {
         final String requestStatus = jsonDecode(response.body);
+        print(requestStatus);
+        return requestStatus ;
+      }
+      else{
+        throw http.ClientException(
+          'Failed to send request for provider providers\nStatus code: ${response.statusCode}',
+          // Uri.parse('$baseUrl/homeowner/filterServiceProviders'),
+        );
+      }
+    } catch (e) {
+      rethrow; // Rethrow the exception to let the caller handle it
+    }
+  }
+
+  static Future<String> checkRequestForServiceProvider(String serviceProviderID, String taskID) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/homeowner/checkRequest/${serviceProviderID}/${taskID}'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': '${dotenv.env['token']}',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final String requestStatus = jsonDecode(response.body);
+        return requestStatus ;
+
+      } else if (response.statusCode == 400) {
+        final String requestStatus = jsonDecode(response.body);
         return requestStatus ;
       }
       else{

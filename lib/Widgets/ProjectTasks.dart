@@ -7,11 +7,11 @@ import '../APIRequests/NavbarProjectPageHomeOwnerAPI.dart';
 import '../APIRequests/homeOwnerTasksAPI.dart';
 import 'customAlertDialog.dart';
 
-class ProjectTasks extends StatelessWidget {
+class ProjectTasks extends StatefulWidget {
   final String taskProjectId;
   final String taskID;
   final String taskName;
-  final String taskStatus;
+  late  String taskStatus;
   final String taskDescription;
   final String taskNumber;
   final String? serviceProviderID;
@@ -29,22 +29,43 @@ class ProjectTasks extends StatelessWidget {
     this.serviceProviderName,
   }) : super(key: key);
 
+  @override
+  State<ProjectTasks> createState() => _ProjectTasksState();
+}
+
+class _ProjectTasksState extends State<ProjectTasks> {
   late String serviceType;
+
   late String projectEntryPoint;
+
+  late String serviceTypeMaterial;
+
+  final Set<String> tasksToShowProviders = {
+    '6',
+    '10',
+    '12',
+    '13',
+    '14',
+    '15',
+  };
+
+  late String buttonLabel;
+  late VoidCallback buttonAction;
+  late Color borderColor;
 
   Color getBorderColorBasedOnStatus(String status) {
     if (status == 'Not Started') {
       return const Color(0xFFB22D00);
     } else if (status == 'In Progress') {
       return const Color(0xFFFF9637);
-    } else  {
+    } else {
       return const Color(0xFF2BD066);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final borderColor = getBorderColorBasedOnStatus(taskStatus);
+    borderColor = getBorderColorBasedOnStatus(widget.taskStatus);
 
     return Padding(
       padding: const EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 8),
@@ -67,23 +88,21 @@ class ProjectTasks extends StatelessWidget {
                 Expanded(
                   flex: 9,
                   child: Text(
-                    taskName,
+                    widget.taskName,
                     style: const TextStyle(
                       fontSize: 18,
                       color: Color(0xFFF3D69B),
                     ),
                   ),
                 ),
-                 Expanded(
+                Expanded(
                   flex: 1,
                   child: Tooltip(
-                    message: taskDescription ,
+                    message: widget.taskDescription,
                     padding: const EdgeInsets.all(12),
                     showDuration: const Duration(seconds: 10),
                     textStyle: const TextStyle(color: Colors.white),
-                    decoration: const BoxDecoration(
-                      color: Color(0xFF122247)
-                    ),
+                    decoration: const BoxDecoration(color: Color(0xFF122247)),
                     preferBelow: false,
                     verticalOffset: 10,
                     child: const Icon(
@@ -99,24 +118,160 @@ class ProjectTasks extends StatelessWidget {
               padding: const EdgeInsets.only(top: 4.0),
               child: Row(
                 children: [
-                   Icon(
+                  Icon(
                     Icons.info,
-                    color: getBorderColorBasedOnStatus(taskStatus),
-                   // color: Color(0xFFF9FAFB),
+                    color: getBorderColorBasedOnStatus(widget.taskStatus),
+                    // color: Color(0xFFF9FAFB),
                     size: 18,
                   ),
                   Text(
-                    " $taskStatus",
-                    style:  TextStyle(
+                    " ${widget.taskStatus}",
+                    style: TextStyle(
                       fontSize: 14,
-                      color: getBorderColorBasedOnStatus(taskStatus),
+                      color: getBorderColorBasedOnStatus(widget.taskStatus),
                       //color: Color(0xFFF9FAFB),
                     ),
                   ),
                 ],
               ),
             ),
-            if (serviceProviderID != 'No Provider ID')
+
+            // FutureBuilder for Task 16
+            FutureBuilder<String>(
+              future: HomeOwnerTasksAPI.checkPreviousTaskStatus(
+                  int.parse(widget.taskProjectId), int.parse('16')),
+              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (widget.taskNumber == '16') {
+                    if (snapshot.data == 'Completed') {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          Container(
+                            height: 33,
+                            width: 110,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFF3D69B),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            margin: const EdgeInsets.only(bottom: 5, top: 5),
+                            child: TextButton(
+                              onPressed: () async {
+                                List<dynamic> materialProviders =
+                                    await HomeOwnerTasksAPI
+                                        .getMaterialProviders('Finishing');
+                                Get.to(() => MaterialProvidersList(
+                                    materialProvidersData: materialProviders));
+                              },
+                              child: const Text(
+                                "Material Prov..",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF122247),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 6,
+                          ),
+                          Container(
+                            height: 33,
+                            width: 85,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFF3D69B),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            margin: const EdgeInsets.only(bottom: 5, top: 5),
+                            child: TextButton(
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: const Text('Static Task'),
+                                      content: Text(widget.taskDescription),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          onPressed: () async {
+                                            // Close the dialog
+                                           await HomeOwnerTasksAPI.markTask16asDone(widget.taskID,widget.taskProjectId);
+                                           setState(() {
+                                             widget.taskStatus='Completed';
+                                             borderColor = getBorderColorBasedOnStatus(widget.taskStatus);
+                                           });
+                                            Navigator.of(context).pop();
+                                          },
+                                          child:
+                                              const Text('Mark Task As Done'),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text('OK'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                                return;
+                              },
+                              child: const Text(
+                                "Open Task",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF122247),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    } else {
+                      // "Add Provider" button for Task 16 when not completed
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          Container(
+                            height: 40,
+                            width: 170,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFF3D69B),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            margin: const EdgeInsets.only(
+                                bottom: 5, top: 5,),
+                            child: TextButton(
+                              onPressed: () {
+                                CustomAlertDialog.showErrorDialog(context,
+                                    'You can not go to the next task before complete previous one.');
+                                return;
+                              },
+                              child: const Text(
+                                "Add Service Provider",
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Color(0xFF122247),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                  } else {
+                    return Container(); // For task numbers other than 16
+                  }
+                } else {
+                  // While waiting for the Future to complete
+                  return CircularProgressIndicator();
+                }
+              },
+            ),
+
+            if (widget.serviceProviderID != 'No Provider ID' && widget.taskNumber != '16')
               Container(
                 height: 48,
                 padding: const EdgeInsets.only(top: 4.0),
@@ -131,7 +286,7 @@ class ProjectTasks extends StatelessWidget {
                           size: 18,
                         ),
                         Text(
-                          " $serviceProviderName",
+                          " ${widget.serviceProviderName}",
                           style: const TextStyle(
                             fontSize: 15,
                             color: Color(0xFFF9FAFB),
@@ -141,6 +296,56 @@ class ProjectTasks extends StatelessWidget {
                     ),
                     Row(
                       children: [
+                        if (tasksToShowProviders.contains(widget.taskNumber))
+                          Container(
+                            height: 45,
+                            width: 110,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFF3D69B),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            margin: const EdgeInsets.only(bottom: 5, top: 5),
+                            child: TextButton(
+                              onPressed: () async {
+                                if (int.parse(widget.taskNumber) == 6) {
+                                  serviceTypeMaterial = "Constructor";
+                                } else if (int.parse(widget.taskNumber) == 7) {
+                                  serviceTypeMaterial = "Plumbing Technician";
+                                } else if (int.parse(widget.taskNumber) == 8) {
+                                  serviceTypeMaterial = "Electrical Technician";
+                                } else if (int.parse(widget.taskNumber) == 9) {
+                                  serviceTypeMaterial = "Insulation Technician";
+                                } else if (int.parse(widget.taskNumber) == 10) {
+                                  serviceTypeMaterial = "Carpenter";
+                                } else if (int.parse(widget.taskNumber) == 12) {
+                                  serviceTypeMaterial = "Tile Contractor";
+                                } else if (int.parse(widget.taskNumber) == 13) {
+                                  serviceTypeMaterial = "Window Installer";
+                                } else if (int.parse(widget.taskNumber) == 14) {
+                                  serviceTypeMaterial = "Carpenter";
+                                } else if (int.parse(widget.taskNumber) == 15) {
+                                  serviceTypeMaterial = "Painter";
+                                }
+
+                                List<dynamic> materialProviders =
+                                    await HomeOwnerTasksAPI
+                                        .getMaterialProviders(
+                                            serviceTypeMaterial);
+                                Get.to(MaterialProvidersList(
+                                    materialProvidersData: materialProviders));
+                              },
+                              child: const Text(
+                                "Material Prov..",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF122247),
+                                ),
+                              ),
+                            ),
+                          ),
+                        const SizedBox(
+                          width: 6,
+                        ),
                         Container(
                           height: 45,
                           width: 85,
@@ -152,179 +357,171 @@ class ProjectTasks extends StatelessWidget {
                           child: TextButton(
                             onPressed: () async {
                               // here you will move to tasks like task1 2 3 etc
-                              final Map<String, dynamic> ProjectInfo = await HomeOwnerTasksAPI.getProjectInfoData( int.parse(taskProjectId));
+                              final Map<String, dynamic> ProjectInfo =
+                                  await HomeOwnerTasksAPI.getProjectInfoData(
+                                      int.parse(widget.taskProjectId));
 
-                              String path = '/HomeOwnerTasks/Task' + taskNumber;
+                              String path = '/HomeOwnerTasks/Task' + widget.taskNumber;
                               // print(taskNumber) ;
-                              if(taskNumber == '1'){
-                                final Map<String, dynamic> data = await HomeOwnerTasksAPI.getPropertySurvey(taskID);
-                                final String? _docsURL = await HomeOwnerTasksAPI.getSurveyDocument(taskProjectId) ;
+                              if (widget.taskNumber == '1') {
+                                final Map<String, dynamic> data =
+                                    await HomeOwnerTasksAPI.getPropertySurvey(
+                                        widget.taskID);
+                                final String? _docsURL =
+                                    await HomeOwnerTasksAPI.getSurveyDocument(
+                                        widget.taskProjectId);
 
-                                Get.toNamed(path,
-                                    arguments: {
-                                      'taskID': taskID,
-                                      'taskProjectId': taskProjectId ,
-                                      'propertySurveyData' : data,
-                                      'docsURL' : _docsURL});
+                                Get.toNamed(path, arguments: {
+                                  'taskID': widget.taskID,
+                                  'taskProjectId': widget.taskProjectId,
+                                  'propertySurveyData': data,
+                                  'docsURL': _docsURL
+                                });
                               }
-                              if(taskNumber == '2'){
-                                final Map<String, dynamic> data = await HomeOwnerTasksAPI.getPermitsRegulatoryInfo(taskID);
-                                final String? _docsURL = await HomeOwnerTasksAPI.getPermitsDocument(taskProjectId) ;
-                                Get.toNamed(path,
-                                    arguments: {
-                                      'taskID': taskID,
-                                      'taskProjectId': taskProjectId ,
-                                      'localGovernmentData' : data,
-                                      'docsURL' : _docsURL});
+                              if (widget.taskNumber == '2') {
+                                final Map<String, dynamic> data =
+                                    await HomeOwnerTasksAPI
+                                        .getPermitsRegulatoryInfo(widget.taskID);
+                                final String? _docsURL =
+                                    await HomeOwnerTasksAPI.getPermitsDocument(
+                                        widget.taskProjectId);
+                                Get.toNamed(path, arguments: {
+                                  'taskID': widget.taskID,
+                                  'taskProjectId': widget.taskProjectId,
+                                  'localGovernmentData': data,
+                                  'docsURL': _docsURL
+                                });
                               }
-                              if(taskNumber == '3'){
-                                final Map<String, dynamic> data = await HomeOwnerTasksAPI.getSoilInvestigation(taskID);
-                                final String? _docsURL = await HomeOwnerTasksAPI.getSoilDocument(taskProjectId) ;
-                                Get.toNamed(path,
-                                    arguments: {
-                                      'taskID': taskID,
-                                      'taskProjectId': taskProjectId ,
-                                      'soilTesting' : data,
-                                      'docsURL' : _docsURL});
+                              if (widget.taskNumber == '3') {
+                                final Map<String, dynamic> data =
+                                    await HomeOwnerTasksAPI
+                                        .getSoilInvestigation(widget.taskID);
+                                final String? _docsURL =
+                                    await HomeOwnerTasksAPI.getSoilDocument(
+                                        widget.taskProjectId);
+                                Get.toNamed(path, arguments: {
+                                  'taskID': widget.taskID,
+                                  'taskProjectId': widget.taskProjectId,
+                                  'soilTesting': data,
+                                  'docsURL': _docsURL
+                                });
                               }
-                              if(taskNumber == '4'){
-                                final Map<String, dynamic> data = await HomeOwnerTasksAPI.getDesignAndPlanning(taskID) ;
-                                Get.toNamed(
-                                  path,
-                                  arguments: {
-                                    'taskID': taskID,
-                                    'taskProjectId': taskProjectId ,
-                                    'DesignData' : data,
-                                    'buildingData' : ProjectInfo,
-                                    }
-                                );
+                              if (widget.taskNumber == '4') {
+                                final Map<String, dynamic> data =
+                                    await HomeOwnerTasksAPI
+                                        .getDesignAndPlanning(widget.taskID);
+                                Get.toNamed(path, arguments: {
+                                  'taskID': widget.taskID,
+                                  'taskProjectId': widget.taskProjectId,
+                                  'DesignData': data,
+                                  'buildingData': ProjectInfo,
+                                });
                               }
-                              if(taskNumber == '5'){
-                                final Map<String, dynamic> data = await HomeOwnerTasksAPI.getApprovals(taskID) ;
-                                Get.toNamed(
-                                    path,
-                                    arguments: {
-                                      'taskID': taskID,
-                                      'taskProjectId': taskProjectId ,
-                                      'GovernmentData' : data,
-                                    }
-                                );
+                              if (widget.taskNumber == '5') {
+                                final Map<String, dynamic> data =
+                                    await HomeOwnerTasksAPI.getApprovals(
+                                        widget.taskID);
+                                Get.toNamed(path, arguments: {
+                                  'taskID': widget.taskID,
+                                  'taskProjectId': widget.taskProjectId,
+                                  'GovernmentData': data,
+                                });
                               }
-                              if(taskNumber == '6'){
-                                final Map<String, dynamic> data = await HomeOwnerTasksAPI.getTask6(taskID) ;
-                                Get.toNamed(
-                                    path,
-                                    arguments: {
-                                      'taskID': taskID,
-                                      'taskProjectId': taskProjectId ,
-                                      'taskData' : data,
-                                      'projectData' : ProjectInfo
-                                    }
-                                );
+                              if (widget.taskNumber == '6') {
+                                final Map<String, dynamic> data =
+                                    await HomeOwnerTasksAPI.getTask6(widget.taskID);
+                                Get.toNamed(path, arguments: {
+                                  'taskID': widget.taskID,
+                                  'taskProjectId': widget.taskProjectId,
+                                  'taskData': data,
+                                  'projectData': ProjectInfo
+                                });
                               }
-                              if(taskNumber == '7'){
-                                final Map<String, dynamic> data = await HomeOwnerTasksAPI.getTask6(taskID) ;
-                                Get.toNamed(
-                                    path,
-                                    arguments: {
-                                      'taskID': taskID,
-                                      'taskProjectId': taskProjectId ,
-                                      'datatask7' : data,
-                                    }
-                                );
+                              if (widget.taskNumber == '7') {
+                                final Map<String, dynamic> data =
+                                    await HomeOwnerTasksAPI.getTask6(widget.taskID);
+                                Get.toNamed(path, arguments: {
+                                  'taskID': widget.taskID,
+                                  'taskProjectId': widget.taskProjectId,
+                                  'datatask7': data,
+                                });
                               }
-                              if(taskNumber == '8'){
-                                final Map<String, dynamic> data = await HomeOwnerTasksAPI.getTask6(taskID) ;
-                                Get.toNamed(
-                                    path,
-                                    arguments: {
-                                      'taskID': taskID,
-                                      'taskProjectId': taskProjectId ,
-                                      'task8data' : data,
-                                    }
-                                );
+                              if (widget.taskNumber == '8') {
+                                final Map<String, dynamic> data =
+                                    await HomeOwnerTasksAPI.getTask6(widget.taskID);
+                                Get.toNamed(path, arguments: {
+                                  'taskID': widget.taskID,
+                                  'taskProjectId': widget.taskProjectId,
+                                  'task8data': data,
+                                });
                               }
-                              if(taskNumber == '9'){
-                                final Map<String, dynamic> data = await HomeOwnerTasksAPI.getTask6(taskID) ;
-                                Get.toNamed(
-                                    path,
-                                    arguments: {
-                                      'taskID': taskID,
-                                      'taskProjectId': taskProjectId ,
-                                      'task9data' : data,
-                                    }
-                                );
+                              if (widget.taskNumber == '9') {
+                                final Map<String, dynamic> data =
+                                    await HomeOwnerTasksAPI.getTask6(widget.taskID);
+                                Get.toNamed(path, arguments: {
+                                  'taskID': widget.taskID,
+                                  'taskProjectId': widget.taskProjectId,
+                                  'task9data': data,
+                                });
                               }
-                              if(taskNumber == '10'){
-                                final Map<String, dynamic> data = await HomeOwnerTasksAPI.getTask6(taskID) ;
-                                Get.toNamed(
-                                    path,
-                                    arguments: {
-                                      'taskID': taskID,
-                                      'taskProjectId': taskProjectId ,
-                                      'task10data' : data,
-                                      'ProjectInfo' : ProjectInfo
-                                    }
-                                );
+                              if (widget.taskNumber == '10') {
+                                final Map<String, dynamic> data =
+                                    await HomeOwnerTasksAPI.getTask6(widget.taskID);
+                                Get.toNamed(path, arguments: {
+                                  'taskID': widget.taskID,
+                                  'taskProjectId': widget.taskProjectId,
+                                  'task10data': data,
+                                  'ProjectInfo': ProjectInfo
+                                });
                               }
-                              if(taskNumber == '11'){
-                                final Map<String, dynamic> data = await HomeOwnerTasksAPI.getTask6(taskID) ;
-                                Get.toNamed(
-                                    path,
-                                    arguments: {
-                                      'taskID': taskID,
-                                      'taskProjectId': taskProjectId ,
-                                      'task11data' : data,
-                                    }
-                                );
+                              if (widget.taskNumber == '11') {
+                                final Map<String, dynamic> data =
+                                    await HomeOwnerTasksAPI.getTask6(widget.taskID);
+                                Get.toNamed(path, arguments: {
+                                  'taskID': widget.taskID,
+                                  'taskProjectId': widget.taskProjectId,
+                                  'task11data': data,
+                                });
                               }
-                              if(taskNumber == '12'){
-                                final Map<String, dynamic> data = await HomeOwnerTasksAPI.getTask6(taskID) ;
-                                Get.toNamed(
-                                    path,
-                                    arguments: {
-                                      'taskID': taskID,
-                                      'taskProjectId': taskProjectId ,
-                                      'task12data' : data,
-                                      'projectInfo' : ProjectInfo
-                                    }
-                                );
+                              if (widget.taskNumber == '12') {
+                                final Map<String, dynamic> data =
+                                    await HomeOwnerTasksAPI.getTask6(widget.taskID);
+                                Get.toNamed(path, arguments: {
+                                  'taskID': widget.taskID,
+                                  'taskProjectId': widget.taskProjectId,
+                                  'task12data': data,
+                                  'projectInfo': ProjectInfo
+                                });
                               }
-                              if(taskNumber == '13'){
-                                final Map<String, dynamic> data = await HomeOwnerTasksAPI.getTask6(taskID) ;
-                                Get.toNamed(
-                                    path,
-                                    arguments: {
-                                      'taskID': taskID,
-                                      'taskProjectId': taskProjectId ,
-                                      'task13data' : data,
-                                      'projectInfo' : ProjectInfo
-                                    }
-                                );
+                              if (widget.taskNumber == '13') {
+                                final Map<String, dynamic> data =
+                                    await HomeOwnerTasksAPI.getTask6(widget.taskID);
+                                Get.toNamed(path, arguments: {
+                                  'taskID': widget.taskID,
+                                  'taskProjectId': widget.taskProjectId,
+                                  'task13data': data,
+                                  'projectInfo': ProjectInfo
+                                });
                               }
-                              if(taskNumber == '14'){
-                                final Map<String, dynamic> data = await HomeOwnerTasksAPI.getTask6(taskID) ;
-                                Get.toNamed(
-                                    path,
-                                    arguments: {
-                                      'taskID': taskID,
-                                      'taskProjectId': taskProjectId ,
-                                      'task14data' : data,
-                                      'projectInfo' : ProjectInfo
-                                    }
-                                );
+                              if (widget.taskNumber == '14') {
+                                final Map<String, dynamic> data =
+                                    await HomeOwnerTasksAPI.getTask6(widget.taskID);
+                                Get.toNamed(path, arguments: {
+                                  'taskID': widget.taskID,
+                                  'taskProjectId': widget.taskProjectId,
+                                  'task14data': data,
+                                  'projectInfo': ProjectInfo
+                                });
                               }
-                              if(taskNumber == '15'){
-                                final Map<String, dynamic> data = await HomeOwnerTasksAPI.getTask6(taskID) ;
-                                Get.toNamed(
-                                    path,
-                                    arguments: {
-                                      'taskID': taskID,
-                                      'taskProjectId': taskProjectId ,
-                                      'task15data' : data,
-                                      'projectInfo' : ProjectInfo
-                                    }
-                                );
+                              if (widget.taskNumber == '15') {
+                                final Map<String, dynamic> data =
+                                    await HomeOwnerTasksAPI.getTask6(widget.taskID);
+                                Get.toNamed(path, arguments: {
+                                  'taskID': widget.taskID,
+                                  'taskProjectId': widget.taskProjectId,
+                                  'task15data': data,
+                                  'projectInfo': ProjectInfo
+                                });
                               }
                             },
                             child: const Text(
@@ -336,44 +533,13 @@ class ProjectTasks extends StatelessWidget {
                             ),
                           ),
                         ),
-                        const SizedBox(width: 6,),
-                        Container(
-                          height: 45,
-                          width: 110,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFF3D69B),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          margin: const EdgeInsets.only(bottom: 5, top: 5),
-                          child: TextButton(
-                            onPressed: () async {
-                              // here the implementation for the material provider
-
-                              /*
-                            call here the api to retrieve the material providers data for the service of the task
-                           */
-
-                              /*
-                          set state the data for the MP into list to pass it to the widget
-                           */
-                              Get.to(const MaterialProvidersList()) ;
-                            },
-                            child: const Text(
-                              "See Providers",
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF122247),
-                              ),
-                            ),
-                          ),
-                        ),
                       ],
                     ),
-
                   ],
                 ),
               )
-            else
+            else if (widget.serviceProviderID == 'No Provider ID' &&
+                widget.taskNumber != '16')
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
@@ -386,107 +552,95 @@ class ProjectTasks extends StatelessWidget {
                     ),
                     margin: const EdgeInsets.only(bottom: 5, top: 5),
                     child: TextButton(
-                      onPressed: () async  {
+                      onPressed: () async {
                         String previousTaskStatus;
-                        final Map<String, dynamic> projectInfo = await HomeOwnerProjectPageNavbarAPI.getProjectData(taskProjectId);
-                        if (projectInfo['ProjectEntryPoint'] == 'From Scratch') {
-                          if(int.parse(taskNumber) > 1) {
-                            previousTaskStatus = await HomeOwnerTasksAPI
-                                .checkPreviousTaskStatus(int.parse(taskProjectId),
-                                int.parse(taskNumber));
+                        final Map<String, dynamic> projectInfo =
+                            await HomeOwnerProjectPageNavbarAPI.getProjectData(
+                                widget.taskProjectId);
+                        if (projectInfo['ProjectEntryPoint'] ==
+                            'From Scratch') {
+                          if (int.parse(widget.taskNumber) > 1) {
+                            previousTaskStatus =
+                                await HomeOwnerTasksAPI.checkPreviousTaskStatus(
+                                    int.parse(widget.taskProjectId),
+                                    int.parse(widget.taskNumber));
 
                             // Check the status of the previous task
-                            if ((int.parse(taskNumber) >= 7 && int.parse(taskNumber) <= 9) )
-                            {
+                            if ((int.parse(widget.taskNumber) >= 7 &&
+                                int.parse(widget.taskNumber) <= 9)) {
                               previousTaskStatus = await HomeOwnerTasksAPI
-                                  .checkPreviousTaskStatus(int.parse(taskProjectId),
-                                  int.parse("7"));
+                                  .checkPreviousTaskStatus(
+                                      int.parse(widget.taskProjectId), int.parse("7"));
 
-                              await CustomAlertDialog.showParallelTasksDialog(context);
-
+                              await CustomAlertDialog.showParallelTasksDialog(
+                                  context);
                             }
-                            if (int.parse(taskNumber) == 10 ){
+                            if (int.parse(widget.taskNumber) == 10) {
                               previousTaskStatus = await HomeOwnerTasksAPI
-                                  .checkPreviousTaskStatus(int.parse(taskProjectId),
-                                  int.parse("9"));
+                                  .checkPreviousTaskStatus(
+                                      int.parse(widget.taskProjectId), int.parse("9"));
                             }
 
                             if (previousTaskStatus == "In Progress" ||
                                 previousTaskStatus == "Not Started") {
-                              CustomAlertDialog.showErrorDialog(
-                                  context,
+                              CustomAlertDialog.showErrorDialog(context,
+                                  'You can not go to the next task before complete previous one.');
+                              return;
+                            }
+                          }
+                        } else if (projectInfo['ProjectEntryPoint'] ==
+                            'From Middle') {
+                          if (int.parse(widget.taskNumber) > 10) {
+                            previousTaskStatus =
+                                await HomeOwnerTasksAPI.checkPreviousTaskStatus(
+                                    int.parse(widget.taskProjectId),
+                                    int.parse(widget.taskNumber));
+
+                            if (previousTaskStatus == "In Progress" ||
+                                previousTaskStatus == "Not Started") {
+                              CustomAlertDialog.showErrorDialog(context,
                                   'You can not go to the next task before complete previous one.');
                               return;
                             }
                           }
                         }
-                        else if (projectInfo['ProjectEntryPoint'] == 'From Middle') {
-                          if(int.parse(taskNumber) > 10) {
-                              previousTaskStatus = await HomeOwnerTasksAPI
-                                  .checkPreviousTaskStatus(int.parse(taskProjectId),
-                                  int.parse(taskNumber));
 
-                              if (previousTaskStatus == "In Progress" ||
-                                  previousTaskStatus == "Not Started") {
-                                CustomAlertDialog.showErrorDialog(
-                                    context,
-                                    'You can not go to the next task before complete previous one.');
-                                return;
-                              }
-                            }
-
+                        if (int.parse(widget.taskNumber) == 1) {
+                          serviceType = "Surveyor";
+                        } else if (int.parse(widget.taskNumber) >= 2 &&
+                            int.parse(widget.taskNumber) <= 5) {
+                          serviceType = "Engineering Office";
+                        } else if (int.parse(widget.taskNumber) == 6) {
+                          serviceType = "Constructor";
+                        } else if (int.parse(widget.taskNumber) == 7) {
+                          serviceType = "Plumbing Technician";
+                        } else if (int.parse(widget.taskNumber) == 8) {
+                          serviceType = "Electrical Technician";
+                        } else if (int.parse(widget.taskNumber) == 9) {
+                          serviceType = "Insulation Technician";
+                        } else if (int.parse(widget.taskNumber) == 10) {
+                          serviceType = "Carpenter";
+                        } else if (int.parse(widget.taskNumber) == 11) {
+                          serviceType = "Plasterer";
+                        } else if (int.parse(widget.taskNumber) == 12) {
+                          serviceType = "Tile Contractor";
+                        } else if (int.parse(widget.taskNumber) == 13) {
+                          serviceType = "Window Installer";
+                        } else if (int.parse(widget.taskNumber) == 14) {
+                          serviceType = "Carpenter";
+                        } else if (int.parse(widget.taskNumber) == 15) {
+                          serviceType = "Painter";
                         }
-
-                        if (int.parse(taskNumber) == 16) {
-                          CustomAlertDialog.showErrorDialogForTask16(
-                              context,
-                              taskDescription);
-                          return;                        }
-
-                        if (int.parse(taskNumber) == 1) {
-                            serviceType = "Surveyor";
-                          }
-                          else if (int.parse(taskNumber) >= 2 && int.parse(
-                              taskNumber) <= 5) {
-                            serviceType = "Engineering Office";
-                          }
-                          else if (int.parse(taskNumber) == 6) {
-                            serviceType = "Constructor";
-                          }
-                          else if (int.parse(taskNumber) == 7) {
-                            serviceType = "Plumbing Technician";
-                          }
-                          else if (int.parse(taskNumber) == 8) {
-                            serviceType = "Electrical Technician";
-                          }
-                          else if (int.parse(taskNumber) == 9) {
-                            serviceType = "Insulation Technician";
-                          }
-                          else if (int.parse(taskNumber) == 10) {
-                            serviceType = "Carpenter";
-                          }
-                          else if (int.parse(taskNumber) == 11) {
-                            serviceType = "Plasterer";
-                          }
-                          else if (int.parse(taskNumber) == 12) {
-                            serviceType = "Tile Contractor";
-                          }
-                          else if (int.parse(taskNumber) == 13) {
-                            serviceType = "Window Installer";
-                          }
-                          else if (int.parse(taskNumber) == 14) {
-                            serviceType = "Carpenter";
-                          }
-                          else if (int.parse(taskNumber) == 15) {
-                            serviceType = "Painter";
-                          }
-                          // Navigate to the next screen and pass taskID and serviceProviderID
-                          Get.to(SearchPage(askForRequest: true), arguments: {'servicetype' : serviceType , 'TaskID' : taskID} );
+                        // Navigate to the next screen and pass taskID and serviceProviderID
+                        Get.to(SearchPage(askForRequest: true), arguments: {
+                          'servicetype': serviceType,
+                          'TaskID': widget.taskID
+                        });
                       },
                       child: const Text(
-                        "Add Provider",
+                        "Add Service Provider",
                         style: TextStyle(
-                          fontSize: 17,
+                          fontSize: 15,
                           color: Color(0xFF122247),
                         ),
                       ),
@@ -498,5 +652,11 @@ class ProjectTasks extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    throw UnimplementedError();
   }
 }

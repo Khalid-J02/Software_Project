@@ -101,7 +101,7 @@ class _SPProfilePageState extends State<SPProfilePage> with ChangeNotifier{
         context: context, // Ensure context is available
         builder: (context) => AlertDialog(
           title: const Text('Request Already Sent'),
-          content: const Text('You have already sent a request for this task.'),
+          content: const Text('An error occurred: A request for this specific task has already been submitted by you. Please await a response from the service provider to whom the request was sent.'),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
@@ -115,8 +115,8 @@ class _SPProfilePageState extends State<SPProfilePage> with ChangeNotifier{
       showDialog(
         context: context, // Ensure context is available
         builder: (context) => AlertDialog(
-          title: const Text('Request is Sent'),
-          content: const Text('You have sent request to the provider successfully'),
+          title: const Text('Request is Sent Successfully'),
+          content: const Text('You Have Sent a Request To This Service Provider Successfully.'),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
@@ -233,12 +233,32 @@ class _SPProfilePageState extends State<SPProfilePage> with ChangeNotifier{
                           widget.askForRequest
                           ? GestureDetector(
                               onTap: () async {
-                                String? pickedDate = await CustomAlertDialog.showExpectedStartDatefortheTask(context);
-                                if (pickedDate != null) {
-                                } else {
-                                  // do nothing
+                                final String data = await ServiceProviderDataAPI.checkRequestForServiceProvider(sPID, taskId.toString()) ;
+                                if(data == 'Request for the specified task already sent') {
+
+                                    showDialog(
+                                      context: context, // Ensure context is available
+                                      builder: (context) => AlertDialog(
+                                        title: const Text('Request Already Sent'),
+                                        content: const Text('An error occurred: A request for this specific task has already been submitted by you. Please await a response from the service provider to whom the request was sent.'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () => Navigator.pop(context),
+                                            child: const Text('OK'),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+
                                 }
-                                await sendRequest(pickedDate!);
+                                else if(data == 'You can send a Request') {
+                                  String? pickedDate = await CustomAlertDialog.showExpectedStartDatefortheTask(context);
+                                  if (pickedDate != null) {
+                                  } else {
+                                    // do nothing
+                                  }
+                                  await sendRequest(pickedDate!);
+                                }
                               },
                               child: Container(
                                 width: MediaQuery.of(context).size.width > 930

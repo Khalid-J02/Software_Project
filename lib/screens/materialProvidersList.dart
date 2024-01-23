@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MaterialProvidersList extends StatefulWidget {
-  const MaterialProvidersList({super.key});
+  List materialProvidersData;
+  MaterialProvidersList({super.key, required this.materialProvidersData});
 
   @override
   State<MaterialProvidersList> createState() => _MaterialProvidersListState();
@@ -11,50 +12,6 @@ class MaterialProvidersList extends StatefulWidget {
 
 class _MaterialProvidersListState extends State<MaterialProvidersList> {
 
-  List materialProvidersData = [
-    {
-      "name" : "company x",
-      "city" : "Nablus",
-      "phoneNumber" : "0592685190",
-      "socialLink" : "https://www.facebook.com/"
-    },
-    {
-      "name" : "company x",
-      "city" : "Nablus",
-      "phoneNumber" : "0592685190",
-      "socialLink" : "https://www.facebook.com/"
-    },
-    {
-      "name" : "company x",
-      "city" : "Nablus",
-      "phoneNumber" : "0592685190",
-      "socialLink" : "https://www.facebook.com/"
-    },
-    {
-      "name" : "company x",
-      "city" : "Nablus",
-      "phoneNumber" : "0592685190",
-      "socialLink" : "https://www.facebook.com/"
-    },
-    {
-      "name" : "company x",
-      "city" : "Nablus",
-      "phoneNumber" : "0592685190",
-      "socialLink" : "https://www.facebook.com/"
-    },
-    {
-      "name" : "company x",
-      "city" : "Nablus",
-      "phoneNumber" : "0592685190",
-      "socialLink" : "https://www.facebook.com/"
-    },
-    {
-      "name" : "company x",
-      "city" : "Nablus",
-      "phoneNumber" : "0592685190",
-      "socialLink" : "https://www.facebook.com/"
-    },
-  ] ;
 
   @override
   Widget build(BuildContext context) {
@@ -75,14 +32,28 @@ class _MaterialProvidersListState extends State<MaterialProvidersList> {
       body: SafeArea(
         child: Container(
           color: Color(0xFF2F4771),
-          child: ListView.builder(
-            itemCount: materialProvidersData.length,
-            itemBuilder: (context , index){
+          child: widget.materialProvidersData.isEmpty
+              ? const Center(
+            child: Text(
+              'No Material Providers Found..',
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.white,
+              ),
+            ),
+          )
+              : ListView.builder(
+            itemCount: widget.materialProvidersData.length,
+            itemBuilder: (context, index) {
+              var providerData = widget.materialProvidersData[index];
+              var socialLink = providerData['UserProfileInfo'] ?? '';
+              var displayLink = socialLink.length > 50 ? '${socialLink.substring(0, 47)}...' : socialLink;
+
               return MaterialProviderItem(
-                name: materialProvidersData[index]['name'],
-                phoneNumber: materialProvidersData[index]['phoneNumber'],
-                socialLink: materialProvidersData[index]['socialLink'],
-                city: materialProvidersData[index]['city'],
+                name: widget.materialProvidersData[index]['Username']?? '',
+                phoneNumber: widget.materialProvidersData[index]['UserPhoneNumber']?? '',
+                socialLink: displayLink,
+                city: widget.materialProvidersData[index]['UserCity'] ?? '',
               );
             },
           ),

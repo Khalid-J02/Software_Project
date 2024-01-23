@@ -556,4 +556,38 @@ class HomeOwnerTasksAPI {
       rethrow;
     }
   }
+
+  static Future<List<dynamic>> getMaterialProviders(String serviceType) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/homeowner/project/task-info/materialProviders'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': '${dotenv.env['token']}',
+      },
+      body: jsonEncode({
+        'serviceType': serviceType,
+      }),
+    );
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Failed to retrieve material providers');
+    }
+  }
+
+  static Future<Map<String, dynamic>> markTask16asDone(String taskId, String projectId) async {
+    final response = await http.put(
+      Uri.parse('$baseUrl/homeowner/project/task-info/markTask16asDone/$taskId/$projectId'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': '${dotenv.env['token']}',
+      },
+    );
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Failed to retrieve markTask16asDone');
+    }
+  }
+
 }

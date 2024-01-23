@@ -144,7 +144,8 @@ class AdminAPI {
     String city,
     String serviceType,
     String bio,
-    ) async {
+    String phoneNumber,
+      ) async {
     final response = await http.post(
       Uri.parse('$baseUrl/admin/addMatirealProvider'),
       headers: {
@@ -158,6 +159,7 @@ class AdminAPI {
         'city': city,
         'serviceType': serviceType,
         'bio': bio,
+        'phoneNumber': phoneNumber,
       }),
     );
 

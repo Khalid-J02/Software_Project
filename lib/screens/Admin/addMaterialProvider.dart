@@ -17,18 +17,17 @@ class _AddMaterialProviderState extends State<AddMaterialProvider> {
   String selectedServiceType = 'Select Service Type';
   String selectedCity = 'Select City';
   final TextEditingController companyNameController = TextEditingController();
+  final TextEditingController phoneNumberController = TextEditingController();
   final TextEditingController socialLinkController = TextEditingController();
 
 
   final List<String> serviceTypes = [
     'Constructor',
-    'Plumbing Technician',
-    'Electrical Technician',
-    'Insulation Technician',
     'Carpenter',
     'Tile Contractor',
     'Window Installer',
-    'Painter'
+    'Painter',
+    'Finishing'
   ];
 
 
@@ -92,6 +91,7 @@ class _AddMaterialProviderState extends State<AddMaterialProvider> {
     if (selectedServiceType == 'Select Service Type' ||
         selectedCity == 'Select City' ||
         companyNameController.text.isEmpty ||
+        phoneNumberController.text.isEmpty ||
         socialLinkController.text.isEmpty ||
         imageUrl == null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -110,6 +110,7 @@ class _AddMaterialProviderState extends State<AddMaterialProvider> {
         selectedCity,
         selectedServiceType,
         socialLinkController.text,
+        phoneNumberController.text,
       );
 
       ScaffoldMessenger.of(context).showSnackBar(
@@ -122,6 +123,7 @@ class _AddMaterialProviderState extends State<AddMaterialProvider> {
       setState(() {
         companyNameController.clear();
         socialLinkController.clear();
+        phoneNumberController.clear();
         selectedServiceType = 'Select Service Type';
         selectedCity = 'Select City';
         imageUrl = null;
@@ -338,6 +340,62 @@ class _AddMaterialProviderState extends State<AddMaterialProvider> {
           Row(
             children: [
               const Expanded(
+                flex: 4,
+                child: Padding(
+                  padding: EdgeInsets.only(left: 10),
+                  child: Text(
+                    "Phone Number : ",
+                    style: TextStyle(
+                      fontSize: 17,
+                      color: Color(0xFF122247),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 8,
+                child: Container(
+                  height: 70,
+                  padding: MediaQuery.of(context).size.width > 930
+                      ? EdgeInsets.only(
+                      top: 10,
+                      bottom: 10,
+                      right: MediaQuery.of(context).size.width / 3.5,
+                      left: MediaQuery.of(context).size.width / 3.5)
+                      : const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                  child: TextFormField(
+                    controller: phoneNumberController,
+                    style: TextStyle(color: Color(0xFFF3D69B)),
+                    decoration: InputDecoration(
+                      hintText: 'Enter here..',
+                      hintStyle: TextStyle(color: Color(0xFFF3D69B)),
+                      filled: true,
+                      fillColor: Color(0xFF2F4771),
+                      labelStyle: const TextStyle(
+                        color: Color(0xFFF3D69B),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(
+                          color: Color(0xFFF3D69B),
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(
+                          color: Color(0xFFF3D69B),
+                          width: 1.0,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              const Expanded(
                 child: Padding(
                   padding: EdgeInsets.only(left: 10),
                   child: Text(
@@ -460,7 +518,7 @@ class _AddMaterialProviderState extends State<AddMaterialProvider> {
           ),
 
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 40.0),
+            padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 40.0),
             child: ElevatedButton(
               onPressed: submitMaterialProvider,
               style: ElevatedButton.styleFrom(
