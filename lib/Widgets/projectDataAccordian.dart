@@ -1,6 +1,7 @@
 import 'package:accordion/accordion.dart';
 import 'package:accordion/controllers.dart';
 import 'package:buildnex/Tasks/taskWidgets/pdfViewer.dart';
+import 'package:buildnex/classes/language_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -54,154 +55,160 @@ class MainProjectDataAccordion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Accordion(
-      headerBackgroundColor: const Color(0xFF122247),
-      // headerBorderColorOpened: Color(0xFFF9FAFB),
-      headerBackgroundColorOpened: const Color(0xFF122247),
-      contentBackgroundColor: Color(0xFF2F4991),
-      contentBorderColor: Color(0xFFF9FAFB),
-      contentBorderWidth: 3,
-      headerBorderWidth: 3,
-      contentHorizontalPadding: 15,
-      scaleWhenAnimating: true,
-      openAndCloseAnimation: true,
-      headerPadding:
-        const EdgeInsets.symmetric(vertical: 7, horizontal: 15),
-        sectionOpeningHapticFeedback: SectionHapticFeedback.heavy,
-        sectionClosingHapticFeedback: SectionHapticFeedback.light,
-        children: [
-          AccordionSection(
-            isOpen: false,
-            contentVerticalPadding: 15,
-            leftIcon: const Icon(
-                Icons.info,
-                color: Color(0xFFF3D69B),
-            ),
-            header: const Text(
-              'Main Project Information',
-              style: TextStyle(
-                  color: Color(0xFFF9FAFB),
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500
+    return Directionality(
+      textDirection: translation(context)!.localeName == 'ar' ? TextDirection.rtl : TextDirection.ltr,
+      child: Accordion(
+        headerBackgroundColor: const Color(0xFF122247),
+        // headerBorderColorOpened: Color(0xFFF9FAFB),
+        headerBackgroundColorOpened: const Color(0xFF122247),
+        contentBackgroundColor: Color(0xFF2F4991),
+        contentBorderColor: Color(0xFFF9FAFB),
+        contentBorderWidth: 3,
+        headerBorderWidth: 3,
+        contentHorizontalPadding: 15,
+        scaleWhenAnimating: true,
+        openAndCloseAnimation: true,
+        headerPadding:
+          const EdgeInsets.symmetric(vertical: 7, horizontal: 15),
+          sectionOpeningHapticFeedback: SectionHapticFeedback.heavy,
+          sectionClosingHapticFeedback: SectionHapticFeedback.light,
+          children: [
+            AccordionSection(
+              isOpen: false,
+              contentVerticalPadding: 15,
+              leftIcon: const Icon(
+                  Icons.info,
+                  color: Color(0xFFF3D69B),
               ),
-            ),
-            content: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  //padding: const EdgeInsets.only(top: 35, right: 20, left: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      const Text('Building Area',
-                        style: TextStyle(
-                            color: Color(0xFFF9FAFB),
-                            fontSize: 15,
-                            fontWeight: FontWeight.w400
-                        ),
-                      ),
-                      Text( '${projectBuildArea ?? ' - '} m2',
-                        style: const TextStyle(
-                            color: Color(0xFFF9FAFB),
-                            fontSize: 15,
-                            fontWeight: FontWeight.w400
-                        ),
-                      ),
-                    ],
-                  ),
+              header: Text(
+                translation(context)!.homeOwnerProjectDataAccordionMainTitle,
+                style: const TextStyle(
+                    color: Color(0xFFF9FAFB),
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500
                 ),
-                Container(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      const Text('Numbers of Rooms',
-                        style: TextStyle(
-                            color: Color(0xFFF9FAFB),
-                            fontSize: 15,
-                            fontWeight: FontWeight.w400
+              ),
+              content: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    //padding: const EdgeInsets.only(top: 35, right: 20, left: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          translation(context)!.homeOwnerProjectDataAccordionBuildingArea,
+                          style: const TextStyle(
+                              color: Color(0xFFF9FAFB),
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400
+                          ),
                         ),
-                      ),
-                      Text(projectRoomsNumber != null ? projectRoomsNumber.toString() : ' - ',
-                        style: const TextStyle(
-                            color: Color(0xFFF9FAFB),
-                            fontSize: 15,
-                            fontWeight: FontWeight.w400
+                        Text( '${projectBuildArea ?? ' - '} m2',
+                          style: const TextStyle(
+                              color: Color(0xFFF9FAFB),
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                Container(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      const Text('Numbers of Floors',
-                        style: TextStyle(
-                            color: Color(0xFFF9FAFB),
-                            fontSize: 15,
-                            fontWeight: FontWeight.w400
+                  Container(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(translation(context)!.homeOwnerProjectDataAccordionNumbersOfRooms,
+                          style: const TextStyle(
+                              color: Color(0xFFF9FAFB),
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400
+                          ),
                         ),
-                      ),
-                      Text(projectFloorNumber != null ? projectFloorNumber.toString() : ' - ',
-                        style: const TextStyle(
-                            color: Color(0xFFF9FAFB),
-                            fontSize: 15,
-                            fontWeight: FontWeight.w400
+                        Text(projectRoomsNumber != null ? projectRoomsNumber.toString() : ' - ',
+                          style: const TextStyle(
+                              color: Color(0xFFF9FAFB),
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                Container(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      const Text('Design Drawings',
-                        style: TextStyle(
-                            color: Color(0xFFF9FAFB),
-                            fontSize: 15,
-                            fontWeight: FontWeight.w400
+                  Container(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          translation(context)!.homeOwnerProjectDataAccordionNumbersOfFloors,
+                          style: const TextStyle(
+                              color: Color(0xFFF9FAFB),
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400
+                          ),
                         ),
-                      ),
-                      Container(
-                        height: 35,
-                        width: 140,
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        Text(projectFloorNumber != null ? projectFloorNumber.toString() : ' - ',
+                          style: const TextStyle(
+                              color: Color(0xFFF9FAFB),
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400
+                          ),
                         ),
-                        child: TextButton(
-                          onPressed: () {
-                            if(projectDesignDocument != null){
-                              Get.to(DocsPdfViewer(pdfFileURL: projectDesignDocument!,)) ;
-                            }
-                            else{
-                              Get.snackbar('Hi' ,
-                                  'There is no file to open' ,
-                                  colorText: Colors.white,
-                                  backgroundColor: Color(0xFF2F4771)) ;
-                            }
-                          },
-                          child: const Text(
-                            'Open Document',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Color(0xFF122247),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          translation(context)!.homeOwnerProjectDataAccordionDesignDrawings,
+                          style: const TextStyle(
+                              color: Color(0xFFF9FAFB),
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400
+                          ),
+                        ),
+                        Container(
+                          height: 35,
+                          width: 140,
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          ),
+                          child: TextButton(
+                            onPressed: () {
+                              if(projectDesignDocument != null){
+                                Get.to(DocsPdfViewer(pdfFileURL: projectDesignDocument!,)) ;
+                              }
+                              else{
+                                Get.snackbar('Hi' ,
+                                    'There is no file to open' ,
+                                    colorText: Colors.white,
+                                    backgroundColor: Color(0xFF2F4771)) ;
+                              }
+                            },
+                            child: Text(
+                              translation(context)!.homeOwnerProjectDataAccordionOpenDocument,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Color(0xFF122247),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            )
-          ),
-        ],
+                ],
+              )
+            ),
+          ],
+      ),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:buildnex/classes/language_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -28,31 +29,29 @@ class UserProjects extends StatelessWidget {
   Widget build(BuildContext context) {
     final borderColor = getBorderColorBasedOnStatus(projectStatus);
 
-    return GestureDetector(
-      onTap: (){
-        //Get.toNamed('/HomePage/HomeOwner/ProjectPage');
-        Get.toNamed('/HomePage/HomeOwner/ProjectPage', arguments: {'projectId': projectId});
-
-      },
-      child: Padding(
-        padding: const EdgeInsets.only(left: 25 , right: 25 , top: 25),
-        child: Container(
-          padding: EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: Color(0xFF6781A6),
-            borderRadius: BorderRadius.circular(12),
-            // border: Border.all(
-            //   color: Color(0xFFF3D69B)
-            // )
-            border: Border.all(
-              color: borderColor,
-              width: 2.0,
+    return Directionality(
+      textDirection: translation(context)!.localeName == 'ar' ? TextDirection.rtl : TextDirection.ltr,
+      child: GestureDetector(
+        onTap: (){
+          Get.toNamed('/HomePage/HomeOwner/ProjectPage', arguments: {'projectId': projectId});
+        },
+        child: Padding(
+          padding: const EdgeInsets.only(left: 25 , right: 25 , top: 25),
+          child: Container(
+            padding: EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Color(0xFF6781A6),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: borderColor,
+                width: 2.0,
+              ),
             ),
-          ),
-          child: Text(projectName,
-            style: const TextStyle(
-              fontSize: 18,
-              color: Color(0xFFF3D69B)
+            child: Text(projectName,
+              style: const TextStyle(
+                fontSize: 18,
+                color: Color(0xFFF3D69B)
+              ),
             ),
           ),
         ),

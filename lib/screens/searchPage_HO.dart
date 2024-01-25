@@ -1,5 +1,6 @@
 import 'package:buildnex/Widgets/serviceProvideCard_HO.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import '../Widgets/Categories_HO.dart';
@@ -9,9 +10,15 @@ import '../Widgets/filterSearch_HO.dart';
 
 import '../APIRequests/homeOwnerSearchAPI.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
+
 class SearchPage extends StatefulWidget {
-  final bool askForRequest ;
-  const SearchPage({super.key , required this.askForRequest});
+  final bool askForRequest;
+  final bool isNewUser;
+
+  const SearchPage({super.key, required this.askForRequest, this.isNewUser = false});
+
 
   @override
   State<SearchPage> createState() => _SearchPageState();
@@ -75,8 +82,17 @@ class _SearchPageState extends State<SearchPage> {
     },
   ];
 
+ TutorialCoachMark? tutorialCoachMark;
+ List<TargetFocus> targets = [];
 
-  void selectedCategory(String selectedCategory) {
+
+ GlobalKey searchKey = GlobalKey();
+ GlobalKey filterKey = GlobalKey();
+ GlobalKey servicesKey = GlobalKey();
+ GlobalKey discoverKey = GlobalKey();
+
+
+ void selectedCategory(String selectedCategory) {
     setState(() {
       activeCategory = selectedCategory;
     });
@@ -164,8 +180,144 @@ class _SearchPageState extends State<SearchPage> {
       print('Error filtering service providers: $e');
     }
   }
-  @override
+
+ Future<void> checkAndShowTutorial() async {
+   if (widget.isNewUser) {
+     final prefs = await SharedPreferences.getInstance();
+     String userId = dotenv.env['userID'] ?? 'defaultUser';
+     String tutorialKey = 'hasShownTutorial2_$userId';
+     bool hasShownTutorial = prefs.getBool(tutorialKey) ?? false;
+
+
+     if (!hasShownTutorial) {
+       await Future.delayed(const Duration(seconds: 1));
+       await _showTutorialCoachmark();
+       await prefs.setBool(tutorialKey, true);
+     }
+   }
+ }
+
+ Future<void> _showTutorialCoachmark() async {
+   _initTarget();
+   tutorialCoachMark = TutorialCoachMark(
+     targets: targets,
+     pulseEnable: false,
+     colorShadow: const Color(0xE4FFFFFF),
+     onClickTarget: (target) {
+     },
+     hideSkip: true,
+     //alignSkip: Alignment.center,
+     onFinish: () {
+     },
+   )..show(context: context);
+ }
+
+ void _initTarget() {
+   targets = [
+     TargetFocus(
+       identify: "search-Key",
+       keyTarget: searchKey,
+       color: Color(0xFF070000),
+       shape: ShapeLightFocus.RRect,
+       contents: [
+         TargetContent(
+           align: ContentAlign.bottom,
+           builder: (context, controller) {
+             return CoachmarkDesc(
+               text:
+               "Use this search bar to find service providers by name. Type your query and select from the suggestions or submit the search to see the results.",
+               onNext: () {
+                 controller.next();
+               },
+               onSkip: () {
+                 controller.skip();
+               },
+             );
+           },
+         )
+       ],
+     ),
+     TargetFocus(
+       identify: "filter-Key",
+       keyTarget: filterKey,
+       color: Color(0xFF070000),
+       contents: [
+         TargetContent(
+           align: ContentAlign.bottom,
+           builder: (context, controller) {
+             return CoachmarkDesc(
+               text:
+               "Tap this icon to apply filters on your search. You can filter service providers based on ratings, wage range, location, and more to find the perfect match for your needs.",
+               onNext: () {
+                 controller.next();
+               },
+               onSkip: () {
+                 controller.skip();
+               },
+             );
+           },
+         )
+       ],
+     ),
+     TargetFocus(
+       identify: "services-Key",
+       keyTarget: servicesKey,
+       color: Color(0xFF070000),
+       shape: ShapeLightFocus.RRect,
+       contents: [
+         TargetContent(
+           align: ContentAlign.bottom,
+           builder: (context, controller) {
+             return CoachmarkDesc(
+               text:
+               "Explore a variety of services right at your fingertips. In this section, you can browse through different service categories like Surveyor, Constructor, Carpenter, and more. Tap on any category to view service providers specialized in that field. It's an easy way to narrow down your search and find exactly what you need!",
+               onNext: () {
+                 controller.next();
+               },
+               onSkip: () {
+                 controller.skip();
+               },
+             );
+           },
+         )
+       ],
+     ),
+     TargetFocus(
+       identify: "discover-Key",
+       keyTarget: discoverKey,
+       color: Color(0xFF070000),
+       shape: ShapeLightFocus.RRect,
+       contents: [
+         TargetContent(
+           align: ContentAlign.custom,
+           customPosition: CustomTargetContentPosition(
+             top: MediaQuery.of(context).size.height * 0.65,
+             right: MediaQuery.of(context).size.width * 0.1,
+             bottom: MediaQuery.of(context).size.height * 0.1,
+             left: MediaQuery.of(context).size.width * 0.1,
+           ),
+           padding : EdgeInsets.all(5.0),
+           builder: (context, controller) {
+             return CoachmarkDesc(
+               text:
+               "Welcome to the Discover section! Here, we've handpicked the best service providers from each category for you. It's a great starting point to find top-rated and reliable professionals. Browse through this curated list to discover skilled service providers and select the perfect one for your project needs.",
+               onNext: () {
+                 controller.next();
+               },
+               onSkip: () {
+                 controller.skip();
+               },
+             );
+           },
+         )
+       ],
+     ),
+   ];
+ }
+
+ @override
   void initState() {
+   checkAndShowTutorial();
     super.initState();
 
     if(widget.askForRequest == true ){
@@ -274,6 +426,7 @@ class _SearchPageState extends State<SearchPage> {
                           ? MediaQuery.of(context).size.width/2.7
                           : 344,
                       child: GestureDetector(
+                        key: searchKey,
                         onTap: () async {
                           List<String> suggestionNames = await HomeOwnerSearchAPI.getSuggestionNames();
                           showSearch(
@@ -328,6 +481,7 @@ class _SearchPageState extends State<SearchPage> {
                   Padding(
                     padding: EdgeInsets.only(top: 12, bottom: 10),
                     child: IconButton(
+                      key: filterKey,
                       onPressed: () async {
                         List<String>? UpdatedData = await filterSearch();
                         setState(() {
@@ -381,6 +535,7 @@ class _SearchPageState extends State<SearchPage> {
                   padding: const EdgeInsets.only(
                       top: 8, bottom: 10, right: 15, left: 15),
                   child: GestureDetector(
+                    key: servicesKey,
                     onTap: () {
                       selectedCategory(categoryList[0]["serviceName"]);
                     },
@@ -432,9 +587,102 @@ class _SearchPageState extends State<SearchPage> {
                   ),
                 ],
               ),
-              SPCard(topServiceProviders: serviceProviders, askForRequest: widget.askForRequest, taskID: taskID),
+              SPCard(key: discoverKey ,topServiceProviders: serviceProviders, askForRequest: widget.askForRequest, taskID: taskID),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class CoachmarkDesc extends StatefulWidget {
+  const CoachmarkDesc({
+    super.key,
+    required this.text,
+    this.skip = "Skip",
+    this.next = "Next",
+    this.onSkip,
+    this.onNext,
+  });
+
+
+  final String text;
+  final String skip;
+  final String next;
+  final void Function()? onSkip;
+  final void Function()? onNext;
+
+
+  @override
+  State<CoachmarkDesc> createState() => _CoachmarkDescState();
+}
+
+
+class _CoachmarkDescState extends State<CoachmarkDesc>
+    with SingleTickerProviderStateMixin {
+  late AnimationController animationController;
+
+
+  @override
+  void initState() {
+    animationController = AnimationController(
+      vsync: this,
+      lowerBound: 0,
+      upperBound: 20,
+      duration: const Duration(milliseconds: 800),
+    )..repeat(min: 0, max: 20, reverse: true);
+    super.initState();
+  }
+
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: animationController,
+      builder: (context, child) {
+        return Transform.translate(
+          offset: Offset(0, animationController.value),
+          child: child,
+        );
+      },
+      child: Container(
+        padding: const EdgeInsets.all(15),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              widget.text,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  onPressed: widget.onSkip,
+                  child: Text(widget.skip),
+                ),
+                const SizedBox(width: 16),
+                ElevatedButton(
+                  onPressed: widget.onNext,
+                  child: Text(widget.next),
+                ),
+              ],
+            )
+          ],
         ),
       ),
     );

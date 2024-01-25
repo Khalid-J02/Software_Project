@@ -1,8 +1,10 @@
+import 'package:buildnex/classes/language_constants.dart';
 import 'package:buildnex/screens/Profile.dart';
 import 'package:buildnex/screens/homePage.dart';
 import 'package:buildnex/screens/searchPage_HO.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:get/get.dart';
 
 void main() {
   runApp(const NavBarHomeOwner());
@@ -17,48 +19,42 @@ class NavBarHomeOwner extends StatefulWidget {
 
 class _NavBarHomeOwnerState extends State<NavBarHomeOwner> {
   int pageIndex = 0;
-  final screens = [
-    HomePage(),
-    SearchPage(
-      askForRequest: false,
-    ),
-    ProfilePage(),
-  ];
+  late List<Widget> screens;
+  late bool isNewUser;
+
+
+  @override
+  void initState() {
+    super.initState();
+    final args = Get.arguments as Map<String, dynamic>? ?? {};
+    isNewUser = args['isNewUser'] ?? false;
+    screens = [
+      HomePage(isNewUser: isNewUser),
+      SearchPage(
+        askForRequest: false,
+        isNewUser: isNewUser,
+      ),
+      ProfilePage(isNewUser: isNewUser),
+    ];
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        // final shouldPop = await showDialog<bool>(
-        //   context: context,
-        //   builder: (context) => AlertDialog(
-        //     title: Text('Are you sure?'),
-        //     content: Text('Do you want to Logout?'),
-        //     actions: [
-        //       TextButton(
-        //         onPressed: () => Navigator.of(context).pop(false),
-        //         child: Text('No'),
-        //       ),
-        //       TextButton(
-        //         onPressed: () => Navigator.of(context).pop(true),
-        //         child: Text('Yes'),
-        //       ),
-        //     ],
-        //   ),
-        // );
-        // return shouldPop ?? false;
-        return false;
-      },
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
+    return Directionality(
+      textDirection: translation(context)!.localeName == 'ar' ? TextDirection.rtl : TextDirection.ltr,
+      child: WillPopScope(
+        onWillPop: () async {
+          return false;
+        },
+        child: Scaffold(
           backgroundColor: const Color(0xFF2F4771),
           body: screens[pageIndex],
           bottomNavigationBar: Container(
             color: const Color(0xFF122247),
             child: Padding(
               padding:
-                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12),
+              const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12),
               child: GNav(
                 gap: 8,
                 backgroundColor: const Color(0xFF122247),
@@ -71,18 +67,18 @@ class _NavBarHomeOwnerState extends State<NavBarHomeOwner> {
                     pageIndex = activeIndex;
                   });
                 },
-                tabs: const [
+                tabs: [
                   GButton(
                     icon: Icons.home,
-                    text: 'Home',
+                    text: translation(context)!.homeNavHomeOwnerHomeIcon,
                   ),
                   GButton(
                     icon: Icons.search,
-                    text: 'Search',
+                    text: translation(context)!.homeNavHomeOwnerSearchIcon,
                   ),
                   GButton(
                     icon: Icons.account_circle_outlined,
-                    text: 'Profile',
+                    text: translation(context)!.homeNavHomeOwnerProfileIcon,
                   ),
                 ],
               ),

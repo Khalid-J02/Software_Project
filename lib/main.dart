@@ -1,5 +1,6 @@
 import 'package:buildnex/Widgets/forgotPasswordCode.dart';
 import 'package:buildnex/Widgets/resetPassword.dart';
+import 'package:buildnex/classes/language_constants.dart';
 import 'package:buildnex/screens/Admin/mainScreen.dart';
 import 'package:buildnex/screens/MSG_System/listChatScreen.dart';
 import 'package:buildnex/screens/Notification/homepageNotification.dart';
@@ -59,20 +60,59 @@ import 'Tasks/tasks_SP/Task6/task6SP.dart';
 import 'Tasks/tasks_SP/Task7/task7_SP.dart';
 import 'Tasks/tasks_SP/Task8/task8_SP.dart';
 import 'Tasks/tasks_SP/Task9/task9_SP.dart';
+// import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
   dotenv.load();
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+
+  static void setLocal(BuildContext context , Locale newLocale){
+    _MyAppState? state = context.findAncestorStateOfType<_MyAppState>();
+    state?.setLocale(newLocale);
+  }
+}
+
+class _MyAppState extends State<MyApp> {
+
+  Locale? _locale ;
+
+  setLocale (Locale locale){
+    setState(() {
+      _locale = locale ;
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    getLocale().then((locale) => setLocale(locale));
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Welcome Page',
       debugShowCheckedModeBanner: false,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      locale: _locale,
+      // localizationsDelegates: const [
+      //   GlobalMaterialLocalizations.delegate,
+      //   GlobalWidgetsLocalizations.delegate,
+      //   GlobalCupertinoLocalizations.delegate,
+      // ],
+      // supportedLocales: const [
+      //   Locale('en' , ''), // English
+      //   Locale('ar' , ''), // Arabic
+      // ],
 
       initialRoute: "/",
 

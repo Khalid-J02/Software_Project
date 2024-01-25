@@ -5,12 +5,12 @@ import 'package:path/path.dart' as path;
 import 'package:buildnex/Widgets/TextField.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-
 import 'package:http/http.dart' as http;
-
+import 'customAlertDialog.dart';
 
 class AssetNewItem extends StatefulWidget {
   const AssetNewItem({super.key});
+
 
   @override
   State<AssetNewItem> createState() => _AssetNewItemState();
@@ -18,11 +18,10 @@ class AssetNewItem extends StatefulWidget {
 
 class _AssetNewItemState extends State<AssetNewItem> {
 
-
   final _ItemName = TextEditingController();
   final _itemDescription = TextEditingController();
-
-  String itemImageText = "Item Image : " ;
+  String itemImageText = "Work Exp. Image : " ;
+  late int workId;
 
   TextStyle ElevatedButtonTextStyle(){
     return TextStyle(
@@ -31,6 +30,7 @@ class _AssetNewItemState extends State<AssetNewItem> {
         fontWeight: FontWeight.normal
     );
   }
+
   ButtonStyle ElevatedButtonStyle(){
     return ButtonStyle(
         backgroundColor: MaterialStateProperty.all(Color(0xFF6781A6)),
@@ -61,6 +61,7 @@ class _AssetNewItemState extends State<AssetNewItem> {
         ..fields['upload_preset'] = 'buildnex'
         ..files.add(await http.MultipartFile.fromPath('file', pickedImage.path)) ;
 
+
       final response = await req.send();
       if(response.statusCode == 200){
         final responseData = await response.stream.toBytes() ;
@@ -74,15 +75,45 @@ class _AssetNewItemState extends State<AssetNewItem> {
     }
   }
 
-  Future<void> _saveData(int id) async {
-    List<dynamic> data = [
-      _ItemName.text,
-      _itemDescription.text,
-      imageUrl,
-      id,
-    ];
-    Navigator.of(context).pop(data);
+  Future<bool> _validateFields() async {
+
+
+    final String itemNameAPI = _ItemName.text;
+    final String itemDescriptionAPI = _itemDescription.text;
+
+
+    if (itemNameAPI.isEmpty || itemDescriptionAPI.isEmpty ||
+        imageUrl == null) {
+
+
+      CustomAlertDialog.showErrorDialog(context, 'Please fill in all required fields.');
+      return false;
+    }
+    else
+    {
+
+
+      workId = await WorkExperienceAPI.addWorkExperience(
+        imageUrl!,
+        itemNameAPI,
+        itemDescriptionAPI,
+      );
+      return true;
+    }
   }
+
+  Future<void> _saveData() async {
+    if(await _validateFields()) {
+      List<dynamic> data = [
+        _ItemName.text,
+        _itemDescription.text,
+        imageUrl,
+        workId,
+      ];
+      Navigator.of(context).pop(data);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -95,7 +126,7 @@ class _AssetNewItemState extends State<AssetNewItem> {
             children: [
               const Padding(
                 padding: EdgeInsets.only(bottom: 8.0),
-                child: Text("Add New Catalog Item",
+                child: Text("Add New Work Experience",
                   style: TextStyle(
                       fontSize: 22,
                       color: Color(0xFFF3D69B)
@@ -103,11 +134,11 @@ class _AssetNewItemState extends State<AssetNewItem> {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 12 ,),
-                child: Textfield(controller: _ItemName, hintText: "Enter Item Name", labelText: "Item Name"),
+                child: Textfield(controller: _ItemName, hintText: "Enter Work Exp. Name", labelText: "Work Exp. Name"),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 12 , ),
-                child: Textfield(controller: _itemDescription, hintText: "Enter Item Description", labelText: "Item Description"),
+                child: Textfield(controller: _itemDescription, hintText: "Enter Work Exp. Description", labelText: "Work Exp. Description"),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 15 ),
@@ -162,8 +193,7 @@ class _AssetNewItemState extends State<AssetNewItem> {
                       ),
                       child: TextButton(
                         onPressed: () async{
-                          final int response = await WorkExperienceAPI.addWorkExperience(imageUrl! , _ItemName.text, _itemDescription.text, );
-                          _saveData(response);
+                          _saveData();
                         } ,
                         child: const Text(
                           'Add',
@@ -200,7 +230,6 @@ class _AssetNewItemState extends State<AssetNewItem> {
           ),
         ),
       ),
-
     );
   }
 }

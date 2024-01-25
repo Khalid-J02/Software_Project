@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:buildnex/classes/language_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
@@ -9,49 +10,43 @@ import '../APIRequests/userRegAPI.dart';
 import '../Widgets/customAlertDialog.dart';
 
 
-// void main() {
-//   runApp(const Login());
-// }
-
 
 class Login extends StatelessWidget {
   const Login({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: SafeArea(
-          child: Column(
-            children: <Widget>[
-              Expanded(
-                flex: 1,
-                child: Container(
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage("images/Log_Reg_back.jpg"),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  alignment: Alignment.topCenter,
-                  child: const Image(
-                    image: AssetImage('images/Proj_Logo_title.png'),
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              flex: 1,
+              child: Container(
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("images/Log_Reg_back.jpg"),
+                    fit: BoxFit.cover,
                   ),
                 ),
-              ),
-              Expanded(
-                flex: 2,
-                child: Container(
-                  color: const Color(0xFF122247),
-                  child: const _LoginPage(),
+                alignment: Alignment.topCenter,
+                child: const Image(
+                  image: AssetImage('images/Proj_Logo_title.png'),
                 ),
               ),
-              // Expanded(child: Text(MediaQuery.of(context).size.width.toString()))  // 930 width
-            ],
-          ),
+            ),
+            Expanded(
+              flex: 2,
+              child: Container(
+                color: const Color(0xFF122247),
+                child: const _LoginPage(),
+              ),
+            ),
+            // Expanded(child: Text(MediaQuery.of(context).size.width.toString()))  // 930 width
+          ],
         ),
       ),
-    );
+    ) ;
   }
 }
 
@@ -82,174 +77,177 @@ class _LoginPageState extends State<_LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        Padding(
-          padding: MediaQuery.of(context).size.width > 930
+    return Directionality(
+      textDirection: translation(context)!.localeName == 'ar' ? TextDirection.rtl : TextDirection.ltr,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Padding(
+            padding: MediaQuery.of(context).size.width > 930
+              ?
+                EdgeInsets.only(top: 30, bottom: 10 , right: MediaQuery.of(context).size.width/3.5 , left: MediaQuery.of(context).size.width/3.5)
+              :
+                const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+            child: TextFormField(
+              controller: _emailController,
+              style: TextStyle(color: Color(0xFFF3D69B)),
+              decoration: InputDecoration(
+                hintText: translation(context)!.loginEmailAddressHintText,
+                hintStyle: TextStyle(color: Color(0xFFF3D69B)),
+                filled: true,
+                fillColor: Color(0xFF2F4771),
+                labelText: translation(context)!.loginEmailAddress,
+                labelStyle: const TextStyle(
+                  color: Color(0xFFF3D69B),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: const BorderSide(
+                    color: Color(0xFFF3D69B),
+                  ),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: const BorderSide(
+                    color: Color(0xFFF3D69B),
+                    width: 1.0,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: MediaQuery.of(context).size.width > 930
             ?
-              EdgeInsets.only(top: 30, bottom: 10 , right: MediaQuery.of(context).size.width/3.5 , left: MediaQuery.of(context).size.width/3.5)
+              EdgeInsets.only(top: 10, bottom: 10 , right: MediaQuery.of(context).size.width/3.5 , left: MediaQuery.of(context).size.width/3.5)
             :
-              const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-          child: TextFormField(
-            controller: _emailController,
-            style: TextStyle(color: Color(0xFFF3D69B)),
-            decoration: InputDecoration(
-              hintText: 'Enter your email here ...',
-              hintStyle: TextStyle(color: Color(0xFFF3D69B)),
-              filled: true,
-              fillColor: Color(0xFF2F4771),
-              labelText: 'Email Address',
-              labelStyle: const TextStyle(
-                color: Color(0xFFF3D69B),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: const BorderSide(
+            const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+            child: TextFormField(
+              controller: _passwordController,
+              obscureText: _obsecPass,
+              style: TextStyle(color: Color(0xFFF3D69B)),
+              decoration: InputDecoration(
+                hintText: translation(context)!.loginPasswordHintText,
+                hintStyle: TextStyle(color: Color(0xFFF3D69B)),
+                filled: true,
+                fillColor: Color(0xFF2F4771),
+                labelText: translation(context)!.loginPassword,
+                labelStyle: const TextStyle(
                   color: Color(0xFFF3D69B),
                 ),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: const BorderSide(
-                  color: Color(0xFFF3D69B),
-                  width: 1.0,
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: const BorderSide(
+                    color: Color(0xFFF3D69B),
+                  ),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: const BorderSide(
+                    color: Color(0xFFF3D69B),
+                    width: 1.0,
+                  ),
+                ),
+                suffixIcon: GestureDetector(
+                  onTap: () {
+                    _togglePassIcon();
+                  },
+                  child: Icon(
+                    _obsecPass
+                        ? Icons.visibility_off_rounded
+                        : Icons.visibility_rounded,
+                    color: Color(0xFFF3D69B),
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-        Padding(
-          padding: MediaQuery.of(context).size.width > 930
-          ?
-            EdgeInsets.only(top: 10, bottom: 10 , right: MediaQuery.of(context).size.width/3.5 , left: MediaQuery.of(context).size.width/3.5)
-          :
-          const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-          child: TextFormField(
-            controller: _passwordController,
-            obscureText: _obsecPass,
-            style: TextStyle(color: Color(0xFFF3D69B)),
-            decoration: InputDecoration(
-              hintText: 'Enter your password here ...',
-              hintStyle: TextStyle(color: Color(0xFFF3D69B)),
-              filled: true,
-              fillColor: Color(0xFF2F4771),
-              labelText: 'Password',
-              labelStyle: const TextStyle(
-                color: Color(0xFFF3D69B),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: const BorderSide(
-                  color: Color(0xFFF3D69B),
+          Container(
+            height: 50,
+            margin: MediaQuery.of(context).size.width > 930
+            ?
+              EdgeInsets.only(top: 20, bottom: 10 , right: MediaQuery.of(context).size.width/2.5 , left: MediaQuery.of(context).size.width/2.5)
+            :
+            const EdgeInsets.symmetric(vertical: 10, horizontal: 120),
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+            ),
+            child: TextButton(
+              onPressed: () {
+                _signIn() ;
+              },
+              child: Text(
+                translation(context)!.loginLoginButton ,
+                style: TextStyle(
+                  fontSize: MediaQuery.of(context).size.width > 930
+                  ? 19
+                  : 16,
+                  color: Color(0xFF122247),
                 ),
               ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: const BorderSide(
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                translation(context)!.loginNoAccountText ,
+                style: TextStyle(
                   color: Color(0xFFF3D69B),
-                  width: 1.0,
+                  fontSize: MediaQuery.of(context).size.width > 930
+                      ? 17
+                      : 15,
+
                 ),
               ),
-              suffixIcon: GestureDetector(
-                onTap: () {
-                  _togglePassIcon();
+              TextButton(
+                onPressed: () {
+                  Get.toNamed('/Register');
                 },
-                child: Icon(
-                  _obsecPass
-                      ? Icons.visibility_off_rounded
-                      : Icons.visibility_rounded,
-                  color: Color(0xFFF3D69B),
-                ),
-              ),
-            ),
-          ),
-        ),
-        Container(
-          height: 50,
-          margin: MediaQuery.of(context).size.width > 930
-          ?
-            EdgeInsets.only(top: 20, bottom: 10 , right: MediaQuery.of(context).size.width/2.5 , left: MediaQuery.of(context).size.width/2.5)
-          :
-          const EdgeInsets.symmetric(vertical: 10, horizontal: 120),
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(10.0)),
-          ),
-          child: TextButton(
-            onPressed: () {
-              _signIn() ;
-            },
-            child: Text(
-              'Login',
-              style: TextStyle(
-                fontSize: MediaQuery.of(context).size.width > 930
-                ? 19
-                : 16,
-                color: Color(0xFF122247),
-              ),
-            ),
-          ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Don\'t have an account yet?,' ,
-              style: TextStyle(
-                color: Color(0xFFF3D69B),
-                fontSize: MediaQuery.of(context).size.width > 930
+
+                child: Text(
+                  translation(context)!.loginRegisterLabel ,
+                  style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width > 930
                     ? 17
                     : 15,
-
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                Get.toNamed('/Register');
-              },
-
-              child: Text(
-                'Register',
-                style: TextStyle(
-                  fontSize: MediaQuery.of(context).size.width > 930
-                  ? 17
-                  : 15,
-                  color: Color(0xFFF3D69B),
+                    color: Color(0xFFF3D69B),
+                  ),
                 ),
               ),
-            ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text('Forget Your Password?,' ,
-              style: TextStyle(
-                  color: Color(0xFFF3D69B),
-                fontSize: MediaQuery.of(context).size.width > 930
-                  ? 17
-                  : 15
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-
-                Get.toNamed('/ForgotPass');
-              },
-              child: Text(
-                'Reset Password',
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(translation(context)!.loginForgetPassText ,
                 style: TextStyle(
+                    color: Color(0xFFF3D69B),
                   fontSize: MediaQuery.of(context).size.width > 930
-                  ? 17
-                  : 15,
-                  color: Color(0xFFF3D69B),
+                    ? 17
+                    : 15
                 ),
               ),
-            ),
-          ],
-        ),
-      ],
+              TextButton(
+                onPressed: () {
+
+                  Get.toNamed('/ForgotPass');
+                },
+                child: Text(
+                  translation(context)!.loginResetPassword ,
+                  style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width > 930
+                    ? 17
+                    : 15,
+                    color: Color(0xFFF3D69B),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
@@ -273,7 +271,10 @@ class _LoginPageState extends State<_LoginPage> {
     else
     {
         if(dotenv.env['userType'] == 'HomeOwner'){
-          Get.offNamed('/HomePage/HomeOwner');
+          Get.offNamed('/HomePage/HomeOwner', arguments: {'isNewUser': false});
+        }
+        else if(dotenv.env['userType'] == 'ServiceProvider'){
+          Get.offNamed('/HomePage/ServiceProvider', arguments: {'isNewUser': false});
         }
         else if(dotenv.env['userType'] == 'Admin'){
           Get.offNamed('/HomePage/Admin');

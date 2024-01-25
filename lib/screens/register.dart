@@ -1,3 +1,4 @@
+import 'package:buildnex/classes/language_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../Widgets/customAlertDialog.dart';
@@ -11,44 +12,42 @@ class Register extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: SafeArea(
-          child: Column(
-            children: <Widget>[
-              Expanded(
-                flex: 1,
-                child: Container(
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage("images/Log_Reg_back.jpg"),
-                      fit: BoxFit.fitWidth,
-                    ),
-                  ),
-                  alignment: Alignment.topCenter,
-                  child: const Image(
-                    image: AssetImage(
-                      'images/Proj_Logo_title.png',
-                    ),
-                    fit: BoxFit.cover,
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              flex: 1,
+              child: Container(
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("images/Log_Reg_back.jpg"),
+                    fit: BoxFit.fitWidth,
                   ),
                 ),
-              ),
-              Expanded(
-                flex: 3,
-                child: Container(
-                  color: const Color(0xFF122247), // 0xFFcce2e6
-                  child: SingleChildScrollView(
-                    child: const _RegisterPage(),
-                    scrollDirection: Axis.vertical,
+                alignment: Alignment.topCenter,
+                child: const Image(
+                  image: AssetImage(
+                    'images/Proj_Logo_title.png',
                   ),
+                  fit: BoxFit.cover,
                 ),
               ),
-            ],
-          ),
+            ),
+            Expanded(
+              flex: 3,
+              child: Container(
+                color: const Color(0xFF122247), // 0xFFcce2e6
+                child: SingleChildScrollView(
+                  child: const _RegisterPage(),
+                  scrollDirection: Axis.vertical,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
-    );
+    ) ;
   }
 }
 
@@ -404,7 +403,6 @@ class _RegisterPageState extends State<_RegisterPage> {
     // Receive the arguments
     Map<String, dynamic> mergedData =
         Get.arguments as Map<String, dynamic>? ?? {};
-    print(mergedData);
 
     _fncontroller.text = mergedData['firstName'] ?? '';
     _lncontroller.text = mergedData['lastName'] ?? '';
@@ -412,361 +410,366 @@ class _RegisterPageState extends State<_RegisterPage> {
     _emailController.text = mergedData['email'] ?? '';
     _passwordController.text = mergedData['password'] ?? '';
     _confirmPasswordController.text = mergedData['confirmPassword'] ?? '';
+
+    // _dropDownValue = translation(context)!.registerUserTypeDefault ;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        SizedBox(
-          height: 30,
-        ),
-        Container(
-          height: 70,
-          padding: MediaQuery.of(context).size.width > 930
-            ?
-              EdgeInsets.only(top: 10, bottom: 10 , right: MediaQuery.of(context).size.width/3.5 , left: MediaQuery.of(context).size.width/3.5)
-            :
-          const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-          child: TextFormField(
-            controller: _fncontroller,
-            style: TextStyle(color: Color(0xFFF3D69B)),
-            decoration: InputDecoration(
-              hintText: 'Enter your first name here',
-              hintStyle: TextStyle(color: Color(0xFFF3D69B)),
-              filled: true,
-              fillColor: Color(0xFF2F4771),
-              labelText: 'First Name',
-              labelStyle: const TextStyle(
-                color: Color(0xFFF3D69B),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: const BorderSide(
-                  color: Color(0xFFF3D69B),
-                ),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: const BorderSide(
-                  color: Color(0xFFF3D69B),
-                  width: 1.0,
-                ),
-              ),
-            ),
+    return Directionality(
+      textDirection: translation(context)!.localeName == 'ar' ? TextDirection.rtl : TextDirection.ltr,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          SizedBox(
+            height: 30,
           ),
-        ),
-        Container(
-          height: 70,
-          padding: MediaQuery.of(context).size.width > 930
-            ?
-              EdgeInsets.only(top: 10, bottom: 10 , right: MediaQuery.of(context).size.width/3.5 , left: MediaQuery.of(context).size.width/3.5)
-            :
-          const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-          child: TextFormField(
-            controller: _lncontroller,
-            style: TextStyle(color: Color(0xFFF3D69B)),
-            decoration: InputDecoration(
-              hintText: 'Enter your last name here',
-              hintStyle: TextStyle(color: Color(0xFFF3D69B)),
-              filled: true,
-              fillColor: Color(0xFF2F4771),
-              labelText: 'Last Name',
-              labelStyle: const TextStyle(
-                color: Color(0xFFF3D69B),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: const BorderSide(
-                  color: Color(0xFFF3D69B),
-                ),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: const BorderSide(
-                  color: Color(0xFFF3D69B),
-                  width: 1.0,
-                ),
-              ),
-            ),
-          ),
-        ),
-        Container(
-          height: 70,
-          padding: MediaQuery.of(context).size.width > 930
-            ?
-              EdgeInsets.only(top: 10, bottom: 10 , right: MediaQuery.of(context).size.width/3.5 , left: MediaQuery.of(context).size.width/3.5)
-            :
-          const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-          child: Container(
-            decoration: BoxDecoration(
-              color: const Color(0xFF2F4771),
-              borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-              border: Border.all(color: Color(0xFFF3D69B)),
-            ),
-            child: DropdownButton<String>(
-              value: _dropDownValue,
-              icon: const Icon(
-                Icons.arrow_downward,
-                color: Color(0xFFF3D69B),
-              ),
-              style: const TextStyle(
-                color: Color(0xFFF3D69B),
-              ),
-              onChanged: (String? newValue) {
-                setState(() {
-                  _dropDownValue = newValue!;
-                });
-              },
-              items: [
-                DropdownMenuItem<String>(
-                  value: 'Your Role',
-                  child: Container(
-                    margin: MediaQuery.of(context).size.width > 930
-                      ?
-                        EdgeInsets.fromLTRB(12, 0, MediaQuery.of(context).size.width / 3, 0)
-                      :
-                    const EdgeInsets.fromLTRB(12, 0, 245, 0),
-                    child: const Text('Your Role'),
-                  ),
-                ),
-                DropdownMenuItem<String>(
-                  value: 'Home Owner',
-                  child: Container(
-                    margin: const EdgeInsets.all(12.0),
-                    child: const Text('Home Owner'),
-                  ),
-                ),
-                DropdownMenuItem<String>(
-                  value: 'Service Provider',
-                  child: Container(
-                    margin: const EdgeInsets.all(12.0),
-                    child: const Text('Service Provider'),
-                  ),
-                )
-              ],
-              dropdownColor: const Color(0xFF2F4771),
-            ),
-          ),
-        ),
-        Container(
-          height: 70,
-          padding: MediaQuery.of(context).size.width > 930
-            ?
-              EdgeInsets.only(top: 10, bottom: 10 , right: MediaQuery.of(context).size.width/3.5 , left: MediaQuery.of(context).size.width/3.5)
-            :
-          const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-          child: TextFormField(
-            controller: _emailController,
-            style: TextStyle(color: Color(0xFFF3D69B)),
-            decoration: InputDecoration(
-              hintText: 'Enter your email here ...',
-              hintStyle: TextStyle(color: Color(0xFFF3D69B)),
-              filled: true,
-              fillColor: Color(0xFF2F4771),
-              labelText: 'Email Address',
-              labelStyle: const TextStyle(
-                color: Color(0xFFF3D69B),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: const BorderSide(
-                  color: Color(0xFFF3D69B),
-                ),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: const BorderSide(
-                  color: Color(0xFFF3D69B),
-                  width: 1.0,
-                ),
-              ),
-            ),
-          ),
-        ),
-        Container(
-          height: 70,
-          padding: MediaQuery.of(context).size.width > 930
-            ?
-          EdgeInsets.only(top: 10, bottom: 10 , right: MediaQuery.of(context).size.width/3.5 , left: MediaQuery.of(context).size.width/3.5)
-            :
-          const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-          child: TextFormField(
-            controller: _passwordController,
-            obscureText: _obsecPass,
-            style: TextStyle(color: Color(0xFFF3D69B)),
-            decoration: InputDecoration(
-              hintText: 'Enter your password here ...',
-              hintStyle: TextStyle(color: Color(0xFFF3D69B)),
-              filled: true,
-              fillColor: Color(0xFF2F4771),
-              labelText: 'Password',
-              labelStyle: const TextStyle(
-                color: Color(0xFFF3D69B),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: const BorderSide(
-                  color: Color(0xFFF3D69B),
-                ),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: const BorderSide(
-                  color: Color(0xFFF3D69B),
-                  width: 1.0,
-                ),
-              ),
-              suffixIcon: GestureDetector(
-                onTap: () {
-                  _togglePassIcon();
-                },
-                child: Icon(
-                  _obsecPass
-                      ? Icons.visibility_off_rounded
-                      : Icons.visibility_rounded,
-                  color: Color(0xFFF3D69B),
-                ),
-              ),
-            ),
-          ),
-        ),
-        Container(
-          height: 70,
-          padding: MediaQuery.of(context).size.width > 930
+          Container(
+            height: 70,
+            padding: MediaQuery.of(context).size.width > 930
               ?
-          EdgeInsets.only(top: 10, bottom: 10 , right: MediaQuery.of(context).size.width/3.5 , left: MediaQuery.of(context).size.width/3.5)
+                EdgeInsets.only(top: 10, bottom: 10 , right: MediaQuery.of(context).size.width/3.5 , left: MediaQuery.of(context).size.width/3.5)
               :
-          const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-          child: TextFormField(
-            controller: _confirmPasswordController,
-            obscureText: _obsecConfPass,
-            style: TextStyle(color: Color(0xFFF3D69B)),
-            decoration: InputDecoration(
-              hintText: 'confirm your password ...',
-              hintStyle: TextStyle(color: Color(0xFFF3D69B)),
-              filled: true,
-              fillColor: Color(0xFF2F4771),
-              labelText: 'Confirm Password',
-              labelStyle: const TextStyle(
-                color: Color(0xFFF3D69B),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: const BorderSide(
+            const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+            child: TextFormField(
+              controller: _fncontroller,
+              style: TextStyle(color: Color(0xFFF3D69B)),
+              decoration: InputDecoration(
+                hintText: translation(context)!.registerFirstNameHintText,
+                hintStyle: TextStyle(color: Color(0xFFF3D69B)),
+                filled: true,
+                fillColor: Color(0xFF2F4771),
+                labelText: translation(context)!.registerFirstName,
+                labelStyle: const TextStyle(
                   color: Color(0xFFF3D69B),
                 ),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: const BorderSide(
-                  color: Color(0xFFF3D69B),
-                  width: 1.0,
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: const BorderSide(
+                    color: Color(0xFFF3D69B),
+                  ),
                 ),
-              ),
-              suffixIcon: GestureDetector(
-                onTap: () {
-                  _toggleConfirmPassIcon();
-                },
-                child: Icon(
-                  _obsecConfPass
-                      ? Icons.visibility_off_rounded
-                      : Icons.visibility_rounded,
-                  color: Color(0xFFF3D69B),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: const BorderSide(
+                    color: Color(0xFFF3D69B),
+                    width: 1.0,
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-        Container(
-          height: 50,
-          margin: MediaQuery.of(context).size.width > 930
+          Container(
+            height: 70,
+            padding: MediaQuery.of(context).size.width > 930
               ?
-          EdgeInsets.only(top: 20, bottom: 10 , right: MediaQuery.of(context).size.width/2.5 , left: MediaQuery.of(context).size.width/2.5)
+                EdgeInsets.only(top: 10, bottom: 10 , right: MediaQuery.of(context).size.width/3.5 , left: MediaQuery.of(context).size.width/3.5)
               :
-          const EdgeInsets.symmetric(vertical: 10, horizontal: 120),
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(10.0)),
-          ),
-          child: TextButton(
-            onPressed: () async {
-              if (_areFieldsFilled()) {
-                // Print the data for testing
-                Map<String, dynamic> userData = UserData();
-
-                Map<String, dynamic> mergedData =
-                    Get.arguments as Map<String, dynamic>? ?? {};
-
-                if (_dropDownValue == 'Home Owner') {
-                  Get.toNamed('/Register/HomeOwner', arguments: {
-                    ...userData,
-                    'phoneNumber': mergedData['phoneNumber'],
-                    'city': mergedData['city'],
-                    'bio': mergedData['bio'],
-                    'image': mergedData['image'],
-                  });
-                }
-                else if (_dropDownValue == 'Service Provider') {
-                  Get.toNamed('/Register/ServiceProvider', arguments: {
-                    ...userData,
-                    'phoneNumber': mergedData['phoneNumber'],
-                    'city': mergedData['city'],
-                    'serviceType': mergedData['serviceType'],
-                    'bio': mergedData['bio'],
-                    'image': mergedData['image'],
-                  });
-                }
-                else {
-                  // do nothing (stay on the same page)
-                }
-              } else {
-                // Show alert dialog to indicate that Required fields are not filled.
-                CustomAlertDialog.showErrorDialog(
-                    context, 'Please fill in all the required fields');
-              }
-            },
-            child: Text(
-              'Continue',
-              style: TextStyle(
-                fontSize: MediaQuery.of(context).size.width > 930
-                    ? 19
-                    : 16,
-                color: Color(0xFF122247),
+            const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+            child: TextFormField(
+              controller: _lncontroller,
+              style: TextStyle(color: Color(0xFFF3D69B)),
+              decoration: InputDecoration(
+                hintText: translation(context)!.registerLastNameHintText,
+                hintStyle: TextStyle(color: Color(0xFFF3D69B)),
+                filled: true,
+                fillColor: Color(0xFF2F4771),
+                labelText: translation(context)!.registerLastName,
+                labelStyle: const TextStyle(
+                  color: Color(0xFFF3D69B),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: const BorderSide(
+                    color: Color(0xFFF3D69B),
+                  ),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: const BorderSide(
+                    color: Color(0xFFF3D69B),
+                    width: 1.0,
+                  ),
+                ),
               ),
             ),
           ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Already have an account? ',
-              style: TextStyle(color: Color(0xFFF3D69B) ,
-                fontSize: MediaQuery.of(context).size.width > 930
-                    ? 17
-                    : 15,
+          Container(
+            height: 70,
+            padding: MediaQuery.of(context).size.width > 930
+              ?
+                EdgeInsets.only(top: 10, bottom: 10 , right: MediaQuery.of(context).size.width/3.5 , left: MediaQuery.of(context).size.width/3.5)
+              :
+            const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+            child: Container(
+              decoration: BoxDecoration(
+                color: const Color(0xFF2F4771),
+                borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                border: Border.all(color: Color(0xFFF3D69B)),
+              ),
+              child: DropdownButton<String>(
+                value: _dropDownValue,
+                icon: const Icon(
+                  Icons.arrow_downward,
+                  color: Color(0xFFF3D69B),
+                ),
+                style: const TextStyle(
+                  color: Color(0xFFF3D69B),
+                ),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _dropDownValue = newValue!;
+                  });
+                },
+                items: [
+                  DropdownMenuItem<String>(
+                    value: 'Your Role',
+                    child: Container(
+                      margin: MediaQuery.of(context).size.width > 930
+                        ?
+                          EdgeInsets.fromLTRB(12, 0, MediaQuery.of(context).size.width / 3, 0)
+                        :
+                      const EdgeInsets.fromLTRB(12, 0, 245, 0),
+                      child: const Text('Your Role'),
+                    ),
+                  ),
+                  DropdownMenuItem<String>(
+                    value: 'Home Owner',
+                    child: Container(
+                      margin: const EdgeInsets.all(12.0),
+                      child: Text(translation(context)!.registerUserTypeHomeOwner),
+                    ),
+                  ),
+                  DropdownMenuItem<String>(
+                    value: 'Service Provider',
+                    child: Container(
+                      margin: const EdgeInsets.all(12.0),
+                      child: Text(translation(context)!.registerUserTypeServiceProvider),
+                    ),
+                  )
+                ],
+                dropdownColor: const Color(0xFF2F4771),
               ),
             ),
-            TextButton(
-              onPressed: () {
-                // go to login page
-                Get.offNamed('/Login');
+          ),
+          Container(
+            height: 70,
+            padding: MediaQuery.of(context).size.width > 930
+              ?
+                EdgeInsets.only(top: 10, bottom: 10 , right: MediaQuery.of(context).size.width/3.5 , left: MediaQuery.of(context).size.width/3.5)
+              :
+            const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+            child: TextFormField(
+              controller: _emailController,
+              style: TextStyle(color: Color(0xFFF3D69B)),
+              decoration: InputDecoration(
+                hintText: translation(context)!.registerEmailAddressHintText,
+                hintStyle: TextStyle(color: Color(0xFFF3D69B)),
+                filled: true,
+                fillColor: Color(0xFF2F4771),
+                labelText: translation(context)!.registerEmailAddress,
+                labelStyle: const TextStyle(
+                  color: Color(0xFFF3D69B),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: const BorderSide(
+                    color: Color(0xFFF3D69B),
+                  ),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: const BorderSide(
+                    color: Color(0xFFF3D69B),
+                    width: 1.0,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Container(
+            height: 70,
+            padding: MediaQuery.of(context).size.width > 930
+              ?
+            EdgeInsets.only(top: 10, bottom: 10 , right: MediaQuery.of(context).size.width/3.5 , left: MediaQuery.of(context).size.width/3.5)
+              :
+            const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+            child: TextFormField(
+              controller: _passwordController,
+              obscureText: _obsecPass,
+              style: TextStyle(color: Color(0xFFF3D69B)),
+              decoration: InputDecoration(
+                hintText: translation(context)!.registerPasswordHintText,
+                hintStyle: TextStyle(color: Color(0xFFF3D69B)),
+                filled: true,
+                fillColor: Color(0xFF2F4771),
+                labelText: translation(context)!.registerPassword,
+                labelStyle: const TextStyle(
+                  color: Color(0xFFF3D69B),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: const BorderSide(
+                    color: Color(0xFFF3D69B),
+                  ),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: const BorderSide(
+                    color: Color(0xFFF3D69B),
+                    width: 1.0,
+                  ),
+                ),
+                suffixIcon: GestureDetector(
+                  onTap: () {
+                    _togglePassIcon();
+                  },
+                  child: Icon(
+                    _obsecPass
+                        ? Icons.visibility_off_rounded
+                        : Icons.visibility_rounded,
+                    color: Color(0xFFF3D69B),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Container(
+            height: 70,
+            padding: MediaQuery.of(context).size.width > 930
+                ?
+            EdgeInsets.only(top: 10, bottom: 10 , right: MediaQuery.of(context).size.width/3.5 , left: MediaQuery.of(context).size.width/3.5)
+                :
+            const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+            child: TextFormField(
+              controller: _confirmPasswordController,
+              obscureText: _obsecConfPass,
+              style: TextStyle(color: Color(0xFFF3D69B)),
+              decoration: InputDecoration(
+                hintText: translation(context)!.registerPasswordConfirmHintText,
+                hintStyle: TextStyle(color: Color(0xFFF3D69B)),
+                filled: true,
+                fillColor: Color(0xFF2F4771),
+                labelText: translation(context)!.registerPasswordConfirm,
+                labelStyle: const TextStyle(
+                  color: Color(0xFFF3D69B),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: const BorderSide(
+                    color: Color(0xFFF3D69B),
+                  ),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: const BorderSide(
+                    color: Color(0xFFF3D69B),
+                    width: 1.0,
+                  ),
+                ),
+                suffixIcon: GestureDetector(
+                  onTap: () {
+                    _toggleConfirmPassIcon();
+                  },
+                  child: Icon(
+                    _obsecConfPass
+                        ? Icons.visibility_off_rounded
+                        : Icons.visibility_rounded,
+                    color: Color(0xFFF3D69B),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Container(
+            height: 50,
+            margin: MediaQuery.of(context).size.width > 930
+                ?
+            EdgeInsets.only(top: 20, bottom: 10 , right: MediaQuery.of(context).size.width/2.5 , left: MediaQuery.of(context).size.width/2.5)
+                :
+            const EdgeInsets.symmetric(vertical: 10, horizontal: 120),
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+            ),
+            child: TextButton(
+              onPressed: () async {
+                if (_areFieldsFilled()) {
+                  // Print the data for testing
+                  Map<String, dynamic> userData = UserData();
+
+                  Map<String, dynamic> mergedData =
+                      Get.arguments as Map<String, dynamic>? ?? {};
+
+                  if (_dropDownValue == 'Home Owner') {
+                    Get.toNamed('/Register/HomeOwner', arguments: {
+                      ...userData,
+                      'phoneNumber': mergedData['phoneNumber'],
+                      'city': mergedData['city'],
+                      'bio': mergedData['bio'],
+                      'image': mergedData['image'],
+                    });
+                  }
+                  else if (_dropDownValue == 'Service Provider') {
+                    Get.toNamed('/Register/ServiceProvider', arguments: {
+                      ...userData,
+                      'phoneNumber': mergedData['phoneNumber'],
+                      'city': mergedData['city'],
+                      'serviceType': mergedData['serviceType'],
+                      'bio': mergedData['bio'],
+                      'image': mergedData['image'],
+                    });
+                  }
+                  else {
+                    // do nothing (stay on the same page)
+                  }
+                } else {
+                  // Show alert dialog to indicate that Required fields are not filled.
+                  CustomAlertDialog.showErrorDialog(
+                      context, 'Please fill in all the required fields');
+                }
               },
               child: Text(
-                'Login',
+                translation(context)!.registerContinue,
                 style: TextStyle(
+                  fontSize: MediaQuery.of(context).size.width > 930
+                      ? 19
+                      : 16,
+                  color: Color(0xFF122247),
+                ),
+              ),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                translation(context)!.registerAlreadyHaveAccount,
+                style: TextStyle(color: Color(0xFFF3D69B) ,
                   fontSize: MediaQuery.of(context).size.width > 930
                       ? 17
                       : 15,
-                  color: Color(0xFFF3D69B),
                 ),
               ),
-            ),
-          ],
-        ),
-      ],
+              TextButton(
+                onPressed: () {
+                  // go to login page
+                  Get.offNamed('/Login');
+                },
+                child: Text(
+                  translation(context)!.registerLoginLabel,
+                  style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width > 930
+                        ? 17
+                        : 15,
+                    color: Color(0xFFF3D69B),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
