@@ -25,6 +25,41 @@ class _ProjectDescriptionState extends State<ProjectDescription> {
     fetchProjectInformation(widget.projectId);
   }
 
+  void translateStatusToArabic(Map<String, dynamic> list){
+    if(list["projectStatus"]! == 'Not Started'){
+        list["projectStatus"] = 'لم يبدأ' ;
+    }
+    else if(list["projectStatus"]! == 'In Progress'){
+        list["projectStatus"] = 'قيد التنفيذ' ;
+    }
+    else{
+        list["projectStatus"] = 'مكتمل' ;
+      }
+
+  }
+  void translateCityToArabic(Map<String, dynamic> list){
+    if(list["projectCity"]! == 'Nablus'){
+      list["projectCity"] = 'نابلس' ;
+    }
+    else if(list["projectCity"]! == 'Ramallah'){
+      list["projectCity"] = 'رام الله' ;
+    }
+    else if(list["projectCity"]! == 'Tulkarm'){
+      list["projectCity"] = 'طولكرم' ;
+    }
+    else if(list["projectCity"]! == 'Qalqilya'){
+      list["projectCity"] = 'قلقيلية' ;
+    }
+    else if(list["projectCity"]! == 'Jenin'){
+      list["projectCity"] = 'جنين' ;
+    }
+    else if(list["projectCity"]! == 'Jericho'){
+      list["projectCity"] = 'أريحا' ;
+    }
+
+  }
+
+
   Future<void> fetchProjectInformation(String projectId) async {
     try {
       final fetchedProjectData =
@@ -32,6 +67,10 @@ class _ProjectDescriptionState extends State<ProjectDescription> {
       setState(() {
         projectData = fetchedProjectData;
       });
+      if(translation(context)!.localeName == 'ar'){
+        translateStatusToArabic(projectData) ;
+        translateCityToArabic(projectData) ;
+      }
     } catch (e) {
       // Handle errors
       print('Error fetching project information: $e');

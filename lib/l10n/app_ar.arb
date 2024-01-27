@@ -105,7 +105,7 @@
   "homeOwnerProjectTasksAddProvider" : "تعيين مقدم الخدمة",
 
   "homeOwnerProjectDataOwnedBy" : "مالك المشروع : ",
-  "homeOwnerProjectDataStatus" : "حالة المشروع :",
+  "homeOwnerProjectDataStatus" : "حالة المشروع : ",
   "homeOwnerProjectDataCity" : "المدينة",
   "homeOwnerProjectDataAddress" : "العنوان",
   "homeOwnerProjectDataBasinNumber" : "رقم الحوض",
@@ -116,5 +116,56 @@
   "homeOwnerProjectDataAccordionNumbersOfRooms" : "عدد الغرف",
   "homeOwnerProjectDataAccordionNumbersOfFloors" : "عدد الطوابق",
   "homeOwnerProjectDataAccordionDesignDrawings" : "مخطط التصميم",
-  "homeOwnerProjectDataAccordionOpenDocument" : "فتح الملف"
+  "homeOwnerProjectDataAccordionOpenDocument" : "فتح الملف",
+
+  "task1HOMainTitle" : "تفاصيل المهمة",
+  "task1HOTaskName" : "مسح الممتلكات",
+  "task1HOServiceProviderDetailsTitle" : "معلومات من مُقدم الخدمة",
+  "task1HOLandArea" : "مساحة الأرض: ",
+  "task1HOSurveyDocument" : "ملف مُخطط المساحة: ",
+  "task1HOServiceProviderNotes" : "ملاحظات مُقدم الخدمة: ",
+  "task1HONoNotesSP" : "لا يوجد ملاحظات بعد",
+
+  "task2HOTaskName" : "الحصول على التصاريح والمعلومات التنظيمية",
+  "task2HOPermitsDocument" : "وثيقة التصاريح: ",
+
+  "task3HOTaskName" : "فحص التربة",
+  "task3HOSoilDocument" : "وثيقة فحص التربة:",
+
+  "task4HOTaskName" : "التصميم والتخطيط",
+  "task4HODesignDocument" : "مخطط التصميم",
+  "task4HODemandsMainTitle" : "مطالب مالك المنزل - المشروع",
+  "task4HODemandsNumRoom" : "أدخل عدد الغرف :",
+  "task4HODemandsNumRoomHintText" : "أدخل عدد الغرف هنا ..",
+  "task4HODemandsNumRoomLabelText" : "عدد الغرف",
+  "task4HODemandsNumFloor" : "أدخل عدد الطوابق :",
+  "task4HODemandsNumFloorHintText" : "أدخل عدد الطوابق هنا ..",
+  "task4HODemandsNumFloorLabelText" : "عدد الطوابق",
+  "task4HODemandsBuildingArea" : "مساحة بناء المنزل - المشروع :",
+  "task4HODemandsBuildingAreaHintText" : "أدخل مساحة المنزل هنا ..",
+  "task4HODemandsBuildingAreaLabelText" : "مساحة المنزل",
+  "task4HODemandsSaveButton" : "حفظ",
+  "task4HOArchitecturalDrawings" : "مخطط العمارة:",
+  "task4HOCivilDrawings" : "المخطط المدني",
+  "task4HOMechanicalDrawings" : "مخطط إمدادات المياه",
+  "task4HOElectricalDrawings" : "مخطط إمدادات الكهرباء",
+
+  "taskInformationTaskNumber" : "مهمة #",
+  "taskInformationTask" : "المهمة",
+  "taskInformationProjectLabel" : "المشروع",
+  "taskInformationStatusLabel" : "الحالة",
+
+  "landInformationMainTitle" : "معلومات عن الأرض",
+  "landInformationBasinNumber" : "رقم الحوض",
+  "landInformationPlotNumber" : "رقم القطعة",
+
+  "serviceProviderProfileDataMainTitle" : "مُقدم الخدمة",
+  "serviceProviderProfileDataReviewButton" : "تقييم",
+  "serviceProviderProfileDataReviewsNumber" : " تقييمات)",
+
+  "helloMSG" : "مرحباً",
+  "errorDownloadMsg" : "لا يوجد ملف يمكنك تنزيله بعد",
+  "errorOpenMsg" : "لا يوجد ملف يمكنك فتحه بعد",
+  "downloadLabelButton" : "تنزيل الملف",
+  "openLabelButton" : "فتح"
 }
