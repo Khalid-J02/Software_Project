@@ -7,6 +7,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
+import '../classes/language_constants.dart';
 
 
 class ServiceProviderAssets extends StatefulWidget {
@@ -89,8 +90,7 @@ class _ServiceProviderAssetsState extends State<ServiceProviderAssets> {
             align: ContentAlign.top,
             builder: (context, controller) {
               return CoachmarkDesc(
-                text:
-                "Click here to include details about your previous projects, such as the project name, a brief description, and an image that showcases your skills. This helps potential clients understand the quality and scope of your work, building trust and credibility in your services.",
+                text: translation(context)!.serviceProviderAssetsPageKey,
                 onNext: () {
                   controller.next();
                 },
@@ -116,15 +116,18 @@ class _ServiceProviderAssetsState extends State<ServiceProviderAssets> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Directionality(
+        textDirection: translation(context)!.localeName == 'ar'
+        ? TextDirection.rtl
+        : TextDirection.ltr,
+    child: Scaffold(
       appBar: AppBar(
         leading: const Icon(
           Icons.work,
           color: Color(0xFFF3D69B),
         ),
-        title: const Text(
-          //projectName,
-          "My Work",
+        title: Text(
+          translation(context)!.serviceProviderAssetsMainTitle,
           style: TextStyle(color: Color(0xFFF3D69B)),
         ),
         elevation: 0,
@@ -158,7 +161,8 @@ class _ServiceProviderAssetsState extends State<ServiceProviderAssets> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Center(
-            child: Text('There is no work experiences to see here...',
+            child: Text(
+              translation(context)!.serviceProviderAssetsText,
               style: TextStyle(
                   color: Colors.grey[600] ,
                   fontSize: 18 , fontWeight:
@@ -187,6 +191,7 @@ class _ServiceProviderAssetsState extends State<ServiceProviderAssets> {
           );
         },
       ),
+    ),
     );
   }
 }
@@ -239,7 +244,11 @@ class _CoachmarkDescState extends State<CoachmarkDesc>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
+    return Directionality(
+        textDirection: Localizations.localeOf(context).languageCode == 'ar'
+        ? TextDirection.rtl
+        : TextDirection.ltr,
+    child: AnimatedBuilder(
       animation: animationController,
       builder: (context, child) {
         return Transform.translate(
@@ -265,20 +274,21 @@ class _CoachmarkDescState extends State<CoachmarkDesc>
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                TextButton(
-                  onPressed: widget.onSkip,
-                  child: Text(widget.skip),
-                ),
-                const SizedBox(width: 16),
                 ElevatedButton(
                   onPressed: widget.onNext,
-                  child: Text(widget.next),
+                  child: Text(translation(context)!.coachmarkNext),
+                ),
+                const SizedBox(width: 16),
+                TextButton(
+                  onPressed: widget.onSkip,
+                  child: Text(translation(context)!.coachmarkSkip),
                 ),
               ],
             )
           ],
         ),
       ),
+    ),
     );
   }
 }

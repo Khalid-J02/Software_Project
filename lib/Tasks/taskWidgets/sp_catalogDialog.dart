@@ -5,6 +5,7 @@ import 'package:buildnex/APIRequests/homePageHomeOwnerAPI.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import '../../Widgets/customAlertDialog.dart';
+import '../../classes/language_constants.dart';
 
 class CatalogDialogSP extends StatefulWidget {
   Map<String, dynamic> itemDetails ;
@@ -36,23 +37,28 @@ class _CatalogDialogSPState extends State<CatalogDialogSP> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print(widget.itemDetails);
   }
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
+    final isRtl = Directionality.of(context) == TextDirection.rtl;
+
+    return Directionality(
+        textDirection: translation(context)!.localeName == 'ar'
+        ? TextDirection.rtl
+        : TextDirection.ltr,
+    child: AlertDialog(
       backgroundColor: Color(0xFF2F4771),
       content: SingleChildScrollView(
         child: Container(
-          height: 400,
+          height: 430,
           width: 400,
           child: Column(
             children: <Widget>[
-              const Padding(
-                padding: EdgeInsets.only(bottom: 8.0),
+               Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
                 child: Text(
-                  "Home Owner Choice",
-                  style: TextStyle(fontSize: 20, color: Color(0xFFF3D69B)),
+                  translation(context)!.sp_task10ItemDialog,
+                  style: const TextStyle(fontSize: 20, color: Color(0xFFF3D69B)),
                 ),
               ),
               Container(
@@ -109,9 +115,9 @@ class _CatalogDialogSPState extends State<CatalogDialogSP> {
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        child: const Text(
-                          'Done',
-                          style: TextStyle(
+                        child:  Text(
+                          translation(context)!.sp_task10ItemDialogClose,
+                          style:  const TextStyle(
                             fontSize: 20,
                             color: Color(0xFF122247),
                           ),
@@ -125,6 +131,7 @@ class _CatalogDialogSPState extends State<CatalogDialogSP> {
           ),
         ),
       ),
+    ),
     );
   }
 

@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 
 import '../../../APIRequests/ServiceProviderGetTasksAPI.dart';
 import '../../../Widgets/customAlertDialog.dart';
+import '../../../classes/language_constants.dart';
 import '../../taskWidgets/Information.dart';
 
 void main() {
@@ -27,7 +28,6 @@ class _PlumbingInstallSPState extends State<PlumbingInstallSP> {
   Map<String, dynamic> plumbingData = {};
   String taskID = '';
   String taskProjectId = '';
-
   bool isSubmitVisible = true;
 
   @override
@@ -38,10 +38,16 @@ class _PlumbingInstallSPState extends State<PlumbingInstallSP> {
       plumbingData = arguments['task7Data'];
       taskID = arguments['taskID'];
       taskProjectId = arguments['taskProjectId'];
-      //print(plumbingData);
+
+
+      if (plumbingData['TaskStatus'] == 'Completed') {
+        setState(() {
+          isSubmitVisible = false;
+        });
+      }
+
       if (plumbingData['Notes'] != null) {
         _userNotes.text = plumbingData['Notes'];
-        isSubmitVisible = false;
       } else {
         _userNotes.text = '';
       }
@@ -56,9 +62,26 @@ class _PlumbingInstallSPState extends State<PlumbingInstallSP> {
     }
   }
 
+  String translateTaskStatus(String status, BuildContext context) {
+    switch (status) {
+      case 'Not Started':
+        return translation(context)!.taskStatusNotStarted;
+      case 'In Progress':
+        return translation(context)!.taskStatusInProgress;
+      case 'Completed':
+        return translation(context)!.taskStatusCompleted;
+      default:
+        return status;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
+    return Directionality(
+        textDirection: translation(context)!.localeName == 'ar'
+        ? TextDirection.rtl
+        : TextDirection.ltr,
+    child: WillPopScope(
       onWillPop: () async {
         Get.offAndToNamed('/HomePage/ServiceProvider') ;
         return true ;
@@ -73,8 +96,8 @@ class _PlumbingInstallSPState extends State<PlumbingInstallSP> {
           title: Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: MediaQuery.of(context).size.width / 5),
-            child: const Text(
-              "Task Details",
+            child:  Text(
+              translation(context)!.sp_taskTitle,
               style: TextStyle(color: Color(0xFFF3D69B)),
             ),
           ),
@@ -88,13 +111,13 @@ class _PlumbingInstallSPState extends State<PlumbingInstallSP> {
               children: [
                 TaskInformation(
                   taskID: plumbingData['TaskID'] ?? 0,
-                  taskName: 'Mechanical Work',
+                  taskName: translation(context)!.sp_task7Name,
                   projectName: plumbingData['ProjectName'] ?? 'Unknown',
-                  taskStatus: plumbingData['TaskStatus'] ?? 'Unknown',
+                  taskStatus:translateTaskStatus(plumbingData['TaskStatus'], context),
                 ),
                 Information(
-                  title: 'Required Drawings for This Task',
-                  documentName: 'Mechanical Drawings:',
+                  title: translation(context)!.task2_InformationTitle2,
+                  documentName:  translation(context)!.sp_task7_Mech,
                   document: plumbingData['PlumbingDocument'] ?? '',
                 ),
                 TaskProviderInformation(
@@ -136,10 +159,10 @@ class _PlumbingInstallSPState extends State<PlumbingInstallSP> {
                               width: 1.0,
                             ),
                           ),
-                          child: const Center(
+                          child:  Center(
                             child: Text(
-                              "Task Details",
-                              style: TextStyle(
+                              translation(context)!.sp_taskTitle,
+                              style: const TextStyle(
                                   color: Color(0xFFF9FAFB),
                                   fontSize: 19,
                                   fontWeight: FontWeight.bold),
@@ -157,11 +180,11 @@ class _PlumbingInstallSPState extends State<PlumbingInstallSP> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Padding(
+                                     Padding(
                                       padding: EdgeInsets.all(10),
                                       child: Text(
-                                        "Your Notes: ",
-                                        style: TextStyle(
+                                        translation(context)!.yourNotes,
+                                        style: const TextStyle(
                                             color: Color(0xFF2F4771),
                                             fontSize: 17,
                                             fontWeight: FontWeight.w500),
@@ -179,7 +202,7 @@ class _PlumbingInstallSPState extends State<PlumbingInstallSP> {
                                         style:
                                             TextStyle(color: Color(0xFF2F4771)),
                                         decoration: InputDecoration(
-                                          hintText: "Enter Notes here if any",
+                                          hintText: translation(context)!.enterNotesHere,
                                           hintStyle:
                                               TextStyle(color: Color(0xFF2F4771)),
                                           filled: true,
@@ -228,9 +251,9 @@ class _PlumbingInstallSPState extends State<PlumbingInstallSP> {
                                                   taskProjectId,
                                                 );
                                               },
-                                              child: const Text(
-                                                'Save',
-                                                style: TextStyle(
+                                              child: Text(
+                                                translation(context)!.save,
+                                                style: const TextStyle(
                                                   fontSize: 18,
                                                   color: Color(0xFFF9FAFB),
                                                 ),
@@ -250,95 +273,68 @@ class _PlumbingInstallSPState extends State<PlumbingInstallSP> {
                                                 ),
                                                 child: TextButton(
                                                   onPressed: () {
-                                                    showDialog(
-                                                      context: context,
-                                                      builder:
-                                                          (BuildContext context) {
-                                                        return AlertDialog(
-                                                          backgroundColor:
-                                                              Colors.white,
-                                                          title: const Text(
-                                                              "Complete Task"),
-                                                          content: const Text(
-                                                              "By clicking OK, you will mark the task as complete."),
-                                                          actions: [
-                                                            TextButton(
-                                                              style: TextButton
-                                                                  .styleFrom(
-                                                                backgroundColor:
-                                                                    Color(
-                                                                        0xFFF3D69B), // Set background color to yellow
-                                                              ),
-                                                              onPressed:
-                                                                  () async {
-                                                                if (areFieldsValid(
-                                                                    _userNotes
-                                                                        .text)) {
-                                                                  String message =
-                                                                      await ServiceProviderGetTasksAPI
-                                                                          .setTask6Data(
-                                                                    taskID,
-                                                                    _userNotes
-                                                                        .text,
-                                                                    'Submit',
-                                                                    taskProjectId,
-                                                                  );
-                                                                  setState(() {
-                                                                    plumbingData[
-                                                                            'TaskStatus'] =
-                                                                        'Completed';
-                                                                    isSubmitVisible =
-                                                                        false;
-                                                                  });
-                                                                  Navigator.pop(
-                                                                      context); // Close the dialog
-                                                                } else {
-                                                                  CustomAlertDialog
-                                                                      .showErrorDialog(
-                                                                          context,
-                                                                          'Please fill in all the required fields.');
-                                                                  Navigator.pop(
-                                                                      context); // Close the dialog
-                                                                }
-                                                              },
-                                                              child: const Text(
-                                                                "OK",
-                                                                style: TextStyle(
-                                                                    color: Color(
-                                                                        0xFF2F4771),
-                                                                    fontSize: 15),
-                                                              ),
+                                                    if (areFieldsValid(_userNotes.text)) {
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext context) {
+                                                          return Directionality(
+                                                            textDirection: translation(context)!.localeName == 'ar'
+                                                                ? TextDirection.rtl
+                                                                : TextDirection.ltr,
+                                                            child: AlertDialog(
+                                                              backgroundColor: Colors.white,
+                                                              title: Text(translation(context)!.completeTask),
+                                                              content: Text(translation(context)!.clickOkToComplete),
+                                                              actions: [
+                                                                TextButton(
+                                                                  style: TextButton.styleFrom(
+                                                                    backgroundColor: Color(0xFFF3D69B),
+                                                                  ),
+                                                                  onPressed: () async {
+                                                                    String message = await ServiceProviderGetTasksAPI.setTask6Data(
+                                                                      taskID,
+                                                                      _userNotes.text,
+                                                                      'Submit',
+                                                                      taskProjectId,
+                                                                    );
+                                                                    setState(() {
+                                                                      plumbingData['TaskStatus'] = 'Completed';
+                                                                      isSubmitVisible = false;
+                                                                    });
+                                                                    Navigator.of(context).pop();
+                                                                  },
+                                                                  child: Text(
+                                                                    translation(context)!.clickOk,
+                                                                    style: const TextStyle(color: Color(0xFF2F4771), fontSize: 15),
+                                                                  ),
+                                                                ),
+                                                                TextButton(
+                                                                  style: TextButton.styleFrom(
+                                                                    backgroundColor: Color(0xFFF3D69B),
+                                                                  ),
+                                                                  onPressed: () {
+                                                                    Navigator.pop(context);
+                                                                  },
+                                                                  child: Text(
+                                                                    translation(context)!.customCancel,
+                                                                    style: const TextStyle(color: Color(0xFF2F4771), fontSize: 15),
+                                                                  ),
+                                                                ),
+                                                              ],
                                                             ),
-                                                            TextButton(
-                                                              style: TextButton
-                                                                  .styleFrom(
-                                                                backgroundColor:
-                                                                    Color(
-                                                                        0xFFF3D69B), // Set background color to yellow
-                                                              ),
-                                                              onPressed: () {
-                                                                Navigator.pop(
-                                                                    context); // Close the dialog
-                                                              },
-                                                              child: const Text(
-                                                                "Cancel",
-                                                                style: TextStyle(
-                                                                    color: Color(
-                                                                        0xFF2F4771),
-                                                                    fontSize: 15),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        );
-                                                      },
-                                                    );
+                                                          );
+                                                        },
+                                                      );
+                                                    } else {
+                                                      CustomAlertDialog.showErrorDialog(
+                                                          context,
+                                                          translation(context)!.customFill
+                                                      );
+                                                    }
                                                   },
-                                                  child: const Text(
-                                                    'Mark as Done',
-                                                    style: TextStyle(
-                                                      fontSize: 18,
-                                                      color: Color(0xFFF9FAFB),
-                                                    ),
+                                                  child: Text(
+                                                    translation(context)!.markAsDone,
+                                                    style: const TextStyle(fontSize: 18, color: Color(0xFFF9FAFB)),
                                                   ),
                                                 )),
                                           ),
@@ -359,6 +355,7 @@ class _PlumbingInstallSPState extends State<PlumbingInstallSP> {
           ),
         ),
       ),
+    ),
     );
   }
 }

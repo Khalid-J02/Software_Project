@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../APIRequests/ServiceProviderGetTasksAPI.dart';
+import '../classes/language_constants.dart';
 
 class SPTasksDetails extends StatefulWidget {
   final String taskProjectName ;
@@ -36,6 +37,19 @@ class _SPTasksDetailsState extends State<SPTasksDetails> {
       return const Color(0xFFFF9637);
     } else  {
       return const Color(0xFF2BD066);
+    }
+  }
+
+  String translateTaskStatus(String status, BuildContext context) {
+    switch (status) {
+      case 'Not Started':
+        return translation(context)!.taskStatusNotStarted;
+      case 'In Progress':
+        return translation(context)!.taskStatusInProgress;
+      case 'Completed':
+        return translation(context)!.taskStatusCompleted;
+      default:
+        return status;
     }
   }
 
@@ -96,8 +110,8 @@ class _SPTasksDetailsState extends State<SPTasksDetails> {
 
                     size: 20,
                   ),
-                  SizedBox(width: 4,),
-                  Text(widget.taskStatus,
+                  const SizedBox(width: 4,),
+                  Text(translateTaskStatus(widget.taskStatus, context),
                     style:  TextStyle(
                         fontSize: 14,
                       color: getBorderColorBasedOnStatus(widget.taskStatus),
@@ -111,13 +125,13 @@ class _SPTasksDetailsState extends State<SPTasksDetails> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 Container(
-                  height: 35,
+                  height: 40,
                   width: 180,
                   decoration: BoxDecoration(
                     color: const Color(0xFFF3D69B),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  margin: const EdgeInsets.only(bottom: 5 , top: 5),
+                  margin: const EdgeInsets.only(bottom: 5 , top: 0),
                   child: TextButton(
                     onPressed: () async {
                       String path = '/ServiceProviderTasks/Task' + widget.taskNumber;
@@ -273,9 +287,10 @@ class _SPTasksDetailsState extends State<SPTasksDetails> {
                       }
                     },
 
-                    child: const Text("Open Task ", //$taskID , $taskNumber
-                      style: TextStyle(
-                          fontSize: 15,
+                    child: Text( translation(context)!.sp_TaskDetails_OpenTask,
+                      style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w800,
                           color: Color(0xFF122247)
                       ),
                     ),

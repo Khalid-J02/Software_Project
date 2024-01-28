@@ -1,15 +1,11 @@
-
-import 'package:buildnex/screens/MSG_System/listChatScreen.dart';
 import 'package:flutter/material.dart';
-
 import '../APIRequests/messageSystem.dart';
 import '../APIRequests/notificationsSystem.dart';
 import '../APIRequests/serviceProviderTasksAPI.dart';
 import '../Widgets/customAlertDialog.dart';
 import '../Widgets/sp_TaskDetails.dart';
 import 'package:get/get.dart';
-
-import 'Notification/homepageNotification.dart';
+import '../classes/language_constants.dart';
 
 class ServiceProviderTasks extends StatefulWidget {
   const ServiceProviderTasks({super.key});
@@ -19,7 +15,6 @@ class ServiceProviderTasks extends StatefulWidget {
 }
 
 class _ServiceProviderTasksState extends State<ServiceProviderTasks> {
-
   List<Map<String, dynamic>> serviceProviderTasks = [];
   int notificationCount = 0;
   int unreadMessageCount = 0;
@@ -32,10 +27,10 @@ class _ServiceProviderTasksState extends State<ServiceProviderTasks> {
     fetchServiceProviderProjects();
   }
 
-
   Future<void> _fetchUnreadMessageCount() async {
     try {
-      Map<String, dynamic> responseData = await MessagingAPI.getHomeOwnersForServiceProvider();
+      Map<String, dynamic> responseData =
+          await MessagingAPI.getHomeOwnersForServiceProvider();
 
       if (responseData.containsKey('unreadConversationsCount')) {
         unreadMessageCount = responseData['unreadConversationsCount'];
@@ -64,7 +59,8 @@ class _ServiceProviderTasksState extends State<ServiceProviderTasks> {
 
   Future<void> fetchServiceProviderProjects() async {
     try {
-      final List<Map<String, dynamic>> projects = await ServiceProviderProjectsAPI.getServiceProviderProjects();
+      final List<Map<String, dynamic>> projects =
+          await ServiceProviderProjectsAPI.getServiceProviderProjects();
       setState(() {
         serviceProviderTasks = projects;
       });
@@ -73,122 +69,131 @@ class _ServiceProviderTasksState extends State<ServiceProviderTasks> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: const Icon(
-          Icons.home,
-          color: Color(0xFFF3D69B),
-        ),
-        title: const Text(
-          //projectName,
-          "Home",
-          style: TextStyle(color: Color(0xFFF3D69B)),
-        ),
-        actions: [
-          IconButton(
-            icon: Stack(
-              clipBehavior: Clip.none,
-              children: <Widget>[
-                Icon(Icons.message, color: Color(0xFFF3D69B), size: 24),
-                if (unreadMessageCount > 0) // Only show if count is greater than 0
-                  Positioned(
-                    right: -3.2,
-                    top: -3.2,
-                    child: Container(
-                      padding: EdgeInsets.all(1.5),
-                      decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      constraints: const BoxConstraints(
-                        minWidth: 13,
-                        minHeight: 13,
-                      ),
-                      child: Text(
-                        '$unreadMessageCount', // Show the count here
-                        style: TextStyle(
-                          color:Color(0xFFF3D69B),
-                          fontSize: 10,
+    return Directionality(
+      textDirection: translation(context)!.localeName == 'ar'
+          ? TextDirection.rtl
+          : TextDirection.ltr,
+      child: Scaffold(
+        appBar: AppBar(
+          leading: const Icon(
+            Icons.home,
+            color: Color(0xFFF3D69B),
+          ),
+          title: Text(
+            translation(context)!.serviceProviderTasksHomeText,
+            style: const TextStyle(color: Color(0xFFF3D69B)),
+          ),
+          actions: [
+            IconButton(
+              icon: Stack(
+                clipBehavior: Clip.none,
+                children: <Widget>[
+                  const Icon(Icons.message, color: Color(0xFFF3D69B), size: 24),
+                  if (unreadMessageCount >
+                      0) // Only show if count is greater than 0
+                    Positioned(
+                      right: -3.2,
+                      top: -3.2,
+                      child: Container(
+                        padding: EdgeInsets.all(1.5),
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(8),
                         ),
-                        textAlign: TextAlign.center,
+                        constraints: const BoxConstraints(
+                          minWidth: 13,
+                          minHeight: 13,
+                        ),
+                        child: Text(
+                          '$unreadMessageCount', // Show the count here
+                          style: const TextStyle(
+                            color: Color(0xFFF3D69B),
+                            fontSize: 10,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                     ),
-                  ),
-              ],
+                ],
+              ),
+              onPressed: () {
+                Get.offNamed('/Messages');
+              },
             ),
-            onPressed: () {
-              Get.offNamed('/Messages');
-            },
-          ),
-          IconButton(
-            icon: Stack(
-              clipBehavior: Clip.none,
-              children: <Widget>[
-                Icon(Icons.notifications, color: Color(0xFFF3D69B) , size: 24),
-                if (notificationCount > 0) // Only show if count is greater than 0
-                  Positioned(
-                    right: -3.2,
-                    top: -3.2,
-                    child: Container(
-                      padding: EdgeInsets.all(1.5),
-                      decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      constraints: const BoxConstraints(
-                        minWidth: 13,
-                        minHeight: 13,
-                      ),
-                      child: Text(
-                        '$notificationCount', // Show the count here
-                        style: TextStyle(
-                          color: Color(0xFFF3D69B),
-                          fontSize: 10,
+            IconButton(
+              icon: Stack(
+                clipBehavior: Clip.none,
+                children: <Widget>[
+                  Icon(Icons.notifications, color: Color(0xFFF3D69B), size: 24),
+                  if (notificationCount >
+                      0) // Only show if count is greater than 0
+                    Positioned(
+                      right: -3.2,
+                      top: -3.2,
+                      child: Container(
+                        padding: EdgeInsets.all(1.5),
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(8),
                         ),
-                        textAlign: TextAlign.center,
+                        constraints: const BoxConstraints(
+                          minWidth: 13,
+                          minHeight: 13,
+                        ),
+                        child: Text(
+                          '$notificationCount', // Show the count here
+                          style: const TextStyle(
+                            color: Color(0xFFF3D69B),
+                            fontSize: 10,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                     ),
-                  ),
-              ],
+                ],
+              ),
+              onPressed: () {
+                Get.offNamed('/Notifications');
+              },
             ),
-            onPressed: () {
-              Get.offNamed('/Notifications');
-            },
-
-          ),
-          IconButton(
-            icon: Icon(Icons.logout , color: Color(0xFFF3D69B) , size: 24,), // Choose your preferred icon
-            onPressed: () async {
-              bool? shouldLogout = await CustomAlertDialog.showLogoutConfirmationDialog(context);
-              if (shouldLogout == true) {
-                Get.offAllNamed('/');
-
-              }
-            },
-          ),
-        ],
-        elevation: 0,
-        backgroundColor: Color(0xFF122247), //Colors.white,
-      ),
-      body: SafeArea(
-        child: Container(
-          color: Color(0xFF2F4771),
-          child: ListView.builder(
-            itemCount: serviceProviderTasks.length,
-            itemBuilder: (context, index) {
-              final task = serviceProviderTasks[index];
-              return SPTasksDetails(
-                taskProjectName:  task['projectName'] ?? 'Unknown',
-                taskProjectOwner: task['homeOwnerName'] ??'Unknown',
-                taskProjectId: task['projectID'].toString(),
-                taskStatus: task['taskStatus'] ?? 'Unknown',
-                taskID: task['taskId'].toString() ?? 'Unknown',
-                taskNumber: task['taskNumber'].toString() ?? 'Unknown',
-              );
-            },
+            IconButton(
+              icon: const Icon(
+                Icons.logout,
+                color: Color(0xFFF3D69B),
+                size: 24,
+              ), // Choose your preferred icon
+              onPressed: () async {
+                bool? shouldLogout =
+                    await CustomAlertDialog.showLogoutConfirmationDialog(
+                        context);
+                if (shouldLogout == true) {
+                  Get.offAllNamed('/');
+                }
+              },
+            ),
+          ],
+          elevation: 0,
+          backgroundColor: Color(0xFF122247), //Colors.white,
+        ),
+        body: SafeArea(
+          child: Container(
+            color: Color(0xFF2F4771),
+            child: ListView.builder(
+              itemCount: serviceProviderTasks.length,
+              itemBuilder: (context, index) {
+                final task = serviceProviderTasks[index];
+                return SPTasksDetails(
+                  taskProjectName: task['projectName'] ?? 'Unknown',
+                  taskProjectOwner: task['homeOwnerName'] ?? 'Unknown',
+                  taskProjectId: task['projectID'].toString(),
+                  taskStatus: task['taskStatus'] ?? 'Unknown',
+                  taskID: task['taskId'].toString() ?? 'Unknown',
+                  taskNumber: task['taskNumber'].toString() ?? 'Unknown',
+                );
+              },
+            ),
           ),
         ),
       ),

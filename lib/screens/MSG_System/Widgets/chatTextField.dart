@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../Widgets/customAlertDialog.dart';
+import '../../../classes/language_constants.dart';
 
 
 class ChatTextField extends StatefulWidget {
@@ -29,7 +30,7 @@ class _ChatTextFieldState extends State<ChatTextField> {
         print('Error sending message: $e');
       }
     } else {
-      CustomAlertDialog.showErrorDialog(context, 'Please enter a message before sending.');
+      CustomAlertDialog.showErrorDialog(context, translation(context)!.chatTextFieldMessageDialog);
     }
   }
 
@@ -72,8 +73,8 @@ class _ChatTextFieldState extends State<ChatTextField> {
         Expanded(
           child: CustomTextFormField(
             controller: controller,
-            hintText: 'Add Message...',
-            labelText: 'Message',
+            hintText:  translation(context)!.chatTextFieldMessageHint,
+            labelText: translation(context)!.chatTextFieldMessageLabel,
             obscureData: null,
             onChanged: (String value) {  },
             onPressedSuffixIcon: () {  },

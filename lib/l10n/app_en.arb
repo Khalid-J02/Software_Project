@@ -116,6 +116,277 @@
   "homeOwnerProjectDataAccordionNumbersOfRooms" : "Numbers of Rooms",
   "homeOwnerProjectDataAccordionNumbersOfFloors" : "Numbers of Floors",
   "homeOwnerProjectDataAccordionDesignDrawings" : "Design Drawings",
-  "homeOwnerProjectDataAccordionOpenDocument" : "Open Document"
+  "homeOwnerProjectDataAccordionOpenDocument" : "Open Document",
+
+  "homeNavServiceProviderTasksIcon": "Tasks",
+  "homeNavServiceProviderRequestsIcon": "Requests",
+  "homeNavServiceProviderCatalogIcon": "Catalog",
+  "homeNavServiceProviderWorkExpIcon": "Work Exp.",
+  "homeNavServiceProviderProfileIcon": "Profile",
+  "homeNavServiceProviderTasksKey": "Welcome to the Tasks tab! Here, you can effectively manage and track all the tasks you are currently working on. This tab provides a comprehensive view of your ongoing projects, allowing you to organize your workload and stay on top of your commitments.",
+  "homeNavServiceProviderRequestsKey": "This is the Requests tab. In this section, you'll receive job requests from homeowners. You have the flexibility to accept tasks that align with your schedule and expertise or decline them as needed. It's your one-stop hub for managing incoming work inquiries and planning your workload.",
+  "homeNavServiceProviderCatalogKey": "Explore the Catalog tab! As a service provider, this is your space to showcase the services you offer. If you're a painter, for example, you can display various color options and related services here. It's a great way to let potential clients know what you have to offer and attract more business.",
+  "homeNavServiceProviderWorkExpKey": "Discover the Work Experience tab. Here, you can display your past projects and highlight your achievements. It's an excellent opportunity to showcase your skills and experience, giving potential clients a glimpse of your expertise and the quality of work you deliver.",
+  "homeNavServiceProviderProfileKey": "Welcome to the Profile Page! Here, you can easily view and update your personal details and preferences. This is your hub for ensuring your profile information is accurate and up-to-date, making it easier for service providers and other users to connect with you.",
+  "coachmarkNext": "Next",
+  "coachmarkSkip": "Skip",
+
+  "serviceProviderRequestsMainTitle": "Requests",
+  "serviceProviderRequestPageKey": "This is the Requests Page. In this section, you'll receive job requests from homeowners. You have the flexibility to accept tasks that align with your schedule and expertise or decline them as needed. It's your one-stop hub for managing incoming work inquiries and planning your workload.",
+
+  "serviceProviderCatalogMainTitle": "Catalog",
+  "serviceProviderCatalogPageKey": "Tap the '+' button to include new items in your catalog. This feature allows you to expand your service range by adding new items or services you provide. Whether it's a new paint color, a special tool, or a unique service, use this space to keep your catalog up-to-date and appealing to your clients.",
+  "serviceProviderCatalogText": "There is no catalog items to see here...",
+
+
+  "serviceProviderAssetsMainTitle": "My Work Experience",
+  "serviceProviderAssetsPageKey": "Click here to include details about your previous projects, such as the project name, a brief description, and an image that showcases your skills. This helps potential clients understand the quality and scope of your work, building trust and credibility in your services.",
+  "serviceProviderAssetsText": "There is no work experiences to see here...",
+
+  "serviceProviderProfileInfoKey": "Edit your profile information here. Tap this icon to update your personal details such as your phone number, email, and a short bio. Keeping your profile updated ensures better communication and personalization.",
+  "serviceProviderProfileImageKey": "Personalize your profile by updating your profile picture. Tap here to choose and upload a new image. This picture represents you in the app and helps others recognize you easily.",
+  "serviceProviderProfileReviewKey": "Dive into the 'Reviews' section to read the feedback from homeowners who have utilized your services. Tapping here will display their comments and ratings. Homeowner feedback is a great way to gauge your service quality and establish a trusted reputation for prospective homeowners.",
+  "serviceProviderProfileReviewsTitle": "Your Reviews",
+  "serviceProviderProfileReviewsText": "No reviews yet...",
+  "serviceProviderProfileReviewsClose": "Close",
+
+  "serviceProviderDataRole": "Service Provider",
+  "serviceProviderDataPhoneNumber": "Phone Number",
+  "serviceProviderDataEmail": "E-Mail",
+  "serviceProviderDataPriceHour": "Price / Hour",
+  "serviceProviderDataPrice": "JOD",
+  "serviceProviderDataBio": "Bio",
+
+  "reviewTabShowMore": "show more",
+  "reviewTabShowLess": "show less",
+
+  "serviceProviderProfileDialogEditPersonalInfoTitle": "Edit Personal Info",
+  "serviceProviderProfileDialogPhoneNumberHint": "Enter Your new Number",
+  "serviceProviderProfileDialogPhoneNumberLabel": "Phone Number",
+  "serviceProviderProfileDialogEmailHint": "Enter Your new E-Mail",
+  "serviceProviderProfileDialogEmailLabel": "E-Mail",
+  "serviceProviderProfileDialogPricePerHourHint": "Enter Your new price",
+  "serviceProviderProfileDialogPricePerHourLabel": "Price / Hour",
+  "serviceProviderProfileDialogBioHint": "Enter Your new bio",
+  "serviceProviderProfileDialogBioLabel": "Your Bio",
+  "serviceProviderProfileDialogSaveButton": "Save",
+  "serviceProviderProfileDialogCancelButton": "Cancel",
+
+  "addAssetNewItemMainTitle": "Add New Work Experience",
+  "addAssetNewItemItemNameHint": "Enter Work Exp. Name",
+  "addAssetNewItemItemNameLabel": "Work Exp. Name",
+  "addAssetNewItemItemDesHint": "Enter Work Exp. Description",
+  "addAssetNewItemItemDesLabel": "Work Exp. Description",
+  "addAssetNewItemItemImageText": "Work Exp. Image : ",
+  "addAssetNewItemAddButton": "Add",
+  "addAssetNewItemCancelButton": "Cancel",
+
+  "serviceProviderAssetsItemDetailsTitle": "Back",
+
+  "sp_AssetItemDialogTitle": "Edit Item Info",
+  "sp_AssetItemDialogNewNameHint" : "Enter Item New Name",
+  "sp_AssetItemDialogNewNameLabel" : "Item Name",
+  "sp_AssetItemDialogNewDescHint" : "Item New Description",
+  "sp_AssetItemDialogNewDescLabel" : "Item Description",
+
+  "serviceProviderCatalogItemDetailsColor": "Color :",
+
+  "sp_CatalogItemTitle": "Edit Item Info",
+  "sp_CatalogItemNewNameHint" : "Enter Item New Name",
+  "sp_CatalogItemNewNameLabel" :  "Item Name",
+  "sp_CatalogItemNewPriceHint" : "Enter Item New Price",
+  "sp_CatalogItemNewPriceLabel" : "Item Price",
+  "sp_CatalogItemNewDescHint" : "Item New Description",
+  "sp_CatalogItemNewDescLabel" : "Item Description",
+
+  "addCatalogNewItemMainTitle": "Add New Catalog Item",
+  "addCatalogNewItemItemNameHint": "Enter Item Name",
+  "addCatalogNewItemItemNameLabel": "Item Name",
+
+  "addCatalogNewItemItemDesHint": "Enter Item Description",
+  "addCatalogNewItemItemDesLabel": "Item Description",
+
+  "addCatalogNewItemItemPriceHint": "Enter Item Price",
+  "addCatalogNewItemItemPriceLabel": "Item Price",
+
+  "addCatalogNewItemColor": "Color :",
+
+  "addCatalogNewItemItemImageText": "Item Image : ",
+
+  "addCatalogNewItemAddButton": "Add",
+  "addCatalogNewItemCancelButton": "Cancel",
+
+  "customError": "Error",
+  "customOk": "OK",
+  "customFill": "Please fill in all required fields.",
+  "customInvalidPrice": "Invalid item price.",
+  "sp_RequestDetails_ButtonText" : "See Details",
+
+  "customDeclineTitle" : "Decline Request",
+  "customDeclineReason" : "Please provide a reason for declining the request:",
+  "customDeclineReasonLabel": "Please enter a reason",
+  "customDeclineReasonHint": "Enter reason...",
+  "customDeclineReasonCancel": "Cancel",
+  "customDeclineReasonSubmit": "Submit",
+
+  "customAcceptTitle": "Confirm",
+  "customAcceptText": "Do you want to accept this request?",
+  "customAcceptYes": "Yes",
+  "customAcceptNo": "Not Yet",
+
+  "projectDetails_SP_Des": "Construction Desc",
+  "projectDetails_SP_HO": "Homeowner Profile",
+
+  "projectDataDetailsOwned": "Owned By ",
+  "projectDataDetailsAddress": "Address",
+  "projectDataDetailsTaskName": "Task Name",
+  "projectDataDetailsTaskDesc": "Task Description",
+  "projectDataDetailsTaskDate": "Expected Date For Task",
+
+  "homeownerRole": "Homeowner",
+
+  "serviceProviderTasksHomeText": "Home",
+  "customLogoutConfirmation": "Logout Confirmation",
+  "customLogoutContent": "Are you sure you want to logout?",
+  "customCancel": "Cancel",
+  "customLogout": "Logout",
+
+  "listChatScreenTitle": "Chat",
+  "userItemLastActive": "Last Active : ",
+
+  "chatScreenLastOnline": "Online",
+  "chatScreenLastOffline": "Offline",
+
+  "chatTextFieldMessageLabel": "Message",
+  "chatTextFieldMessageHint":  "Add Message...",
+  "chatTextFieldMessageDialog" : "Please enter a message before sending.",
+
+  "homepageNotificationsTitle": "Notifications",
+  "homepageNotificationsMark": "Mark all read",
+
+  "homepageNotificationShowSnackBar": "All notifications marked as read",
+  "homepageNotificationShowSnackBarError": "Failed to mark notifications as read",
+
+  "sp_TaskDetails_OpenTask": "Open Task",
+
+  "taskStatusNotStarted": "Not Started",
+  "taskStatusInProgress": "In Progress",
+  "taskStatusCompleted": "Completed",
+
+  "customStaticTaskTitle": "Static Task",
+  "customSuccess": "Success",
+  "customParallelTasksTitle": "Parallel Tasks Available",
+  "customParallelTasksContent": "You can perform tasks related to Mechanical, Electrical, and Insulation in parallel to save time, with the Insulation being an optional Task",
+  "customExpectedDateTitle": "Expected Date",
+  "customExpectedDateContent": "Please provide an expected date for the task:",
+  "customExpectedDateError": "Please enter a date",
+  "customExpectedDateHint": "Enter Date...",
+  "customSubmit": "Submit",
+
+  "sp_taskTitle": "Task Details",
+  "sp_task1Name": "Property Survey",
+
+
+  "taskInformationTaskLabel": "Task",
+  "taskInformationProjectLabel": "Construction",
+  "taskInformationStatus": "Status",
+
+  "landInformationTitle": "Land Information",
+  "landInformationBasin": "Basin Number",
+  "landInformationPlot": "Plot Number",
+
+  "taskProviderInformationTitle": "Task Provider",
+  "taskProviderInformationName": "Me",
+  "taskProviderInformationReviews": "reviews",
+
+
+  "landArea": "Land Area ",
+  "enterLandAreaHere": "Enter Land Area Here",
+  "surveyDocument": "Survey Document: ",
+  "upload": "Upload",
+  "open": "Open",
+  "download": "Download",
+  "yourNotes": "Your Notes: ",
+  "enterNotesHere": "Enter Notes here if any",
+  "save": "Save",
+  "markAsDone": "Mark as Done",
+  "completeTask": "Complete Task",
+  "clickOk": "OK",
+  "clickOkToComplete": "By clicking OK, you will mark the task as complete.",
+  "snackbarHi": "Hi",
+  "snackbarContent": "There is no file to open",
+
+
+  "sp_task2Name": "Regulatory Information",
+  "sp_task2Document": "Regulatory Document: ",
+  "task2_InformationTitle": "Required Documents for This Task",
+
+  "task2_InformationTitle2": "Required Drawings for This Task",
+
+  "sp_task3Name": "Soil Investigation",
+  "sp_task3Document": "Soil Invest Document: ",
+
+  "sp_task4Name": "Design and Planning",
+  "sp_task3Document_task4": "Soil Document:",
+  "sp_task4Demands": "Homeowner Demands",
+  "sp_task4DemandsRooms" : "Num. of Rooms:",
+  "sp_task4DemandsFloors" : "Num. of Floors:",
+  "sp_task4DemandsArea" : "House Building Area:",
+  "sp_task4Chosen": "Not Chosen",
+
+  "sp_task4Design": "Design     Drawings:",
+  "sp_task4Arch" : "Architectural Drawings:",
+  "sp_task4Civil": "Civil           Drawings:",
+  "sp_task4Mech": "Mechanical Drawings:",
+  "sp_task4Elect":  "Electrical Drawings:",
+
+  "sp_task5Name" : "Obtaining Approvals",
+  "sp_task5Design": "Design Drawings:",
+  "sp_task5App":  "Approvals Document: ",
+
+  "sp_task6Name": "Foundation & Construction",
+  "sp_task6Civil": "Civil Drawings:",
+  "sp_task6Arch": "Architectural Drawings:",
+  "sp_task6Provider": "Construction Material Provider:",
+  "sp_task6ServiceChosen": "Service Provider-Me",
+  "sp_task6HomeChosen": "Homeowner",
+  "sp_task7Name" : "Mechanical Work",
+  "sp_task7_Mech": "Mechanical Drawings:",
+
+  "sp_task8Name" : "Electrical Work",
+  "sp_task8Elect":  "Electrical Drawings:",
+
+  "sp_task9Name": "Insulation Work",
+  "sp_task10Name": "Door Frame Installation",
+  "sp_task11Name": "Plastering Work",
+  "sp_task10homeownerNeeds": "Homeowner Needs",
+
+  "sp_task10BedroomDoor": "Bedroom Door:",
+  "sp_task10BathroomDoor": "Bathroom Door:",
+  "sp_task10LivingDoor": "Living Room Door:",
+  "sp_task10GuestDoor": "Guest Room Door:",
+  "sp_task10Details": "See Details",
+  "sp_task10snackbarTitle": "Alert Message",
+  "sp_task10snackbarContent": "Homeowner does not choose an item yet",
+  "sp_task10ItemDialog": "Homeowner Choice",
+  "sp_task10ItemDialogClose": "Done",
+
+  "sp_task12Name": "Tile Work",
+  "sp_task12BathroomTile": "Bathroom Tile:",
+  "sp_task12HouseTile": "House Tile:",
+
+  "sp_task15Title": "Painting Work",
+  "sp_task15BedroomPaint": "Bedroom Paint:",
+  "sp_task15BathroomPaint": "Bathroom Paint:",
+  "sp_task15LivingPaint": "Living Room Paint:",
+  "sp_task15GuestPaint": "Guest Room Paint:",
+  "sp_task15KitchenPaint": "Kitchen Paint:",
+
+  "sp_task13Name": "Aluminum Work",
+  "sp_task13Design": "Window Design:",
+
+  "sp_task14Name": "Carpentry Work",
+  "sp_task14Design": "Door Design:",
+  "snackbarDownloadContent": "File Downloaded"
 
 }

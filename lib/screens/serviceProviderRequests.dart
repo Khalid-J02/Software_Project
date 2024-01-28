@@ -4,29 +4,29 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import '../Widgets/sp_RequestsDetails.dart';
 import '../APIRequests/serviceProviderRequestsAPI.dart';
+import '../classes/language_constants.dart';
 
 class ServiceProviderRequests extends StatefulWidget {
   final bool isNewUser;
-  const ServiceProviderRequests({super.key,this.isNewUser = false});
+  const ServiceProviderRequests({super.key, this.isNewUser = false});
 
   @override
-  State<ServiceProviderRequests> createState() => _ServiceProviderRequestsState();
+  State<ServiceProviderRequests> createState() =>
+      _ServiceProviderRequestsState();
 }
 
 class _ServiceProviderRequestsState extends State<ServiceProviderRequests> {
-
   List<Map<String, dynamic>> serviceProviderRequests = [];
 
   TutorialCoachMark? tutorialCoachMark;
   List<TargetFocus> targets = [];
 
-  GlobalKey tasksKey = GlobalKey();
   GlobalKey requestsKey = GlobalKey();
 
   void _removeproject(String projectName) {
     setState(() {
-      serviceProviderRequests.removeWhere((request) =>
-      request['projectName'] == projectName);
+      serviceProviderRequests
+          .removeWhere((request) => request['projectName'] == projectName);
     });
   }
 
@@ -49,7 +49,6 @@ class _ServiceProviderRequestsState extends State<ServiceProviderRequests> {
       String tutorialKey = 'hasShownTutorial6_$userId';
       bool hasShownTutorial = prefs.getBool(tutorialKey) ?? false;
 
-
       if (!hasShownTutorial) {
         await Future.delayed(const Duration(seconds: 1));
         await _showTutorialCoachmark();
@@ -58,7 +57,7 @@ class _ServiceProviderRequestsState extends State<ServiceProviderRequests> {
     }
   }
 
-  Future<void> _showTutorialCoachmark() async{
+  Future<void> _showTutorialCoachmark() async {
     _initTarget();
     tutorialCoachMark = TutorialCoachMark(
       targets: targets,
@@ -93,8 +92,7 @@ class _ServiceProviderRequestsState extends State<ServiceProviderRequests> {
             ),
             builder: (context, controller) {
               return CoachmarkDesc(
-                text:
-                "This is the Requests Page. In this section, you'll receive job requests from homeowners. You have the flexibility to accept tasks that align with your schedule and expertise or decline them as needed. It's your one-stop hub for managing incoming work inquiries and planning your workload.",
+                text: translation(context)!.serviceProviderRequestPageKey,
                 onNext: () {
                   controller.next();
                 },
@@ -106,8 +104,6 @@ class _ServiceProviderRequestsState extends State<ServiceProviderRequests> {
           )
         ],
       ),
-
-
     ];
   }
 
@@ -120,40 +116,44 @@ class _ServiceProviderRequestsState extends State<ServiceProviderRequests> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: const Icon(
-          Icons.question_answer_sharp,
-          color: Color(0xFFF3D69B),
+    return Directionality(
+      textDirection: translation(context)!.localeName == 'ar'
+          ? TextDirection.rtl
+          : TextDirection.ltr,
+      child: Scaffold(
+        appBar: AppBar(
+          leading: const Icon(
+            Icons.question_answer_sharp,
+            color: Color(0xFFF3D69B),
+          ),
+          title: Text(
+            //projectName,
+            translation(context)!.serviceProviderRequestsMainTitle,
+            style: TextStyle(color: Color(0xFFF3D69B)),
+          ),
+          elevation: 0,
+          backgroundColor: Color(0xFF122247), //Colors.white,
         ),
-        title: const Text(
-          //projectName,
-          "Requests",
-          style: TextStyle(color: Color(0xFFF3D69B)),
-        ),
-        elevation: 0,
-        backgroundColor: Color(0xFF122247), //Colors.white,
-      ),
-      body: SafeArea(
-        child: Container(
-          key: requestsKey,
-          color: Color(0xFF2F4771),
-          child: ListView.builder(
-            itemCount: serviceProviderRequests.length,
-            itemBuilder: (context, index) {
-              final request = serviceProviderRequests[index];
-              return SPRequestDetails(
-                taskProjectName: request['projectName'],
-                taskHomeOwnerName: request['homeOwnerName'],
-                taskProjectId: request['projectId'].toString(),
-                taskHomeOwnerId: request['homeOwnerId'].toString(),
-                requestId: request['requestId'].toString(),
-                taskId: request['taskId'].toString(),
-
-
-                removeProject: _removeproject,
-              );
-            },
+        body: SafeArea(
+          child: Container(
+            key: requestsKey,
+            color: Color(0xFF2F4771),
+            child: ListView.builder(
+              itemCount: serviceProviderRequests.length,
+              itemBuilder: (context, index) {
+                final request = serviceProviderRequests[index];
+                return SPRequestDetails(
+                  taskProjectName: request['projectName'],
+                  taskHomeOwnerName: request['homeOwnerName'],
+                  taskProjectId: request['projectId'].toString(),
+                  taskHomeOwnerId: request['homeOwnerId'].toString(),
+                  requestId: request['requestId'].toString(),
+                  taskId: request['taskId'].toString(),
+                  taskNumber: request['taskNumber'].toString(),
+                  removeProject: _removeproject,
+                );
+              },
+            ),
           ),
         ),
       ),
@@ -171,13 +171,11 @@ class CoachmarkDesc extends StatefulWidget {
     this.onNext,
   });
 
-
   final String text;
   final String skip;
   final String next;
   final void Function()? onSkip;
   final void Function()? onNext;
-
 
   @override
   State<CoachmarkDesc> createState() => _CoachmarkDescState();
@@ -186,7 +184,6 @@ class CoachmarkDesc extends StatefulWidget {
 class _CoachmarkDescState extends State<CoachmarkDesc>
     with SingleTickerProviderStateMixin {
   late AnimationController animationController;
-
 
   @override
   void initState() {
@@ -199,54 +196,57 @@ class _CoachmarkDescState extends State<CoachmarkDesc>
     super.initState();
   }
 
-
   @override
   void dispose() {
     animationController.dispose();
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: animationController,
-      builder: (context, child) {
-        return Transform.translate(
-          offset: Offset(0, animationController.value),
-          child: child,
-        );
-      },
-      child: Container(
-        padding: const EdgeInsets.all(15),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              widget.text,
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-            const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                TextButton(
-                  onPressed: widget.onSkip,
-                  child: Text(widget.skip),
-                ),
-                const SizedBox(width: 16),
-                ElevatedButton(
-                  onPressed: widget.onNext,
-                  child: Text(widget.next),
-                ),
-              ],
-            )
-          ],
+    return Directionality(
+      textDirection: Localizations.localeOf(context).languageCode == 'ar'
+          ? TextDirection.rtl
+          : TextDirection.ltr,
+      child: AnimatedBuilder(
+        animation: animationController,
+        builder: (context, child) {
+          return Transform.translate(
+            offset: Offset(0, animationController.value),
+            child: child,
+          );
+        },
+        child: Container(
+          padding: const EdgeInsets.all(15),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                widget.text,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  ElevatedButton(
+                    onPressed: widget.onNext,
+                    child: Text(translation(context)!.coachmarkNext),
+                  ),
+                  const SizedBox(width: 16),
+                  TextButton(
+                    onPressed: widget.onSkip,
+                    child: Text(translation(context)!.coachmarkSkip),
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

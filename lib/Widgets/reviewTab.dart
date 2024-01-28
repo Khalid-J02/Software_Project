@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:readmore/readmore.dart';
+import '../classes/language_constants.dart';
 
 class SPReviews extends StatefulWidget {
   String imageURL ;
@@ -26,11 +27,16 @@ class SPReviews extends StatefulWidget {
 
 class _SPReviewsState extends State<SPReviews> {
   @override
+
   Widget build(BuildContext context) {
-    return Padding(
+    return Directionality(
+        textDirection: translation(context)!.localeName == 'ar'
+        ? TextDirection.rtl
+        : TextDirection.ltr,
+     child:  Padding(
       padding: const EdgeInsets.all(12.0),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start, // Align children to the start of the axis
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,7 +50,7 @@ class _SPReviewsState extends State<SPReviews> {
                     widget.name,
                     style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
                     softWrap: false,
-                    overflow: TextOverflow.ellipsis, // Add ellipsis for overflowed text
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ),
@@ -68,13 +74,14 @@ class _SPReviewsState extends State<SPReviews> {
             widget.reviewText,
             trimLines: 2,
             trimMode: TrimMode.Line,
-            trimExpandedText: ' show less',
-            trimCollapsedText: ' show more',
+            trimExpandedText: translation(context)!.reviewTabShowLess,
+            trimCollapsedText:  translation(context)!.reviewTabShowMore,
             moreStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF122247)),
             lessStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF122247)),
           ),
         ],
       ),
+    ),
     );
   }
 }

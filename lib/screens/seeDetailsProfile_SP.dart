@@ -4,13 +4,12 @@ import 'package:buildnex/APIRequests/profilePageHomeOwnerAPI.dart';
 import 'package:http/http.dart' as http;
 
 import '../APIRequests/serviceProviderRequestsAPI.dart';
+import '../classes/language_constants.dart';
 
 class SeeDetailsProfilePage extends StatefulWidget {
-  final String  homeownerId;
+  final String homeownerId;
 
-  const SeeDetailsProfilePage({
-    required this.homeownerId,
-    super.key});
+  const SeeDetailsProfilePage({required this.homeownerId, super.key});
 
   @override
   State<SeeDetailsProfilePage> createState() => _SeeDetailsProfilePageState();
@@ -27,11 +26,10 @@ class _SeeDetailsProfilePageState extends State<SeeDetailsProfilePage> {
 
   Image? image;
   String? imageUrl;
-  late final pickedImage ;
-  final String cloudinaryUrl = 'https://api.cloudinary.com/v1_1/df1qhofpr/upload';
+  late final pickedImage;
+  final String cloudinaryUrl =
+      'https://api.cloudinary.com/v1_1/df1qhofpr/upload';
   final String uploadPreset = 'buildnex';
-
-
 
   @override
   void initState() {
@@ -41,19 +39,23 @@ class _SeeDetailsProfilePageState extends State<SeeDetailsProfilePage> {
   }
 
   @override
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    // return MaterialApp(
+    //   debugShowCheckedModeBanner: false,
+    //   home: Scaffold(
+    return Directionality(
+      textDirection: translation(context)!.localeName == 'ar'
+          ? TextDirection.rtl
+          : TextDirection.ltr,
+      child: Scaffold(
         body: Stack(
           children: [
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Expanded(
-                  flex: 1,
+                  flex: 2,
                   child: Container(
                     color: const Color(0xFF122247),
                     padding: const EdgeInsets.symmetric(
@@ -61,10 +63,11 @@ class _SeeDetailsProfilePageState extends State<SeeDetailsProfilePage> {
                   ),
                 ),
                 Expanded(
-                  flex: 4,
+                  flex: 9,
                   child: Container(
                     color: const Color(0xFF2F4771),
                     width: MediaQuery.of(context).size.width,
+
                     child: ProfileData(
                       userName: userName,
                       userRole: userRole,
@@ -88,11 +91,12 @@ class _SeeDetailsProfilePageState extends State<SeeDetailsProfilePage> {
                   ),
                   shape: BoxShape.circle,
                 ),
-                child:  CircleAvatar(
+                child: CircleAvatar(
                   radius: 65,
                   backgroundImage: userPic.isNotEmpty
                       ? NetworkImage(userPic) as ImageProvider<Object>?
-                      : AssetImage("images/profilePic96.png") as ImageProvider<Object>?,
+                      : AssetImage("images/profilePic96.png")
+                          as ImageProvider<Object>?,
                 ),
               ),
             ),
@@ -104,7 +108,6 @@ class _SeeDetailsProfilePageState extends State<SeeDetailsProfilePage> {
 
   Future<void> _loadProfile() async {
     try {
-
       final profile = await RequestsAPI.getProfilefromID(widget.homeownerId);
       setState(() {
         userName = profile['Username'];
@@ -113,7 +116,6 @@ class _SeeDetailsProfilePageState extends State<SeeDetailsProfilePage> {
         userBio = profile['UserProfileInfo'];
         userPhoneNum = profile['PhoneNumber'];
         userPic = profile['UserPicture'];
-
       });
     } catch (e) {
       print('Error loading profile: $e');

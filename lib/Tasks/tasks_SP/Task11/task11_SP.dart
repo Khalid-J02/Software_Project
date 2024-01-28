@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import '../../../APIRequests/ServiceProviderGetTasksAPI.dart';
 import '../../../APIRequests/serviceProviderCatalogAPI.dart';
 import '../../../Widgets/customAlertDialog.dart';
+import '../../../classes/language_constants.dart';
 
 void main() {
   runApp(GetMaterialApp(home: DoorFrameInstallSP()));
@@ -39,9 +40,14 @@ class _DoorFrameInstallSPSPState extends State<DoorFrameInstallSP> {
       taskID = arguments['taskID'];
       taskProjectId = arguments['taskProjectId'];
 
+      if (doorFrameData['TaskStatus'] == 'Completed') {
+        setState(() {
+          isSubmitVisible = false;
+        });
+      }
+
       if (doorFrameData['Notes'] != null) {
         _userNotes.text = doorFrameData['Notes'];
-        isSubmitVisible = false;
       } else {
         _userNotes.text = '';
       }
@@ -56,28 +62,62 @@ class _DoorFrameInstallSPSPState extends State<DoorFrameInstallSP> {
     }
   }
 
-  Future<void> openCatalog(String itemID) async {
+  Future<void> openCatalog(String itemID, context) async {
+    final isRtl = !(translation(context)!.localeName == 'ar');
+
     Map<String, dynamic> itemDetails = {};
-    if (itemID != null) {
-      itemDetails = await CatalogAPI.getItemDetails(itemID);
+    if (itemID == 'null') {
+      Get.snackbar(
+        '',
+        '',
+        titleText: Text(
+          translation(context)!.sp_task10snackbarTitle,
+          textAlign: isRtl ? TextAlign.left : TextAlign.right,
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+        messageText: Text(
+          translation(context)!.sp_task10snackbarContent,
+          textAlign: isRtl ? TextAlign.left : TextAlign.right,
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Color(0xFF2F4771),
+      );
+
     } else {
-      Get.snackbar("Alert Message",
-          "Owner of the project didn't choose an item yet... ");
+      itemDetails = await CatalogAPI.getItemDetails(itemID);
+      await showDialog<Map<String, dynamic>>(
+        context: context,
+        builder: (BuildContext context) {
+          return CatalogDialogSP(
+            itemDetails: itemDetails,
+          );
+        },
+      );
     }
 
-    await showDialog<Map<String, dynamic>>(
-      context: context,
-      builder: (BuildContext context) {
-        return CatalogDialogSP(
-          itemDetails: itemDetails,
-        );
-      },
-    );
+  }
+
+  String translateTaskStatus(String status, BuildContext context) {
+    switch (status) {
+      case 'Not Started':
+        return translation(context)!.taskStatusNotStarted;
+      case 'In Progress':
+        return translation(context)!.taskStatusInProgress;
+      case 'Completed':
+        return translation(context)!.taskStatusCompleted;
+      default:
+        return status;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
+    final isRtl = !(translation(context)!.localeName == 'ar');
+    return Directionality(
+        textDirection: translation(context)!.localeName == 'ar'
+        ? TextDirection.rtl
+        : TextDirection.ltr,
+    child:  WillPopScope(
       onWillPop: () async {
         Get.offAndToNamed('/HomePage/ServiceProvider') ;
         return true ;
@@ -92,9 +132,9 @@ class _DoorFrameInstallSPSPState extends State<DoorFrameInstallSP> {
           title: Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: MediaQuery.of(context).size.width / 5),
-            child: const Text(
-              "Task Details",
-              style: TextStyle(color: Color(0xFFF3D69B)),
+            child: Text(
+              translation(context)!.sp_taskTitle,
+              style: const TextStyle(color: Color(0xFFF3D69B)),
             ),
           ),
           elevation: 0,
@@ -107,9 +147,9 @@ class _DoorFrameInstallSPSPState extends State<DoorFrameInstallSP> {
               children: [
                 TaskInformation(
                   taskID: doorFrameData['TaskID'] ?? 0,
-                  taskName: 'Door Frame Installation',
+                  taskName: translation(context)!.sp_task10Name,
                   projectName: doorFrameData['ProjectName'] ?? 'Unknown',
-                  taskStatus: doorFrameData['TaskStatus'] ?? 'Unknown',
+                  taskStatus: translateTaskStatus(doorFrameData['TaskStatus'], context),
                 ),
                 TaskProviderInformation(
                   userPicture: doorFrameData['UserPicture'],
@@ -150,10 +190,10 @@ class _DoorFrameInstallSPSPState extends State<DoorFrameInstallSP> {
                               width: 1.0,
                             ),
                           ),
-                          child: const Center(
+                          child:  Center(
                             child: Text(
-                              "Home Owner Needs",
-                              style: TextStyle(
+                                translation(context)!.sp_task10homeownerNeeds,
+                              style: const TextStyle(
                                   color: Color(0xFFF9FAFB),
                                   fontSize: 19,
                                   fontWeight: FontWeight.bold),
@@ -168,24 +208,27 @@ class _DoorFrameInstallSPSPState extends State<DoorFrameInstallSP> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Expanded(
+                                  Expanded(
                                     flex: 1,
                                     child: Padding(
-                                      padding: EdgeInsets.only(left: 8, right: 8),
+                                      padding:const EdgeInsets.only(left: 8, right: 8),
                                       child: Text(
-                                        "Bedroom Door:",
-                                        style: TextStyle(
-                                            color: Color(0xFF2F4771),
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16),
+                                        translation(context)!.sp_task10BedroomDoor,
+                                        style:  TextStyle(
+                                            color: const Color(0xFF2F4771),
+                                            fontWeight: isRtl? FontWeight.w500: FontWeight.w800,
+                                            fontSize: isRtl? 16: 19),
                                       ),
                                     ),
                                   ),
                                   GestureDetector(
                                     onTap: () async {
-                                      await openCatalog(
-                                          doorFrameData['BedroomDoor']
-                                              .toString());
+                                      if(doorFrameData['BedroomDoor']!=null){
+                                        await openCatalog(doorFrameData['BedroomDoor'].toString(),context);
+                                      }
+                                      else{
+                                        await openCatalog('null',context);
+                                      }
                                     },
                                     child: Container(
                                       margin:
@@ -195,9 +238,9 @@ class _DoorFrameInstallSPSPState extends State<DoorFrameInstallSP> {
                                         color: const Color(0xFF2F4771),
                                         borderRadius: BorderRadius.circular(20.0),
                                       ),
-                                      child: const Row(
+                                      child:  Row(
                                         children: [
-                                          Padding(
+                                          const Padding(
                                             padding: EdgeInsets.only(
                                                 left: 12, right: 8),
                                             child: Icon(
@@ -207,10 +250,10 @@ class _DoorFrameInstallSPSPState extends State<DoorFrameInstallSP> {
                                             ),
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.only(right: 12.0),
+                                            padding: isRtl? const EdgeInsets.only(right: 12.0) :  const EdgeInsets.only(left: 12.0),
                                             child: Text(
-                                              "See Details",
-                                              style: TextStyle(
+                                              translation(context)!.sp_task10Details,
+                                              style: const TextStyle(
                                                 color: Color(0xFFF9FAFB),
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.w400,
@@ -226,24 +269,28 @@ class _DoorFrameInstallSPSPState extends State<DoorFrameInstallSP> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Expanded(
+                                  Expanded(
                                     flex: 1,
                                     child: Padding(
-                                      padding: EdgeInsets.only(left: 8, right: 8),
+                                      padding:const EdgeInsets.only(left: 8, right: 8),
                                       child: Text(
-                                        "Bathroom Door:",
-                                        style: TextStyle(
-                                            color: Color(0xFF2F4771),
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16),
+                                        translation(context)!.sp_task10BathroomDoor,
+                                        style:  TextStyle(
+                                            color: const Color(0xFF2F4771),
+                                            fontWeight: isRtl? FontWeight.w500: FontWeight.w800,
+                                            fontSize: isRtl? 16: 19),
                                       ),
                                     ),
                                   ),
                                   GestureDetector(
                                     onTap: () async {
-                                      await openCatalog(
-                                          doorFrameData['BathroomDoor']
-                                              .toString());
+                                      if(doorFrameData['BathroomDoor']!=null){
+                                        await openCatalog(doorFrameData['BathroomDoor'].toString(),context);
+                                      }
+                                      else{
+                                        await openCatalog('null',context);
+                                      }
+
                                     },
                                     child: Container(
                                       margin:
@@ -253,9 +300,9 @@ class _DoorFrameInstallSPSPState extends State<DoorFrameInstallSP> {
                                         color: const Color(0xFF2F4771),
                                         borderRadius: BorderRadius.circular(20.0),
                                       ),
-                                      child: const Row(
+                                      child: Row(
                                         children: [
-                                          Padding(
+                                          const Padding(
                                             padding: EdgeInsets.only(
                                                 left: 12, right: 8),
                                             child: Icon(
@@ -265,10 +312,10 @@ class _DoorFrameInstallSPSPState extends State<DoorFrameInstallSP> {
                                             ),
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.only(right: 12.0),
+                                            padding: isRtl? const EdgeInsets.only(right: 12.0) :  const EdgeInsets.only(left: 12.0),
                                             child: Text(
-                                              "See Details",
-                                              style: TextStyle(
+                                              translation(context)!.sp_task10Details,
+                                              style: const TextStyle(
                                                 color: Color(0xFFF9FAFB),
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.w400,
@@ -284,24 +331,27 @@ class _DoorFrameInstallSPSPState extends State<DoorFrameInstallSP> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Expanded(
+                                  Expanded(
                                     flex: 1,
                                     child: Padding(
-                                      padding: EdgeInsets.only(left: 8, right: 8),
+                                      padding:const EdgeInsets.only(left: 8, right: 8),
                                       child: Text(
-                                        "Living Room Door:",
-                                        style: TextStyle(
-                                            color: Color(0xFF2F4771),
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16),
+                                        translation(context)!.sp_task10LivingDoor,
+                                        style:  TextStyle(
+                                            color: const Color(0xFF2F4771),
+                                            fontWeight: isRtl? FontWeight.w500: FontWeight.w800,
+                                            fontSize: isRtl? 16: 19),
                                       ),
                                     ),
                                   ),
                                   GestureDetector(
                                     onTap: () async {
-                                      await openCatalog(
-                                          doorFrameData['LivingroomDoor']
-                                              .toString());
+                                      if(doorFrameData['LivingroomDoor']!=null){
+                                        await openCatalog(doorFrameData['LivingroomDoor'].toString(),context);
+                                      }
+                                      else{
+                                        await openCatalog('null',context);
+                                      }
                                     },
                                     child: Container(
                                       margin:
@@ -311,9 +361,9 @@ class _DoorFrameInstallSPSPState extends State<DoorFrameInstallSP> {
                                         color: const Color(0xFF2F4771),
                                         borderRadius: BorderRadius.circular(20.0),
                                       ),
-                                      child: const Row(
+                                      child:  Row(
                                         children: [
-                                          Padding(
+                                          const Padding(
                                             padding: EdgeInsets.only(
                                                 left: 12, right: 8),
                                             child: Icon(
@@ -323,10 +373,10 @@ class _DoorFrameInstallSPSPState extends State<DoorFrameInstallSP> {
                                             ),
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.only(right: 12.0),
+                                            padding: isRtl? const EdgeInsets.only(right: 12.0) :  const EdgeInsets.only(left: 12.0),
                                             child: Text(
-                                              "See Details",
-                                              style: TextStyle(
+                                              translation(context)!.sp_task10Details,
+                                              style: const TextStyle(
                                                 color: Color(0xFFF9FAFB),
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.w400,
@@ -342,24 +392,27 @@ class _DoorFrameInstallSPSPState extends State<DoorFrameInstallSP> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Expanded(
+                                   Expanded(
                                     flex: 1,
                                     child: Padding(
-                                      padding: EdgeInsets.only(left: 8, right: 8),
+                                      padding:const EdgeInsets.only(left: 8, right: 8),
                                       child: Text(
-                                        "Guest Room Door:",
-                                        style: TextStyle(
-                                            color: Color(0xFF2F4771),
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16),
+                                       translation(context)!.sp_task10GuestDoor,
+                                        style:  TextStyle(
+                                            color: const Color(0xFF2F4771),
+                                            fontWeight: isRtl? FontWeight.w500: FontWeight.w800,
+                                            fontSize: isRtl? 16: 19),
                                       ),
                                     ),
                                   ),
                                   GestureDetector(
                                     onTap: () async {
-                                      await openCatalog(
-                                          doorFrameData['GuestroomDoor']
-                                              .toString());
+                                      if(doorFrameData['GuestroomDoor']!=null){
+                                        await openCatalog(doorFrameData['GuestroomDoor'].toString(),context);
+                                      }
+                                      else{
+                                        await openCatalog('null',context);
+                                      }
                                     },
                                     child: Container(
                                       margin:
@@ -369,9 +422,9 @@ class _DoorFrameInstallSPSPState extends State<DoorFrameInstallSP> {
                                         color: const Color(0xFF2F4771),
                                         borderRadius: BorderRadius.circular(20.0),
                                       ),
-                                      child: const Row(
+                                      child:  Row(
                                         children: [
-                                          Padding(
+                                          const Padding(
                                             padding: EdgeInsets.only(
                                                 left: 12, right: 8),
                                             child: Icon(
@@ -381,10 +434,10 @@ class _DoorFrameInstallSPSPState extends State<DoorFrameInstallSP> {
                                             ),
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.only(right: 12.0),
+                                            padding: isRtl? const EdgeInsets.only(right: 12.0) :  const EdgeInsets.only(left: 12.0),
                                             child: Text(
-                                              "See Details",
-                                              style: TextStyle(
+                                              translation(context)!.sp_task10Details,
+                                              style: const TextStyle(
                                                 color: Color(0xFFF9FAFB),
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.w400,
@@ -441,10 +494,10 @@ class _DoorFrameInstallSPSPState extends State<DoorFrameInstallSP> {
                               width: 1.0,
                             ),
                           ),
-                          child: const Center(
+                          child:  Center(
                             child: Text(
-                              "Task Details",
-                              style: TextStyle(
+                              translation(context)!.sp_taskTitle,
+                              style: const TextStyle(
                                   color: Color(0xFFF9FAFB),
                                   fontSize: 19,
                                   fontWeight: FontWeight.bold),
@@ -463,11 +516,11 @@ class _DoorFrameInstallSPSPState extends State<DoorFrameInstallSP> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Padding(
-                                      padding: EdgeInsets.all(10),
+                                     Padding(
+                                      padding: const EdgeInsets.all(10),
                                       child: Text(
-                                        "Your Notes: ",
-                                        style: TextStyle(
+                                        translation(context)!.yourNotes,
+                                        style: const TextStyle(
                                             color: Color(0xFF2F4771),
                                             fontSize: 17,
                                             fontWeight: FontWeight.w500),
@@ -485,7 +538,7 @@ class _DoorFrameInstallSPSPState extends State<DoorFrameInstallSP> {
                                         style:
                                             TextStyle(color: Color(0xFF2F4771)),
                                         decoration: InputDecoration(
-                                          hintText: "Enter Notes here if any",
+                                          hintText: translation(context)!.enterNotesHere,
                                           hintStyle:
                                               TextStyle(color: Color(0xFF2F4771)),
                                           filled: true,
@@ -534,9 +587,9 @@ class _DoorFrameInstallSPSPState extends State<DoorFrameInstallSP> {
                                                   taskProjectId,
                                                 );
                                               },
-                                              child: const Text(
-                                                'Save',
-                                                style: TextStyle(
+                                              child: Text(
+                                                translation(context)!.save,
+                                                style: const TextStyle(
                                                   fontSize: 18,
                                                   color: Color(0xFFF9FAFB),
                                                 ),
@@ -556,95 +609,68 @@ class _DoorFrameInstallSPSPState extends State<DoorFrameInstallSP> {
                                                 ),
                                                 child: TextButton(
                                                   onPressed: () {
-                                                    showDialog(
-                                                      context: context,
-                                                      builder:
-                                                          (BuildContext context) {
-                                                        return AlertDialog(
-                                                          backgroundColor:
-                                                              Colors.white,
-                                                          title: const Text(
-                                                              "Complete Task"),
-                                                          content: const Text(
-                                                              "By clicking OK, you will mark the task as complete."),
-                                                          actions: [
-                                                            TextButton(
-                                                              style: TextButton
-                                                                  .styleFrom(
-                                                                backgroundColor:
-                                                                    Color(
-                                                                        0xFFF3D69B), // Set background color to yellow
-                                                              ),
-                                                              onPressed:
-                                                                  () async {
-                                                                if (areFieldsValid(
-                                                                    _userNotes
-                                                                        .text)) {
-                                                                  String message =
-                                                                      await ServiceProviderGetTasksAPI
-                                                                          .setTask6Data(
-                                                                    taskID,
-                                                                    _userNotes
-                                                                        .text,
-                                                                    'Submit',
-                                                                    taskProjectId,
-                                                                  );
-                                                                  setState(() {
-                                                                    doorFrameData[
-                                                                            'TaskStatus'] =
-                                                                        'Completed';
-                                                                    isSubmitVisible =
-                                                                        false;
-                                                                  });
-                                                                  Navigator.pop(
-                                                                      context); // Close the dialog
-                                                                } else {
-                                                                  CustomAlertDialog
-                                                                      .showErrorDialog(
-                                                                          context,
-                                                                          'Please fill in all the required fields.');
-                                                                  Navigator.pop(
-                                                                      context); // Close the dialog
-                                                                }
-                                                              },
-                                                              child: const Text(
-                                                                "OK",
-                                                                style: TextStyle(
-                                                                    color: Color(
-                                                                        0xFF2F4771),
-                                                                    fontSize: 15),
-                                                              ),
+                                                    if (areFieldsValid(_userNotes.text)) {
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext context) {
+                                                          return Directionality(
+                                                            textDirection: translation(context)!.localeName == 'ar'
+                                                                ? TextDirection.rtl
+                                                                : TextDirection.ltr,
+                                                            child: AlertDialog(
+                                                              backgroundColor: Colors.white,
+                                                              title: Text(translation(context)!.completeTask),
+                                                              content: Text(translation(context)!.clickOkToComplete),
+                                                              actions: [
+                                                                TextButton(
+                                                                  style: TextButton.styleFrom(
+                                                                    backgroundColor: Color(0xFFF3D69B),
+                                                                  ),
+                                                                  onPressed: () async {
+                                                                    String message = await ServiceProviderGetTasksAPI.setTask6Data(
+                                                                      taskID,
+                                                                      _userNotes.text,
+                                                                      'Submit',
+                                                                      taskProjectId,
+                                                                    );
+                                                                    setState(() {
+                                                                      doorFrameData['TaskStatus'] = 'Completed';
+                                                                      isSubmitVisible = false;
+                                                                    });
+                                                                    Navigator.of(context).pop();
+                                                                  },
+                                                                  child: Text(
+                                                                    translation(context)!.clickOk,
+                                                                    style: const TextStyle(color: Color(0xFF2F4771), fontSize: 15),
+                                                                  ),
+                                                                ),
+                                                                TextButton(
+                                                                  style: TextButton.styleFrom(
+                                                                    backgroundColor: Color(0xFFF3D69B),
+                                                                  ),
+                                                                  onPressed: () {
+                                                                    Navigator.pop(context);
+                                                                  },
+                                                                  child: Text(
+                                                                    translation(context)!.customCancel,
+                                                                    style: const TextStyle(color: Color(0xFF2F4771), fontSize: 15),
+                                                                  ),
+                                                                ),
+                                                              ],
                                                             ),
-                                                            TextButton(
-                                                              style: TextButton
-                                                                  .styleFrom(
-                                                                backgroundColor:
-                                                                    Color(
-                                                                        0xFFF3D69B), // Set background color to yellow
-                                                              ),
-                                                              onPressed: () {
-                                                                Navigator.pop(
-                                                                    context); // Close the dialog
-                                                              },
-                                                              child: const Text(
-                                                                "Cancel",
-                                                                style: TextStyle(
-                                                                    color: Color(
-                                                                        0xFF2F4771),
-                                                                    fontSize: 15),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        );
-                                                      },
-                                                    );
+                                                          );
+                                                        },
+                                                      );
+                                                    } else {
+                                                      CustomAlertDialog.showErrorDialog(
+                                                          context,
+                                                          translation(context)!.customFill
+                                                      );
+                                                    }
                                                   },
-                                                  child: const Text(
-                                                    'Mark as Done',
-                                                    style: TextStyle(
-                                                      fontSize: 18,
-                                                      color: Color(0xFFF9FAFB),
-                                                    ),
+                                                  child: Text(
+                                                    translation(context)!.markAsDone,
+                                                    style: const TextStyle(fontSize: 18, color: Color(0xFFF9FAFB)),
                                                   ),
                                                 )),
                                           ),
@@ -665,6 +691,7 @@ class _DoorFrameInstallSPSPState extends State<DoorFrameInstallSP> {
           ),
         ),
       ),
+    ),
     );
   }
 }

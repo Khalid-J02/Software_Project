@@ -8,6 +8,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
+import '../../classes/language_constants.dart';
+
 class ChatScreen extends StatefulWidget {
   final UserModel user;
 
@@ -70,31 +72,35 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-        onWillPop: () async {
-          Get.offAndToNamed('/Messages');
-          return true;
-        },
-        child: Scaffold(
-          appBar: buildAppBar(),
-          body: SafeArea(
-            child: Padding(
-              padding: EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: ChatMessages(
-                      receiverID: widget.user.uid,
-                      messages: messages,
-                      scrollController:
-                          scrollController,
+    return Directionality(
+        textDirection: translation(context)!.localeName == 'ar'
+            ? TextDirection.rtl
+            : TextDirection.ltr,
+        child: WillPopScope(
+          onWillPop: () async {
+            Get.offAndToNamed('/Messages');
+            return true;
+          },
+          child: Scaffold(
+            appBar: buildAppBar(),
+            body: SafeArea(
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: ChatMessages(
+                        receiverID: widget.user.uid,
+                        messages: messages,
+                        scrollController: scrollController,
+                      ),
                     ),
-                  ),
-                  ChatTextField(
-                    receiverId: widget.user.uid,
-                    onSendMessage: sendMessage,
-                  ),
-                ],
+                    ChatTextField(
+                      receiverId: widget.user.uid,
+                      onSendMessage: sendMessage,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -125,8 +131,9 @@ class _ChatScreenState extends State<ChatScreen> {
                     fontSize: 20,
                     fontWeight: FontWeight.bold),
               ),
+
               Text(
-                widget.user.isOnline ? 'Online' : 'Offline',
+                widget.user.isOnline ?  translation(context)!.chatScreenLastOnline :translation(context)!.chatScreenLastOffline,
                 style: TextStyle(
                     color:
                         widget.user.isOnline ? Colors.green[800] : Colors.grey,

@@ -5,6 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import '../../APIRequests/messageSystem.dart';
+import '../../classes/language_constants.dart';
 
 class ListChatScreen extends StatefulWidget {
   const ListChatScreen({super.key});
@@ -60,7 +61,11 @@ class _ChatScreenState extends State<ListChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
+    return Directionality(
+      textDirection: translation(context)!.localeName == 'ar'
+          ? TextDirection.rtl
+          : TextDirection.ltr,
+      child: WillPopScope(
         onWillPop: () async {
           if (dotenv.env['userType'] == 'HomeOwner') {
             Get.offAndToNamed('/HomePage/HomeOwner');
@@ -71,8 +76,8 @@ class _ChatScreenState extends State<ListChatScreen> {
         },
         child: Scaffold(
           appBar: AppBar(
-            title: const Text(
-              'Chat',
+            title:  Text(
+              translation(context)!.listChatScreenTitle,
               style: TextStyle(color: Color(0xFFF3D69B), fontSize: 22),
             ),
             elevation: 0,
@@ -90,6 +95,8 @@ class _ChatScreenState extends State<ListChatScreen> {
                     },
                   ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

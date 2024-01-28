@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:get/get.dart';
 
+import '../../classes/language_constants.dart';
+
 class DesignAndPlanningInformation extends StatefulWidget {
   final String title;
   final String documentName1;
@@ -46,7 +48,13 @@ class _DesignAndPlanningInformationState extends State<DesignAndPlanningInformat
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    final isRtl = Directionality.of(context) == TextDirection.rtl;
+
+    return Directionality(
+        textDirection: translation(context)!.localeName == 'ar'
+        ? TextDirection.rtl
+        : TextDirection.ltr,
+    child: Container(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       child: Card(
         elevation: 5,
@@ -98,10 +106,10 @@ class _DesignAndPlanningInformationState extends State<DesignAndPlanningInformat
                           padding: const EdgeInsets.only(left: 0, right: 0, top:8),
                           child: Text(
                             widget.documentName1,
-                            style: const TextStyle(
+                            style:  TextStyle(
                                 color: Color(0xFF2F4771),
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16
+                                fontWeight: isRtl ? FontWeight.w800 : FontWeight.w500,
+                                fontSize: isRtl? 19: 16
                             ),
                           ),
                         ),
@@ -111,23 +119,53 @@ class _DesignAndPlanningInformationState extends State<DesignAndPlanningInformat
                           :
                       GestureDetector(
                         onTap: () {
-                          if (widget.document1 != null) {
+                          if (widget.document1 != '') {
                             downloadFile(widget.document1);
+                            Get.snackbar(
+                              '',
+                              '',
+                              titleText: Text(
+                                translation(context)!.snackbarHi,
+                                textAlign: isRtl ? TextAlign.right : TextAlign.left,
+                                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                              ),
+                              messageText: Text(
+                                translation(context)!.snackbarDownloadContent,
+                                textAlign: isRtl ? TextAlign.right : TextAlign.left,
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              backgroundColor: Color(0xFF2F4771),
+                            );
+
                           }
                           else {
-                            Get.snackbar('Hi', 'There is no file to download');
+                            Get.snackbar(
+                              '',
+                              '',
+                              titleText: Text(
+                                translation(context)!.sp_task10snackbarTitle,
+                                textAlign: isRtl ? TextAlign.right : TextAlign.left,
+                                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                              ),
+                              messageText: Text(
+                                translation(context)!.snackbarContent,
+                                textAlign: isRtl ? TextAlign.right : TextAlign.left,
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              backgroundColor: Color(0xFF2F4771),
+                            );
                           }
                         },
                         child: Container(
-                          margin: const EdgeInsets.only(top: 5, right: 4),
+                          margin: isRtl ? const EdgeInsets.only(top: 5, left: 6): const EdgeInsets.only(top: 5, right: 4),
                           height: 33,
                           decoration: BoxDecoration(
                             color: const Color(0xFF2F4771),
                             borderRadius: BorderRadius.circular(20.0),
                           ),
-                          child: const Row(
+                          child: Row(
                             children: [
-                              Padding(
+                              const Padding(
                                 padding: EdgeInsets.only(left: 6, right: 2),
                                 child: Icon(
                                   Icons.sim_card_download,
@@ -136,10 +174,10 @@ class _DesignAndPlanningInformationState extends State<DesignAndPlanningInformat
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsets.only(right: 8.0),
+                                padding: isRtl? const EdgeInsets.only(left: 8.0): const EdgeInsets.only(right: 8.0),
                                 child: Text(
-                                  "Download",
-                                  style: TextStyle(
+                                  translation(context)!.download,
+                                  style: const TextStyle(
                                     color: Color(0xFFF9FAFB),
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400,
@@ -152,14 +190,13 @@ class _DesignAndPlanningInformationState extends State<DesignAndPlanningInformat
                       ),
                       GestureDetector(
                         onTap: () {
-                          if (widget.document1 != null) {
+                          if (widget.document1 != '') {
                             Get.to(DocsPdfViewer(
-                              pdfFileURL: widget.document1,
-                            ));
+                              pdfFileURL: widget.document1,));
                           }
                           else {
-                            Get.snackbar('Hi',
-                                'There is no file to open',
+                            Get.snackbar(translation(context)!.snackbarHi,
+                                translation(context)!.snackbarContent,
                                 colorText: Colors.white,
                                 backgroundColor: Color(0xFF2F4771));
                           }
@@ -171,9 +208,9 @@ class _DesignAndPlanningInformationState extends State<DesignAndPlanningInformat
                             color: const Color(0xFF2F4771),
                             borderRadius: BorderRadius.circular(20.0),
                           ),
-                          child: const Row(
+                          child:  Row(
                             children: [
-                              Padding(
+                              const Padding(
                                 padding: EdgeInsets.only(left: 8, right: 3),
                                 child: Icon(
                                   Icons.file_open_outlined,
@@ -182,10 +219,10 @@ class _DesignAndPlanningInformationState extends State<DesignAndPlanningInformat
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsets.only(right: 10.0),
+                                padding: isRtl? const EdgeInsets.only(left: 8.0): const EdgeInsets.only(right: 10.0),
                                 child: Text(
-                                  "Open",
-                                  style: TextStyle(
+                                  translation(context)!.open,
+                                  style: const TextStyle(
                                     color: Color(0xFFF9FAFB),
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400,
@@ -194,6 +231,7 @@ class _DesignAndPlanningInformationState extends State<DesignAndPlanningInformat
                               ),
                             ],
                           ),
+
                         ),
                       ),
                     ],
@@ -207,10 +245,10 @@ class _DesignAndPlanningInformationState extends State<DesignAndPlanningInformat
                           padding: const EdgeInsets.only(left: 8, right: 8, top:8),
                           child: Text(
                             widget.documentName2,
-                            style: const TextStyle(
+                            style:  TextStyle(
                                 color: Color(0xFF2F4771),
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16
+                                fontWeight: isRtl ? FontWeight.w800 : FontWeight.w500,
+                                fontSize: isRtl? 19: 16
                             ),
                           ),
                         ),
@@ -220,23 +258,53 @@ class _DesignAndPlanningInformationState extends State<DesignAndPlanningInformat
                           :
                       GestureDetector(
                         onTap: () {
-                          if (widget.document2 != null) {
+                          if (widget.document2 != '') {
                             downloadFile(widget.document2);
+                            Get.snackbar(
+                              '',
+                              '',
+                              titleText: Text(
+                                translation(context)!.snackbarHi,
+                                textAlign: isRtl ? TextAlign.right : TextAlign.left,
+                                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                              ),
+                              messageText: Text(
+                                translation(context)!.snackbarDownloadContent,
+                                textAlign: isRtl ? TextAlign.right : TextAlign.left,
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              backgroundColor: Color(0xFF2F4771),
+                            );
+
                           }
                           else {
-                            Get.snackbar('Hi', 'There is no file to download');
+                            Get.snackbar(
+                              '',
+                              '',
+                              titleText: Text(
+                                translation(context)!.sp_task10snackbarTitle,
+                                textAlign: isRtl ? TextAlign.right : TextAlign.left,
+                                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                              ),
+                              messageText: Text(
+                                translation(context)!.snackbarContent,
+                                textAlign: isRtl ? TextAlign.right : TextAlign.left,
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              backgroundColor: Color(0xFF2F4771),
+                            );
                           }
                         },
                         child: Container(
-                          margin: const EdgeInsets.only(top: 5, right: 4),
+                          margin: isRtl ? const EdgeInsets.only(top: 5, left: 6): const EdgeInsets.only(top: 5, right: 4),
                           height: 33,
                           decoration: BoxDecoration(
                             color: const Color(0xFF2F4771),
                             borderRadius: BorderRadius.circular(20.0),
                           ),
-                          child: const Row(
+                          child:  Row(
                             children: [
-                              Padding(
+                              const Padding(
                                 padding: EdgeInsets.only(left: 6, right: 2),
                                 child: Icon(
                                   Icons.sim_card_download,
@@ -245,10 +313,10 @@ class _DesignAndPlanningInformationState extends State<DesignAndPlanningInformat
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsets.only(right: 8.0),
+                                padding: isRtl? const EdgeInsets.only(left: 8.0): const EdgeInsets.only(right: 8.0),
                                 child: Text(
-                                  "Download",
-                                  style: TextStyle(
+                                  translation(context)!.download,
+                                  style: const TextStyle(
                                     color: Color(0xFFF9FAFB),
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400,
@@ -261,14 +329,14 @@ class _DesignAndPlanningInformationState extends State<DesignAndPlanningInformat
                       ),
                       GestureDetector(
                         onTap: () {
-                          if (widget.document2 != null) {
+                          if (widget.document2 != '') {
                             Get.to(DocsPdfViewer(
                               pdfFileURL: widget.document2,
                             ));
                           }
                           else {
-                            Get.snackbar('Hi',
-                                'There is no file to open',
+                            Get.snackbar(translation(context)!.snackbarHi,
+                                translation(context)!.snackbarContent,
                                 colorText: Colors.white,
                                 backgroundColor: Color(0xFF2F4771));
                           }
@@ -280,9 +348,9 @@ class _DesignAndPlanningInformationState extends State<DesignAndPlanningInformat
                             color: const Color(0xFF2F4771),
                             borderRadius: BorderRadius.circular(20.0),
                           ),
-                          child: const Row(
+                          child:  Row(
                             children: [
-                              Padding(
+                              const Padding(
                                 padding: EdgeInsets.only(left: 8, right: 3),
                                 child: Icon(
                                   Icons.file_open_outlined,
@@ -291,10 +359,10 @@ class _DesignAndPlanningInformationState extends State<DesignAndPlanningInformat
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsets.only(right: 10.0),
+                                padding: isRtl? const EdgeInsets.only(left: 8.0): const EdgeInsets.only(right: 10.0),
                                 child: Text(
-                                  "Open",
-                                  style: TextStyle(
+                                  translation(context)!.open,
+                                  style: const TextStyle(
                                     color: Color(0xFFF9FAFB),
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400,
@@ -313,6 +381,7 @@ class _DesignAndPlanningInformationState extends State<DesignAndPlanningInformat
           ],
         ),
       ),
+    ),
     );
   }
 }

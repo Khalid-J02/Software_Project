@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 
 import '../../../APIRequests/ServiceProviderGetTasksAPI.dart';
 import '../../../Widgets/customAlertDialog.dart';
+import '../../../classes/language_constants.dart';
 import '../../taskWidgets/designAndPlanningInformation.dart';
 
 import 'package:http/http.dart' as http;
@@ -50,6 +51,12 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
       taskID = arguments['taskID'];
       taskProjectId = arguments['taskProjectId'];
 
+      if (designAndPlanningData['TaskStatus'] == 'Completed') {
+        setState(() {
+          isSubmitVisible = false;
+        });
+      }
+
       if (designAndPlanningData['DesignDocument'] != null) {
         designDocumentURL = designAndPlanningData['DesignDocument'];
       } else {
@@ -79,7 +86,6 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
 
       if (designAndPlanningData['Notes'] != null) {
         _userNotes.text = designAndPlanningData['Notes'];
-        isSubmitVisible = false;
       } else {
         _userNotes.text = '';
       }
@@ -167,9 +173,28 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
     }
   }
 
+  String translateTaskStatus(String status, BuildContext context) {
+    switch (status) {
+      case 'Not Started':
+        return translation(context)!.taskStatusNotStarted;
+      case 'In Progress':
+        return translation(context)!.taskStatusInProgress;
+      case 'Completed':
+        return translation(context)!.taskStatusCompleted;
+      default:
+        return status;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
+    final isRtl = !(translation(context)!.localeName == 'ar');
+
+    return Directionality(
+        textDirection: translation(context)!.localeName == 'ar'
+        ? TextDirection.rtl
+        : TextDirection.ltr,
+    child: WillPopScope(
       onWillPop: () async {
         Get.offAndToNamed('/HomePage/ServiceProvider') ;
         return true ;
@@ -184,8 +209,8 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
           title: Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: MediaQuery.of(context).size.width / 5),
-            child: const Text(
-              "Task Details",
+            child:  Text(
+              translation(context)!.sp_taskTitle,
               style: TextStyle(color: Color(0xFFF3D69B)),
             ),
           ),
@@ -199,9 +224,10 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
               children: [
                 TaskInformation(
                   taskID: designAndPlanningData['TaskID'] ?? 0,
-                  taskName: 'Design and Planning',
+                  taskName: translation(context)!.sp_task4Name,
                   projectName: designAndPlanningData['ProjectName'] ?? 'Unknown',
-                  taskStatus: designAndPlanningData['TaskStatus'] ?? 'Unknown',
+                  taskStatus: translateTaskStatus(
+                      designAndPlanningData['TaskStatus'], context),
                 ),
                 TaskProviderInformation(
                   userPicture: designAndPlanningData['UserPicture'],
@@ -210,12 +236,11 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
                   numOfReviews: designAndPlanningData['ReviewCount'] ?? 0,
                 ),
                 DesignAndPlanningInformation(
-                  title: 'Required Documents For This Task',
-                  documentName1: 'Regulatory Document:',
-                  document1:
-                      designAndPlanningData['PermitsDocument'] ?? 'Unknown',
-                  documentName2: 'Soil Document:',
-                  document2: designAndPlanningData['SoilDocument'] ?? 'Unknown',
+                  title: translation(context)!.task2_InformationTitle,
+                  documentName1: translation(context)!.sp_task2Document,
+                  document1: designAndPlanningData['PermitsDocument'] ?? '',
+                  documentName2: translation(context)!.sp_task3Document_task4,
+                  document2: designAndPlanningData['SoilDocument'] ?? '',
                 ),
                 Container(
                   margin: const EdgeInsets.only(top: 5),
@@ -249,10 +274,10 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
                               width: 1.0,
                             ),
                           ),
-                          child: const Center(
+                          child:  Center(
                             child: Text(
-                              "Home Owner Demands",
-                              style: TextStyle(
+                              translation(context)!.sp_task4Demands,
+                              style: const TextStyle(
                                   color: Color(0xFFFFFFFF),
                                   fontSize: 19,
                                   fontWeight: FontWeight.bold),
@@ -267,16 +292,16 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
                             children: [
                               Row(
                                 children: [
-                                  const Expanded(
+                                   Expanded(
                                     flex: 1,
                                     child: Padding(
-                                      padding: EdgeInsets.only(left: 8, right: 8),
+                                      padding: const EdgeInsets.only(left: 8, right: 8),
                                       child: Text(
-                                        "Num. of Rooms:",
-                                        style: TextStyle(
+                                        translation(context)!.sp_task4DemandsRooms,
+                                        style:  TextStyle(
                                             color: Color(0xFF2F4771),
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16),
+                                            fontWeight: isRtl? FontWeight.w500 :  FontWeight.w800,
+                                            fontSize: isRtl? 16: 19),
                                       ),
                                     ),
                                   ),
@@ -293,9 +318,50 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
                                       ),
                                       child: Center(
                                         child: Text(
-                                          (designAndPlanningData['NumberOfRooms'] ?? 'Not Chosen').toString(),
-
-                                          style: TextStyle(
+                                          (designAndPlanningData['NumberOfRooms'] ?? translation(context)!.sp_task4Chosen).toString(),
+                                          style:  const TextStyle(
+                                              color: Color(0xFF2F4771),
+                                              fontWeight:  FontWeight.w500,
+                                              fontSize: 16),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                   Expanded(
+                                    flex: 1,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 8, right: 8),
+                                      child: Text(
+                                        translation(context)!.sp_task4DemandsFloors,
+                                        style:  TextStyle(
+                                            color: Color(0xFF2F4771),
+                                            fontWeight: isRtl? FontWeight.w500 :  FontWeight.w800,
+                                            fontSize: isRtl? 16: 19),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 1,
+                                    child: Container(
+                                      padding: EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFFF9FAFB),
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(10.0)),
+                                        border: Border.all(
+                                            color: Color(0xFF2F4771), width: 1.8),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          (designAndPlanningData['NumberOfFloors']?? translation(context)!.sp_task4Chosen).toString(),
+                                          style: const TextStyle(
                                               color: Color(0xFF2F4771),
                                               fontWeight: FontWeight.w500,
                                               fontSize: 16),
@@ -310,16 +376,16 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
                               ),
                               Row(
                                 children: [
-                                  const Expanded(
+                                   Expanded(
                                     flex: 1,
                                     child: Padding(
-                                      padding: EdgeInsets.only(left: 8, right: 8),
+                                      padding: const EdgeInsets.only(left: 8, right: 8),
                                       child: Text(
-                                        "Num. of Floors:",
-                                        style: TextStyle(
+                                        translation(context)!.sp_task4DemandsArea,
+                                        style:  TextStyle(
                                             color: Color(0xFF2F4771),
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16),
+                                            fontWeight: isRtl? FontWeight.w500 :  FontWeight.w800,
+                                            fontSize: isRtl? 16: 19),
                                       ),
                                     ),
                                   ),
@@ -336,50 +402,8 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
                                       ),
                                       child: Center(
                                         child: Text(
-                                          (designAndPlanningData['NumberOfFloors']?? 'Not Chosen').toString(),
-                                          style: TextStyle(
-                                              color: Color(0xFF2F4771),
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 16),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                children: [
-                                  const Expanded(
-                                    flex: 1,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(left: 8, right: 8),
-                                      child: Text(
-                                        "House Building Area:",
-                                        style: TextStyle(
-                                            color: Color(0xFF2F4771),
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16),
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    flex: 1,
-                                    child: Container(
-                                      padding: EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                        color: const Color(0xFFF9FAFB),
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(10.0)),
-                                        border: Border.all(
-                                            color: Color(0xFF2F4771), width: 1.8),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          (designAndPlanningData['BuildingArea']?? 'Not Chosen').toString(),
-                                          style: TextStyle(
+                                          (designAndPlanningData['BuildingArea']??translation(context)!.sp_task4Chosen).toString(),
+                                          style: const TextStyle(
                                               color: Color(0xFF2F4771),
                                               fontWeight: FontWeight.w500,
                                               fontSize: 16),
@@ -428,10 +452,10 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
                               width: 1.0,
                             ),
                           ),
-                          child: const Center(
+                          child:  Center(
                             child: Text(
-                              "Task Details",
-                              style: TextStyle(
+                                translation(context)!.sp_taskTitle,
+                              style: const TextStyle(
                                   color: Color(0xFFF9FAFB),
                                   fontSize: 19,
                                   fontWeight: FontWeight.bold),
@@ -446,20 +470,20 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Expanded(
+                                   Expanded(
                                     flex: 1,
                                     child: Padding(
-                                      padding: EdgeInsets.only(
+                                      padding: const EdgeInsets.only(
                                         left: 8,
                                         right: 8,
                                         top: 4,
                                       ),
                                       child: Text(
-                                        "Design     Drawings:",
+                                        translation(context)!.sp_task4Design,
                                         style: TextStyle(
                                             color: Color(0xFF2F4771),
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16),
+                                            fontWeight: isRtl ? FontWeight.w500 : FontWeight.w800,
+                                            fontSize: isRtl? 16: 19),
                                       ),
                                     ),
                                   ),
@@ -478,9 +502,9 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
                                         color: const Color(0xFF2F4771),
                                         borderRadius: BorderRadius.circular(20.0),
                                       ),
-                                      child: const Row(
+                                      child:  Row(
                                         children: [
-                                          Padding(
+                                          const Padding(
                                             padding: EdgeInsets.only(
                                                 left: 8, right: 8),
                                             child: Icon(
@@ -490,10 +514,10 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
                                             ),
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.only(right: 12.0),
+                                            padding: isRtl? const EdgeInsets.only(right: 12.0):  const EdgeInsets.only(left: 12.0),
                                             child: Text(
-                                              "Upload",
-                                              style: TextStyle(
+                                              translation(context)!.upload,
+                                              style: const TextStyle(
                                                 color: Color(0xFFF9FAFB),
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.w400,
@@ -506,15 +530,26 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
                                   ),
                                   GestureDetector(
                                     onTap: () {
-                                      if (designDocumentURL != null) {
+                                      if (designDocumentURL != '') {
                                         Get.to(DocsPdfViewer(
                                           pdfFileURL: designDocumentURL,
                                         ));
-                                      } else {
+                                      }  else {
                                         Get.snackbar(
-                                            'Hi', 'There is no file to open',
-                                            colorText: Colors.white,
-                                            backgroundColor: Color(0xFF2F4771));
+                                          '',
+                                          '',
+                                          titleText: Text(
+                                            translation(context)!.sp_task10snackbarTitle,
+                                            textAlign: isRtl ? TextAlign.left : TextAlign.right,
+                                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                          ),
+                                          messageText: Text(
+                                            translation(context)!.snackbarContent,
+                                            textAlign: isRtl ? TextAlign.left : TextAlign.right,
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                          backgroundColor: Color(0xFF2F4771),
+                                        );
                                       }
                                     },
                                     child: Container(
@@ -525,9 +560,9 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
                                         color: const Color(0xFF2F4771),
                                         borderRadius: BorderRadius.circular(20.0),
                                       ),
-                                      child: const Row(
+                                      child:  Row(
                                         children: [
-                                          Padding(
+                                          const Padding(
                                             padding: EdgeInsets.only(
                                                 left: 8, right: 8),
                                             child: Icon(
@@ -537,10 +572,10 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
                                             ),
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.only(right: 12.0),
+                                            padding: isRtl? const EdgeInsets.only(right: 12.0):  const EdgeInsets.only(left: 12.0),
                                             child: Text(
-                                              "Open",
-                                              style: TextStyle(
+                                              translation(context)!.open,
+                                              style: const TextStyle(
                                                 color: Color(0xFFF9FAFB),
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.w400,
@@ -559,16 +594,16 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Expanded(
+                                   Expanded(
                                     flex: 1,
                                     child: Padding(
                                       padding: EdgeInsets.only(left: 8, right: 8),
                                       child: Text(
-                                        "Architectural Drawings:", // Foundation became Architectural
+                                        translation(context)!.sp_task4Arch, // Foundation became Architectural
                                         style: TextStyle(
                                             color: Color(0xFF2F4771),
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16),
+                                            fontWeight: isRtl ? FontWeight.w500 : FontWeight.w800,
+                                            fontSize: isRtl? 16: 19),
                                       ),
                                     ),
                                   ),
@@ -587,9 +622,9 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
                                         color: const Color(0xFF2F4771),
                                         borderRadius: BorderRadius.circular(20.0),
                                       ),
-                                      child: const Row(
+                                      child:  Row(
                                         children: [
-                                          Padding(
+                                          const Padding(
                                             padding: EdgeInsets.only(
                                                 left: 8, right: 8),
                                             child: Icon(
@@ -599,10 +634,10 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
                                             ),
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.only(right: 12.0),
+                                            padding: isRtl? const EdgeInsets.only(right: 12.0):  const EdgeInsets.only(left: 12.0),
                                             child: Text(
-                                              "Upload",
-                                              style: TextStyle(
+                                              translation(context)!.upload,
+                                              style: const TextStyle(
                                                 color: Color(0xFFF9FAFB),
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.w400,
@@ -615,15 +650,26 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
                                   ),
                                   GestureDetector(
                                     onTap: () {
-                                      if (foundationDocumentURL != null) {
+                                      if (foundationDocumentURL != '') {
                                         Get.to(DocsPdfViewer(
                                           pdfFileURL: foundationDocumentURL,
                                         ));
-                                      } else {
+                                      }  else {
                                         Get.snackbar(
-                                            'Hi', 'There is no file to open',
-                                            colorText: Colors.white,
-                                            backgroundColor: Color(0xFF2F4771));
+                                          '',
+                                          '',
+                                          titleText: Text(
+                                            translation(context)!.sp_task10snackbarTitle,
+                                            textAlign: isRtl ? TextAlign.left : TextAlign.right,
+                                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                          ),
+                                          messageText: Text(
+                                            translation(context)!.snackbarContent,
+                                            textAlign: isRtl ? TextAlign.left : TextAlign.right,
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                          backgroundColor: Color(0xFF2F4771),
+                                        );
                                       }
                                     },
                                     child: Container(
@@ -634,9 +680,9 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
                                         color: const Color(0xFF2F4771),
                                         borderRadius: BorderRadius.circular(20.0),
                                       ),
-                                      child: const Row(
+                                      child:  Row(
                                         children: [
-                                          Padding(
+                                          const Padding(
                                             padding: EdgeInsets.only(
                                                 left: 8, right: 8),
                                             child: Icon(
@@ -646,10 +692,10 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
                                             ),
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.only(right: 12.0),
+                                            padding: isRtl? const EdgeInsets.only(right: 12.0):  const EdgeInsets.only(left: 12.0),
                                             child: Text(
-                                              "Open",
-                                              style: TextStyle(
+                                              translation(context)!.open,
+                                              style: const TextStyle(
                                                 color: Color(0xFFF9FAFB),
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.w400,
@@ -668,16 +714,16 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Expanded(
+                                   Expanded(
                                     flex: 1,
                                     child: Padding(
                                       padding: EdgeInsets.only(left: 8, right: 8),
                                       child: Text(
-                                        "Civil           Drawings:", //Insulation became Civil
+                                        translation(context)!.sp_task4Civil,//Insulation became Civil
                                         style: TextStyle(
                                             color: Color(0xFF2F4771),
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16),
+                                            fontWeight: isRtl ? FontWeight.w500 : FontWeight.w800,
+                                            fontSize: isRtl? 16: 19),
                                       ),
                                     ),
                                   ),
@@ -696,9 +742,9 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
                                         color: const Color(0xFF2F4771),
                                         borderRadius: BorderRadius.circular(20.0),
                                       ),
-                                      child: const Row(
+                                      child:  Row(
                                         children: [
-                                          Padding(
+                                          const Padding(
                                             padding: EdgeInsets.only(
                                                 left: 8, right: 8),
                                             child: Icon(
@@ -708,10 +754,10 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
                                             ),
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.only(right: 12.0),
+                                            padding: isRtl? const EdgeInsets.only(right: 12.0):  const EdgeInsets.only(left: 12.0),
                                             child: Text(
-                                              "Upload",
-                                              style: TextStyle(
+                                              translation(context)!.upload,
+                                              style: const TextStyle(
                                                 color: Color(0xFFF9FAFB),
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.w400,
@@ -724,16 +770,27 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
                                   ),
                                   GestureDetector(
                                     onTap: () {
-                                      if (insulationAndHVACDocumentURL != null) {
+                                      if (insulationAndHVACDocumentURL != '') {
                                         Get.to(DocsPdfViewer(
                                           pdfFileURL:
                                               insulationAndHVACDocumentURL,
                                         ));
-                                      } else {
+                                      }  else {
                                         Get.snackbar(
-                                            'Hi', 'There is no file to open',
-                                            colorText: Colors.white,
-                                            backgroundColor: Color(0xFF2F4771));
+                                          '',
+                                          '',
+                                          titleText: Text(
+                                            translation(context)!.sp_task10snackbarTitle,
+                                            textAlign: isRtl ? TextAlign.left : TextAlign.right,
+                                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                          ),
+                                          messageText: Text(
+                                            translation(context)!.snackbarContent,
+                                            textAlign: isRtl ? TextAlign.left : TextAlign.right,
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                          backgroundColor: Color(0xFF2F4771),
+                                        );
                                       }
                                     },
                                     child: Container(
@@ -744,9 +801,9 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
                                         color: const Color(0xFF2F4771),
                                         borderRadius: BorderRadius.circular(20.0),
                                       ),
-                                      child: const Row(
+                                      child:  Row(
                                         children: [
-                                          Padding(
+                                          const Padding(
                                             padding: EdgeInsets.only(
                                                 left: 8, right: 8),
                                             child: Icon(
@@ -756,10 +813,10 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
                                             ),
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.only(right: 12.0),
+                                            padding: isRtl? const EdgeInsets.only(right: 12.0):  const EdgeInsets.only(left: 12.0),
                                             child: Text(
-                                              "Open",
-                                              style: TextStyle(
+                                              translation(context)!.open,
+                                              style: const TextStyle(
                                                 color: Color(0xFFF9FAFB),
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.w400,
@@ -778,16 +835,16 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Expanded(
+                                   Expanded(
                                     flex: 1,
                                     child: Padding(
                                       padding: EdgeInsets.only(left: 8, right: 8),
                                       child: Text(
-                                        "Mechanical Drawings:",
+                                        translation(context)!.sp_task4Mech,
                                         style: TextStyle(
                                             color: Color(0xFF2F4771),
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16),
+                                            fontWeight: isRtl ? FontWeight.w500 : FontWeight.w800,
+                                            fontSize: isRtl? 16: 19),
                                       ),
                                     ),
                                   ),
@@ -806,9 +863,9 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
                                         color: const Color(0xFF2F4771),
                                         borderRadius: BorderRadius.circular(20.0),
                                       ),
-                                      child: const Row(
+                                      child:  Row(
                                         children: [
-                                          Padding(
+                                          const Padding(
                                             padding: EdgeInsets.only(
                                                 left: 8, right: 8),
                                             child: Icon(
@@ -818,10 +875,10 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
                                             ),
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.only(right: 12.0),
+                                            padding: isRtl? const EdgeInsets.only(right: 12.0):  const EdgeInsets.only(left: 12.0),
                                             child: Text(
-                                              "Upload",
-                                              style: TextStyle(
+                                              translation(context)!.upload,
+                                              style: const TextStyle(
                                                 color: Color(0xFFF9FAFB),
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.w400,
@@ -834,15 +891,26 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
                                   ),
                                   GestureDetector(
                                     onTap: () {
-                                      if (plumbingDocumentURL != null) {
+                                      if (plumbingDocumentURL != '') {
                                         Get.to(DocsPdfViewer(
                                           pdfFileURL: plumbingDocumentURL,
                                         ));
-                                      } else {
+                                      }  else {
                                         Get.snackbar(
-                                            'Hi', 'There is no file to open',
-                                            colorText: Colors.white,
-                                            backgroundColor: Color(0xFF2F4771));
+                                          '',
+                                          '',
+                                          titleText: Text(
+                                            translation(context)!.sp_task10snackbarTitle,
+                                            textAlign: isRtl ? TextAlign.left : TextAlign.right,
+                                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                          ),
+                                          messageText: Text(
+                                            translation(context)!.snackbarContent,
+                                            textAlign: isRtl ? TextAlign.left : TextAlign.right,
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                          backgroundColor: Color(0xFF2F4771),
+                                        );
                                       }
                                     },
                                     child: Container(
@@ -853,9 +921,9 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
                                         color: const Color(0xFF2F4771),
                                         borderRadius: BorderRadius.circular(20.0),
                                       ),
-                                      child: const Row(
+                                      child:  Row(
                                         children: [
-                                          Padding(
+                                          const Padding(
                                             padding: EdgeInsets.only(
                                                 left: 8, right: 8),
                                             child: Icon(
@@ -865,10 +933,10 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
                                             ),
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.only(right: 12.0),
+                                            padding: isRtl? const EdgeInsets.only(right: 12.0):  const EdgeInsets.only(left: 12.0),
                                             child: Text(
-                                              "Open",
-                                              style: TextStyle(
+                                              translation(context)!.open,
+                                              style: const TextStyle(
                                                 color: Color(0xFFF9FAFB),
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.w400,
@@ -888,16 +956,16 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Expanded(
+                                   Expanded(
                                     flex: 1,
                                     child: Padding(
                                       padding: EdgeInsets.only(left: 8, right: 8),
                                       child: Text(
-                                        "Electrical Drawings:",
+                                          translation(context)!.sp_task4Elect,
                                         style: TextStyle(
                                             color: Color(0xFF2F4771),
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16),
+                                            fontWeight: isRtl ? FontWeight.w500 : FontWeight.w800,
+                                            fontSize: isRtl? 16: 19),
                                       ),
                                     ),
                                   ),
@@ -916,9 +984,9 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
                                         color: const Color(0xFF2F4771),
                                         borderRadius: BorderRadius.circular(20.0),
                                       ),
-                                      child: const Row(
+                                      child:  Row(
                                         children: [
-                                          Padding(
+                                          const Padding(
                                             padding: EdgeInsets.only(
                                                 left: 8, right: 8),
                                             child: Icon(
@@ -928,10 +996,10 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
                                             ),
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.only(right: 12.0),
+                                            padding: isRtl? const EdgeInsets.only(right: 12.0):  const EdgeInsets.only(left: 12.0),
                                             child: Text(
-                                              "Upload",
-                                              style: TextStyle(
+                                              translation(context)!.upload,
+                                              style: const TextStyle(
                                                 color: Color(0xFFF9FAFB),
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.w400,
@@ -944,15 +1012,26 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
                                   ),
                                   GestureDetector(
                                     onTap: () {
-                                      if (electricalDocumentURL != null) {
+                                      if (electricalDocumentURL != '') {
                                         Get.to(DocsPdfViewer(
                                           pdfFileURL: electricalDocumentURL,
                                         ));
-                                      } else {
+                                      }  else {
                                         Get.snackbar(
-                                            'Hi', 'There is no file to open',
-                                            colorText: Colors.white,
-                                            backgroundColor: Color(0xFF2F4771));
+                                          '',
+                                          '',
+                                          titleText: Text(
+                                            translation(context)!.sp_task10snackbarTitle,
+                                            textAlign: isRtl ? TextAlign.left : TextAlign.right,
+                                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                          ),
+                                          messageText: Text(
+                                            translation(context)!.snackbarContent,
+                                            textAlign: isRtl ? TextAlign.left : TextAlign.right,
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                          backgroundColor: Color(0xFF2F4771),
+                                        );
                                       }
                                     },
                                     child: Container(
@@ -963,9 +1042,9 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
                                         color: const Color(0xFF2F4771),
                                         borderRadius: BorderRadius.circular(20.0),
                                       ),
-                                      child: const Row(
+                                      child:  Row(
                                         children: [
-                                          Padding(
+                                          const Padding(
                                             padding: EdgeInsets.only(
                                                 left: 8, right: 8),
                                             child: Icon(
@@ -975,10 +1054,10 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
                                             ),
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.only(right: 12.0),
+                                            padding: isRtl? const EdgeInsets.only(right: 12.0):  const EdgeInsets.only(left: 12.0),
                                             child: Text(
-                                              "Open",
-                                              style: TextStyle(
+                                              translation(context)!.open,
+                                              style: const TextStyle(
                                                 color: Color(0xFFF9FAFB),
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.w400,
@@ -996,11 +1075,10 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Padding(
+                                     Padding(
                                       padding: EdgeInsets.all(10),
                                       child: Text(
-                                        "Your Notes: ",
-                                        style: TextStyle(
+                                        translation(context)!.yourNotes,                                        style: const TextStyle(
                                             color: Color(0xFF2F4771),
                                             fontSize: 17,
                                             fontWeight: FontWeight.w500),
@@ -1018,7 +1096,8 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
                                         style:
                                             TextStyle(color: Color(0xFF2F4771)),
                                         decoration: InputDecoration(
-                                          hintText: "Enter Notes here if any",
+                                          hintText:  translation(context)!
+                                              .enterNotesHere,
                                           hintStyle:
                                               TextStyle(color: Color(0xFF2F4771)),
                                           filled: true,
@@ -1074,9 +1153,9 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
                                                   'Update Data',
                                                 );
                                               },
-                                              child: const Text(
-                                                'Save',
-                                                style: TextStyle(
+                                              child: Text(
+                                                translation(context)!.save,
+                                                style: const TextStyle(
                                                   fontSize: 18,
                                                   color: Color(0xFFF9FAFB),
                                                 ),
@@ -1096,105 +1175,80 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
                                                 ),
                                                 child: TextButton(
                                                   onPressed: () {
-                                                    showDialog(
-                                                      context: context,
-                                                      builder:
-                                                          (BuildContext context) {
-                                                        return AlertDialog(
-                                                          backgroundColor:
-                                                              Colors.white,
-                                                          title: const Text(
-                                                              "Complete Task"),
-                                                          content: const Text(
-                                                              "By clicking OK, you will mark the task as complete."),
-                                                          actions: [
-                                                            TextButton(
-                                                              style: TextButton
-                                                                  .styleFrom(
-                                                                backgroundColor:
-                                                                    Color(
-                                                                        0xFFF3D69B), // Set background color to yellow
-                                                              ),
-                                                              onPressed:
-                                                                  () async {
-                                                                if (areFieldsValid(
-                                                                    designDocumentURL,
-                                                                    foundationDocumentURL,
-                                                                    plumbingDocumentURL,
-                                                                    electricalDocumentURL,
-                                                                    insulationAndHVACDocumentURL,
-                                                                    _userNotes
-                                                                        .text)) {
-                                                                  String message =
-                                                                      await ServiceProviderGetTasksAPI
-                                                                          .setTask4Data(
-                                                                    taskID,
-                                                                    taskProjectId,
-                                                                    designDocumentURL,
-                                                                    foundationDocumentURL,
-                                                                    plumbingDocumentURL,
-                                                                    electricalDocumentURL,
-                                                                    insulationAndHVACDocumentURL,
-                                                                    _userNotes
-                                                                        .text,
-                                                                    'Submit',
-                                                                  );
-                                                                  setState(() {
-                                                                    designAndPlanningData[
-                                                                            'TaskStatus'] =
-                                                                        'Completed';
-                                                                    isSubmitVisible =
-                                                                        false;
-                                                                  });
-                                                                  Navigator.pop(
-                                                                      context); // Close the dialog
-                                                                } else {
-                                                                  CustomAlertDialog
-                                                                      .showErrorDialog(
-                                                                          context,
-                                                                          'Please fill in all the required fields.');
-                                                                  Navigator.pop(
-                                                                      context); // Close the dialog
-                                                                }
-                                                              },
-                                                              child: const Text(
-                                                                "OK",
-                                                                style: TextStyle(
-                                                                    color: Color(
-                                                                        0xFF2F4771),
-                                                                    fontSize: 15),
-                                                              ),
+                                                    if (areFieldsValid(designDocumentURL, foundationDocumentURL, plumbingDocumentURL,
+                                                        electricalDocumentURL, insulationAndHVACDocumentURL, _userNotes.text)) {
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext context) {
+                                                          return Directionality(
+                                                            textDirection: translation(context)!.localeName == 'ar'
+                                                                ? TextDirection.rtl
+                                                                : TextDirection.ltr,
+                                                            child: AlertDialog(
+                                                              backgroundColor: Colors.white,
+                                                              title: Text(translation(context)!.completeTask),
+                                                              content: Text(translation(context)!.clickOkToComplete),
+                                                              actions: [
+                                                                TextButton(
+                                                                  style: TextButton.styleFrom(
+                                                                    backgroundColor: Color(0xFFF3D69B),
+                                                                  ),
+                                                                  onPressed: () async {
+                                                                    String message =
+                                                                    await ServiceProviderGetTasksAPI
+                                                                        .setTask4Data(
+                                                                      taskID,
+                                                                      taskProjectId,
+                                                                      designDocumentURL,
+                                                                      foundationDocumentURL,
+                                                                      plumbingDocumentURL,
+                                                                      electricalDocumentURL,
+                                                                      insulationAndHVACDocumentURL,
+                                                                      _userNotes
+                                                                          .text,
+                                                                      'Submit',
+                                                                    );
+                                                                    setState(() {
+                                                                      designAndPlanningData[
+                                                                      'TaskStatus'] =
+                                                                      'Completed';
+                                                                      isSubmitVisible =
+                                                                      false;
+                                                                    });
+                                                                    Navigator.of(context).pop();
+                                                                  },
+                                                                  child: Text(
+                                                                    translation(context)!.clickOk,
+                                                                    style: const TextStyle(color: Color(0xFF2F4771), fontSize: 15),
+                                                                  ),
+                                                                ),
+                                                                TextButton(
+                                                                  style: TextButton.styleFrom(
+                                                                    backgroundColor: Color(0xFFF3D69B),
+                                                                  ),
+                                                                  onPressed: () {
+                                                                    Navigator.pop(context);
+                                                                  },
+                                                                  child: Text(
+                                                                    translation(context)!.customCancel,
+                                                                    style: const TextStyle(color: Color(0xFF2F4771), fontSize: 15),
+                                                                  ),
+                                                                ),
+                                                              ],
                                                             ),
-                                                            TextButton(
-                                                              style: TextButton
-                                                                  .styleFrom(
-                                                                backgroundColor:
-                                                                    Color(
-                                                                        0xFFF3D69B), // Set background color to yellow
-                                                              ),
-                                                              onPressed: () {
-                                                                Navigator.pop(
-                                                                    context); // Close the dialog
-                                                              },
-                                                              child: const Text(
-                                                                "Cancel",
-                                                                style: TextStyle(
-                                                                    color: Color(
-                                                                        0xFF2F4771),
-                                                                    fontSize: 15),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        );
-                                                      },
-                                                    );
+                                                          );
+                                                        },
+                                                      );
+                                                    } else {
+                                                      CustomAlertDialog.showErrorDialog(
+                                                          context,
+                                                          translation(context)!.customFill
+                                                      );
+                                                    }
                                                   },
-                                                  child: const Text(
-                                                    'Mark as Done',
-                                                    style: TextStyle(
-                                                      fontSize: 18,
-                                                      color: Color(0xFFF9FAFB),
-                                                    ),
+                                                  child: Text(
+                                                    translation(context)!.markAsDone,
+                                                    style: const TextStyle(fontSize: 18, color: Color(0xFFF9FAFB)),
                                                   ),
                                                 )),
                                           ),
@@ -1215,6 +1269,7 @@ class _DesignAndPlanningSPState extends State<DesignAndPlanningSP> {
           ),
         ),
       ),
-    );
+    ),
+   );
   }
 }

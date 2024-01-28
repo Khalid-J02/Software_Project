@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 
 import '../../../APIRequests/ServiceProviderGetTasksAPI.dart';
 import '../../../Widgets/customAlertDialog.dart';
+import '../../../classes/language_constants.dart';
 import '../../taskWidgets/Information.dart';
 
 void main() {
@@ -37,10 +38,16 @@ class _InsulationInstallSPState extends State<InsulationInstallSP> {
       hvacData = arguments['task9Data'];
       taskID = arguments['taskID'];
       taskProjectId = arguments['taskProjectId'];
-      //print(hvacData);
+
+      if (hvacData['TaskStatus'] == 'Completed') {
+        setState(() {
+          isSubmitVisible = false;
+        });
+      }
+
       if (hvacData['Notes'] != null) {
         _userNotes.text = hvacData['Notes'];
-        isSubmitVisible = false;
+
       } else {
         _userNotes.text = '';
       }
@@ -55,9 +62,26 @@ class _InsulationInstallSPState extends State<InsulationInstallSP> {
     }
   }
 
+  String translateTaskStatus(String status, BuildContext context) {
+    switch (status) {
+      case 'Not Started':
+        return translation(context)!.taskStatusNotStarted;
+      case 'In Progress':
+        return translation(context)!.taskStatusInProgress;
+      case 'Completed':
+        return translation(context)!.taskStatusCompleted;
+      default:
+        return status;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
+    return Directionality(
+        textDirection: translation(context)!.localeName == 'ar'
+        ? TextDirection.rtl
+        : TextDirection.ltr,
+    child:  WillPopScope(
       onWillPop: () async {
         Get.offAndToNamed('/HomePage/ServiceProvider') ;
         return true ;
@@ -72,8 +96,8 @@ class _InsulationInstallSPState extends State<InsulationInstallSP> {
           title: Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: MediaQuery.of(context).size.width / 5),
-            child: const Text(
-              "Task Details",
+            child:  Text(
+              translation(context)!.sp_taskTitle,
               style: TextStyle(color: Color(0xFFF3D69B)),
             ),
           ),
@@ -87,9 +111,10 @@ class _InsulationInstallSPState extends State<InsulationInstallSP> {
               children: [
                 TaskInformation(
                   taskID: hvacData['TaskID'] ?? 0,
-                  taskName: 'Insulation Work',
+                  taskName: translation(context)!.sp_task9Name,
                   projectName: hvacData['ProjectName'] ?? 'Unknown',
-                  taskStatus: hvacData['TaskStatus'] ?? 'Unknown',
+                  taskStatus: translateTaskStatus(
+                      hvacData['TaskStatus'], context),
                 ),
 
                 TaskProviderInformation(
@@ -131,10 +156,10 @@ class _InsulationInstallSPState extends State<InsulationInstallSP> {
                               width: 1.0,
                             ),
                           ),
-                          child: const Center(
+                          child:  Center(
                             child: Text(
-                              "Task Details",
-                              style: TextStyle(
+                              translation(context)!.sp_taskTitle,
+                              style: const TextStyle(
                                   color: Color(0xFFF9FAFB),
                                   fontSize: 19,
                                   fontWeight: FontWeight.bold),
@@ -152,11 +177,11 @@ class _InsulationInstallSPState extends State<InsulationInstallSP> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Padding(
+                                     Padding(
                                       padding: EdgeInsets.all(10),
                                       child: Text(
-                                        "Your Notes: ",
-                                        style: TextStyle(
+                                        translation(context)!.yourNotes,
+                                        style: const TextStyle(
                                             color: Color(0xFF2F4771),
                                             fontSize: 17,
                                             fontWeight: FontWeight.w500),
@@ -174,7 +199,7 @@ class _InsulationInstallSPState extends State<InsulationInstallSP> {
                                         style:
                                             TextStyle(color: Color(0xFF2F4771)),
                                         decoration: InputDecoration(
-                                          hintText: "Enter Notes here if any",
+                                          hintText: translation(context)!.enterNotesHere,
                                           hintStyle:
                                               TextStyle(color: Color(0xFF2F4771)),
                                           filled: true,
@@ -223,9 +248,9 @@ class _InsulationInstallSPState extends State<InsulationInstallSP> {
                                                   taskProjectId,
                                                 );
                                               },
-                                              child: const Text(
-                                                'Save',
-                                                style: TextStyle(
+                                              child: Text(
+                                                translation(context)!.save,
+                                                style: const TextStyle(
                                                   fontSize: 18,
                                                   color: Color(0xFFF9FAFB),
                                                 ),
@@ -244,64 +269,68 @@ class _InsulationInstallSPState extends State<InsulationInstallSP> {
                                                 ),
                                                 child: TextButton(
                                                   onPressed: () {
-                                                    showDialog(
-                                                      context: context,
-                                                      builder: (BuildContext context) {
-                                                        return AlertDialog(
-                                                          backgroundColor: Colors.white,
-                                                          title: const Text("Complete Task"),
-                                                          content: const Text("By clicking OK, you will mark the task as complete."),
-                                                          actions: [
-                                                            TextButton(
-                                                              style: TextButton.styleFrom(
-                                                                backgroundColor: Color(0xFFF3D69B), // Set background color to yellow
-                                                              ),
-                                                              onPressed: () async {
-                                                                if (areFieldsValid(_userNotes.text)) {
-                                                                  String message = await ServiceProviderGetTasksAPI.setTask6Data(
+                                                    if (areFieldsValid(_userNotes.text)) {
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext context) {
+                                                          return Directionality(
+                                                            textDirection: translation(context)!.localeName == 'ar'
+                                                                ? TextDirection.rtl
+                                                                : TextDirection.ltr,
+                                                            child: AlertDialog(
+                                                              backgroundColor: Colors.white,
+                                                              title: Text(translation(context)!.completeTask),
+                                                              content: Text(translation(context)!.clickOkToComplete),
+                                                              actions: [
+                                                                TextButton(
+                                                                  style: TextButton.styleFrom(
+                                                                    backgroundColor: Color(0xFFF3D69B),
+                                                                  ),
+                                                                  onPressed: () async {
+                                                                    String message = await ServiceProviderGetTasksAPI.setTask6Data(
                                                                       taskID,
                                                                       _userNotes.text,
                                                                       'Submit',
-                                                                    taskProjectId,
-                                                                  );
-                                                                  setState(() {
-                                                                    hvacData['TaskStatus'] = 'Completed' ;
-                                                                    isSubmitVisible = false ;
-                                                                  });
-                                                                  Navigator.pop(context); // Close the dialog
-                                                                } else {
-                                                                  CustomAlertDialog.showErrorDialog(context, 'Please fill in all the required fields.');
-                                                                  Navigator.pop(context); // Close the dialog
-                                                                }
-                                                              },
-                                                              child: const Text("OK" , style: TextStyle(
-                                                                  color: Color(0xFF2F4771),
-                                                                  fontSize: 15
-                                                              ),),
+                                                                      taskProjectId,
+                                                                    );
+                                                                    setState(() {
+                                                                      hvacData['TaskStatus'] = 'Completed';
+                                                                      isSubmitVisible = false;
+                                                                    });
+                                                                    Navigator.of(context).pop();
+                                                                  },
+                                                                  child: Text(
+                                                                    translation(context)!.clickOk,
+                                                                    style: const TextStyle(color: Color(0xFF2F4771), fontSize: 15),
+                                                                  ),
+                                                                ),
+                                                                TextButton(
+                                                                  style: TextButton.styleFrom(
+                                                                    backgroundColor: Color(0xFFF3D69B),
+                                                                  ),
+                                                                  onPressed: () {
+                                                                    Navigator.pop(context);
+                                                                  },
+                                                                  child: Text(
+                                                                    translation(context)!.customCancel,
+                                                                    style: const TextStyle(color: Color(0xFF2F4771), fontSize: 15),
+                                                                  ),
+                                                                ),
+                                                              ],
                                                             ),
-                                                            TextButton(
-                                                              style: TextButton.styleFrom(
-                                                                backgroundColor: Color(0xFFF3D69B), // Set background color to yellow
-                                                              ),
-                                                              onPressed: () {
-                                                                Navigator.pop(context); // Close the dialog
-                                                              },
-                                                              child: const Text("Cancel" , style: TextStyle(
-                                                                  color: Color(0xFF2F4771),
-                                                                  fontSize: 15
-                                                              ),),
-                                                            ),
-                                                          ],
-                                                        );
-                                                      },
-                                                    );
+                                                          );
+                                                        },
+                                                      );
+                                                    } else {
+                                                      CustomAlertDialog.showErrorDialog(
+                                                          context,
+                                                          translation(context)!.customFill
+                                                      );
+                                                    }
                                                   },
-                                                  child: const Text(
-                                                    'Mark as Done',
-                                                    style: TextStyle(
-                                                      fontSize: 18,
-                                                      color: Color(0xFFF9FAFB),
-                                                    ),
+                                                  child: Text(
+                                                    translation(context)!.markAsDone,
+                                                    style: const TextStyle(fontSize: 18, color: Color(0xFFF9FAFB)),
                                                   ),
                                                 )
                                             ),
@@ -323,6 +352,7 @@ class _InsulationInstallSPState extends State<InsulationInstallSP> {
           ),
         ),
       ),
+    ),
     );
   }
 }

@@ -1,22 +1,145 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../classes/language_constants.dart';
+import 'dart:ui' as ui;
 
 class CustomAlertDialog {
   static void showErrorDialog(BuildContext context, String errorMessage) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Error'),
-          content: Text(errorMessage),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-              },
-              child: Text('OK'),
+        return Directionality(
+          textDirection: translation(context)!.localeName == 'ar'
+              ? ui.TextDirection.rtl
+              : ui.TextDirection.ltr,
+          child: AlertDialog(
+            title: Text(translation(context)!.customError),
+            content: Text(errorMessage),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text(translation(context)!.customOk),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  static Future<String?> showDeclineReasonDialog(BuildContext context) async {
+    TextEditingController reasonController = TextEditingController();
+    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+    return showDialog<String>(
+      context: context,
+      builder: (BuildContext context) {
+        return Directionality(
+          textDirection: translation(context)!.localeName == 'ar'
+              ? ui.TextDirection.rtl
+              : ui.TextDirection.ltr,
+          child: AlertDialog(
+            title: Text(translation(context)!.customDeclineTitle),
+            content: Form(
+              key: formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Text(translation(context)!.customDeclineReason),
+                  TextFormField(
+                    controller: reasonController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return translation(context)!.customDeclineReasonLabel;
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      hintText: translation(context)!.customDeclineReasonHint,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ],
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the dialog
+                },
+                child: Text(translation(context)!.customDeclineReasonCancel),
+              ),
+              TextButton(
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    Navigator.of(context).pop(reasonController
+                        .text); // Close the dialog and return the reason
+                  }
+                },
+                child: Text(translation(context)!.customDeclineReasonSubmit),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  static Future<bool> showConfirmationDialog(BuildContext context) async {
+    final bool? shouldAccept = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return Directionality(
+          textDirection: translation(context)!.localeName == 'ar'
+              ? ui.TextDirection.rtl
+              : ui.TextDirection.ltr,
+          child: AlertDialog(
+            title: Text(translation(context)!.customAcceptTitle),
+            content: Text(translation(context)!.customAcceptText),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: Text(translation(context)!.customAcceptYes),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: Text(translation(context)!.customAcceptNo),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+
+    return shouldAccept ?? false;
+  }
+
+  static Future<bool?> showLogoutConfirmationDialog(BuildContext context) async {
+    return showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return Directionality(
+          textDirection: translation(context)!.localeName == 'ar'
+              ? ui.TextDirection.rtl
+              : ui.TextDirection.ltr,
+          child: AlertDialog(
+            title: Text(translation(context)!.customLogoutConfirmation),
+            content: Text(translation(context)!.customLogoutContent),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                },
+                child: Text(translation(context)!.customLogout),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(false); // Cancel logout
+                },
+                child: Text(translation(context)!.customCancel),
+              ),
+            ],
+          ),
         );
       },
     );
@@ -26,17 +149,20 @@ class CustomAlertDialog {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Static Task'),
-          content: Text(errorMessage),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-              },
-              child: Text('OK'),
-            ),
-          ],
+        return Directionality(
+          textDirection: translation(context)!.localeName == 'ar'
+              ? ui.TextDirection.rtl
+              : ui.TextDirection.ltr,
+          child: AlertDialog(
+            title: Text(translation(context)!.customStaticTaskTitle),
+            content: Text(errorMessage),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: Text(translation(context)!.customOk),
+              ),
+            ],
+          ),
         );
       },
     );
@@ -46,17 +172,20 @@ class CustomAlertDialog {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Success'),
-          content: Text(successMessage),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-              },
-              child: Text('OK'),
-            ),
-          ],
+        return Directionality(
+          textDirection: translation(context)!.localeName == 'ar'
+              ? ui.TextDirection.rtl
+              : ui.TextDirection.ltr,
+          child: AlertDialog(
+            title: Text(translation(context)!.customSuccess),
+            content: Text(successMessage),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: Text(translation(context)!.customOk),
+              ),
+            ],
+          ),
         );
       },
     );
@@ -66,70 +195,25 @@ class CustomAlertDialog {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Success'),
-          content: Text(successMessage),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-                // Navigate to the login page
-                Navigator.of(context).pushReplacementNamed('/Login');
-              },
-              child: Text('OK'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  static Future<String?> showDeclineReasonDialog(BuildContext context) async {
-    TextEditingController reasonController = TextEditingController();
-    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
-    return showDialog<String>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Decline Request'),
-          content: Form(
-            key: formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Text('Please provide a reason for declining the request:'),
-                TextFormField(
-                  controller: reasonController,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter a reason';
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                    hintText: 'Enter reason...',
-                  ),
-                ),
-              ],
-            ),
+        return Directionality(
+          textDirection: translation(context)!.localeName == 'ar'
+              ? ui.TextDirection.rtl
+              : ui.TextDirection.ltr,
+          child: AlertDialog(
+            title: Text(translation(context)!.customSuccess),
+            content: Text(successMessage),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context)
+                      .pushReplacementNamed('/Login');
+                },
+                child: Text(
+                    translation(context)!.customOk),
+              ),
+            ],
           ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-              },
-              child: Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                if (formKey.currentState!.validate()) {
-                  Navigator.of(context).pop(reasonController.text); // Close the dialog and return the reason
-                }
-              },
-              child: Text('Submit'),
-            ),
-          ],
         );
       },
     );
@@ -138,19 +222,23 @@ class CustomAlertDialog {
   static Future<void> showParallelTasksDialog(BuildContext context) async {
     return showDialog<void>(
       context: context,
-      barrierDismissible: false, // User must tap button to close the dialog
+      barrierDismissible: false,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Parallel Tasks Available'),
-          content: Text('You can perform tasks related to Mechanical, Electrical, and Insulation in parallel to save time, with the Insulation being an optional Task'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-              },
-              child: Text('OK'),
-            ),
-          ],
+        return Directionality(
+          textDirection: translation(context)!.localeName == 'ar'
+              ? ui.TextDirection.rtl
+              : ui.TextDirection.ltr,
+          child: AlertDialog(
+            title: Text(translation(context)!.customParallelTasksTitle),
+            content: Text(translation(context)!.customParallelTasksContent),
+            actions: <Widget>[
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(translation(context)!.customOk)),
+            ],
+          ),
         );
       },
     );
@@ -164,12 +252,11 @@ class CustomAlertDialog {
       final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
-        firstDate: DateTime(2023),
-        lastDate: DateTime(2025),
+        firstDate: DateTime(2024),
+        lastDate: DateTime(2026),
       );
       if (picked != null) {
         dateController.text = DateFormat('dd MMM, yyyy').format(picked);
-        // Trigger a form validation to update the error text
         formKey.currentState?.validate();
       }
     }
@@ -177,75 +264,54 @@ class CustomAlertDialog {
     return showDialog<String>(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Expected Date'),
-          content: Form(
-            key: formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Text('Please provide an expected date for the task:'),
-                TextFormField(
-                  controller: dateController,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter a date';
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                    hintText: 'Enter Date...',
-                    suffixIcon: IconButton(
-                      icon: Icon(Icons.calendar_today),
-                      onPressed: () => _selectDate(context),
+        return Directionality(
+          textDirection: translation(context)!.localeName == 'ar'
+              ? ui.TextDirection.rtl
+              : ui.TextDirection.ltr,
+          child: AlertDialog(
+            title: Text(translation(context)!.customExpectedDateTitle),
+            content: Form(
+              key: formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Text(translation(context)!.customExpectedDateContent),
+                  TextFormField(
+                    controller: dateController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return translation(context)!.customExpectedDateError;
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      hintText: translation(context)!.customExpectedDateHint,
+                      suffixIcon: IconButton(
+                        icon: Icon(Icons.calendar_today),
+                        onPressed: () => _selectDate(context),
+                      ),
                     ),
+                    readOnly: true, // Prevents keyboard from opening
+                    onTap: () => _selectDate(context),
                   ),
-                  readOnly: true, // Prevents keyboard from opening
-                  onTap: () => _selectDate(context),
-                ),
-              ],
+                ],
+              ),
             ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: Text(translation(context)!.customCancel),
+              ),
+              TextButton(
+                onPressed: () {
+                  if (formKey.currentState?.validate() ?? false) {
+                    Navigator.of(context).pop(dateController.text);
+                  }
+                },
+                child: Text(translation(context)!.customSubmit),
+              ),
+            ],
           ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                if (formKey.currentState?.validate() ?? false) {
-                  Navigator.of(context).pop(dateController.text);
-                }
-              },
-              child: Text('Submit'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  static Future<bool?> showLogoutConfirmationDialog(BuildContext context) async {
-    return showDialog<bool>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Logout Confirmation'),
-          content: Text('Are you sure you want to log out?'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(false); // Cancel logout
-              },
-              child: Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(true); // Confirm logout
-              },
-              child: Text('Log Out'),
-            ),
-          ],
         );
       },
     );
