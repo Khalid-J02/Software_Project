@@ -1,7 +1,7 @@
+import 'package:buildnex/classes/language_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:readmore/readmore.dart';
-import '../classes/language_constants.dart';
 
 class SPReviews extends StatefulWidget {
   String imageURL ;
@@ -30,58 +30,56 @@ class _SPReviewsState extends State<SPReviews> {
 
   Widget build(BuildContext context) {
     return Directionality(
-        textDirection: translation(context)!.localeName == 'ar'
-        ? TextDirection.rtl
-        : TextDirection.ltr,
-     child:  Padding(
-      padding: const EdgeInsets.all(12.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CircleAvatar(backgroundImage: NetworkImage(widget.imageURL)),
-              SizedBox(width: 12),
-              Expanded( // Make the text take the remaining space
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
-                  child: Text(
-                    widget.name,
-                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
-                    softWrap: false,
-                    overflow: TextOverflow.ellipsis,
+      textDirection: translation(context)!.localeName == 'ar' ? TextDirection.rtl : TextDirection.ltr,
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start, // Align children to the start of the axis
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CircleAvatar(backgroundImage: NetworkImage(widget.imageURL)),
+                SizedBox(width: 12),
+                Expanded( // Make the text take the remaining space
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: Text(
+                      widget.name,
+                      style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+                      softWrap: false,
+                      overflow: TextOverflow.ellipsis, // Add ellipsis for overflowed text
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          SizedBox(height: 10),
-          Row(
-            children: [
-              RatingBarIndicator(
-                rating: widget.rating,
-                itemSize: 18,
-                unratedColor: Colors.grey,
-                itemBuilder: (_, __) => Icon(Icons.star, color: Color(0xFF122247)),
-              ),
-              SizedBox(width: 10),
-              Text(widget.date, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15)),
-            ],
-          ),
-          SizedBox(height: 10),
-          ReadMoreText(
-            widget.reviewText,
-            trimLines: 2,
-            trimMode: TrimMode.Line,
-            trimExpandedText: translation(context)!.reviewTabShowLess,
-            trimCollapsedText:  translation(context)!.reviewTabShowMore,
-            moreStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF122247)),
-            lessStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF122247)),
-          ),
-        ],
+              ],
+            ),
+            SizedBox(height: 10),
+            Row(
+              children: [
+                RatingBarIndicator(
+                  rating: widget.rating,
+                  itemSize: 18,
+                  unratedColor: Colors.grey,
+                  itemBuilder: (_, __) => Icon(Icons.star, color: Color(0xFF122247)),
+                ),
+                SizedBox(width: 10),
+                Text(widget.date, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15)),
+              ],
+            ),
+            SizedBox(height: 10),
+            ReadMoreText(
+              widget.reviewText,
+              trimLines: 2,
+              trimMode: TrimMode.Line,
+              trimExpandedText: ' show less',
+              trimCollapsedText: ' show more',
+              moreStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF122247)),
+              lessStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF122247)),
+            ),
+          ],
+        ),
       ),
-    ),
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:buildnex/Tasks/taskWidgets/pdfViewer.dart';
 import 'package:buildnex/Tasks/taskWidgets/taskInformation.dart';
 import 'package:buildnex/Tasks/tasks_HO/LocalGovernorate_Permits/Widgets/serviceProviderProfleData.dart';
 import 'package:buildnex/Tasks/tasks_SP/PropertSurvey/widgets/textFieldTasks.dart';
+import 'package:buildnex/classes/language_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:get/get.dart';
@@ -124,933 +125,946 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF9FAFB),
-      appBar: AppBar(
-        leading: const Icon(
-          Icons.arrow_back_ios_new,
-          color: Color(0xFFF3D69B),
-        ),
-        title: Padding(
-          padding: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width / 5),
-          child: const Text(
-            "Task Details",
-            style: TextStyle(color: Color(0xFFF3D69B)),
+    return Directionality(
+      textDirection: translation(context)!.localeName == 'ar' ? TextDirection.rtl : TextDirection.ltr,
+      child: Scaffold(
+        backgroundColor: const Color(0xFFF9FAFB),
+        appBar: AppBar(
+          title: Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width / 5),
+            child: Text(
+              translation(context)!.task1HOMainTitle,
+              style: const TextStyle(color: Colors.white),
+            ),
           ),
+          elevation: 0,
+          backgroundColor: Color(0xFF122247), //Colors.white,
         ),
-        elevation: 0,
-        backgroundColor: Color(0xFF122247), //Colors.white,
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 10),
-          child: Column(
-            children: [
-              TaskInformation(
-                taskID: task4Data['TaskID'] ?? 0,
-                taskName: 'Design and Planning',
-                projectName: task4Data['ProjectName'] ?? 'Unknown',
-                taskStatus: task4Data['TaskStatus'] ?? 'Unknown',
-              ),
-              SPProfileData(
-                userPicture:
-                    task4Data['UserPicture'] ?? 'images/profilePic96.png',
-                rating: (task4Data['Rating'] as num?)?.toDouble() ?? 0.0,
-                numReviews: task4Data['ReviewCount'] ?? 0,
-                userName: task4Data['Username'] ?? 'Unknown',
-                taskId: taskID,
-              ),
-              Container(
-                margin: const EdgeInsets.only(top: 5),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20.0),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: Column(
+              children: [
+                TaskInformation(
+                  taskID: task4Data['TaskID'] ?? 0,
+                  taskName: translation(context)!.task4HOTaskName,
+                  projectName: task4Data['ProjectName'] ?? 'Unknown',
+                  taskStatus: task4Data['TaskStatus'] ?? 'Unknown',
                 ),
-                child: Card(
-                  elevation: 5,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20.0),
-                      topRight: Radius.circular(20.0),
-                      bottomLeft: Radius.zero,
-                      bottomRight: Radius.zero,
-                    ),
+                SPProfileData(
+                  userPicture:
+                      task4Data['UserPicture'] ?? 'images/profilePic96.png',
+                  rating: (task4Data['Rating'] as num?)?.toDouble() ?? 0.0,
+                  numReviews: task4Data['ReviewCount'] ?? 0,
+                  userName: task4Data['Username'] ?? 'Unknown',
+                  taskId: taskID,
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 5),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20.0),
                   ),
-                  child: Column(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.symmetric(vertical: 14),
-                        decoration: BoxDecoration(
-                          color: Color(0xFF6781A6),
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(20.0),
-                            topRight: Radius.circular(20.0),
-                            bottomLeft: Radius.zero,
-                            bottomRight: Radius.zero,
-                          ),
-                          border: Border.all(
-                            color: Color(0xFF2F4771),
-                            width: 1.0,
-                          ),
-                        ),
-                        child: const Center(
-                          child: Text(
-                            "Home Owner Demands",
-                            style: TextStyle(
-                                color: Color(0xFFF9FAFB),
-                                fontSize: 19,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
+                  child: Card(
+                    elevation: 5,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20.0),
+                        topRight: Radius.circular(20.0),
+                        bottomLeft: Radius.zero,
+                        bottomRight: Radius.zero,
                       ),
-                      const SizedBox(height: 10.0),
-                      Container(
-                        padding: const EdgeInsets.all(7),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                const Expanded(
-                                  flex: 1,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(left: 8, right: 8),
-                                    child: Text(
-                                      "Enter Num. of Rooms:",
-                                      style: TextStyle(
-                                          color: Color(0xFF2F4771),
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16),
+                    ),
+                    child: Column(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.symmetric(vertical: 14),
+                          decoration: BoxDecoration(
+                            color: Color(0xFF6781A6),
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(20.0),
+                              topRight: Radius.circular(20.0),
+                              bottomLeft: Radius.zero,
+                              bottomRight: Radius.zero,
+                            ),
+                            border: Border.all(
+                              color: Color(0xFF2F4771),
+                              width: 1.0,
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              translation(context)!.task4HODemandsMainTitle,
+                              style: const TextStyle(
+                                  color: Color(0xFFF9FAFB),
+                                  fontSize: 19,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 10.0),
+                        Container(
+                          padding: const EdgeInsets.all(7),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 8, right: 8),
+                                      child: Text(
+                                        translation(context)!.task4HODemandsNumRoom,
+                                        style: const TextStyle(
+                                            color: Color(0xFF2F4771),
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16),
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: TextfieldTasks(
-                                    controller: _numRooms,
-                                    hintText: 'Enter # of Rooms',
-                                    labelText: 'Rooms Number',
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              children: [
-                                const Expanded(
-                                  flex: 1,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(left: 8, right: 8),
-                                    child: Text(
-                                      "Enter Num. of Floors:",
-                                      style: TextStyle(
-                                          color: Color(0xFF2F4771),
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16),
+                                  Expanded(
+                                    flex: 1,
+                                    child: TextfieldTasks(
+                                      controller: _numRooms,
+                                      hintText: translation(context)!.task4HODemandsNumRoomHintText,
+                                      labelText: translation(context)!.task4HODemandsNumRoomLabelText,
                                     ),
                                   ),
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: TextfieldTasks(
-                                    controller: _numFloors,
-                                    hintText: 'Enter # of Rooms',
-                                    labelText: 'Floors Number',
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              children: [
-                                const Expanded(
-                                  flex: 1,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(left: 8, right: 8),
-                                    child: Text(
-                                      "House Building Area:",
-                                      style: TextStyle(
-                                          color: Color(0xFF2F4771),
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 8, right: 8),
+                                      child: Text(
+                                        translation(context)!.task4HODemandsNumFloor,
+                                        style: const TextStyle(
+                                            color: Color(0xFF2F4771),
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16),
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: TextfieldTasks(
-                                    controller: _buildingArea,
-                                    hintText: 'Enter desired Building Area',
-                                    labelText: 'Building Area',
+                                  Expanded(
+                                    flex: 1,
+                                    child: TextfieldTasks(
+                                      controller: _numFloors,
+                                      hintText: translation(context)!.task4HODemandsNumFloorHintText,
+                                      labelText: translation(context)!.task4HODemandsNumFloorLabelText,
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            Center(
-                              child: Container(
-                                width: 250,
-                                margin: EdgeInsets.only(bottom: 12),
-                                decoration: const BoxDecoration(
-                                  color: Color(0xFF2F4771),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(30.0)),
-                                ),
-                                child: TextButton(
-                                  onPressed: () async {
-                                    if (await validateInput()) {
-                                      final savedData = await HomeOwnerTasksAPI
-                                          .saveBuildingData(
-                                              int.parse(taskProjectId),
-                                              int.tryParse(_numRooms.text),
-                                              int.tryParse(_numFloors.text),
-                                              double.tryParse(
-                                                  _buildingArea.text));
-                                      _numRooms.text =
-                                          savedData['NumberOfRooms'].toString();
-                                      _numFloors.text =
-                                          savedData['NumberOfFloors']
-                                              .toString();
-                                      _buildingArea.text =
-                                          savedData['BuildingArea'].toString();
-                                      CustomAlertDialog.showSuccessDialog(
-                                          context,
-                                          "Building data saved successfully");
-                                      return;
-                                    }
-                                  },
-                                  child: const Text(
-                                    'Save',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      color: Color(0xFFF9FAFB),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 8, right: 8),
+                                      child: Text(
+                                        translation(context)!.task4HODemandsBuildingArea,
+                                        style: const TextStyle(
+                                            color: Color(0xFF2F4771),
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 1,
+                                    child: TextfieldTasks(
+                                      controller: _buildingArea,
+                                      hintText: translation(context)!.task4HODemandsBuildingAreaHintText,
+                                      labelText: translation(context)!.task4HODemandsBuildingAreaLabelText,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              Center(
+                                child: Container(
+                                  width: 250,
+                                  margin: EdgeInsets.only(bottom: 12),
+                                  decoration: const BoxDecoration(
+                                    color: Color(0xFF2F4771),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(30.0)),
+                                  ),
+                                  child: TextButton(
+                                    onPressed: () async {
+                                      if (await validateInput()) {
+                                        final savedData = await HomeOwnerTasksAPI
+                                            .saveBuildingData(
+                                                int.parse(taskProjectId),
+                                                int.tryParse(_numRooms.text),
+                                                int.tryParse(_numFloors.text),
+                                                double.tryParse(
+                                                    _buildingArea.text));
+                                        _numRooms.text =
+                                            savedData['NumberOfRooms'].toString();
+                                        _numFloors.text =
+                                            savedData['NumberOfFloors']
+                                                .toString();
+                                        _buildingArea.text =
+                                            savedData['BuildingArea'].toString();
+                                        CustomAlertDialog.showSuccessDialog(
+                                            context,
+                                            "Building data saved successfully");
+                                        return;
+                                      }
+                                    },
+                                    child: Text(
+                                      translation(context)!.task4HODemandsSaveButton,
+                                      style: const TextStyle(
+                                        fontSize: 20,
+                                        color: Color(0xFFF9FAFB),
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(top: 5),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-                child: Card(
-                  elevation: 5,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20.0),
-                      topRight: Radius.circular(20.0),
-                      bottomLeft: Radius.zero,
-                      bottomRight: Radius.zero,
+                      ],
                     ),
                   ),
-                  child: Column(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.symmetric(vertical: 14),
-                        decoration: BoxDecoration(
-                          color: Color(0xFF6781A6),
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(20.0),
-                            topRight: Radius.circular(20.0),
-                            bottomLeft: Radius.zero,
-                            bottomRight: Radius.zero,
-                          ),
-                          border: Border.all(
-                            color: Color(0xFF2F4771),
-                            width: 1.0,
-                          ),
-                        ),
-                        child: const Center(
-                          child: Text(
-                            "Service Provider Details",
-                            style: TextStyle(
-                                color: Color(0xFFF9FAFB),
-                                fontSize: 19,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 5),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  child: Card(
+                    elevation: 5,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20.0),
+                        topRight: Radius.circular(20.0),
+                        bottomLeft: Radius.zero,
+                        bottomRight: Radius.zero,
                       ),
-                      const SizedBox(height: 5.0),
-                      Container(
-                        padding: const EdgeInsets.all(10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Expanded(
-                                  flex: 1,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(left: 8, right: 8),
-                                    child: Text(
-                                      "Design Drawings:",
-                                      style: TextStyle(
-                                          color: Color(0xFF2F4771),
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16),
-                                    ),
-                                  ),
-                                ),
-                                _progress != null
-                                    ? const CircularProgressIndicator()
-                                    : GestureDetector(
-                                        onTap: () {
-                                          if (getbuildingData[
-                                                  'DesignDocument'] !=
-                                              null) {
-                                            downloadFile(getbuildingData[
-                                                'DesignDocument']);
-                                          } else {
-                                            Get.snackbar('Hi',
-                                                'There is no file to download');
-                                          }
-                                        },
-                                        child: Container(
-                                          margin: const EdgeInsets.only(
-                                              top: 5, right: 5),
-                                          height: 35,
-                                          decoration: BoxDecoration(
-                                            color: const Color(0xFF2F4771),
-                                            borderRadius:
-                                                BorderRadius.circular(20.0),
-                                          ),
-                                          child: const Row(
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                    left: 8, right: 8),
-                                                child: Icon(
-                                                  Icons.sim_card_download,
-                                                  size: 20,
-                                                  color: Color(0xFFF9FAFB),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                    right: 12.0),
-                                                child: Text(
-                                                  "Download",
-                                                  style: TextStyle(
-                                                    color: Color(0xFFF9FAFB),
-                                                    fontSize: 15,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                GestureDetector(
-                                  onTap: () {
-                                    if (getbuildingData['DesignDocument'] !=
-                                        null) {
-                                      Get.to(DocsPdfViewer(
-                                        pdfFileURL:
-                                            getbuildingData['DesignDocument'],
-                                      ));
-                                    } else {
-                                      Get.snackbar(
-                                          'Hi', 'There is no file to open',
-                                          colorText: Colors.white,
-                                          backgroundColor: Color(0xFF2F4771));
-                                    }
-                                  },
-                                  child: Container(
-                                    margin:
-                                        const EdgeInsets.only(top: 5, right: 5),
-                                    height: 35,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFF2F4771),
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    ),
-                                    child: const Row(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: 8, right: 8),
-                                          child: Icon(
-                                            Icons.file_open_outlined,
-                                            size: 20,
-                                            color: Color(0xFFF9FAFB),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(right: 12.0),
-                                          child: Text(
-                                            "Open",
-                                            style: TextStyle(
-                                              color: Color(0xFFF9FAFB),
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
+                    ),
+                    child: Column(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.symmetric(vertical: 14),
+                          decoration: BoxDecoration(
+                            color: Color(0xFF6781A6),
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(20.0),
+                              topRight: Radius.circular(20.0),
+                              bottomLeft: Radius.zero,
+                              bottomRight: Radius.zero,
                             ),
-                            const SizedBox(
-                              height: 10,
+                            border: Border.all(
+                              color: Color(0xFF2F4771),
+                              width: 1.0,
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Expanded(
-                                  flex: 1,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(left: 8, right: 8),
-                                    child: Text(
-                                      "Architectural Drawings:", // Foundation became Architectural
-                                      style: TextStyle(
-                                          color: Color(0xFF2F4771),
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16),
-                                    ),
-                                  ),
-                                ),
-                                _progress != null
-                                    ? const CircularProgressIndicator()
-                                    : GestureDetector(
-                                        onTap: () {
-                                          if (getbuildingData[
-                                                  'FoundationDocument'] !=
-                                              null) {
-                                            downloadFile(getbuildingData[
-                                                'FoundationDocument']);
-                                          } else {
-                                            Get.snackbar('Hi',
-                                                'There is no file to download');
-                                          }
-                                        },
-                                        child: Container(
-                                          margin: const EdgeInsets.only(
-                                              top: 5, right: 5),
-                                          height: 35,
-                                          decoration: BoxDecoration(
-                                            color: const Color(0xFF2F4771),
-                                            borderRadius:
-                                                BorderRadius.circular(20.0),
-                                          ),
-                                          child: const Row(
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                    left: 8, right: 8),
-                                                child: Icon(
-                                                  Icons.sim_card_download,
-                                                  size: 20,
-                                                  color: Color(0xFFF9FAFB),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                    right: 12.0),
-                                                child: Text(
-                                                  "Download",
-                                                  style: TextStyle(
-                                                    color: Color(0xFFF9FAFB),
-                                                    fontSize: 15,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                GestureDetector(
-                                  onTap: () {
-                                    if (getbuildingData['FoundationDocument'] !=
-                                        null) {
-                                      Get.to(DocsPdfViewer(
-                                        pdfFileURL: getbuildingData[
-                                            'FoundationDocument'],
-                                      ));
-                                    } else {
-                                      Get.snackbar(
-                                          'Hi', 'There is no file to open',
-                                          colorText: Colors.white,
-                                          backgroundColor: Color(0xFF2F4771));
-                                    }
-                                  },
-                                  child: Container(
-                                    margin:
-                                        const EdgeInsets.only(top: 5, right: 5),
-                                    height: 35,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFF2F4771),
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    ),
-                                    child: const Row(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: 8, right: 8),
-                                          child: Icon(
-                                            Icons.file_open_outlined,
-                                            size: 20,
-                                            color: Color(0xFFF9FAFB),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(right: 12.0),
-                                          child: Text(
-                                            "Open",
-                                            style: TextStyle(
-                                              color: Color(0xFFF9FAFB),
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
+                          ),
+                          child: Center(
+                            child: Text(
+                              translation(context)!.task1HOServiceProviderDetailsTitle,
+                              style: const TextStyle(
+                                  color: Color(0xFFF9FAFB),
+                                  fontSize: 19,
+                                  fontWeight: FontWeight.bold),
                             ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Expanded(
-                                  flex: 1,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(left: 8, right: 8),
-                                    child: Text(
-                                      "Civil     Drawings:", // Insulation became For Civil
-                                      style: TextStyle(
-                                          color: Color(0xFF2F4771),
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16),
-                                    ),
-                                  ),
-                                ),
-                                _progress != null
-                                    ? const CircularProgressIndicator()
-                                    : GestureDetector(
-                                        onTap: () {
-                                          if (getbuildingData[
-                                                  'InsulationAndHVACDocument'] !=
-                                              null) {
-                                            downloadFile(getbuildingData[
-                                                'InsulationAndHVACDocument']);
-                                          } else {
-                                            Get.snackbar('Hi',
-                                                'There is no file to download');
-                                          }
-                                        },
-                                        child: Container(
-                                          margin: const EdgeInsets.only(
-                                              top: 5, right: 5),
-                                          height: 35,
-                                          decoration: BoxDecoration(
-                                            color: const Color(0xFF2F4771),
-                                            borderRadius:
-                                                BorderRadius.circular(20.0),
-                                          ),
-                                          child: const Row(
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                    left: 8, right: 8),
-                                                child: Icon(
-                                                  Icons.sim_card_download,
-                                                  size: 20,
-                                                  color: Color(0xFFF9FAFB),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                    right: 12.0),
-                                                child: Text(
-                                                  "Download",
-                                                  style: TextStyle(
-                                                    color: Color(0xFFF9FAFB),
-                                                    fontSize: 15,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                GestureDetector(
-                                  onTap: () {
-                                    if (getbuildingData[
-                                            'InsulationAndHVACDocument'] !=
-                                        null) {
-                                      Get.to(DocsPdfViewer(
-                                        pdfFileURL: getbuildingData[
-                                            'InsulationAndHVACDocument'],
-                                      ));
-                                    } else {
-                                      Get.snackbar(
-                                          'Hi', 'There is no file to open',
-                                          colorText: Colors.white,
-                                          backgroundColor: Color(0xFF2F4771));
-                                    }
-                                  },
-                                  child: Container(
-                                    margin:
-                                        const EdgeInsets.only(top: 5, right: 5),
-                                    height: 35,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFF2F4771),
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    ),
-                                    child: const Row(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: 8, right: 8),
-                                          child: Icon(
-                                            Icons.file_open_outlined,
-                                            size: 20,
-                                            color: Color(0xFFF9FAFB),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(right: 12.0),
-                                          child: Text(
-                                            "Open",
-                                            style: TextStyle(
-                                              color: Color(0xFFF9FAFB),
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Expanded(
-                                  flex: 1,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(left: 8, right: 8),
-                                    child: Text(
-                                      "Mechanical Drawings:", // Plumbing became Mechanical
-                                      style: TextStyle(
-                                          color: Color(0xFF2F4771),
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16),
-                                    ),
-                                  ),
-                                ),
-                                _progress != null
-                                    ? const CircularProgressIndicator()
-                                    : GestureDetector(
-                                        onTap: () {
-                                          if (getbuildingData[
-                                                  'PlumbingDocument'] !=
-                                              null) {
-                                            downloadFile(getbuildingData[
-                                                'PlumbingDocument']);
-                                          } else {
-                                            Get.snackbar('Hi',
-                                                'There is no file to download');
-                                          }
-                                        },
-                                        child: Container(
-                                          margin: const EdgeInsets.only(
-                                              top: 5, right: 5),
-                                          height: 35,
-                                          decoration: BoxDecoration(
-                                            color: const Color(0xFF2F4771),
-                                            borderRadius:
-                                                BorderRadius.circular(20.0),
-                                          ),
-                                          child: const Row(
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                    left: 8, right: 8),
-                                                child: Icon(
-                                                  Icons.sim_card_download,
-                                                  size: 20,
-                                                  color: Color(0xFFF9FAFB),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                    right: 12.0),
-                                                child: Text(
-                                                  "Download",
-                                                  style: TextStyle(
-                                                    color: Color(0xFFF9FAFB),
-                                                    fontSize: 15,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                GestureDetector(
-                                  onTap: () {
-                                    if (getbuildingData['PlumbingDocument'] !=
-                                        null) {
-                                      Get.to(DocsPdfViewer(
-                                        pdfFileURL:
-                                            getbuildingData['PlumbingDocument'],
-                                      ));
-                                    } else {
-                                      Get.snackbar(
-                                          'Hi', 'There is no file to open',
-                                          colorText: Colors.white,
-                                          backgroundColor: Color(0xFF2F4771));
-                                    }
-                                  },
-                                  child: Container(
-                                    margin:
-                                        const EdgeInsets.only(top: 5, right: 5),
-                                    height: 35,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFF2F4771),
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    ),
-                                    child: const Row(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: 8, right: 8),
-                                          child: Icon(
-                                            Icons.file_open_outlined,
-                                            size: 20,
-                                            color: Color(0xFFF9FAFB),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(right: 12.0),
-                                          child: Text(
-                                            "Open",
-                                            style: TextStyle(
-                                              color: Color(0xFFF9FAFB),
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Expanded(
-                                  flex: 1,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(left: 8, right: 8),
-                                    child: Text(
-                                      "Electrical Drawings:",
-                                      style: TextStyle(
-                                          color: Color(0xFF2F4771),
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16),
-                                    ),
-                                  ),
-                                ),
-                                _progress != null
-                                    ? const CircularProgressIndicator()
-                                    : GestureDetector(
-                                        onTap: () {
-                                          if (getbuildingData[
-                                                  'ElectricalDocument'] !=
-                                              null) {
-                                            downloadFile(getbuildingData[
-                                                'ElectricalDocument']);
-                                          } else {
-                                            Get.snackbar('Hi',
-                                                'There is no file to download');
-                                          }
-                                        },
-                                        child: Container(
-                                          margin: const EdgeInsets.only(
-                                              top: 5, right: 5),
-                                          height: 35,
-                                          decoration: BoxDecoration(
-                                            color: const Color(0xFF2F4771),
-                                            borderRadius:
-                                                BorderRadius.circular(20.0),
-                                          ),
-                                          child: const Row(
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                    left: 8, right: 8),
-                                                child: Icon(
-                                                  Icons.sim_card_download,
-                                                  size: 20,
-                                                  color: Color(0xFFF9FAFB),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                    right: 12.0),
-                                                child: Text(
-                                                  "Download",
-                                                  style: TextStyle(
-                                                    color: Color(0xFFF9FAFB),
-                                                    fontSize: 15,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                GestureDetector(
-                                  onTap: () {
-                                    if (getbuildingData['ElectricalDocument'] !=
-                                        null) {
-                                      Get.to(DocsPdfViewer(
-                                        pdfFileURL: getbuildingData[
-                                            'ElectricalDocument'],
-                                      ));
-                                    } else {
-                                      Get.snackbar(
-                                          'Hi', 'There is no file to open',
-                                          colorText: Colors.white,
-                                          backgroundColor: Color(0xFF2F4771));
-                                    }
-                                  },
-                                  child: Container(
-                                    margin:
-                                        const EdgeInsets.only(top: 5, right: 5),
-                                    height: 35,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFF2F4771),
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    ),
-                                    child: const Row(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: 8, right: 8),
-                                          child: Icon(
-                                            Icons.file_open_outlined,
-                                            size: 20,
-                                            color: Color(0xFFF9FAFB),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(right: 12.0),
-                                          child: Text(
-                                            "Open",
-                                            style: TextStyle(
-                                              color: Color(0xFFF9FAFB),
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 5.0),
-                            Container(
-                              padding: EdgeInsets.only(bottom: 10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                          ),
+                        ),
+                        const SizedBox(height: 5.0),
+                        Container(
+                          padding: const EdgeInsets.all(10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Padding(
-                                    padding: EdgeInsets.all(10),
-                                    child: Text(
-                                      "Service Provider Notes: ",
-                                      style: TextStyle(
-                                          color: Color(0xFF2F4771),
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.w500),
+                                  Expanded(
+                                    flex: 1,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(left: 8, right: 8),
+                                      child: Text(
+                                        translation(context)!.task4HODesignDocument,
+                                        style: TextStyle(
+                                            color: Color(0xFF2F4771),
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16),
+                                      ),
                                     ),
                                   ),
-                                  Container(
-                                    height: 140,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8),
-                                    child: TextFormField(
-                                      maxLines: 5,
-                                      minLines: 5,
-                                      enabled: false,
-                                      readOnly: true,
-                                      decoration: InputDecoration(
-                                        hintText: task4Data['Notes'] ??
-                                            'No notes available',
-                                        hintStyle:
-                                            TextStyle(color: Color(0xFF2F4771)),
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                          borderSide: const BorderSide(
-                                            color: Color(0xFF2F4771),
+                                  _progress != null
+                                      ? const CircularProgressIndicator()
+                                      : GestureDetector(
+                                          onTap: () {
+                                            if (getbuildingData[
+                                                    'DesignDocument'] !=
+                                                null) {
+                                              downloadFile(getbuildingData[
+                                                  'DesignDocument']);
+                                            } else {
+                                              Get.snackbar(translation(context)!.helloMSG, translation(context)!.errorDownloadMsg) ;
+                                            }
+                                          },
+                                          child: Container(
+                                            margin: const EdgeInsets.only(
+                                                top: 5, right: 5),
+                                            height: 35,
+                                            decoration: BoxDecoration(
+                                              color: const Color(0xFF2F4771),
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                            ),
+                                            child: Row(
+                                              children: [
+                                                Padding(
+                                                  padding: translation(context)!.localeName == 'ar'
+                                                      ?
+                                                  const EdgeInsets.only(left: 8, right: 8)
+                                                      :
+                                                  const EdgeInsets.only(left: 8, right: 8),
+                                                  child: const Icon(
+                                                    Icons.sim_card_download,
+                                                    size: 20,
+                                                    color: Color(0xFFF9FAFB),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: translation(context)!.localeName == 'ar' ?
+                                                  const EdgeInsets.only(left: 12.0)
+                                                      :
+                                                  const EdgeInsets.only(right: 12.0),
+                                                  child: Text(
+                                                    translation(context)!.downloadLabelButton,
+                                                    style: const TextStyle(
+                                                      color: Color(0xFFF9FAFB),
+                                                      fontSize: 15,
+                                                      fontWeight: FontWeight.w400,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                        disabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                          borderSide: const BorderSide(
-                                            color: Color(0xFF2F4771),
-                                            width: 1.5,
+                                  GestureDetector(
+                                    onTap: () {
+                                      if (getbuildingData['DesignDocument'] !=
+                                          null) {
+                                        Get.to(DocsPdfViewer(
+                                          pdfFileURL:
+                                              getbuildingData['DesignDocument'],
+                                        ));
+                                      } else {
+                                        Get.snackbar(translation(context)!.helloMSG, translation(context)!.errorOpenMsg);
+                                      }
+                                    },
+                                    child: Container(
+                                      margin:
+                                          const EdgeInsets.only(top: 5, right: 5),
+                                      height: 35,
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFF2F4771),
+                                        borderRadius: BorderRadius.circular(20.0),
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Padding(
+                                            padding: translation(context)!.localeName == 'ar'
+                                                ?
+                                            const EdgeInsets.only(left: 8, right: 8)
+                                                :
+                                            const EdgeInsets.only(left: 8, right: 8),
+                                            child: const Icon(
+                                              Icons.file_open_outlined,
+                                              size: 20,
+                                              color: Color(0xFFF9FAFB),
+                                            ),
                                           ),
-                                        ),
+                                          Padding(
+                                            padding: translation(context)!.localeName == 'ar' ?
+                                            const EdgeInsets.only(left: 12.0)
+                                                :
+                                            const EdgeInsets.only(right: 12.0),
+                                            child: Text(
+                                              translation(context)!.openLabelButton,
+                                              style: const TextStyle(
+                                                color: Color(0xFFF9FAFB),
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ),
                                 ],
                               ),
-                            ),
-                          ],
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 8, right: 8),
+                                      child: Text(
+                                        translation(context)!.task4HODemandsBuildingAreaLabelText, // Foundation became Architectural
+                                        style: const TextStyle(
+                                            color: Color(0xFF2F4771),
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16),
+                                      ),
+                                    ),
+                                  ),
+                                  _progress != null
+                                      ? const CircularProgressIndicator()
+                                      : GestureDetector(
+                                          onTap: () {
+                                            if (getbuildingData[
+                                                    'FoundationDocument'] !=
+                                                null) {
+                                              downloadFile(getbuildingData[
+                                                  'FoundationDocument']);
+                                            } else {
+                                              Get.snackbar(translation(context)!.helloMSG, translation(context)!.errorDownloadMsg) ;
+                                            }
+                                          },
+                                          child: Container(
+                                            margin: const EdgeInsets.only(
+                                                top: 5, right: 5),
+                                            height: 35,
+                                            decoration: BoxDecoration(
+                                              color: const Color(0xFF2F4771),
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                            ),
+                                            child: Row(
+                                              children: [
+                                                Padding(
+                                                  padding: translation(context)!.localeName == 'ar'
+                                                      ?
+                                                  const EdgeInsets.only(left: 8, right: 8)
+                                                      :
+                                                  const EdgeInsets.only(left: 8, right: 8),
+                                                  child: const Icon(
+                                                    Icons.sim_card_download,
+                                                    size: 20,
+                                                    color: Color(0xFFF9FAFB),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: translation(context)!.localeName == 'ar' ?
+                                                  const EdgeInsets.only(left: 12.0)
+                                                      :
+                                                  const EdgeInsets.only(right: 12.0),
+                                                  child: Text(
+                                                    translation(context)!.downloadLabelButton,
+                                                    style: const TextStyle(
+                                                      color: Color(0xFFF9FAFB),
+                                                      fontSize: 15,
+                                                      fontWeight: FontWeight.w400,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      if (getbuildingData['FoundationDocument'] !=
+                                          null) {
+                                        Get.to(DocsPdfViewer(
+                                          pdfFileURL: getbuildingData[
+                                              'FoundationDocument'],
+                                        ));
+                                      } else {
+                                        Get.snackbar(translation(context)!.helloMSG, translation(context)!.errorOpenMsg);
+                                      }
+                                    },
+                                    child: Container(
+                                      margin:
+                                          const EdgeInsets.only(top: 5, right: 5),
+                                      height: 35,
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFF2F4771),
+                                        borderRadius: BorderRadius.circular(20.0),
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          const Padding(
+                                            padding: EdgeInsets.only(
+                                                left: 8, right: 8),
+                                            child: Icon(
+                                              Icons.file_open_outlined,
+                                              size: 20,
+                                              color: Color(0xFFF9FAFB),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: translation(context)!.localeName == 'ar' ?
+                                            const EdgeInsets.only(left: 12.0)
+                                                :
+                                            const EdgeInsets.only(right: 12.0),
+                                            child: Text(
+                                              translation(context)!.openLabelButton,
+                                              style: const TextStyle(
+                                                color: Color(0xFFF9FAFB),
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 8, right: 8),
+                                      child: Text(
+                                        translation(context)!.task4HOCivilDrawings, // Insulation became For Civil
+                                        style: const TextStyle(
+                                            color: Color(0xFF2F4771),
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16),
+                                      ),
+                                    ),
+                                  ),
+                                  _progress != null
+                                      ? const CircularProgressIndicator()
+                                      : GestureDetector(
+                                          onTap: () {
+                                            if (getbuildingData[
+                                                    'InsulationAndHVACDocument'] !=
+                                                null) {
+                                              downloadFile(getbuildingData[
+                                                  'InsulationAndHVACDocument']);
+                                            } else {
+                                              Get.snackbar(translation(context)!.helloMSG, translation(context)!.errorDownloadMsg) ;
+                                            }
+                                          },
+                                          child: Container(
+                                            margin: const EdgeInsets.only(
+                                                top: 5, right: 5),
+                                            height: 35,
+                                            decoration: BoxDecoration(
+                                              color: const Color(0xFF2F4771),
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                            ),
+                                            child: Row(
+                                              children: [
+                                                const Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 8, right: 8),
+                                                  child: Icon(
+                                                    Icons.sim_card_download,
+                                                    size: 20,
+                                                    color: Color(0xFFF9FAFB),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: translation(context)!.localeName == 'ar' ?
+                                                  const EdgeInsets.only(left: 12.0)
+                                                      :
+                                                  const EdgeInsets.only(right: 12.0),
+                                                  child: Text(
+                                                      translation(context)!.downloadLabelButton,
+                                                    style: const TextStyle(
+                                                      color: Color(0xFFF9FAFB),
+                                                      fontSize: 15,
+                                                      fontWeight: FontWeight.w400,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      if (getbuildingData[
+                                              'InsulationAndHVACDocument'] !=
+                                          null) {
+                                        Get.to(DocsPdfViewer(
+                                          pdfFileURL: getbuildingData[
+                                              'InsulationAndHVACDocument'],
+                                        ));
+                                      } else {
+                                        Get.snackbar(translation(context)!.helloMSG, translation(context)!.errorOpenMsg);
+                                      }
+                                    },
+                                    child: Container(
+                                      margin:
+                                          const EdgeInsets.only(top: 5, right: 5),
+                                      height: 35,
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFF2F4771),
+                                        borderRadius: BorderRadius.circular(20.0),
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          const Padding(
+                                            padding: EdgeInsets.only(
+                                                left: 8, right: 8),
+                                            child: Icon(
+                                              Icons.file_open_outlined,
+                                              size: 20,
+                                              color: Color(0xFFF9FAFB),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: translation(context)!.localeName == 'ar' ?
+                                            const EdgeInsets.only(left: 12.0)
+                                                :
+                                            const EdgeInsets.only(right: 12.0),
+                                            child: Text(
+                                              translation(context)!.openLabelButton,
+                                              style: const TextStyle(
+                                                color: Color(0xFFF9FAFB),
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 8, right: 8),
+                                      child: Text(
+                                        translation(context)!.task4HOMechanicalDrawings, // Plumbing became Mechanical
+                                        style: const TextStyle(
+                                            color: Color(0xFF2F4771),
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16),
+                                      ),
+                                    ),
+                                  ),
+                                  _progress != null
+                                      ? const CircularProgressIndicator()
+                                      : GestureDetector(
+                                          onTap: () {
+                                            if (getbuildingData[
+                                                    'PlumbingDocument'] !=
+                                                null) {
+                                              downloadFile(getbuildingData[
+                                                  'PlumbingDocument']);
+                                            } else {
+                                              Get.snackbar(translation(context)!.helloMSG, translation(context)!.errorDownloadMsg) ;
+                                            }
+                                          },
+                                          child: Container(
+                                            margin: const EdgeInsets.only(
+                                                top: 5, right: 5),
+                                            height: 35,
+                                            decoration: BoxDecoration(
+                                              color: const Color(0xFF2F4771),
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                            ),
+                                            child: Row(
+                                              children: [
+                                                const Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 8, right: 8),
+                                                  child: Icon(
+                                                    Icons.sim_card_download,
+                                                    size: 20,
+                                                    color: Color(0xFFF9FAFB),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: translation(context)!.localeName == 'ar' ?
+                                                  const EdgeInsets.only(left: 12.0)
+                                                      :
+                                                  const EdgeInsets.only(right: 12.0),
+                                                  child: Text(
+                                                      translation(context)!.downloadLabelButton,
+                                                    style: const TextStyle(
+                                                      color: Color(0xFFF9FAFB),
+                                                      fontSize: 15,
+                                                      fontWeight: FontWeight.w400,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      if (getbuildingData['PlumbingDocument'] !=
+                                          null) {
+                                        Get.to(DocsPdfViewer(
+                                          pdfFileURL:
+                                              getbuildingData['PlumbingDocument'],
+                                        ));
+                                      } else {
+                                        Get.snackbar(translation(context)!.helloMSG, translation(context)!.errorOpenMsg);
+                                      }
+                                    },
+                                    child: Container(
+                                      margin:
+                                          const EdgeInsets.only(top: 5, right: 5),
+                                      height: 35,
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFF2F4771),
+                                        borderRadius: BorderRadius.circular(20.0),
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          const Padding(
+                                            padding: EdgeInsets.only(
+                                                left: 8, right: 8),
+                                            child: Icon(
+                                              Icons.file_open_outlined,
+                                              size: 20,
+                                              color: Color(0xFFF9FAFB),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: translation(context)!.localeName == 'ar' ?
+                                            const EdgeInsets.only(left: 12.0)
+                                                :
+                                            const EdgeInsets.only(right: 12.0),
+                                            child: Text(
+                                              translation(context)!.openLabelButton,
+                                              style: const TextStyle(
+                                                color: Color(0xFFF9FAFB),
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 8, right: 8),
+                                      child: Text(
+                                        translation(context)!.task4HOElectricalDrawings,
+                                        style: const TextStyle(
+                                            color: Color(0xFF2F4771),
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16),
+                                      ),
+                                    ),
+                                  ),
+                                  _progress != null
+                                      ? const CircularProgressIndicator()
+                                      : GestureDetector(
+                                          onTap: () {
+                                            if (getbuildingData[
+                                                    'ElectricalDocument'] !=
+                                                null) {
+                                              downloadFile(getbuildingData[
+                                                  'ElectricalDocument']);
+                                            } else {
+                                              Get.snackbar(translation(context)!.helloMSG, translation(context)!.errorDownloadMsg) ;
+                                            }
+                                          },
+                                          child: Container(
+                                            margin: const EdgeInsets.only(
+                                                top: 5, right: 5),
+                                            height: 35,
+                                            decoration: BoxDecoration(
+                                              color: const Color(0xFF2F4771),
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                            ),
+                                            child: Row(
+                                              children: [
+                                                const Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 8, right: 8),
+                                                  child: Icon(
+                                                    Icons.sim_card_download,
+                                                    size: 20,
+                                                    color: Color(0xFFF9FAFB),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: translation(context)!.localeName == 'ar' ?
+                                                  const EdgeInsets.only(left: 12.0)
+                                                      :
+                                                  const EdgeInsets.only(right: 12.0),
+                                                  child: Text(
+                                                    translation(context)!.downloadLabelButton,
+                                                    style: const TextStyle(
+                                                      color: Color(0xFFF9FAFB),
+                                                      fontSize: 15,
+                                                      fontWeight: FontWeight.w400,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      if (getbuildingData['ElectricalDocument'] !=
+                                          null) {
+                                        Get.to(DocsPdfViewer(
+                                          pdfFileURL: getbuildingData[
+                                              'ElectricalDocument'],
+                                        ));
+                                      } else {
+                                        Get.snackbar(translation(context)!.helloMSG, translation(context)!.errorOpenMsg);
+                                      }
+                                    },
+                                    child: Container(
+                                      margin:
+                                          const EdgeInsets.only(top: 5, right: 5),
+                                      height: 35,
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFF2F4771),
+                                        borderRadius: BorderRadius.circular(20.0),
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          const Padding(
+                                            padding: EdgeInsets.only(
+                                                left: 8, right: 8),
+                                            child: Icon(
+                                              Icons.file_open_outlined,
+                                              size: 20,
+                                              color: Color(0xFFF9FAFB),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: translation(context)!.localeName == 'ar' ?
+                                            const EdgeInsets.only(left: 12.0)
+                                                :
+                                            const EdgeInsets.only(right: 12.0),
+                                            child: Text(
+                                              translation(context)!.openLabelButton,
+                                              style: const TextStyle(
+                                                color: Color(0xFFF9FAFB),
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 5.0),
+                              Container(
+                                padding: EdgeInsets.only(bottom: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(10),
+                                      child: Text(
+                                        translation(context)!.task1HOServiceProviderNotes,
+                                        style: const TextStyle(
+                                            color: Color(0xFF2F4771),
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    ),
+                                    Container(
+                                      height: 140,
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8),
+                                      child: TextFormField(
+                                        maxLines: 5,
+                                        minLines: 5,
+                                        enabled: false,
+                                        readOnly: true,
+                                        decoration: InputDecoration(
+                                          hintText: task4Data['Notes'] ??
+                                              translation(context)!.task1HONoNotesSP,
+                                          hintStyle:
+                                              TextStyle(color: Color(0xFF2F4771)),
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                            borderSide: const BorderSide(
+                                              color: Color(0xFF2F4771),
+                                            ),
+                                          ),
+                                          disabledBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                            borderSide: const BorderSide(
+                                              color: Color(0xFF2F4771),
+                                              width: 1.5,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

@@ -243,6 +243,19 @@ class HomeOwnerTasksAPI {
 
 //-------------------------------------------------------------------------------------------//
 
+  static void translateStatusToArabic(Map<String, dynamic> list){
+    if(list["TaskStatus"]! == 'Not Started'){
+      list["TaskStatus"] = 'لم يبدأ' ;
+    }
+    else if(list["TaskStatus"]! == 'In Progress'){
+      list["TaskStatus"] = 'قيد التنفيذ' ;
+    }
+    else{
+      list["TaskStatus"] = 'مكتمل' ;
+    }
+
+  }
+
   static Future<Map<String, dynamic>> getPropertySurvey(String taskId) async {
     try {
       final response = await http.get(

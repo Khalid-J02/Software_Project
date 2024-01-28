@@ -17,9 +17,7 @@ class _TaskInformationState extends State<LandInformation> {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: translation(context)!.localeName == 'ar'
-          ? TextDirection.rtl
-          : TextDirection.ltr,
+      textDirection: translation(context)!.localeName == 'ar' ? TextDirection.rtl : TextDirection.ltr,
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
         decoration: const BoxDecoration(
@@ -43,7 +41,7 @@ class _TaskInformationState extends State<LandInformation> {
           child: Column(
             children: [
               Container(
-                height: MediaQuery.of(context).size.height / 17,
+                height: MediaQuery.of(context).size.height/17 ,
                 // color: Color(0xFF6781A6),
                 decoration: BoxDecoration(
                   color: Color(0xFF6781A6),
@@ -60,16 +58,17 @@ class _TaskInformationState extends State<LandInformation> {
                 ),
                 child: Center(
                   child: Text(
-                    translation(context)!.landInformationTitle,
+                    translation(context)!.landInformationMainTitle,
                     style: const TextStyle(
                         color: Color(0xFFF9FAFB),
                         fontSize: 19,
-                        fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.bold
+                    ),
                   ),
                 ),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.107843137 + 1,
+                height: MediaQuery.of(context).size.height*0.107843137 + 1,
                 child: Column(
                   children: [
                     Expanded(
@@ -82,9 +81,11 @@ class _TaskInformationState extends State<LandInformation> {
                               padding: const EdgeInsets.only(top: 15.0),
                               child: Center(
                                 child: Text(
-                                  translation(context)!.landInformationBasin,
+                                  translation(context)!.landInformationBasinNumber,
                                   style: TextStyle(
-                                      color: Colors.grey[600], fontSize: 17),
+                                      color: Colors.grey[600],
+                                      fontSize: 17
+                                  ),
                                 ),
                               ),
                             ),
@@ -94,9 +95,11 @@ class _TaskInformationState extends State<LandInformation> {
                               padding: const EdgeInsets.only(top: 15.0),
                               child: Center(
                                 child: Text(
-                                  translation(context)!.landInformationPlot,
+                                  translation(context)!.landInformationPlotNumber,
                                   style: TextStyle(
-                                      color: Colors.grey[600], fontSize: 17),
+                                      color: Colors.grey[600],
+                                      fontSize: 17
+                                  ),
                                 ),
                               ),
                             ),
@@ -115,7 +118,8 @@ class _TaskInformationState extends State<LandInformation> {
                               style: const TextStyle(
                                   color: Color(0xFF2F4771),
                                   fontSize: 15,
-                                  fontWeight: FontWeight.w500),
+                                  fontWeight: FontWeight.w500
+                              ),
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -125,7 +129,8 @@ class _TaskInformationState extends State<LandInformation> {
                               style: const TextStyle(
                                   color: Color(0xFF2F4771),
                                   fontSize: 15,
-                                  fontWeight: FontWeight.w500),
+                                  fontWeight: FontWeight.w500
+                              ),
                               textAlign: TextAlign.center,
                             ),
                           ),

@@ -1,4 +1,5 @@
 import 'package:buildnex/Widgets/serviceProvideCard_HO.dart';
+import 'package:buildnex/classes/language_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
@@ -32,7 +33,6 @@ class _SearchPageState extends State<SearchPage> {
 
   final _searchController = TextEditingController();
   String activeCategory = '';
-  String searchText=  "Search for Service Providers";
   late String taskID ;
 
   final List<Map<String, dynamic>> categoryList = [
@@ -375,220 +375,242 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xFFF9FAFB), //const Color(0xFFF9FAFB),
-      appBar: AppBar(
-        leading: const Icon(
-          Icons.search,
-          color: Color(0xFFF3D69B),
-          size: 27,
+
+    String searchText=  translation(context)!.searchPageHOSearchBarLabel;
+
+    return Directionality(
+      textDirection: translation(context)!.localeName == 'ar' ? TextDirection.rtl : TextDirection.ltr,
+      child: Scaffold(
+        backgroundColor: Color(0xFFF9FAFB), //const Color(0xFFF9FAFB),
+        appBar: AppBar(
+          leading: const Icon(
+            Icons.search,
+            color: Colors.white,
+            size: 27,
+          ),
+          title: Text(
+            translation(context)!.searchPageHOMainTitle,
+            style: TextStyle(color: Colors.white),
+          ),
+          elevation: 0,
+          backgroundColor: Color(0xFF122247), //Colors.white,
         ),
-        title: const Text(
-          'Search',
-          style: TextStyle(color: Color(0xFFF3D69B)),
-        ),
-        elevation: 0,
-        backgroundColor: Color(0xFF122247), //Colors.white,
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: MediaQuery.of(context).size.width > 930
-                    ?
-                EdgeInsets.only(top: 12, bottom: 10 , right: MediaQuery.of(context).size.width/3.5 , left: MediaQuery.of(context).size.width/3.5)
-                    :
-                EdgeInsets.only(top: 12, left: 12),
-                child: Text(
-                  "Welcome Back !",
-                  style: TextStyle(
-                    color: Color(0xFF022D6B),
-                    fontWeight: FontWeight.w500,
-                    fontSize: MediaQuery.of(context).size.width > 930
-                        ? 35
-                        : 25,
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: MediaQuery.of(context).size.width > 930
+                      ?
+                  EdgeInsets.only(top: 12, bottom: 10 , right: MediaQuery.of(context).size.width/3.5 , left: MediaQuery.of(context).size.width/3.5)
+                      :
+                  translation(context)!.localeName == 'ar'
+                  ? EdgeInsets.only(top: 12, right: 12)
+                  : EdgeInsets.only(top: 12, left: 12) ,
+                  child: Text(
+                    translation(context)!.searchPageHOWelcomeMsg,
+                    style: TextStyle(
+                      color: Color(0xFF022D6B),
+                      fontWeight: FontWeight.w500,
+                      fontSize: MediaQuery.of(context).size.width > 930
+                          ? 35
+                          : 25,
+                    ),
                   ),
                 ),
-              ),
-              Row(
-                children: [
-                  Padding(
-                    padding: MediaQuery.of(context).size.width > 930
-                        ?
-                    EdgeInsets.only(top: 16, bottom: 10 , left: MediaQuery.of(context).size.width/3.5)
-                        :
-                    const EdgeInsets.only(top: 12, bottom: 8, left: 12),
-                    child: SizedBox(
-                      height: 50,
-                      width: MediaQuery.of(context).size.width > 930
-                          ? MediaQuery.of(context).size.width/2.7
-                          : 344,
-                      child: GestureDetector(
-                        key: searchKey,
-                        onTap: () async {
-                          List<String> suggestionNames = await HomeOwnerSearchAPI.getSuggestionNames();
-                          showSearch(
-                            context: context,
-                            delegate: CustomSearchDelegate(
-                              suggestionNames: suggestionNames,
-                              onSearchResults: (results, query) {
-                                Future.microtask(() {
-                                  setState(() {
-                                    serviceProviders = results;
-                                    searchText = query; // Update the search bar text
+                Row(
+                  children: [
+                    Padding(
+                      padding: MediaQuery.of(context).size.width > 930
+                          ?
+                      EdgeInsets.only(top: 16, bottom: 10 , left: MediaQuery.of(context).size.width/3.5)
+                          :
+                      translation(context)!.localeName == 'ar'
+                      ?
+                      const EdgeInsets.only(top: 12, bottom: 8, right: 12)
+                      :
+                      const EdgeInsets.only(top: 12, bottom: 8, left: 12),
+                      child: SizedBox(
+                        height: 50,
+                        width: MediaQuery.of(context).size.width > 930
+                            ? MediaQuery.of(context).size.width/2.7
+                            : 344,
+                        child: GestureDetector(
+                          key: searchKey,
+                          onTap: () async {
+                            List<String> suggestionNames = await HomeOwnerSearchAPI.getSuggestionNames();
+                            showSearch(
+                              context: context,
+                              delegate: CustomSearchDelegate(
+                                suggestionNames: suggestionNames,
+                                onSearchResults: (results, query) {
+                                  Future.microtask(() {
+                                    setState(() {
+                                      serviceProviders = results;
+                                      searchText = query; // Update the search bar text
+                                    });
                                   });
-                                });
-                              },
-                              initialQuery:'', // Pass the initial search query
+                                },
+                                initialQuery:'', // Pass the initial search query
+                              ),
+                            );
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              // add the decoration and add a new widget for the search no time to sleep
+                                color: Colors.grey[300],
+                                borderRadius: BorderRadius.circular(30),
+                                border: Border.all(
+                                  color: const Color(0xFF022D6B),
+                                  width: 1,
+                                )),
+                            child: Row(
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 12.0),
+                                  child: Icon(
+                                    Icons.search_outlined,
+                                    size: 25,
+                                    color: Color(0xFF022D6B),
+                                  ),
+                                ),
+                                Text(
+                                  searchText,
+                                  style: TextStyle(
+                                    color: Color(0xFF022D6B),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
                             ),
-                          );
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            // add the decoration and add a new widget for the search no time to sleep
-                              color: Colors.grey[300],
-                              borderRadius: BorderRadius.circular(30),
-                              border: Border.all(
-                                color: const Color(0xFF022D6B),
-                                width: 1,
-                              )),
-                          child: Row(
-                            children: [
-                              const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 12.0),
-                                child: Icon(
-                                  Icons.search_outlined,
-                                  size: 25,
-                                  color: Color(0xFF022D6B),
-                                ),
-                              ),
-                              Text(
-                                searchText,
-                                style: TextStyle(
-                                  color: Color(0xFF022D6B),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ],
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 12, bottom: 10),
-                    child: IconButton(
-                      key: filterKey,
-                      onPressed: () async {
-                        List<String>? UpdatedData = await filterSearch();
-                        setState(() {
-                          if (UpdatedData != null) {
-                            filterRating = int.parse(UpdatedData![0]);
-                            filterMinWage = int.parse(UpdatedData![1]);
-                            filterMaxWage = int.parse(UpdatedData![2]);
-                            filterSPLocation = UpdatedData![3];
-                            _filterServiceProviders();
+                    Padding(
+                      padding: EdgeInsets.only(top: 12, bottom: 10),
+                      child: IconButton(
+                        key: filterKey,
+                        onPressed: () async {
+                          List<String>? UpdatedData = await filterSearch();
+                          setState(() {
+                            if (UpdatedData != null) {
+                              filterRating = int.parse(UpdatedData![0]);
+                              filterMinWage = int.parse(UpdatedData![1]);
+                              filterMaxWage = int.parse(UpdatedData![2]);
+                              filterSPLocation = UpdatedData![3];
+                              _filterServiceProviders();
 
-                            // print('${filterRating} : ${filterMinWage} : ${filterMaxWage} : ${filterSPLocation} : ${activeCategory}') ;
-                          }
-                        });
+                              // print('${filterRating} : ${filterMinWage} : ${filterMaxWage} : ${filterSPLocation} : ${activeCategory}') ;
+                            }
+                          });
+                        },
+                        icon: const Icon(
+                          Icons.filter_alt,
+                          size: 30,
+                          color: Color(0xFF022D6B),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                widget.askForRequest    // this means if the ask for request was false then user has enter this page from the navbar and so we show him the services. BUT if its true then user won't need the service
+                    ? SizedBox(height: 0,)
+                    : Padding(
+                  padding: MediaQuery.of(context).size.width > 930
+                      ?
+                  EdgeInsets.only(top: 12, bottom: 10 , right: 12 , left: 16)
+                      :
+                  translation(context)!.localeName == 'ar'
+                  ?
+                  const EdgeInsets.only(top: 12 , bottom: 10 , right: 12 , left: 15)
+                  :
+                  const EdgeInsets.only(top: 12, bottom: 10, right: 15, left: 12),
+                  child: Text(
+                    translation(context)!.searchPageHOSearchServices,
+                    style: TextStyle(
+                      color: Color(0xFF022D6B),
+                      fontSize: MediaQuery.of(context).size.width > 930
+                          ? 28
+                          : 21,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                widget.askForRequest
+                    ? SizedBox(height: 0,)
+                    : SizedBox(
+                  height: MediaQuery.of(context).size.width > 930
+                      ? MediaQuery.of(context).size.width / 30
+                      : 55,
+
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        top: 8, bottom: 10, right: 15, left: 15),
+                    child: GestureDetector(
+                      key: servicesKey,
+                      onTap: () {
+                        selectedCategory(categoryList[0]["serviceName"]);
                       },
-                      icon: const Icon(
-                        Icons.filter_alt,
-                        size: 30,
-                        color: Color(0xFF022D6B),
+                      child: CategoriesHo(
+                        categoryList: categoryList,
+                        selectedCategory: selectedCategory,
                       ),
-                    ),
-                  ),
-                ],
-              ),
-              widget.askForRequest    // this means if the ask for request was false then user has enter this page from the navbar and so we show him the services. BUT if its true then user won't need the service
-                  ? SizedBox(height: 0,)
-                  : Padding(
-                padding: MediaQuery.of(context).size.width > 930
-                    ?
-                EdgeInsets.only(top: 12, bottom: 10 , right: 12 , left: 16)
-                    :
-                const EdgeInsets.only(top: 12, bottom: 10, right: 15, left: 12),
-                child: Text(
-                  "Services",
-                  style: TextStyle(
-                    color: Color(0xFF022D6B),
-                    fontSize: MediaQuery.of(context).size.width > 930
-                        ? 28
-                        : 21,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-              widget.askForRequest
-                  ? SizedBox(height: 0,)
-                  : SizedBox(
-                height: MediaQuery.of(context).size.width > 930
-                    ? MediaQuery.of(context).size.width / 30
-                    : 55,
-
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                      top: 8, bottom: 10, right: 15, left: 15),
-                  child: GestureDetector(
-                    key: servicesKey,
-                    onTap: () {
-                      selectedCategory(categoryList[0]["serviceName"]);
-                    },
-                    child: CategoriesHo(
-                      categoryList: categoryList,
-                      selectedCategory: selectedCategory,
                     ),
                   ),
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: MediaQuery.of(context).size.width > 930
-                        ?
-                    EdgeInsets.only(top: 12, bottom: 10 , right: 12 , left: 16)
-                        :
-                    EdgeInsets.only(top: 12, bottom: 10, right: 15, left: 12),
-                    child: Text(
-                      "Discover",
-                      style: TextStyle(
-                        color: Color(0xFF022D6B),
-                        fontSize: MediaQuery.of(context).size.width > 930
-                            ? 28
-                            : 21,
-                        fontWeight: FontWeight.w500,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: MediaQuery.of(context).size.width > 930
+                          ?
+                      EdgeInsets.only(top: 12, bottom: 10 , right: 12 , left: 16)
+                          :
+                      translation(context)!.localeName == 'ar'
+                          ?
+                      const EdgeInsets.only(top: 12 , bottom: 10 , right: 12 , left: 15)
+                          :
+                      const EdgeInsets.only(top: 12, bottom: 10, right: 15, left: 12),
+                      child: Text(
+                        translation(context)!.searchPageHODiscover,
+                        style: TextStyle(
+                          color: Color(0xFF022D6B),
+                          fontSize: MediaQuery.of(context).size.width > 930
+                              ? 28
+                              : 21,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
-                  ),
-                  GestureDetector(
-                    onTap: (){
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (BuildContext context) => super.widget),
-                      );
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (BuildContext context) => super.widget),
+                        );
 
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.only(top: 5 , right: 12, ),
-                      child: Icon(
-                        Icons.refresh,
-                        size: MediaQuery.of(context).size.width > 930
-                            ? 30
-                            : 25,
-                        color: Color(0xFF122247),
+                      },
+                      child: Container(
+                        padding: translation(context)!.localeName == 'ar'
+                        ? const EdgeInsets.only(top: 5 , left: 12, )
+                        : const EdgeInsets.only(top: 5 , right: 12, ),
+                        child: Icon(
+                          Icons.refresh,
+                          size: MediaQuery.of(context).size.width > 930
+                              ? 30
+                              : 25,
+                          color: Color(0xFF122247),
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              SPCard(key: discoverKey ,topServiceProviders: serviceProviders, askForRequest: widget.askForRequest, taskID: taskID),
-            ],
+                  ],
+                ),
+                SPCard(key: discoverKey ,topServiceProviders: serviceProviders, askForRequest: widget.askForRequest, taskID: taskID),
+              ],
+            ),
           ),
         ),
       ),
