@@ -97,7 +97,7 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
               children: [
                 TaskInformation(
                   taskID: task10Data['TaskID'] ?? 0,
-                  taskName: 'Door Frame Installation',
+                  taskName: translation(context)!.task11HOTaskName,
                   projectName: task10Data['ProjectName'] ?? 'Unknown',
                   taskStatus: task10Data['TaskStatus'] ?? 'Unknown',
                 ),
@@ -143,10 +143,10 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                               width: 1.0,
                             ),
                           ),
-                          child: const Center(
+                          child: Center(
                             child: Text(
-                              "Home Owner Needs",
-                              style: TextStyle(
+                              translation(context)!.task11HONeeds,
+                              style: const TextStyle(
                                   color: Color(0xFFF9FAFB),
                                   fontSize: 19,
                                   fontWeight: FontWeight.bold),
@@ -158,12 +158,11 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Padding(
-                                padding:
-                                    EdgeInsets.only(left: 8, top: 10, bottom: 8),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8, top: 10, bottom: 8),
                                 child: Text(
-                                  "Choose Door Design For The Following: ",
-                                  style: TextStyle(
+                                  translation(context)!.task11HONeedsSubTitle,
+                                  style: const TextStyle(
                                       color: Color(0xFF2F4771),
                                       fontSize: 17,
                                       fontWeight: FontWeight.w500),
@@ -172,14 +171,14 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Expanded(
+                                  Expanded(
                                     flex: 1,
                                     child: Padding(
-                                      padding: EdgeInsets.only(
+                                      padding: const EdgeInsets.only(
                                           left: 8, right: 8, top: 6),
                                       child: Text(
-                                        "Bedroom:",
-                                        style: TextStyle(
+                                        translation(context)!.task11HONeedsBedroom,
+                                        style: const TextStyle(
                                             color: Color(0xFF2F4771),
                                             fontWeight: FontWeight.w500,
                                             fontSize: 16),
@@ -207,10 +206,15 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                                               borderRadius:
                                                   BorderRadius.circular(20.0),
                                             ),
-                                            child: const Row(
+                                            child: Row(
                                               children: [
                                                 Padding(
-                                                  padding: EdgeInsets.only(
+                                                  padding: translation(context)!.localeName == 'ar'
+                                                  ?
+                                                  EdgeInsets.only(
+                                                      left: 4, right: 8)
+                                                  :
+                                                  EdgeInsets.only(
                                                       left: 8, right: 4),
                                                   child: Icon(
                                                     Icons.remove_red_eye,
@@ -220,10 +224,12 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                                                 ),
                                                 Padding(
                                                   padding:
-                                                      EdgeInsets.only(right: 8.0),
+                                                  translation(context)!.localeName == 'ar'
+                                                    ? EdgeInsets.only(left: 8)
+                                                    : EdgeInsets.only(right: 8.0),
                                                   child: Text(
-                                                    "See Item",
-                                                    style: TextStyle(
+                                                    translation(context)!.task11HONeedsSeeItem,
+                                                    style: const TextStyle(
                                                       color: Color(0xFFF9FAFB),
                                                       fontSize: 14,
                                                       fontWeight: FontWeight.w400,
@@ -257,10 +263,14 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                                         color: const Color(0xFF2F4771),
                                         borderRadius: BorderRadius.circular(20.0),
                                       ),
-                                      child: const Row(
+                                      child: Row(
                                         children: [
                                           Padding(
-                                            padding: EdgeInsets.only(
+                                            padding: translation(context)!.localeName == 'ar'
+                                            ?
+                                            EdgeInsets.only(
+                                                left: 4, right: 12)
+                                            :EdgeInsets.only(
                                                 left: 12, right: 4),
                                             child: Icon(
                                               Icons.folder_copy,
@@ -269,10 +279,12 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                                             ),
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.only(right: 12.0),
+                                            padding: translation(context)!.localeName == 'ar'
+                                                ? EdgeInsets.only(left: 12)
+                                                : EdgeInsets.only(right: 12.0),
                                             child: Text(
-                                              "Open Catalog",
-                                              style: TextStyle(
+                                              translation(context)!.task11HONeedsOpenCatalog,
+                                              style: const TextStyle(
                                                 color: Color(0xFFF9FAFB),
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w400,
@@ -288,14 +300,14 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Expanded(
+                                  Expanded(
                                     flex: 1,
                                     child: Padding(
-                                      padding: EdgeInsets.only(
+                                      padding: const EdgeInsets.only(
                                           left: 8, right: 8, top: 6),
                                       child: Text(
-                                        "Bathroom:",
-                                        style: TextStyle(
+                                        translation(context)!.task11HONeedsBathroom,
+                                        style: const TextStyle(
                                             color: Color(0xFF2F4771),
                                             fontWeight: FontWeight.w500,
                                             fontSize: 16),
@@ -323,10 +335,15 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                                               borderRadius:
                                                   BorderRadius.circular(20.0),
                                             ),
-                                            child: const Row(
+                                            child: Row(
                                               children: [
                                                 Padding(
-                                                  padding: EdgeInsets.only(
+                                                  padding: translation(context)!.localeName == 'ar'
+                                                      ?
+                                                  EdgeInsets.only(
+                                                      left: 4, right: 8)
+                                                      :
+                                                  EdgeInsets.only(
                                                       left: 8, right: 4),
                                                   child: Icon(
                                                     Icons.remove_red_eye,
@@ -336,10 +353,12 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                                                 ),
                                                 Padding(
                                                   padding:
-                                                      EdgeInsets.only(right: 8.0),
+                                                  translation(context)!.localeName == 'ar'
+                                                      ? EdgeInsets.only(left: 8)
+                                                      : EdgeInsets.only(right: 8.0),
                                                   child: Text(
-                                                    "See Item",
-                                                    style: TextStyle(
+                                                    translation(context)!.task11HONeedsSeeItem,
+                                                    style: const TextStyle(
                                                       color: Color(0xFFF9FAFB),
                                                       fontSize: 14,
                                                       fontWeight: FontWeight.w400,
@@ -373,10 +392,14 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                                         color: const Color(0xFF2F4771),
                                         borderRadius: BorderRadius.circular(20.0),
                                       ),
-                                      child: const Row(
+                                      child: Row(
                                         children: [
                                           Padding(
-                                            padding: EdgeInsets.only(
+                                            padding: translation(context)!.localeName == 'ar'
+                                                ?
+                                            EdgeInsets.only(
+                                                left: 4, right: 12)
+                                                :EdgeInsets.only(
                                                 left: 12, right: 4),
                                             child: Icon(
                                               Icons.folder_copy,
@@ -385,10 +408,12 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                                             ),
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.only(right: 12.0),
+                                            padding: translation(context)!.localeName == 'ar'
+                                                ? EdgeInsets.only(left: 12)
+                                                : EdgeInsets.only(right: 12.0),
                                             child: Text(
-                                              "Open Catalog",
-                                              style: TextStyle(
+                                              translation(context)!.task11HONeedsOpenCatalog,
+                                              style: const TextStyle(
                                                 color: Color(0xFFF9FAFB),
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w400,
@@ -404,14 +429,14 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Expanded(
+                                  Expanded(
                                     flex: 1,
                                     child: Padding(
-                                      padding: EdgeInsets.only(
+                                      padding: const EdgeInsets.only(
                                           left: 8, right: 8, top: 6),
                                       child: Text(
-                                        "Living Room:",
-                                        style: TextStyle(
+                                        translation(context)!.task11HONeedsLivingRoom,
+                                        style: const TextStyle(
                                             color: Color(0xFF2F4771),
                                             fontWeight: FontWeight.w500,
                                             fontSize: 16),
@@ -439,10 +464,15 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                                               borderRadius:
                                                   BorderRadius.circular(20.0),
                                             ),
-                                            child: const Row(
+                                            child: Row(
                                               children: [
                                                 Padding(
-                                                  padding: EdgeInsets.only(
+                                                  padding: translation(context)!.localeName == 'ar'
+                                                      ?
+                                                  EdgeInsets.only(
+                                                      left: 4, right: 8)
+                                                      :
+                                                  EdgeInsets.only(
                                                       left: 8, right: 4),
                                                   child: Icon(
                                                     Icons.remove_red_eye,
@@ -452,10 +482,12 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                                                 ),
                                                 Padding(
                                                   padding:
-                                                      EdgeInsets.only(right: 8.0),
+                                                  translation(context)!.localeName == 'ar'
+                                                      ? EdgeInsets.only(left: 8)
+                                                      : EdgeInsets.only(right: 8.0),
                                                   child: Text(
-                                                    "See Item",
-                                                    style: TextStyle(
+                                                    translation(context)!.task11HONeedsSeeItem,
+                                                    style: const TextStyle(
                                                       color: Color(0xFFF9FAFB),
                                                       fontSize: 14,
                                                       fontWeight: FontWeight.w400,
@@ -488,10 +520,14 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                                         color: const Color(0xFF2F4771),
                                         borderRadius: BorderRadius.circular(20.0),
                                       ),
-                                      child: const Row(
+                                      child: Row(
                                         children: [
                                           Padding(
-                                            padding: EdgeInsets.only(
+                                            padding: translation(context)!.localeName == 'ar'
+                                                ?
+                                            EdgeInsets.only(
+                                                left: 4, right: 12)
+                                                :EdgeInsets.only(
                                                 left: 12, right: 4),
                                             child: Icon(
                                               Icons.folder_copy,
@@ -500,10 +536,12 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                                             ),
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.only(right: 12.0),
+                                            padding: translation(context)!.localeName == 'ar'
+                                                ? EdgeInsets.only(left: 12)
+                                                : EdgeInsets.only(right: 12.0),
                                             child: Text(
-                                              "Open Catalog",
-                                              style: TextStyle(
+                                              translation(context)!.task11HONeedsOpenCatalog,
+                                              style: const TextStyle(
                                                 color: Color(0xFFF9FAFB),
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w400,
@@ -519,14 +557,14 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Expanded(
+                                  Expanded(
                                     flex: 1,
                                     child: Padding(
-                                      padding: EdgeInsets.only(
+                                      padding: const EdgeInsets.only(
                                           left: 8, right: 8, top: 6),
                                       child: Text(
-                                        "Guest Room:",
-                                        style: TextStyle(
+                                        translation(context)!.task11HONeedsGuestRoom,
+                                        style: const TextStyle(
                                             color: Color(0xFF2F4771),
                                             fontWeight: FontWeight.w500,
                                             fontSize: 16),
@@ -554,10 +592,15 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                                               borderRadius:
                                                   BorderRadius.circular(20.0),
                                             ),
-                                            child: const Row(
+                                            child: Row(
                                               children: [
                                                 Padding(
-                                                  padding: EdgeInsets.only(
+                                                  padding: translation(context)!.localeName == 'ar'
+                                                      ?
+                                                  EdgeInsets.only(
+                                                      left: 4, right: 8)
+                                                      :
+                                                  EdgeInsets.only(
                                                       left: 8, right: 4),
                                                   child: Icon(
                                                     Icons.remove_red_eye,
@@ -567,10 +610,12 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                                                 ),
                                                 Padding(
                                                   padding:
-                                                      EdgeInsets.only(right: 8.0),
+                                                  translation(context)!.localeName == 'ar'
+                                                      ? EdgeInsets.only(left: 8)
+                                                      : EdgeInsets.only(right: 8.0),
                                                   child: Text(
-                                                    "See Item",
-                                                    style: TextStyle(
+                                                    translation(context)!.task11HONeedsSeeItem,
+                                                    style: const TextStyle(
                                                       color: Color(0xFFF9FAFB),
                                                       fontSize: 14,
                                                       fontWeight: FontWeight.w400,
@@ -603,10 +648,14 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                                         color: const Color(0xFF2F4771),
                                         borderRadius: BorderRadius.circular(20.0),
                                       ),
-                                      child: const Row(
+                                      child: Row(
                                         children: [
                                           Padding(
-                                            padding: EdgeInsets.only(
+                                            padding: translation(context)!.localeName == 'ar'
+                                                ?
+                                            EdgeInsets.only(
+                                                left: 4, right: 12)
+                                                :EdgeInsets.only(
                                                 left: 12, right: 4),
                                             child: Icon(
                                               Icons.folder_copy,
@@ -615,10 +664,12 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                                             ),
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.only(right: 12.0),
+                                            padding: translation(context)!.localeName == 'ar'
+                                                ? EdgeInsets.only(left: 12)
+                                                : EdgeInsets.only(right: 12.0),
                                             child: Text(
-                                              "Open Catalog",
-                                              style: TextStyle(
+                                              translation(context)!.task11HONeedsOpenCatalog,
+                                              style: const TextStyle(
                                                 color: Color(0xFFF9FAFB),
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w400,
@@ -653,8 +704,8 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                                           guestroomDoorCatalogID
                                       );
                                     },
-                                    child: const Text(
-                                      'Save',
+                                    child: Text(
+                                      translation(context)!.task11HONeedsSaveLabelButton,
                                       style: TextStyle(
                                         fontSize: 20,
                                         color: Color(0xFFF9FAFB),

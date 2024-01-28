@@ -65,7 +65,7 @@ class _GovernemntalPermittiveHOState extends State<GovernemntalPermittiveHO> {
               children: [
                 TaskInformation(
                   taskID: task5Data['TaskID'] ?? 0,
-                  taskName: 'Obtaining Approvals',
+                  taskName: translation(context)!.task5HOTaskName,
                   projectName: task5Data['ProjectName'] ?? 'Unknown',
                   taskStatus: task5Data['TaskStatus'] ?? 'Unknown',
                 ),
@@ -130,17 +130,17 @@ class _GovernemntalPermittiveHOState extends State<GovernemntalPermittiveHO> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Expanded(
+                                  Expanded(
                                     flex: 1,
                                     child: Padding(
-                                      padding: EdgeInsets.only(
+                                      padding: const EdgeInsets.only(
                                         left: 8,
                                         right: 0,
                                         top: 5,
                                       ),
                                       child: Text(
-                                        "Approval Documents:", // we should give another name
-                                        style: TextStyle(
+                                        translation(context)!.task5HOApprovalDocument, // we should give another name
+                                        style: const TextStyle(
                                             color: Color(0xFF2F4771),
                                             fontWeight: FontWeight.w500,
                                             fontSize: 16),

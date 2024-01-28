@@ -83,16 +83,12 @@ class _PaintingHOState extends State<PaintingHO> {
       child: Scaffold(
         backgroundColor: const Color(0xFFF9FAFB),
         appBar: AppBar(
-          leading: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Color(0xFFF3D69B),
-          ),
           title: Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: MediaQuery.of(context).size.width / 5),
-            child: const Text(
-              "Task Details",
-              style: TextStyle(color: Color(0xFFF3D69B)),
+            child: Text(
+              translation(context)!.task1HOMainTitle,
+              style: TextStyle(color: Colors.white),
             ),
           ),
           elevation: 0,
@@ -105,7 +101,7 @@ class _PaintingHOState extends State<PaintingHO> {
               children: [
                 TaskInformation(
                   taskID: task15Data['TaskID'] ?? 0,
-                  taskName: 'Painting Work',
+                  taskName: translation(context)!.task13HOTaskName,
                   projectName: task15Data['ProjectName'] ?? 'Unknown',
                   taskStatus: task15Data['TaskStatus'] ?? 'Unknown',
                 ),
@@ -151,9 +147,9 @@ class _PaintingHOState extends State<PaintingHO> {
                               width: 1.0,
                             ),
                           ),
-                          child: const Center(
+                          child: Center(
                             child: Text(
-                              "Home Owner Needs",
+                              translation(context)!.task11HONeeds,
                               style: TextStyle(
                                   color: Color(0xFFF9FAFB),
                                   fontSize: 19,
@@ -166,11 +162,11 @@ class _PaintingHOState extends State<PaintingHO> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Padding(
+                              Padding(
                                 padding:
                                     EdgeInsets.only(left: 8, top: 10, bottom: 8),
                                 child: Text(
-                                  "Choose Paint Color For The Following: ",
+                                  translation(context)!.task13HONeedsSubTitle,
                                   style: TextStyle(
                                       color: Color(0xFF2F4771),
                                       fontSize: 17,
@@ -180,13 +176,13 @@ class _PaintingHOState extends State<PaintingHO> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Expanded(
+                                  Expanded(
                                     flex: 1,
                                     child: Padding(
                                       padding: EdgeInsets.only(
                                           left: 8, right: 8, top: 6),
                                       child: Text(
-                                        "Bedroom:",
+                                        translation(context)!.task13HONeedsBedroom,
                                         style: TextStyle(
                                             color: Color(0xFF2F4771),
                                             fontWeight: FontWeight.w500,
@@ -215,10 +211,15 @@ class _PaintingHOState extends State<PaintingHO> {
                                               borderRadius:
                                                   BorderRadius.circular(20.0),
                                             ),
-                                            child: const Row(
+                                            child: Row(
                                               children: [
                                                 Padding(
-                                                  padding: EdgeInsets.only(
+                                                  padding: translation(context)!.localeName == 'ar'
+                                                      ?
+                                                  EdgeInsets.only(
+                                                      left: 4, right: 8)
+                                                      :
+                                                  EdgeInsets.only(
                                                       left: 8, right: 4),
                                                   child: Icon(
                                                     Icons.remove_red_eye,
@@ -228,9 +229,11 @@ class _PaintingHOState extends State<PaintingHO> {
                                                 ),
                                                 Padding(
                                                   padding:
-                                                      EdgeInsets.only(right: 8.0),
+                                                  translation(context)!.localeName == 'ar'
+                                                      ? EdgeInsets.only(left: 8)
+                                                      : EdgeInsets.only(right: 8.0),
                                                   child: Text(
-                                                    "See Item",
+                                                    translation(context)!.task13HONeedsSeeItem,
                                                     style: TextStyle(
                                                       color: Color(0xFFF9FAFB),
                                                       fontSize: 14,
@@ -264,10 +267,14 @@ class _PaintingHOState extends State<PaintingHO> {
                                         color: const Color(0xFF2F4771),
                                         borderRadius: BorderRadius.circular(20.0),
                                       ),
-                                      child: const Row(
+                                      child: Row(
                                         children: [
                                           Padding(
-                                            padding: EdgeInsets.only(
+                                            padding: translation(context)!.localeName == 'ar'
+                                                ?
+                                            EdgeInsets.only(
+                                                left: 4, right: 12)
+                                                :EdgeInsets.only(
                                                 left: 12, right: 4),
                                             child: Icon(
                                               Icons.folder_copy,
@@ -276,9 +283,11 @@ class _PaintingHOState extends State<PaintingHO> {
                                             ),
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.only(right: 12.0),
+                                            padding: translation(context)!.localeName == 'ar'
+                                                ? EdgeInsets.only(left: 12)
+                                                : EdgeInsets.only(right: 12.0),
                                             child: Text(
-                                              "Open Catalog",
+                                              translation(context)!.task13HONeedsOpenCatalog,
                                               style: TextStyle(
                                                 color: Color(0xFFF9FAFB),
                                                 fontSize: 14,
@@ -295,13 +304,13 @@ class _PaintingHOState extends State<PaintingHO> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Expanded(
+                                  Expanded(
                                     flex: 1,
                                     child: Padding(
                                       padding: EdgeInsets.only(
                                           left: 8, right: 8, top: 6),
                                       child: Text(
-                                        "Bathroom:",
+                                        translation(context)!.task13HONeedsBathroom,
                                         style: TextStyle(
                                             color: Color(0xFF2F4771),
                                             fontWeight: FontWeight.w500,
@@ -330,10 +339,15 @@ class _PaintingHOState extends State<PaintingHO> {
                                               borderRadius:
                                                   BorderRadius.circular(20.0),
                                             ),
-                                            child: const Row(
+                                            child: Row(
                                               children: [
                                                 Padding(
-                                                  padding: EdgeInsets.only(
+                                                  padding: translation(context)!.localeName == 'ar'
+                                                      ?
+                                                  EdgeInsets.only(
+                                                      left: 4, right: 8)
+                                                      :
+                                                  EdgeInsets.only(
                                                       left: 8, right: 4),
                                                   child: Icon(
                                                     Icons.remove_red_eye,
@@ -343,9 +357,11 @@ class _PaintingHOState extends State<PaintingHO> {
                                                 ),
                                                 Padding(
                                                   padding:
-                                                      EdgeInsets.only(right: 8.0),
+                                                  translation(context)!.localeName == 'ar'
+                                                      ? EdgeInsets.only(left: 8)
+                                                      : EdgeInsets.only(right: 8.0),
                                                   child: Text(
-                                                    "See Item",
+                                                    translation(context)!.task13HONeedsSeeItem,
                                                     style: TextStyle(
                                                       color: Color(0xFFF9FAFB),
                                                       fontSize: 14,
@@ -379,10 +395,14 @@ class _PaintingHOState extends State<PaintingHO> {
                                         color: const Color(0xFF2F4771),
                                         borderRadius: BorderRadius.circular(20.0),
                                       ),
-                                      child: const Row(
+                                      child: Row(
                                         children: [
                                           Padding(
-                                            padding: EdgeInsets.only(
+                                            padding: translation(context)!.localeName == 'ar'
+                                                ?
+                                            EdgeInsets.only(
+                                                left: 4, right: 12)
+                                                :EdgeInsets.only(
                                                 left: 12, right: 4),
                                             child: Icon(
                                               Icons.folder_copy,
@@ -391,9 +411,11 @@ class _PaintingHOState extends State<PaintingHO> {
                                             ),
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.only(right: 12.0),
+                                            padding: translation(context)!.localeName == 'ar'
+                                                ? EdgeInsets.only(left: 12)
+                                                : EdgeInsets.only(right: 12.0),
                                             child: Text(
-                                              "Open Catalog",
+                                              translation(context)!.task13HONeedsOpenCatalog,
                                               style: TextStyle(
                                                 color: Color(0xFFF9FAFB),
                                                 fontSize: 14,
@@ -410,13 +432,13 @@ class _PaintingHOState extends State<PaintingHO> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Expanded(
+                                  Expanded(
                                     flex: 1,
                                     child: Padding(
                                       padding: EdgeInsets.only(
                                           left: 8, right: 8, top: 6),
                                       child: Text(
-                                        "Living Room:",
+                                        translation(context)!.task13HONeedsLivingRoom,
                                         style: TextStyle(
                                             color: Color(0xFF2F4771),
                                             fontWeight: FontWeight.w500,
@@ -445,10 +467,15 @@ class _PaintingHOState extends State<PaintingHO> {
                                               borderRadius:
                                                   BorderRadius.circular(20.0),
                                             ),
-                                            child: const Row(
+                                            child: Row(
                                               children: [
                                                 Padding(
-                                                  padding: EdgeInsets.only(
+                                                  padding: translation(context)!.localeName == 'ar'
+                                                      ?
+                                                  EdgeInsets.only(
+                                                      left: 4, right: 8)
+                                                      :
+                                                  EdgeInsets.only(
                                                       left: 8, right: 4),
                                                   child: Icon(
                                                     Icons.remove_red_eye,
@@ -458,9 +485,11 @@ class _PaintingHOState extends State<PaintingHO> {
                                                 ),
                                                 Padding(
                                                   padding:
-                                                      EdgeInsets.only(right: 8.0),
+                                                  translation(context)!.localeName == 'ar'
+                                                      ? EdgeInsets.only(left: 8)
+                                                      : EdgeInsets.only(right: 8.0),
                                                   child: Text(
-                                                    "See Item",
+                                                    translation(context)!.task13HONeedsSeeItem,
                                                     style: TextStyle(
                                                       color: Color(0xFFF9FAFB),
                                                       fontSize: 14,
@@ -494,10 +523,14 @@ class _PaintingHOState extends State<PaintingHO> {
                                         color: const Color(0xFF2F4771),
                                         borderRadius: BorderRadius.circular(20.0),
                                       ),
-                                      child: const Row(
+                                      child: Row(
                                         children: [
                                           Padding(
-                                            padding: EdgeInsets.only(
+                                            padding: translation(context)!.localeName == 'ar'
+                                                ?
+                                            EdgeInsets.only(
+                                                left: 4, right: 12)
+                                                :EdgeInsets.only(
                                                 left: 12, right: 4),
                                             child: Icon(
                                               Icons.folder_copy,
@@ -506,9 +539,11 @@ class _PaintingHOState extends State<PaintingHO> {
                                             ),
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.only(right: 12.0),
+                                            padding: translation(context)!.localeName == 'ar'
+                                                ? EdgeInsets.only(left: 12)
+                                                : EdgeInsets.only(right: 12.0),
                                             child: Text(
-                                              "Open Catalog",
+                                              translation(context)!.task13HONeedsOpenCatalog,
                                               style: TextStyle(
                                                 color: Color(0xFFF9FAFB),
                                                 fontSize: 14,
@@ -525,13 +560,13 @@ class _PaintingHOState extends State<PaintingHO> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Expanded(
+                                  Expanded(
                                     flex: 1,
                                     child: Padding(
                                       padding: EdgeInsets.only(
                                           left: 8, right: 8, top: 6),
                                       child: Text(
-                                        "Guest Room:",
+                                        translation(context)!.task13HONeedsGuestRoom,
                                         style: TextStyle(
                                             color: Color(0xFF2F4771),
                                             fontWeight: FontWeight.w500,
@@ -560,10 +595,15 @@ class _PaintingHOState extends State<PaintingHO> {
                                               borderRadius:
                                                   BorderRadius.circular(20.0),
                                             ),
-                                            child: const Row(
+                                            child: Row(
                                               children: [
                                                 Padding(
-                                                  padding: EdgeInsets.only(
+                                                  padding: translation(context)!.localeName == 'ar'
+                                                      ?
+                                                  EdgeInsets.only(
+                                                      left: 4, right: 8)
+                                                      :
+                                                  EdgeInsets.only(
                                                       left: 8, right: 4),
                                                   child: Icon(
                                                     Icons.remove_red_eye,
@@ -573,9 +613,11 @@ class _PaintingHOState extends State<PaintingHO> {
                                                 ),
                                                 Padding(
                                                   padding:
-                                                      EdgeInsets.only(right: 8.0),
+                                                  translation(context)!.localeName == 'ar'
+                                                      ? EdgeInsets.only(left: 8)
+                                                      : EdgeInsets.only(right: 8.0),
                                                   child: Text(
-                                                    "See Item",
+                                                    translation(context)!.task13HONeedsSeeItem,
                                                     style: TextStyle(
                                                       color: Color(0xFFF9FAFB),
                                                       fontSize: 14,
@@ -609,10 +651,14 @@ class _PaintingHOState extends State<PaintingHO> {
                                         color: const Color(0xFF2F4771),
                                         borderRadius: BorderRadius.circular(20.0),
                                       ),
-                                      child: const Row(
+                                      child: Row(
                                         children: [
                                           Padding(
-                                            padding: EdgeInsets.only(
+                                            padding: translation(context)!.localeName == 'ar'
+                                                ?
+                                            EdgeInsets.only(
+                                                left: 4, right: 12)
+                                                :EdgeInsets.only(
                                                 left: 12, right: 4),
                                             child: Icon(
                                               Icons.folder_copy,
@@ -621,9 +667,11 @@ class _PaintingHOState extends State<PaintingHO> {
                                             ),
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.only(right: 12.0),
+                                            padding: translation(context)!.localeName == 'ar'
+                                                ? EdgeInsets.only(left: 12)
+                                                : EdgeInsets.only(right: 12.0),
                                             child: Text(
-                                              "Open Catalog",
+                                              translation(context)!.task13HONeedsOpenCatalog,
                                               style: TextStyle(
                                                 color: Color(0xFFF9FAFB),
                                                 fontSize: 14,
@@ -640,13 +688,13 @@ class _PaintingHOState extends State<PaintingHO> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Expanded(
+                                  Expanded(
                                     flex: 1,
                                     child: Padding(
                                       padding: EdgeInsets.only(
                                           left: 8, right: 8, top: 6),
                                       child: Text(
-                                        "Kitchen:",
+                                        translation(context)!.task13HONeedsKitchen,
                                         style: TextStyle(
                                             color: Color(0xFF2F4771),
                                             fontWeight: FontWeight.w500,
@@ -675,10 +723,15 @@ class _PaintingHOState extends State<PaintingHO> {
                                               borderRadius:
                                                   BorderRadius.circular(20.0),
                                             ),
-                                            child: const Row(
+                                            child: Row(
                                               children: [
                                                 Padding(
-                                                  padding: EdgeInsets.only(
+                                                  padding: translation(context)!.localeName == 'ar'
+                                                      ?
+                                                  EdgeInsets.only(
+                                                      left: 4, right: 8)
+                                                      :
+                                                  EdgeInsets.only(
                                                       left: 8, right: 4),
                                                   child: Icon(
                                                     Icons.remove_red_eye,
@@ -688,9 +741,11 @@ class _PaintingHOState extends State<PaintingHO> {
                                                 ),
                                                 Padding(
                                                   padding:
-                                                      EdgeInsets.only(right: 8.0),
+                                                  translation(context)!.localeName == 'ar'
+                                                      ? EdgeInsets.only(left: 8)
+                                                      : EdgeInsets.only(right: 8.0),
                                                   child: Text(
-                                                    "See Item",
+                                                    translation(context)!.task13HONeedsSeeItem,
                                                     style: TextStyle(
                                                       color: Color(0xFFF9FAFB),
                                                       fontSize: 14,
@@ -724,10 +779,14 @@ class _PaintingHOState extends State<PaintingHO> {
                                         color: const Color(0xFF2F4771),
                                         borderRadius: BorderRadius.circular(20.0),
                                       ),
-                                      child: const Row(
+                                      child: Row(
                                         children: [
                                           Padding(
-                                            padding: EdgeInsets.only(
+                                            padding: translation(context)!.localeName == 'ar'
+                                                ?
+                                            EdgeInsets.only(
+                                                left: 4, right: 12)
+                                                :EdgeInsets.only(
                                                 left: 12, right: 4),
                                             child: Icon(
                                               Icons.folder_copy,
@@ -736,9 +795,11 @@ class _PaintingHOState extends State<PaintingHO> {
                                             ),
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.only(right: 12.0),
+                                            padding: translation(context)!.localeName == 'ar'
+                                                ? EdgeInsets.only(left: 12)
+                                                : EdgeInsets.only(right: 12.0),
                                             child: Text(
-                                              "Open Catalog",
+                                              translation(context)!.task13HONeedsOpenCatalog,
                                               style: TextStyle(
                                                 color: Color(0xFFF9FAFB),
                                                 fontSize: 14,
@@ -775,8 +836,8 @@ class _PaintingHOState extends State<PaintingHO> {
                                           kitchenPaintCatalogID
                                       );
                                     },
-                                    child: const Text(
-                                      'Save',
+                                    child: Text(
+                                      translation(context)!.task11HONeedsSaveLabelButton,
                                       style: TextStyle(
                                         fontSize: 20,
                                         color: Color(0xFFF9FAFB),

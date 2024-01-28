@@ -90,7 +90,7 @@ class _TileInstallHOState extends State<TileInstallHO> {
               children: [
                 TaskInformation(
                   taskID: task12Data['TaskID']?? 0,
-                  taskName: 'Tile Work',
+                  taskName: translation(context)!.task12HOTaskName,
                   projectName: task12Data['ProjectName']?? 'Unknown',
                   taskStatus: task12Data['TaskStatus']?? 'Unknown',
                 ),
@@ -134,10 +134,10 @@ class _TileInstallHOState extends State<TileInstallHO> {
                               width: 1.0,
                             ),
                           ),
-                          child: const Center(
+                          child: Center(
                             child: Text(
-                              "Home Owner Needs",
-                              style: TextStyle(
+                              translation(context)!.task11HONeeds,
+                              style: const TextStyle(
                                   color: Color(0xFFF9FAFB),
                                   fontSize: 19,
                                   fontWeight: FontWeight.bold
@@ -150,11 +150,11 @@ class _TileInstallHOState extends State<TileInstallHO> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Padding(
-                                padding: EdgeInsets.only(left: 8, top: 10, bottom: 8),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8, top: 10, bottom: 8),
                                 child: Text(
-                                  "Choose Tile Type For The Following: ",
-                                  style: TextStyle(
+                                  translation(context)!.task12HONeedsSubTitle,
+                                  style: const TextStyle(
                                       color: Color(0xFF2F4771),
                                       fontSize: 17,
                                       fontWeight: FontWeight.w500
@@ -164,14 +164,14 @@ class _TileInstallHOState extends State<TileInstallHO> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Expanded(
+                                  Expanded(
                                     flex: 1,
                                     child: Padding(
-                                      padding: EdgeInsets.only(
+                                      padding: const EdgeInsets.only(
                                           left: 8, right: 8, top: 6),
                                       child: Text(
-                                        "Bathroom:",
-                                        style: TextStyle(
+                                        translation(context)!.task12HONeedsBathroom,
+                                        style: const TextStyle(
                                             color: Color(0xFF2F4771),
                                             fontWeight: FontWeight.w500,
                                             fontSize: 16
@@ -193,10 +193,16 @@ class _TileInstallHOState extends State<TileInstallHO> {
                                         color: const Color(0xFF2F4771),
                                         borderRadius: BorderRadius.circular(20.0),
                                       ),
-                                      child: const Row(
+                                      child: Row(
                                         children: [
                                           Padding(
-                                            padding: EdgeInsets.only(left: 8 , right: 4),
+                                            padding: translation(context)!.localeName == 'ar'
+                                                ?
+                                            EdgeInsets.only(
+                                                left: 4, right: 8)
+                                                :
+                                            EdgeInsets.only(
+                                                left: 8, right: 4),
                                             child: Icon(
                                               Icons.remove_red_eye,
                                               size: 20,
@@ -204,10 +210,13 @@ class _TileInstallHOState extends State<TileInstallHO> {
                                             ),
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.only(right: 12.0),
+                                            padding:
+                                            translation(context)!.localeName == 'ar'
+                                                ? EdgeInsets.only(left: 8)
+                                                : EdgeInsets.only(right: 8.0),
                                             child: Text(
-                                              "See Item",
-                                              style: TextStyle(
+                                              translation(context)!.task12HONeedsSeeItem,
+                                              style: const TextStyle(
                                                 color: Color(0xFFF9FAFB),
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w400,
@@ -235,10 +244,15 @@ class _TileInstallHOState extends State<TileInstallHO> {
                                         color: const Color(0xFF2F4771),
                                         borderRadius: BorderRadius.circular(20.0),
                                       ),
-                                      child: const Row(
+                                      child: Row(
                                         children: [
                                           Padding(
-                                            padding: EdgeInsets.only(left: 12 , right: 8),
+                                            padding: translation(context)!.localeName == 'ar'
+                                                ?
+                                            EdgeInsets.only(
+                                                left: 4, right: 12)
+                                                :EdgeInsets.only(
+                                                left: 12, right: 4),
                                             child: Icon(
                                               Icons.folder_copy,
                                               size: 20,
@@ -246,10 +260,12 @@ class _TileInstallHOState extends State<TileInstallHO> {
                                             ),
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.only(right: 12.0),
+                                            padding: translation(context)!.localeName == 'ar'
+                                                ? EdgeInsets.only(left: 12)
+                                                : EdgeInsets.only(right: 12.0),
                                             child: Text(
-                                              "Open Catalog",
-                                              style: TextStyle(
+                                              translation(context)!.task12HONeedsOpenCatalog,
+                                              style: const TextStyle(
                                                 color: Color(0xFFF9FAFB),
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w400,
@@ -265,14 +281,14 @@ class _TileInstallHOState extends State<TileInstallHO> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Expanded(
+                                  Expanded(
                                     flex: 1,
                                     child: Padding(
-                                      padding: EdgeInsets.only(
+                                      padding: const EdgeInsets.only(
                                           left: 8, right: 8, top: 6),
                                       child: Text(
-                                        "House:",
-                                        style: TextStyle(
+                                        translation(context)!.task12HONeedsHouse,
+                                        style: const TextStyle(
                                             color: Color(0xFF2F4771),
                                             fontWeight: FontWeight.w500,
                                             fontSize: 16
@@ -294,10 +310,16 @@ class _TileInstallHOState extends State<TileInstallHO> {
                                         color: const Color(0xFF2F4771),
                                         borderRadius: BorderRadius.circular(20.0),
                                       ),
-                                      child: const Row(
+                                      child: Row(
                                         children: [
                                           Padding(
-                                            padding: EdgeInsets.only(left: 8 , right: 4),
+                                            padding: translation(context)!.localeName == 'ar'
+                                                ?
+                                            EdgeInsets.only(
+                                                left: 4, right: 8)
+                                                :
+                                            EdgeInsets.only(
+                                                left: 8, right: 4),
                                             child: Icon(
                                               Icons.remove_red_eye,
                                               size: 20,
@@ -305,10 +327,13 @@ class _TileInstallHOState extends State<TileInstallHO> {
                                             ),
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.only(right: 12.0),
+                                            padding:
+                                            translation(context)!.localeName == 'ar'
+                                                ? EdgeInsets.only(left: 8)
+                                                : EdgeInsets.only(right: 8.0),
                                             child: Text(
-                                              "See Item",
-                                              style: TextStyle(
+                                              translation(context)!.task12HONeedsSeeItem,
+                                              style: const TextStyle(
                                                 color: Color(0xFFF9FAFB),
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w400,
@@ -336,10 +361,15 @@ class _TileInstallHOState extends State<TileInstallHO> {
                                         color: const Color(0xFF2F4771),
                                         borderRadius: BorderRadius.circular(20.0),
                                       ),
-                                      child: const Row(
+                                      child: Row(
                                         children: [
                                           Padding(
-                                            padding: EdgeInsets.only(left: 12 , right: 8),
+                                            padding: translation(context)!.localeName == 'ar'
+                                                ?
+                                            EdgeInsets.only(
+                                                left: 4, right: 12)
+                                                :EdgeInsets.only(
+                                                left: 12, right: 4),
                                             child: Icon(
                                               Icons.folder_copy,
                                               size: 20,
@@ -347,10 +377,12 @@ class _TileInstallHOState extends State<TileInstallHO> {
                                             ),
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.only(right: 12.0),
+                                            padding: translation(context)!.localeName == 'ar'
+                                                ? EdgeInsets.only(left: 12)
+                                                : EdgeInsets.only(right: 12.0),
                                             child: Text(
-                                              "Open Catalog",
-                                              style: TextStyle(
+                                              translation(context)!.task12HONeedsOpenCatalog,
+                                              style: const TextStyle(
                                                 color: Color(0xFFF9FAFB),
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w400,
@@ -377,9 +409,9 @@ class _TileInstallHOState extends State<TileInstallHO> {
                                     onPressed: () async {
                                       await HomeOwnerTasksAPI.saveProjectInfoTiles(taskProjectId , bathroomTileCatalogID , houseTileCatalogID);
                                     },
-                                    child: const Text(
-                                      'Save',
-                                      style: TextStyle(
+                                    child: Text(
+                                      translation(context)!.task11HONeedsSaveLabelButton,
+                                      style: const TextStyle(
                                         fontSize: 20,
                                         color: Color(0xFFF9FAFB),
                                       ),

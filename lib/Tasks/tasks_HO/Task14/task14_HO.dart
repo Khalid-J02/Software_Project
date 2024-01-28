@@ -83,7 +83,7 @@ class _WindowInstallationHOState extends State<WindowInstallationHO> {
               children: [
                 TaskInformation(
                   taskID: task13Data['TaskID']?? 0,
-                  taskName: 'Aluminum Work',
+                  taskName: translation(context)!.task14HOTaskName,
                   projectName: task13Data['ProjectName']?? 'Unknown',
                   taskStatus: task13Data['TaskStatus']?? 'Unknown',
                 ),
@@ -127,10 +127,10 @@ class _WindowInstallationHOState extends State<WindowInstallationHO> {
                               width: 1.0,
                             ),
                           ),
-                          child: const Center(
+                          child: Center(
                             child: Text(
-                              "Home Owner Needs",
-                              style: TextStyle(
+                              translation(context)!.task11HONeeds,
+                              style: const TextStyle(
                                   color: Color(0xFFF9FAFB),
                                   fontSize: 19,
                                   fontWeight: FontWeight.bold
@@ -143,10 +143,10 @@ class _WindowInstallationHOState extends State<WindowInstallationHO> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Padding(
+                              Padding(
                                 padding: EdgeInsets.only(left: 8, top: 10, bottom: 8),
                                 child: Text(
-                                  "Choose Window Design you need: ",
+                                  translation(context)!.task14HONeedsSubTitle,
                                   style: TextStyle(
                                       color: Color(0xFF2F4771),
                                       fontSize: 17,
@@ -157,13 +157,13 @@ class _WindowInstallationHOState extends State<WindowInstallationHO> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Expanded(
+                                  Expanded(
                                     flex: 1,
                                     child: Padding(
                                       padding: EdgeInsets.only(
                                           left: 8, right: 8, top: 5),
                                       child: Text(
-                                        "Window Design:",
+                                        translation(context)!.task14HONeedsDesign,
                                         style: TextStyle(
                                             color: Color(0xFF2F4771),
                                             fontWeight: FontWeight.w500,
@@ -186,7 +186,7 @@ class _WindowInstallationHOState extends State<WindowInstallationHO> {
                                         color: const Color(0xFF2F4771),
                                         borderRadius: BorderRadius.circular(20.0),
                                       ),
-                                      child: const Row(
+                                      child: Row(
                                         children: [
                                           Padding(
                                             padding: EdgeInsets.only(left: 8 , right: 4),
@@ -199,7 +199,7 @@ class _WindowInstallationHOState extends State<WindowInstallationHO> {
                                           Padding(
                                             padding: EdgeInsets.only(right: 8.0),
                                             child: Text(
-                                              "See Item",
+                                              translation(context)!.task14HONeedsSeeItem,
                                               style: TextStyle(
                                                 color: Color(0xFFF9FAFB),
                                                 fontSize: 15,
@@ -228,7 +228,7 @@ class _WindowInstallationHOState extends State<WindowInstallationHO> {
                                         color: const Color(0xFF2F4771),
                                         borderRadius: BorderRadius.circular(20.0),
                                       ),
-                                      child: const Row(
+                                      child: Row(
                                         children: [
                                           Padding(
                                             padding: EdgeInsets.only(left: 12 , right: 8),
@@ -241,7 +241,7 @@ class _WindowInstallationHOState extends State<WindowInstallationHO> {
                                           Padding(
                                             padding: EdgeInsets.only(right: 12.0),
                                             child: Text(
-                                              "Open Catalog",
+                                              translation(context)!.task14HONeedsOpenCatalog,
                                               style: TextStyle(
                                                 color: Color(0xFFF9FAFB),
                                                 fontSize: 15,
@@ -269,8 +269,8 @@ class _WindowInstallationHOState extends State<WindowInstallationHO> {
                                     onPressed: () async {
                                       await HomeOwnerTasksAPI.saveProjectInfoWindowDesign(taskProjectId , windowDesignCatalogID) ;
                                     },
-                                    child: const Text(
-                                      'Save',
+                                    child: Text(
+                                      translation(context)!.task11HONeedsSaveLabelButton,
                                       style: TextStyle(
                                         fontSize: 20,
                                         color: Color(0xFFF9FAFB),

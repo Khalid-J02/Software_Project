@@ -64,7 +64,7 @@ class _SoilTestingState extends State<SoilTesting> {
               children: [
                 TaskInformation(
                   taskID: task3Data['TaskID'] ?? 0,
-                  taskName: 'Soil Investigation',
+                  taskName: translation(context)!.task3HOTaskName,
                   projectName: task3Data['ProjectName'] ?? 'Unknown',
                   taskStatus: task3Data['TaskStatus'] ?? 'Unknown',
                 ),
@@ -129,13 +129,13 @@ class _SoilTestingState extends State<SoilTesting> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Expanded(
+                                  Expanded(
                                     flex: 1,
                                     child: Padding(
-                                      padding: EdgeInsets.only(left: 8, right: 0),
+                                      padding: const EdgeInsets.only(left: 8, right: 0),
                                       child: Text(
-                                        "Soil Invest Document:",
-                                        style: TextStyle(
+                                        translation(context)!.task3HOSoilDocument,
+                                        style: const TextStyle(
                                             color: Color(0xFF2F4771),
                                             fontWeight: FontWeight.w500,
                                             fontSize: 16),

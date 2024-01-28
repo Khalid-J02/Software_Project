@@ -87,7 +87,7 @@ class _ConstructionHOState extends State<ConstructionHO> {
               children: [
                 TaskInformation(
                   taskID: task6Data['TaskID']?? 0,
-                  taskName: 'Foundation and Framing Construction',
+                  taskName: translation(context)!.task6HOTaskName,
                   projectName: task6Data['ProjectName']?? 'Unknown',
                   taskStatus: task6Data['TaskStatus']?? 'Unknown',
                 ),
@@ -131,10 +131,10 @@ class _ConstructionHOState extends State<ConstructionHO> {
                               width: 1.0,
                             ),
                           ),
-                          child: const Center(
+                          child: Center(
                             child: Text(
-                              "Home Owner Choice",
-                              style: TextStyle(
+                              translation(context)!.task6HOChoices,
+                              style: const TextStyle(
                                   color: Color(0xFFF9FAFB),
                                   fontSize: 19,
                                   fontWeight: FontWeight.bold
@@ -151,13 +151,13 @@ class _ConstructionHOState extends State<ConstructionHO> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Expanded(
+                                  Expanded(
                                     flex: 1,
                                     child: Padding(
-                                      padding: EdgeInsets.only(left: 8 ,right: 8),
+                                      padding: const EdgeInsets.only(left: 8 ,right: 8),
                                       child: Text(
-                                        "Construction Material provider:",
-                                        style: TextStyle(
+                                        translation(context)!.task6HOMaterialProvider,
+                                        style: const TextStyle(
                                             color: Color(0xFF2F4771),
                                             fontWeight: FontWeight.w500,
                                             fontSize: 16
@@ -205,18 +205,18 @@ class _ConstructionHOState extends State<ConstructionHO> {
                                             ),
                                           ),
                                           DropdownMenuItem<String>(
-                                            value: 'Me -HomeOwner-',
+                                            value: translation(context)!.task6HOMaterialProviderHO,
                                             child: Container(
                                               padding: const EdgeInsets.only(right: 0.0 , left: 12),
                                               // margin: const EdgeInsets.all(12.0),
-                                              child: const Text('Me -HomeOwner-'),
+                                              child: Text(translation(context)!.task6HOMaterialProviderHO),
                                             ),
                                           ),
                                           DropdownMenuItem<String>(
-                                            value: 'Service Provider',
+                                            value: translation(context)!.task6HOMaterialProviderSP,
                                             child: Container(
                                               margin: const EdgeInsets.all(12.0),
-                                              child: const Text('Service Provider'),
+                                              child: Text(translation(context)!.task6HOMaterialProviderSP),
                                             ),
                                           ),
                                         ],
@@ -240,9 +240,9 @@ class _ConstructionHOState extends State<ConstructionHO> {
                                       CustomAlertDialog.showSuccessDialog(context, "Material Provider saved successfully");
                                       return;
                                     },
-                                    child: const Text(
-                                      'Save',
-                                      style: TextStyle(
+                                    child: Text(
+                                      translation(context)!.task6HOSaveLabelButton,
+                                      style: const TextStyle(
                                         fontSize: 20,
                                         color: Color(0xFFF9FAFB),
                                       ),

@@ -179,7 +179,7 @@
 
   "task12HOTaskName" : "Tile Work",
   "task12HONeedsSubTitle" : "Choose Tile Type For The Following: ",
-  "task12HONeedsBedroom" : "Bedroom:",
+  "task12HONeedsBathroom" : "Bathroom:",
   "task12HONeedsSeeItem" : "See Item",
   "task12HONeedsOpenCatalog" : "Open Catalog",
   "task12HONeedsHouse" : "House:",
@@ -223,6 +223,26 @@
   "errorDownloadMsg" : "There is no file to download",
   "errorOpenMsg" : "There is no file to open",
   "downloadLabelButton" : "Download",
-  "openLabelButton" : "Open"
+  "openLabelButton" : "Open",
+
+  "searchPageHOMainTitle" : "Search",
+  "searchPageHOWelcomeMsg" : "Welcome Back !",
+  "searchPageHOSearchBarLabel" : "Search for Service Providers",
+  "searchPageHOSearchServices" : "Services",
+  "searchPageHODiscover" : "Discover",
+
+  "sPProfilePageHOCompletedTasks" : "Completed Tasks   ",
+  "sPProfilePageHORequestAssign" : "Request Assign",
+  "sPProfilePageHOReviews" : " Reviews",
+  "sPProfilePageHOBarCatalog" : "Catalog",
+  "sPProfilePageHOBarWork" : "Work Exp.",
+  "sPProfilePageHOBarReviews" : "Reviews",
+  "sPProfilePageHOBarNoItemsFound" : "There is no items to see here...",
+  "sPProfilePageHOBarNoReviewsFound" : "There is no reviews yet...",
+
+  "homeOwnerProfilePhone" : "Phone Number",
+  "homeOwnerProfileEMail" : "E-Mail",
+  "homeOwnerProfileBio" : "Bio: "
+
 
 }

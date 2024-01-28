@@ -150,6 +150,62 @@
   "task4HOMechanicalDrawings" : "مخطط إمدادات المياه",
   "task4HOElectricalDrawings" : "مخطط إمدادات الكهرباء",
 
+  "task5HOTaskName" : "الحصول على الموافقات",
+  "task5HOApprovalDocument" : "وثائق الموافقات:",
+
+  "task6HOTaskName" : " بناء الأساسات",
+  "task6HOChoices" : "اختيارات مالك المنزل",
+  "task6HOMaterialProvider" : "مزود مواد البناء:",
+  "task6HOMaterialProviderHO" : "أنا - مالك المنزل -",
+  "task6HOMaterialProviderSP" : "مُقدم الخدمة",
+  "task6HOSaveLabelButton" : "حفظ",
+
+  "task7HOTaskName" : "إمدادات خطوط المياه",
+  "task8HOTaskName" : "إمدادات خط الكهرباء",
+  "task9HOTaskName" : " أعمال العزل و التدفئة",
+
+  "task11HOTaskName" : "تركيب إطارات الأبواب",
+  "task11HONeeds" : "متطلبات مالك المنزل",
+  "task11HONeedsSubTitle" : "اختر تصميم الباب لما يلي: ",
+  "task11HONeedsBedroom" : "غرف النوم:",
+  "task11HONeedsSeeItem" : "عرض العنصر",
+  "task11HONeedsOpenCatalog" : "فتح الكتالوج",
+  "task11HONeedsBathroom" : "الحمام:",
+  "task11HONeedsLivingRoom" : "غرفة المعيشة:",
+  "task11HONeedsGuestRoom" : "غرفة الضيوف:",
+  "task11HONeedsSaveLabelButton" : "حفظ",
+
+  "task10HOTaskName" : "قصارة البيت - التجصيص -",
+
+  "task12HOTaskName" : "وضع البلاط",
+  "task12HONeedsSubTitle" : "اختر نوع البلاط لما يلي: ",
+  "task12HONeedsBathroom" : "الحمام:",
+  "task12HONeedsSeeItem" : "عرض العنصر",
+  "task12HONeedsOpenCatalog" : "فتح الكتالوج",
+  "task12HONeedsHouse" : "المنزل:",
+
+  "task14HOTaskName" : "أعمال الألمنيوم",
+  "task14HONeedsSubTitle" : "اختر تصميم النافذة التي تحتاجها: ",
+  "task14HONeedsDesign" : "تصميم النوافذ:",
+  "task14HONeedsSeeItem" : "عرض العنصر",
+  "task14HONeedsOpenCatalog" : "فتح الكتالوج",
+
+  "task15HOTaskName" : "أعمال النجارة",
+  "task15HONeedsSubTitle" : "اختر تصميم الباب لما يلي:",
+  "task15HONeedsDoorDesign" : "تصميم الباب:",
+  "task15HONeedsSeeItem" : "عرض العنصر",
+  "task15HONeedsOpenCatalog" : "فتح الكتالوج",
+
+  "task13HOTaskName" : "طلاء البيت",
+  "task13HONeedsSubTitle" : "اختر لون الطلاء لما يلي: ",
+  "task13HONeedsBedroom" : "غرف النوم:",
+  "task13HONeedsSeeItem" : "عرض العنصر",
+  "task13HONeedsOpenCatalog" : "فتح الكتالوج",
+  "task13HONeedsBathroom" : "الحمام:",
+  "task13HONeedsLivingRoom" : "غرفة المعيشة:",
+  "task13HONeedsGuestRoom" : "غرفة الضيوف:",
+  "task13HONeedsKitchen" : "المطبخ:",
+
   "taskInformationTaskNumber" : "مهمة #",
   "taskInformationTask" : "المهمة",
   "taskInformationProjectLabel" : "المشروع",
@@ -167,5 +223,25 @@
   "errorDownloadMsg" : "لا يوجد ملف يمكنك تنزيله بعد",
   "errorOpenMsg" : "لا يوجد ملف يمكنك فتحه بعد",
   "downloadLabelButton" : "تنزيل الملف",
-  "openLabelButton" : "فتح"
+  "openLabelButton" : "فتح",
+
+  "searchPageHOMainTitle" : "بحث",
+  "searchPageHOWelcomeMsg" : "مرحبا بك مجدداً !",
+  "searchPageHOSearchBarLabel" : "بحث عن مقدمي خدمات",
+  "searchPageHOSearchServices" : "الخدمات",
+  "searchPageHODiscover" : "استكشف",
+
+  "sPProfilePageHOCompletedTasks" : "المهام المنجزة   ",
+  "sPProfilePageHORequestAssign" : "طلب تعيين مهمة",
+  "sPProfilePageHOReviews" : " التقييمات",
+  "sPProfilePageHOBarCatalog" : "كتالوج",
+  "sPProfilePageHOBarWork" : "أعمال سابقة",
+  "sPProfilePageHOBarReviews" : "تقييمات",
+  "sPProfilePageHOBarNoItemsFound" : "لا توجد عناصر يمكن رؤيتها هنا...",
+  "sPProfilePageHOBarNoReviewsFound" : "لا توجد تقييمات بعد...",
+
+  "homeOwnerProfilePhone" : "رقم الهاتف",
+  "homeOwnerProfileEMail" : "البريد الإلكتروني",
+  "homeOwnerProfileBio" : "وصف تعريفي: "
+
 }

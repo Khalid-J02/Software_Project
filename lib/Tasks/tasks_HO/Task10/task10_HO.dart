@@ -58,7 +58,7 @@ class _PlasteringHOState extends State<PlasteringHO> {
               children: [
                 TaskInformation(
                   taskID: task11Data['TaskID']?? 0,
-                  taskName: 'Plastering Work',
+                  taskName: translation(context)!.task10HOTaskName,
                   projectName: task11Data['ProjectName']?? 'Unknown',
                   taskStatus: task11Data['TaskStatus']?? 'Unknown',
                 ),

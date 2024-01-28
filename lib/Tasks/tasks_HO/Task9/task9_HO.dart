@@ -38,16 +38,12 @@ class _InsulationInstallHOState extends State<InsulationInstallHO> {
       child: Scaffold(
         backgroundColor: const Color(0xFFF9FAFB),
         appBar: AppBar(
-          leading: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Color(0xFFF3D69B),
-          ),
           title: Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: MediaQuery.of(context).size.width / 5),
             child: Text(
               translation(context)!.task1HOMainTitle,
-              style: TextStyle(color: Color(0xFFF3D69B)),
+              style: TextStyle(color: Colors.white),
             ),
           ),
           elevation: 0,
@@ -60,7 +56,7 @@ class _InsulationInstallHOState extends State<InsulationInstallHO> {
               children: [
                 TaskInformation(
                   taskID: task9Data['TaskID'] ?? 0,
-                  taskName: 'Insulation Work',
+                  taskName: translation(context)!.task9HOTaskName,
                   projectName: task9Data['ProjectName'] ?? 'Unknown',
                   taskStatus: task9Data['TaskStatus'] ?? 'Unknown',
                 ),

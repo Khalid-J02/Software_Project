@@ -148,7 +148,7 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
               children: [
                 TaskInformation(
                   taskID: task4Data['TaskID'] ?? 0,
-                  taskName: 'Design and Planning',
+                  taskName: translation(context)!.task4HOTaskName,
                   projectName: task4Data['ProjectName'] ?? 'Unknown',
                   taskStatus: task4Data['TaskStatus'] ?? 'Unknown',
                 ),
@@ -194,10 +194,10 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                               width: 1.0,
                             ),
                           ),
-                          child: const Center(
+                          child: Center(
                             child: Text(
-                              "Home Owner Demands",
-                              style: TextStyle(
+                              translation(context)!.task4HODemandsMainTitle,
+                              style: const TextStyle(
                                   color: Color(0xFFF9FAFB),
                                   fontSize: 19,
                                   fontWeight: FontWeight.bold),
@@ -212,13 +212,13 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                             children: [
                               Row(
                                 children: [
-                                  const Expanded(
+                                  Expanded(
                                     flex: 1,
                                     child: Padding(
-                                      padding: EdgeInsets.only(left: 8, right: 8),
+                                      padding: const EdgeInsets.only(left: 8, right: 8),
                                       child: Text(
-                                        "Enter Num. of Rooms:",
-                                        style: TextStyle(
+                                        translation(context)!.task4HODemandsNumRoom,
+                                        style: const TextStyle(
                                             color: Color(0xFF2F4771),
                                             fontWeight: FontWeight.w500,
                                             fontSize: 16),
@@ -229,8 +229,8 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                                     flex: 1,
                                     child: TextfieldTasks(
                                       controller: _numRooms,
-                                      hintText: 'Enter # of Rooms',
-                                      labelText: 'Rooms Number',
+                                      hintText: translation(context)!.task4HODemandsNumRoomHintText,
+                                      labelText: translation(context)!.task4HODemandsNumRoomLabelText,
                                     ),
                                   ),
                                 ],
@@ -240,13 +240,13 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                               ),
                               Row(
                                 children: [
-                                  const Expanded(
+                                  Expanded(
                                     flex: 1,
                                     child: Padding(
-                                      padding: EdgeInsets.only(left: 8, right: 8),
+                                      padding: const EdgeInsets.only(left: 8, right: 8),
                                       child: Text(
-                                        "Enter Num. of Floors:",
-                                        style: TextStyle(
+                                        translation(context)!.task4HODemandsNumFloor,
+                                        style: const TextStyle(
                                             color: Color(0xFF2F4771),
                                             fontWeight: FontWeight.w500,
                                             fontSize: 16),
@@ -257,8 +257,8 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                                     flex: 1,
                                     child: TextfieldTasks(
                                       controller: _numFloors,
-                                      hintText: 'Enter # of Floors',
-                                      labelText: 'Floors Number',
+                                      hintText: translation(context)!.task4HODemandsNumFloorHintText,
+                                      labelText: translation(context)!.task4HODemandsNumFloorLabelText,
                                     ),
                                   ),
                                 ],
@@ -268,13 +268,13 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                               ),
                               Row(
                                 children: [
-                                  const Expanded(
+                                  Expanded(
                                     flex: 1,
                                     child: Padding(
-                                      padding: EdgeInsets.only(left: 8, right: 8),
+                                      padding: const EdgeInsets.only(left: 8, right: 8),
                                       child: Text(
-                                        "House Building Area:",
-                                        style: TextStyle(
+                                        translation(context)!.task4HODemandsBuildingArea,
+                                        style: const TextStyle(
                                             color: Color(0xFF2F4771),
                                             fontWeight: FontWeight.w500,
                                             fontSize: 16),
@@ -285,8 +285,8 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                                     flex: 1,
                                     child: TextfieldTasks(
                                       controller: _buildingArea,
-                                      hintText: 'Enter desired Building Area',
-                                      labelText: 'Building Area',
+                                      hintText: translation(context)!.task4HODemandsBuildingAreaHintText,
+                                      labelText: translation(context)!.task4HODemandsBuildingAreaLabelText,
                                     ),
                                   ),
                                 ],
@@ -326,9 +326,9 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                                         return;
                                       }
                                     },
-                                    child: const Text(
-                                      'Save',
-                                      style: TextStyle(
+                                    child: Text(
+                                      translation(context)!.task4HODemandsSaveButton,
+                                      style: const TextStyle(
                                         fontSize: 20,
                                         color: Color(0xFFF9FAFB),
                                       ),
@@ -396,12 +396,12 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Expanded(
+                                  Expanded(
                                     flex: 1,
                                     child: Padding(
                                       padding: EdgeInsets.only(left: 8, right: 8),
                                       child: Text(
-                                        "Design Drawings:",
+                                        translation(context)!.task4HODesignDocument,
                                         style: TextStyle(
                                             color: Color(0xFF2F4771),
                                             fontWeight: FontWeight.w500,
@@ -523,13 +523,13 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Expanded(
+                                  Expanded(
                                     flex: 1,
                                     child: Padding(
-                                      padding: EdgeInsets.only(left: 8, right: 8),
+                                      padding: const EdgeInsets.only(left: 8, right: 8),
                                       child: Text(
-                                        "Architectural Drawings:", // Foundation became Architectural
-                                        style: TextStyle(
+                                        translation(context)!.task4HODemandsBuildingAreaLabelText, // Foundation became Architectural
+                                        style: const TextStyle(
                                             color: Color(0xFF2F4771),
                                             fontWeight: FontWeight.w500,
                                             fontSize: 16),
@@ -647,13 +647,13 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Expanded(
+                                  Expanded(
                                     flex: 1,
                                     child: Padding(
-                                      padding: EdgeInsets.only(left: 8, right: 8),
+                                      padding: const EdgeInsets.only(left: 8, right: 8),
                                       child: Text(
-                                        "Civil     Drawings:", // Insulation became For Civil
-                                        style: TextStyle(
+                                        translation(context)!.task4HOCivilDrawings, // Insulation became For Civil
+                                        style: const TextStyle(
                                             color: Color(0xFF2F4771),
                                             fontWeight: FontWeight.w500,
                                             fontSize: 16),
@@ -769,13 +769,13 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Expanded(
+                                  Expanded(
                                     flex: 1,
                                     child: Padding(
-                                      padding: EdgeInsets.only(left: 8, right: 8),
+                                      padding: const EdgeInsets.only(left: 8, right: 8),
                                       child: Text(
-                                        "Mechanical Drawings:", // Plumbing became Mechanical
-                                        style: TextStyle(
+                                        translation(context)!.task4HOMechanicalDrawings, // Plumbing became Mechanical
+                                        style: const TextStyle(
                                             color: Color(0xFF2F4771),
                                             fontWeight: FontWeight.w500,
                                             fontSize: 16),
@@ -890,13 +890,13 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Expanded(
+                                  Expanded(
                                     flex: 1,
                                     child: Padding(
-                                      padding: EdgeInsets.only(left: 8, right: 8),
+                                      padding: const EdgeInsets.only(left: 8, right: 8),
                                       child: Text(
-                                        "Electrical Drawings:",
-                                        style: TextStyle(
+                                        translation(context)!.task4HOElectricalDrawings,
+                                        style: const TextStyle(
                                             color: Color(0xFF2F4771),
                                             fontWeight: FontWeight.w500,
                                             fontSize: 16),

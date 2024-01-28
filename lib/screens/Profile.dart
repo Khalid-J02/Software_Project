@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:buildnex/Widgets/profileData.dart';
 import 'package:buildnex/Widgets/userProfileDataDialog.dart';
+import 'package:buildnex/classes/language_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
@@ -170,9 +171,9 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return Directionality(
+      textDirection: translation(context)!.localeName == 'ar' ? TextDirection.rtl : TextDirection.ltr,
+      child: Scaffold(
         body: Stack(
           children: [
             Column(
@@ -210,7 +211,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 });
                               }
                               else if (response.containsKey('error')) {
-                              CustomAlertDialog.showErrorDialog(context, response['error']);
+                                CustomAlertDialog.showErrorDialog(context, response['error']);
                               }
                             }
                           },
@@ -282,7 +283,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 key: editProfileImageKey,
                 onTap: () async {
                   await pickImage() ;
-                    await HomeOwnerProfilePageAPI.editUserProfileImage(imageUrl!);
+                  await HomeOwnerProfilePageAPI.editUserProfileImage(imageUrl!);
                 },
                 child: Container(
                   width: 30,
@@ -309,7 +310,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ],
         ),
       ),
-    );
+    ) ;
   }
 
   Future<void> _loadProfile() async {

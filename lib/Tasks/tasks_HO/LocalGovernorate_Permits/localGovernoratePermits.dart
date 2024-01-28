@@ -66,7 +66,7 @@ class _LocalGovernoratePermitsState extends State<LocalGovernoratePermits> {
               children: [
                 TaskInformation(
                   taskID: task2Data['TaskID'] ?? 0,
-                  taskName: "Regulatory Information",
+                  taskName: translation(context)!.task2HOTaskName,
                   projectName: task2Data['ProjectName'] ?? 'Unknown',
                   taskStatus: task2Data['TaskStatus'] ?? 'Unknown',
                 ),
@@ -129,14 +129,14 @@ class _LocalGovernoratePermitsState extends State<LocalGovernoratePermits> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Expanded(
+                                  Expanded(
                                     flex: 1,
                                     child: Padding(
-                                      padding: EdgeInsets.only(
+                                      padding: const EdgeInsets.only(
                                           left: 8, right: 0, top: 5),
                                       child: Text(
-                                        "Permits Document:",
-                                        style: TextStyle(
+                                        translation(context)!.task2HOPermitsDocument,
+                                        style: const TextStyle(
                                             color: Color(0xFF2F4771),
                                             fontWeight: FontWeight.w500,
                                             fontSize: 16),

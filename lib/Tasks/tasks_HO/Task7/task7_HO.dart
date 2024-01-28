@@ -58,7 +58,7 @@ class _PlumbingInstallHOState extends State<PlumbingInstallHO> {
               children: [
                 TaskInformation(
                   taskID: task7Data['TaskID'] ?? 0,
-                  taskName: 'Mechanical Work',
+                  taskName: translation(context)!.task7HOTaskName,
                   projectName: task7Data['ProjectName'] ?? 'Unknown',
                   taskStatus: task7Data['TaskStatus'] ?? 'Unknown',
                 ),
