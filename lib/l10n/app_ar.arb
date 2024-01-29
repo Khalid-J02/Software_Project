@@ -118,6 +118,274 @@
   "homeOwnerProjectDataAccordionDesignDrawings" : "مخطط التصميم",
   "homeOwnerProjectDataAccordionOpenDocument" : "فتح الملف",
 
+  "homeNavServiceProviderTasksIcon": "المهام",
+  "homeNavServiceProviderRequestsIcon": "الطلبات",
+  "homeNavServiceProviderCatalogIcon": "الكتالوج",
+  "homeNavServiceProviderWorkExpIcon": "الخبرة",
+  "homeNavServiceProviderProfileIcon": "الصفحة الشخصية",
+  "homeNavServiceProviderTasksKey": "مرحبًا بك في علامة التبويب 'المهام' ! هنا، يمكنك إدارة وتتبع جميع المهام التي تعمل عليها حاليًا بشكل فعال. توفر علامة التبويب هذه عرضًا شاملاً لمهامك الحالية، مما يسمح لك بتنظيم عبء العمل الخاص بك والبقاء على اطلاع بالتزاماتك." ,
+  "homeNavServiceProviderRequestsKey": "هذه هي علامة تبويب 'الطلبات'. في هذا القسم، ستتلقى طلبات عمل من أصحاب المنازل. لديك المرونة اللازمة لقبول المهام التي تتوافق مع جدولك الزمني وخبرتك أو رفضها حسب الحاجة.",
+  "homeNavServiceProviderCatalogKey":"استكشف علامة التبويب 'الكتالوج'! حيث أنك كمقدم خدمة، هذه هي المساحة الخاصة بك لعرض الخدمات التي تقدمها. إذا كنت فنّي دهان، على سبيل المثال، يمكنك عرض خيارات الألوان المتنوعة والخدمات ذات الصلة هنا. إنها طريقة رائعة  للسماح للعملاء المحتملين بمعرفة ما لديك لتقدمه وجذب المزيد من الأعمال." ,
+  "homeNavServiceProviderWorkExpKey": "هذه هي علامة تبويب 'خبرة العمل'. هنا، يمكنك عرض مشاريعك السابقة وتسليط الضوء على إنجازاتك. إنها فرصة ممتازة لعرض مهاراتك وخبراتك، مما يمنح العملاء المحتملين لمحة عن خبرتك وجودة العمل الذي تقدمه.",
+  "homeNavServiceProviderProfileKey": "مرحبًا بك في صفحة الملف الشخصي! هنا، يمكنك بسهولة عرض وتحديث بياناتك وتفضيلاتك الشخصية.",
+  "coachmarkNext": "التالي",
+  "coachmarkSkip": "تخطي",
+
+  "serviceProviderRequestsMainTitle": "طلبات المهام",
+  "serviceProviderRequestPageKey": "هذه هي صفحة الطلبات. في هذا القسم، ستتلقى طلبات عمل من أصحاب المنازل. لديك المرونة اللازمة لقبول المهام التي تتوافق مع جدولك الزمني وخبرتك أو رفضها حسب الحاجة. إنها مركزك لإدارة الطلبات.",
+
+  "serviceProviderCatalogMainTitle": "الكتالوج",
+  "serviceProviderCatalogPageKey": "اضغط على الزر '+' لإضافة عناصر جديدة في الكتالوج الخاص بك. تتيح لك هذه الميزة توسيع نطاق الخدمة الخاص بك عن طريق إضافة عناصر أو خدمات جديدة تقدمها. على سبيل المثال إذا كنت فنَي دهان يمكنك إضافة لون طلاء جديد، ونوعه، أو أي خدمة فريدة تقدمها لجذب العملاء.",
+  "serviceProviderCatalogText": "لا توجد عناصر في الكتالوج لرؤيتها هنا...",
+
+  "serviceProviderAssetsMainTitle": "الخبرة العملية",
+  "serviceProviderAssetsPageKey": "انقر هنا لإضافة تفاصيل حول مشاريعك السابقة، مثل اسم المشروع ووصفًا مختصرًا وصورة تعرض مهاراتك. وهذا يساعد العملاء المحتملين على فهم جودة عملك ونطاقه، وبناء الثقة والمصداقية في خدماتك.",
+  "serviceProviderAssetsText": "لا توجد خبرات عمل يمكن رؤيتها هنا...",
+
+  "serviceProviderProfileInfoKey": "عدَل معلومات ملفك الشخصي هنا. انقر على هذا الأيقونة لتحديث التفاصيل الشخصية مثل رقم الهاتف، البريد الإلكتروني ونبذة قصيرة عنك. الحفاظ على تحديث ملفك الشخصي يضمن تواصلًا أفضل.",
+  "serviceProviderProfileImageKey": "خصص ملفك الشخصي عن طريق تحديث صورتك. انقر هنا لاختيار وتحميل صورة جديدة. تمثل هذه الصورة هويتك في التطبيق وتساعد الآخرين على التعرف عليك بسهولة.",
+  "serviceProviderProfileReviewKey": "اطلع على قسم 'المراجعات' لقراءة تعليقات المنزلين الذين استفادوا من خدماتك. النقر هنا سيعرض تعليقاتهم وتقييماتهم. المراجعات من أصحاب المنازل طريقة رائعة لقياس جودة خدمتك وبناء سمعة موثوقة لدى العملاء المحتملين.",
+  "serviceProviderProfileReviewsTitle": "مراجعاتك",
+  "serviceProviderProfileReviewsText": "لا توجد مراجعات بعد...",
+  "serviceProviderProfileReviewsClose": "إغلاق",
+
+  "serviceProviderDataRole": "مقدم خدمة",
+  "serviceProviderDataPhoneNumber": "رقم الجوال",
+  "serviceProviderDataEmail": "البريد الإلكتروني",
+  "serviceProviderDataPriceHour": "السعر / ساعة",
+  "serviceProviderDataPrice": "دينار",
+  "serviceProviderDataBio": "النبذة التعريفية",
+
+  "reviewTabShowMore": "عرض المزيد",
+  "reviewTabShowLess": "عرض أقل",
+
+  "serviceProviderProfileDialogEditPersonalInfoTitle": "تعديل المعلومات الشخصية",
+  "serviceProviderProfileDialogPhoneNumberHint": "أدخل رقمك الجديد",
+  "serviceProviderProfileDialogPhoneNumberLabel": "رقم الجوال",
+  "serviceProviderProfileDialogEmailHint": "أدخل بريدك الإلكتروني الجديد",
+  "serviceProviderProfileDialogEmailLabel": "البريد الإلكتروني",
+  "serviceProviderProfileDialogPricePerHourHint": "أدخل سعرك الجديد",
+  "serviceProviderProfileDialogPricePerHourLabel": "السعر / الساعة",
+  "serviceProviderProfileDialogBioHint": "أدخل نبذتك التعريفية الجديدة",
+  "serviceProviderProfileDialogBioLabel": "النبذة التعريفية",
+  "serviceProviderProfileDialogSaveButton": "حفظ",
+  "serviceProviderProfileDialogCancelButton": "إلغاء",
+
+  "addAssetNewItemMainTitle": "إضافة خبرة عمل جديدة",
+  "addAssetNewItemItemNameHint": "أدخل عنوان الخبرة العملية",
+  "addAssetNewItemItemNameLabel": "عنوان الخبرة العملية",
+  "addAssetNewItemItemDesHint": "أدخل وصف الخبرة العملية",
+  "addAssetNewItemItemDesLabel": "وصف الخبرة العملية",
+  "addAssetNewItemItemImageText": "صورة من الخبرة العملية : ",
+  "addAssetNewItemAddButton": "إضافة",
+  "addAssetNewItemCancelButton": "إلغاء",
+
+  "serviceProviderAssetsItemDetailsTitle": "رجوع",
+
+  "sp_AssetItemDialogTitle": "تعديل معلومات الخبرة العملية",
+  "sp_AssetItemDialogNewNameHint" : "أدخل عنوان الخبرة العملية الجديد",
+  "sp_AssetItemDialogNewNameLabel" : "عنوان الخبرة العملية",
+  "sp_AssetItemDialogNewDescHint" : "أدخل وصف الخبرة العملية الجديد",
+  "sp_AssetItemDialogNewDescLabel" : "وصف الخبرة العملية",
+
+  "serviceProviderCatalogItemDetailsColor": "اللون :",
+
+  "sp_CatalogItemTitle": "تعديل معلومات العنصر المتوفر",
+  "sp_CatalogItemNewNameHint" : "أدخل اسم العنصر الجديد",
+  "sp_CatalogItemNewNameLabel" : "اسم العنصر",
+  "sp_CatalogItemNewPriceHint" : "أدخل سعر العنصر الجديد",
+  "sp_CatalogItemNewPriceLabel" : "سعر العنصر",
+  "sp_CatalogItemNewDescHint" : "أدخل وصف العنصر الجديد",
+  "sp_CatalogItemNewDescLabel" : "وصف العنصر",
+
+  "addCatalogNewItemMainTitle": "إضافة عنصر جديد للكتالوج",
+  "addCatalogNewItemItemNameHint": "أدخل اسم العنصر",
+  "addCatalogNewItemItemNameLabel": "اسم العنصر",
+
+  "addCatalogNewItemItemDesHint": "أدخل وصف العنصر",
+  "addCatalogNewItemItemDesLabel": "وصف العنصر",
+
+  "addCatalogNewItemItemPriceHint": "أدخل سعر العنصر",
+  "addCatalogNewItemItemPriceLabel": "سعر العنصر",
+
+  "addCatalogNewItemColor": "اللون :",
+
+  "addCatalogNewItemItemImageText": "صورة العنصر :",
+
+  "addCatalogNewItemAddButton": "إضافة",
+  "addCatalogNewItemCancelButton": "إلغاء",
+
+  "customError": "خطأ",
+  "customOk": "حسنًا",
+
+  "customFill": "يرجى تعبئة جميع الحقول المطلوبة.",
+  "customInvalidPrice": "سعر العنصر غير صالح.",
+  "sp_RequestDetails_ButtonText": "عرض التفاصيل",
+
+  "customDeclineTitle": "رفض الطلب",
+  "customDeclineReason": "يرجى تقديم سبب لرفض الطلب:",
+  "customDeclineReasonLabel": "الرجاء إدخال سبب",
+  "customDeclineReasonHint": "    أدخل السبب...",
+  "customDeclineReasonCancel": "إلغاء",
+  "customDeclineReasonSubmit": "إرسال",
+
+  "customAcceptTitle": "تأكيد",
+  "customAcceptText": "هل تريد تأكيد قبول هذا الطلب؟",
+  "customAcceptYes": "نعم",
+  "customAcceptNo": "ليس بعد",
+
+  "projectDetails_SP_Des": "معلومات البناء",
+  "projectDetails_SP_HO": "معلومات مالك المنزل",
+
+  "projectDataDetailsOwned": "مِلك لـ  ",
+  "projectDataDetailsAddress": "عنون البناء",
+  "projectDataDetailsTaskName": "عنوان المهمة",
+  "projectDataDetailsTaskDesc": "وصف المهمة",
+  "projectDataDetailsTaskDate": "التاريخ المتوقع للبدء بالمهمة",
+
+  "homeownerRole": "مالك منزل",
+
+  "serviceProviderTasksHomeText": "الصفحة الرئيسية",
+
+  "customLogoutConfirmation": "تأكيد تسجيل الخروج",
+  "customLogoutContent": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
+  "customCancel": "إلغاء",
+  "customLogout": "تسجيل الخروج",
+
+  "listChatScreenTitle": "الدردشة",
+  "userItemLastActive": "آخر ظهور : منذ ",
+
+  "chatScreenLastOnline": "نشط الآن",
+  "chatScreenLastOffline": "غير نشط",
+
+  "chatTextFieldMessageLabel": "رسالة",
+  "chatTextFieldMessageHint":  "أضف رسالة...",
+  "chatTextFieldMessageDialog" : "الرجاء إدخال الرسالة قبل الإرسال.",
+
+  "homepageNotificationsTitle": "الإشعارات",
+  "homepageNotificationsMark": "تحديد الكل كمقروء",
+
+  "homepageNotificationShowSnackBar": "تم تحديد جميع الإشعارات كمقروءة",
+  "homepageNotificationShowSnackBarError": "هناك خطأ في تحديد الإشعارات كمقروءة",
+
+  "sp_TaskDetails_OpenTask": "تفاصيل المهمة",
+
+  "taskStatusNotStarted": "لم تبدأ",
+  "taskStatusInProgress": "قيد التنفيذ",
+  "taskStatusCompleted": "مكتملة",
+
+  "customStaticTaskTitle": "مهمة ثابتة",
+  "customSuccess": "نجاح",
+  "customParallelTasksTitle": "هناك مهام متوازية متاحة",
+  "customParallelTasksContent": "يمكنك أداء المهام المتعلقة بالميكانيكا والكهرباء والعزل بشكل متوازي لتوفير الوقت، مع كون عملية العزل اختيارية",
+  "customExpectedDateTitle": "التاريخ المتوقع",
+  "customExpectedDateContent": "يرجى تحديد تاريخ متوقع للمهمة:",
+  "customExpectedDateError": "يرجى إدخال التاريخ",
+  "customExpectedDateHint": "أدخل التاريخ...",
+  "customSubmit": "إرسال",
+
+  "sp_taskTitle": "تفاصيل المهمة",
+  "sp_task1Name": "مسح الممتلكات",
+
+  "taskInformationTaskLabel": "المهمة",
+  "taskInformationStatus": "حالة المهمة",
+
+  "landInformationTitle": "معلومات الأرض",
+  "landInformationBasin": "رقم الحوض",
+  "landInformationPlot": "رقم قطعة الأرض",
+
+  "taskProviderInformationTitle": "مقدم الخدمة",
+  "taskProviderInformationName": "أنـا",
+  "taskProviderInformationReviews": "مراجعات",
+
+  "landArea": "مساحة الأرض",
+  "enterLandAreaHere": "أدخل مساحة الأرض هنا",
+  "surveyDocument": "مخطط المساحة: ",
+  "upload": "تحميل",
+  "open": "فتح",
+  "download": "تنزيل",
+  "yourNotes": "ملاحظاتك: ",
+  "enterNotesHere": "أدخل الملاحظات هنا إن وجدت",
+  "save": "حفظ",
+  "markAsDone": "قمت بإنهاء المهمة",
+  "completeTask": "اكمال المهمة",
+  "clickOkToComplete": "بالنقر على موافق، ستعتبر المهمة كمكتملة.",
+  "clickOk": "موافق",
+  "snackbarHi": "مرحبا",
+  "snackbarContent": "لا يوجد هناك ملف لفتحه",
+
+  "sp_task2Name": "المعلومات التنظيمية",
+  "sp_task2Document": "مستند المعلومات التنظيمية: ",
+  "task2_InformationTitle": "المستندات المطلوبة لهذه المهمة",
+  "task2_InformationTitle2": "المخططات المطلوبة لهذه المهمة",
+
+  "sp_task3Name": "فحص التربة",
+  "sp_task3Document": "مستند فحص التربة:",
+
+  "sp_task4Name": "التصميم والتخطيط",
+  "sp_task3Document_task4": "مستند فحص التربة:",
+  "sp_task4Demands": "طلبات مالك المنزل",
+  "sp_task4DemandsRooms": "عدد الغرف:",
+  "sp_task4DemandsFloors": "عدد الطوابق:",
+  "sp_task4DemandsArea": "مساحة بناء المنزل:",
+  "sp_task4Chosen": "غير مختار",
+
+  "sp_task4Design": "المخطط الكلي:",
+  "sp_task4Arch" : "مخطط معماري:",
+  "sp_task4Civil": "مخطط مدني:",
+  "sp_task4Mech": "مخطط ميكانيك:",
+  "sp_task4Elect":  "مخطط كهرباء:",
+
+  "sp_task5Name" : "الحصول على الموافقات",
+  "sp_task5Design": "المخطط الكلي:",
+  "sp_task5App":  "مستند الموافقات: ",
+
+  "sp_task6Name": "بناء الأساسات",
+  "sp_task6Civil": "مخطط المدني:",
+  "sp_task6Arch": "مخطط المعماري:",
+  "sp_task6Provider": "مزود مواد البناء:",
+  "sp_task6ServiceChosen": "مقدم الخدمة - أنا",
+  "sp_task6HomeChosen": "صاحب البيت",
+  "sp_task7Name" : "الأعمال الميكانيكية",
+
+  "sp_task7_Mech": "مخطط الميكانيك:",
+
+  "sp_task8Name" : "الأعمال الكهربائية",
+  "sp_task8Elect":  "مخطط الكهرباء:",
+
+  "sp_task9Name": "أعمال العزل",
+  "sp_task10Name": "تركيب إطارات الأبواب",
+  "sp_task11Name": "قصارة البيت -التجصيص-",
+  "sp_task10homeownerNeeds": "طلبات مالك المنزل",
+  "sp_task10BedroomDoor": "باب غرف النوم:",
+  "sp_task10BathroomDoor": "باب الحمام:",
+  "sp_task10LivingDoor": "باب غرفة المعيشة:",
+  "sp_task10GuestDoor": "باب غرفة الضيوف:",
+  "sp_task10Details": "عرض التفاصيل",
+  "sp_task10snackbarTitle": "رسالة تنبيه",
+  "sp_task10snackbarContent": "لم يختر صاحب المنزل أي عنصر بعد",
+  "sp_task10ItemDialog": "اختيار صاحب المنزل",
+  "sp_task10ItemDialogClose": "إغلاق",
+
+  "sp_task12Name": "أعمال البلاط",
+  "sp_task12BathroomTile": "بلاط الحمام:",
+  "sp_task12HouseTile": "بلاط المنزل:",
+
+  "sp_task15Title": "طلاء البيت",
+  "sp_task15BedroomPaint": "دهان غرف النوم:",
+  "sp_task15BathroomPaint": "دهان الحمام:",
+  "sp_task15LivingPaint": "دهان غرفة المعيشة:",
+  "sp_task15GuestPaint": "دهان غرفة الضيوف:",
+  "sp_task15KitchenPaint": "دهان المطبخ:",
+
+  "sp_task13Name": "أعمال الألمنيوم",
+  "sp_task13Design": "نوع النوافذ:",
+
+  "sp_task14Name": "أعمال النجارة",
+  "sp_task14Design": "نوع الأبواب:",
+
+  "snackbarDownloadContent": "تم تنزيل الملف",
+
   "task1HOMainTitle" : "تفاصيل المهمة",
   "task1HOTaskName" : "مسح الممتلكات",
   "task1HOServiceProviderDetailsTitle" : "معلومات من مُقدم الخدمة",
@@ -242,6 +510,12 @@
 
   "homeOwnerProfilePhone" : "رقم الهاتف",
   "homeOwnerProfileEMail" : "البريد الإلكتروني",
-  "homeOwnerProfileBio" : "وصف تعريفي: "
+  "homeOwnerProfileBio" : "وصف تعريفي: ",
+
+  "taskReviewHOMainTitle" : "تقييم المهمة",
+  "taskReviewHOReviewTask" : "تقييم مُقدم الخدمة",
+  "taskReviewHORating" : "التقييم : ",
+  "taskReviewHOReview" : "أضف تعليقاً: ",
+  "taskReviewHOAddReview" : "اكتب تعليقك هنا .."
 
 }

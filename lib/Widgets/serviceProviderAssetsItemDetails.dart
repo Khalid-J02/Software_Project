@@ -91,10 +91,6 @@ class _SPCatalogItemState extends State<SPAssetsItem> {
         },
         child: Scaffold(
           appBar: AppBar(
-            leading: const Icon(
-              Icons.arrow_back_ios_new,
-              color: Color(0xFFF9FAFB),
-            ),
             title: Text(
               translation(context)!.serviceProviderAssetsItemDetailsTitle,
               style: TextStyle(color: Color(0xFFF9FAFB)),
@@ -105,7 +101,8 @@ class _SPCatalogItemState extends State<SPAssetsItem> {
           backgroundColor: Color(0xFFF9FAFB),
           body: Column(
             children: <Widget>[
-              Stack(children: [
+              Stack(
+                  children: [
                 MediaQuery.of(context).size.width > 930
                     ? Center(
                         child: Container(

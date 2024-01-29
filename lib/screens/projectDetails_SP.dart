@@ -58,13 +58,9 @@ class _ProjectDetailsSPState extends State<ProjectDetailsSP> {
       child: Scaffold(
         backgroundColor: const Color(0xFF2F4771),
         appBar: AppBar(
-          leading: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Color(0xFFF3D69B),
-          ),
           title: Text(
             translation(context)!.serviceProviderAssetsItemDetailsTitle,
-            style: TextStyle(color: Color(0xFFF3D69B)),
+            style: TextStyle(color: Colors.white),
           ),
           elevation: 0,
           backgroundColor: Color(0xFF122247), //Colors.white,

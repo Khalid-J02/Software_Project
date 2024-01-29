@@ -145,10 +145,6 @@ class _SPCatalogItemState extends State<SPCatalogItem> {
         },
         child: Scaffold(
           appBar: AppBar(
-            leading: const Icon(
-              Icons.arrow_back_ios_new,
-              color: Color(0xFFF9FAFB),
-            ),
             title: Text(
               translation(context)!.serviceProviderAssetsItemDetailsTitle,
               style: TextStyle(color: Color(0xFFF9FAFB)),
@@ -157,7 +153,7 @@ class _SPCatalogItemState extends State<SPCatalogItem> {
             backgroundColor: Color(0xFF122247), //Colors.white,
           ),
           backgroundColor: Color(0xFFF9FAFB),
-          body: Column(
+          body: ListView(
             children: <Widget>[
               Stack(children: [
                 MediaQuery.of(context).size.width > 930
