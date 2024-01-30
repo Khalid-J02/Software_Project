@@ -38,19 +38,27 @@ class _MaterialProviderItemState extends State<MaterialProviderItem> {
           children: <Widget>[
             Row(
               children: [
-                Text(
-                  widget.name,
-                  style: const TextStyle(
-                    fontSize: 21,
-                    color: Color(0xFFF3D69B),
+                Expanded(
+                  flex: 8,
+                  child: Text(
+                    widget.name,
+                    maxLines: 3,
+                    softWrap: true,
+                    style: const TextStyle(
+                      fontSize: 21,
+                      color: Color(0xFFF3D69B),
+                    ),
                   ),
                 ),
                 const SizedBox(width: 5,),
-                Text(
-                  " - ${widget.city}",
-                  style: const TextStyle(
-                    fontSize: 18,
-                    color: Color(0xFFF3D69B),
+                Expanded(
+                  flex: 3,
+                  child: Text(
+                    " - ${widget.city}",
+                    style: const TextStyle(
+                      fontSize: 18,
+                      color: Color(0xFFF3D69B),
+                    ),
                   ),
                 ),
               ],
@@ -95,20 +103,22 @@ class _MaterialProviderItemState extends State<MaterialProviderItem> {
                     size: 18,
                   ),
                   const SizedBox(width: 6,),
-                  Link(
-                    uri: Uri.parse(widget.socialLink),
-                    target: LinkTarget.defaultTarget,
-                    builder: (context, openLink) => GestureDetector(
-                      onTap: openLink,
-                      child: Text(
-                        widget.socialLink,
-                        style: const TextStyle(
-                          fontSize: 15,
-                          color: Color(0xFFF9FAFB),
+                  Expanded(
+                    child: Link(
+                      uri: Uri.parse(widget.socialLink),
+                      target: LinkTarget.defaultTarget,
+                      builder: (context, openLink) => GestureDetector(
+                        onTap: openLink,
+                        child: Text(
+                          widget.socialLink,
+                          style: const TextStyle(
+                            fontSize: 15,
+                            color: Color(0xFFF9FAFB),
+                          ),
                         ),
                       ),
-                    ),
 
+                    ),
                   ),
                 ],
               ),
