@@ -153,7 +153,7 @@ class _SPCatalogItemState extends State<SPCatalogItem> {
             backgroundColor: Color(0xFF122247), //Colors.white,
           ),
           backgroundColor: Color(0xFFF9FAFB),
-          body: ListView(
+          body: Column(
             children: <Widget>[
               Stack(children: [
                 MediaQuery.of(context).size.width > 930
@@ -222,19 +222,23 @@ class _SPCatalogItemState extends State<SPCatalogItem> {
                     color: Color(0xFF122247),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      child: ListView(
+                        // crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Padding(
                             padding: EdgeInsets.only(top: 50, bottom: 10),
                             child: Row(
                               children: [
-                                Text(
-                                  itemName,
-                                  style: const TextStyle(
-                                      fontSize: 28,
-                                      color: Color(0xFFF9FAFB),
-                                      fontWeight: FontWeight.bold),
+                                Expanded(
+                                  child: Text(
+                                    itemName,
+                                    softWrap: true,
+                                    maxLines: 3,
+                                    style: const TextStyle(
+                                        fontSize: 28,
+                                        color: Color(0xFFF9FAFB),
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                 ),
                                 const SizedBox(
                                   width: 5,

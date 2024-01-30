@@ -170,8 +170,8 @@ class _SPCatalogItemState extends State<SPAssetsItem> {
                     color: Color(0xFF122247),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      child: ListView(
+                        // crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Padding(
                             padding: EdgeInsets.only(top: 50, bottom: 10),
