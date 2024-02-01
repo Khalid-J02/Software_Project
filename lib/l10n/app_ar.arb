@@ -152,8 +152,8 @@
   "serviceProviderDataRole": "مقدم خدمة",
   "serviceProviderDataPhoneNumber": "رقم الجوال",
   "serviceProviderDataEmail": "البريد الإلكتروني",
-  "serviceProviderDataPriceHour": "السعر / ساعة",
-  "serviceProviderDataPrice": "دينار",
+  "serviceProviderDataPriceHour": "السعر",
+  "serviceProviderDataPrice": "شيقل",
   "serviceProviderDataBio": "النبذة التعريفية",
 
   "reviewTabShowMore": "عرض المزيد",

@@ -152,7 +152,7 @@ class _GovernemntalPermittiveHOState extends State<GovernemntalPermittiveHO> {
                                       : GestureDetector(
                                           onTap: () {
                                             if (task5Data['ApprovalsDocument'] !=
-                                                null) {
+                                                '') {
                                               FileDownloader.downloadFile(
                                                 url: task5Data[
                                                     'ApprovalsDocument'],
@@ -214,7 +214,7 @@ class _GovernemntalPermittiveHOState extends State<GovernemntalPermittiveHO> {
                                   GestureDetector(
                                     onTap: () {
                                       if (task5Data['ApprovalsDocument'] !=
-                                          null) {
+                                          '') {
                                         Get.to(DocsPdfViewer(
                                           pdfFileURL:
                                               task5Data['ApprovalsDocument'],

@@ -18,7 +18,7 @@ class NavBarHomeOwner extends StatefulWidget {
 }
 
 class _NavBarHomeOwnerState extends State<NavBarHomeOwner> {
-  int pageIndex = 0;
+  late int pageIndex ;
   late List<Widget> screens;
   late bool isNewUser;
 
@@ -28,6 +28,7 @@ class _NavBarHomeOwnerState extends State<NavBarHomeOwner> {
     super.initState();
     final args = Get.arguments as Map<String, dynamic>? ?? {};
     isNewUser = args['isNewUser'] ?? false;
+    pageIndex = args['pageIndex'] ?? 0;
     screens = [
       HomePage(isNewUser: isNewUser),
       SearchPage(
@@ -56,6 +57,7 @@ class _NavBarHomeOwnerState extends State<NavBarHomeOwner> {
               padding:
               const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12),
               child: GNav(
+                selectedIndex: pageIndex,
                 gap: 8,
                 backgroundColor: const Color(0xFF122247),
                 color: const Color(0xFFF3D69B),

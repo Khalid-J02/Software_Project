@@ -316,62 +316,63 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                                   ),
                                   bathroomDoorCatalogID != 0
                                       ? GestureDetector(
-                                          onTap: () async {
-                                            final Map<String, dynamic>
-                                                itemDetails =
-                                                await CatalogAPI.getItemDetails(
-                                                    bathroomDoorCatalogID
-                                                        .toString());
-                                            Get.to(SPCatalogItem_HO(
-                                              itemDetails: itemDetails,
-                                            ));
-                                          },
-                                          child: Container(
-                                            margin: const EdgeInsets.only(
-                                                top: 5, right: 5),
-                                            height: 40,
-                                            decoration: BoxDecoration(
-                                              color: const Color(0xFF2F4771),
-                                              borderRadius:
-                                                  BorderRadius.circular(20.0),
-                                            ),
-                                            child: Row(
-                                              children: [
-                                                Padding(
-                                                  padding: translation(context)!.localeName == 'ar'
-                                                      ?
-                                                  EdgeInsets.only(
-                                                      left: 4, right: 8)
-                                                      :
-                                                  EdgeInsets.only(
-                                                      left: 8, right: 4),
-                                                  child: Icon(
-                                                    Icons.remove_red_eye,
-                                                    size: 20,
-                                                    color: Color(0xFFF9FAFB),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                  translation(context)!.localeName == 'ar'
-                                                      ? EdgeInsets.only(left: 8)
-                                                      : EdgeInsets.only(right: 8.0),
-                                                  child: Text(
-                                                    translation(context)!.task11HONeedsSeeItem,
-                                                    style: const TextStyle(
-                                                      color: Color(0xFFF9FAFB),
-                                                      fontSize: 14,
-                                                      fontWeight: FontWeight.w400,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
+                                    onTap: () async {
+                                      final Map<String, dynamic>
+                                      itemDetails =
+                                      await CatalogAPI.getItemDetails(
+                                          bathroomDoorCatalogID
+                                              .toString());
+                                      Get.to(SPCatalogItem_HO(
+                                        itemDetails: itemDetails,
+                                      ));
+                                    },
+                                    child: Container(
+                                      margin: const EdgeInsets.only(
+                                          top: 5, right: 5),
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFF2F4771),
+                                        borderRadius:
+                                        BorderRadius.circular(20.0),
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Padding(
+                                            padding: translation(context)!.localeName == 'ar'
+                                                ?
+                                            EdgeInsets.only(
+                                                left: 4, right: 8)
+                                                :
+                                            EdgeInsets.only(
+                                                left: 8, right: 4),
+                                            child: Icon(
+                                              Icons.remove_red_eye,
+                                              size: 20,
+                                              color: Color(0xFFF9FAFB),
                                             ),
                                           ),
-                                        )
+                                          Padding(
+                                            padding:
+                                            translation(context)!.localeName == 'ar'
+                                                ? EdgeInsets.only(left: 8)
+                                                : EdgeInsets.only(right: 8.0),
+                                            child: Text(
+                                              translation(context)!.task11HONeedsSeeItem,
+                                              style: const TextStyle(
+                                                color: Color(0xFFF9FAFB),
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )
                                       : SizedBox(),
                                   GestureDetector(
                                     onTap: () async {
+                                      // print(bathroomDoorCatalogID) ;
                                       // await openCatalog();
                                       final List<Map<String, dynamic>> SPCatalog =
                                           await ServiceProviderDataAPI
@@ -382,7 +383,7 @@ class _DoorFrameInstallHOState extends State<DoorFrameInstallHO> {
                                           OpenCatalogSP(),
                                           arguments: SPCatalog);
                                       setState(() {
-                                        bedroomDoorCatalogID = choosenID;
+                                        bathroomDoorCatalogID = choosenID;
                                       });
                                     },
                                     child: Container(

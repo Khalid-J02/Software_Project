@@ -415,7 +415,7 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                                           onTap: () {
                                             if (getbuildingData[
                                                     'DesignDocument'] !=
-                                                null) {
+                                                '') {
                                               downloadFile(getbuildingData[
                                                   'DesignDocument']);
                                             } else {
@@ -466,7 +466,7 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                                   GestureDetector(
                                     onTap: () {
                                       if (getbuildingData['DesignDocument'] !=
-                                          null) {
+                                          '') {
                                         Get.to(DocsPdfViewer(
                                           pdfFileURL:
                                               getbuildingData['DesignDocument'],
@@ -541,8 +541,7 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                                       : GestureDetector(
                                           onTap: () {
                                             if (getbuildingData[
-                                                    'FoundationDocument'] !=
-                                                null) {
+                                                    'FoundationDocument'] != '') {
                                               downloadFile(getbuildingData[
                                                   'FoundationDocument']);
                                             } else {
@@ -593,7 +592,7 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                                   GestureDetector(
                                     onTap: () {
                                       if (getbuildingData['FoundationDocument'] !=
-                                          null) {
+                                          '') {
                                         Get.to(DocsPdfViewer(
                                           pdfFileURL: getbuildingData[
                                               'FoundationDocument'],
@@ -666,7 +665,7 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                                           onTap: () {
                                             if (getbuildingData[
                                                     'InsulationAndHVACDocument'] !=
-                                                null) {
+                                                '') {
                                               downloadFile(getbuildingData[
                                                   'InsulationAndHVACDocument']);
                                             } else {
@@ -715,7 +714,7 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                                     onTap: () {
                                       if (getbuildingData[
                                               'InsulationAndHVACDocument'] !=
-                                          null) {
+                                          '') {
                                         Get.to(DocsPdfViewer(
                                           pdfFileURL: getbuildingData[
                                               'InsulationAndHVACDocument'],
@@ -788,7 +787,7 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                                           onTap: () {
                                             if (getbuildingData[
                                                     'PlumbingDocument'] !=
-                                                null) {
+                                                '') {
                                               downloadFile(getbuildingData[
                                                   'PlumbingDocument']);
                                             } else {
@@ -836,7 +835,7 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                                   GestureDetector(
                                     onTap: () {
                                       if (getbuildingData['PlumbingDocument'] !=
-                                          null) {
+                                          '') {
                                         Get.to(DocsPdfViewer(
                                           pdfFileURL:
                                               getbuildingData['PlumbingDocument'],
@@ -909,7 +908,7 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                                           onTap: () {
                                             if (getbuildingData[
                                                     'ElectricalDocument'] !=
-                                                null) {
+                                                '') {
                                               downloadFile(getbuildingData[
                                                   'ElectricalDocument']);
                                             } else {
@@ -957,7 +956,7 @@ class _DesignAndPlanningHOState extends State<DesignAndPlanningHO> {
                                   GestureDetector(
                                     onTap: () {
                                       if (getbuildingData['ElectricalDocument'] !=
-                                          null) {
+                                          '') {
                                         Get.to(DocsPdfViewer(
                                           pdfFileURL: getbuildingData[
                                               'ElectricalDocument'],

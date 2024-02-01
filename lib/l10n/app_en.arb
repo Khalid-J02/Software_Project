@@ -278,8 +278,8 @@
   "serviceProviderDataRole": "Service Provider",
   "serviceProviderDataPhoneNumber": "Phone Number",
   "serviceProviderDataEmail": "E-Mail",
-  "serviceProviderDataPriceHour": "Price / Hour",
-  "serviceProviderDataPrice": "JOD",
+  "serviceProviderDataPriceHour": "Price",
+  "serviceProviderDataPrice": "ILS",
   "serviceProviderDataBio": "Bio",
 
   "reviewTabShowMore": "show more",

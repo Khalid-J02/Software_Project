@@ -89,18 +89,20 @@ class _SPCatalogItemState extends State<SPCatalogItem_HO> {
                 color: Color(0xFF122247),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  child: ListView(
+                    // crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Padding(
                         padding: EdgeInsets.only(top: 50, bottom: 10),
                         child: Row(
                           children: [
-                            Text(widget.itemDetails['ItemName'],
-                              style: const TextStyle(
-                                  fontSize: 30,
-                                  color: Color(0xFFF9FAFB),
-                                  fontWeight: FontWeight.bold
+                            Expanded(
+                              child: Text(widget.itemDetails['ItemName'],
+                                style: const TextStyle(
+                                    fontSize: 30,
+                                    color: Color(0xFFF9FAFB),
+                                    fontWeight: FontWeight.bold
+                                ),
                               ),
                             ),
                             SizedBox(width: 5,),

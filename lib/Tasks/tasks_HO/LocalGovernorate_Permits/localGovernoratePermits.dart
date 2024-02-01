@@ -147,7 +147,7 @@ class _LocalGovernoratePermitsState extends State<LocalGovernoratePermits> {
                                       ? const CircularProgressIndicator()
                                       : GestureDetector(
                                           onTap: () {
-                                            if(permitsDocument != null){
+                                            if(permitsDocument != ''){
                                               FileDownloader.downloadFile(
                                                 url: permitsDocument!,
                                                 onProgress: (name, progress) {
@@ -210,7 +210,7 @@ class _LocalGovernoratePermitsState extends State<LocalGovernoratePermits> {
                                         ),
                                   GestureDetector(
                                     onTap: () {
-                                      if(permitsDocument != null){
+                                      if(permitsDocument != ''){
                                         Get.to(DocsPdfViewer(
                                           pdfFileURL: permitsDocument!,
                                         ));

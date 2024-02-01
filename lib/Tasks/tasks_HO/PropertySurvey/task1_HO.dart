@@ -207,7 +207,7 @@ class _HOPropertySurveyState extends State<HOPropertySurvey> {
                                         ? const CircularProgressIndicator()
                                         : GestureDetector(
                                             onTap: () {
-                                              if(surveyDocument != null){
+                                              if(surveyDocument != ''){
                                                 FileDownloader.downloadFile(
                                                   url: surveyDocument!,
                                                   onProgress: (name, progress) {
@@ -271,7 +271,7 @@ class _HOPropertySurveyState extends State<HOPropertySurvey> {
                                           ),
                                     GestureDetector(
                                       onTap: () {
-                                        if(surveyDocument != null){
+                                        if(surveyDocument != ''){
                                           Get.to(DocsPdfViewer(
                                             pdfFileURL: surveyDocument!,
                                           ));

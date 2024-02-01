@@ -146,7 +146,7 @@ class _SoilTestingState extends State<SoilTesting> {
                                       ? const CircularProgressIndicator()
                                       : GestureDetector(
                                           onTap: () {
-                                            if(soilDocument != null){
+                                            if(soilDocument != ''){
                                               FileDownloader.downloadFile(
                                                 url: soilDocument!,
                                                 onProgress: (name, progress) {
@@ -209,7 +209,7 @@ class _SoilTestingState extends State<SoilTesting> {
                                         ),
                                   GestureDetector(
                                     onTap: () {
-                                      if(soilDocument != null){
+                                      if(soilDocument != ''){
                                         Get.to(DocsPdfViewer(
                                           pdfFileURL: soilDocument!,
                                         ));

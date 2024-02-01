@@ -108,7 +108,7 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   int filterRating = 1;
-  int filterMinWage = 10;
+  int filterMinWage = 0;
   int filterMaxWage = 200;
   String filterSPLocation = "";
 
@@ -587,10 +587,8 @@ class _SearchPageState extends State<SearchPage> {
                     ),
                     GestureDetector(
                       onTap: (){
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (BuildContext context) => super.widget),
-                        );
+                        Get.offAndToNamed('/HomePage/HomeOwner',
+                            arguments: {'pageIndex': 1});
 
                       },
                       child: Container(
