@@ -80,7 +80,9 @@ class _SeeDetailsProfilePageState extends State<SeeDetailsProfilePage> {
               ],
             ),
             Positioned(
-              top: MediaQuery.of(context).size.width / 10,
+              top: MediaQuery.of(context).size.width > 930
+                  ? 65
+                  : MediaQuery.of(context).size.width / 10,
               left: MediaQuery.of(context).size.width / 3,
               right: MediaQuery.of(context).size.width / 3,
               child: Container(

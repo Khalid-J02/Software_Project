@@ -54,8 +54,10 @@ class _OpenCatalogSPState extends State<OpenCatalogSP> {
           :
           GridView.builder(
             itemCount: getServiceProCatalogItems.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: MediaQuery.of(context).size.width > 930
+              ? 5
+              : 2,
             ),
             itemBuilder: (context , index){
               var ItemObject = getServiceProCatalogItems[index];

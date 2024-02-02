@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:buildnex/APIRequests/serviceProviderWorkExpAPI.dart';
 import 'package:path/path.dart' as path;
 import 'package:buildnex/Widgets/TextField.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import '../classes/language_constants.dart';
 import 'customAlertDialog.dart';
 
@@ -44,20 +46,34 @@ class _AssetNewItemState extends State<AssetNewItem> {
       'https://api.cloudinary.com/v1_1/df1qhofpr/upload';
   final String uploadPreset = 'buildnex';
 
-  Future<void> pickImage() async {
+  Future<void> pickImageWEB() async {
     pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
       File imageFile = File(pickedImage.path);
-      setState(() {
-        image = Image.file(imageFile);
-      });
+      if (MediaQuery.of(context).size.width > 930) {
+        safeSetState;
+      } else {
+        setState(() {
+          image = Image.file(imageFile);
+        });
+      }
     }
-    if (image != null) {
+    if (image != null || pickedImage != null) {
       final url = Uri.parse(cloudinaryUrl);
       final req = http.MultipartRequest('POST', url)
-        ..fields['upload_preset'] = 'buildnex'
-        ..files
-            .add(await http.MultipartFile.fromPath('file', pickedImage.path));
+        ..fields['upload_preset'] = 'buildnex';
+
+      // Read the image file as bytes
+      List<int> imageBytes = await pickedImage.readAsBytes();
+
+      // Convert the image bytes to Uint8List
+      Uint8List uint8List = Uint8List.fromList(imageBytes);
+
+      // Create a MultipartFile using fromBytes
+      final http.MultipartFile file =
+      http.MultipartFile.fromBytes('file', uint8List, filename: 'image.jpg');
+
+      req.files.add(file);
 
       final response = await req.send();
       if (response.statusCode == 200) {
@@ -159,7 +175,7 @@ class _AssetNewItemState extends State<AssetNewItem> {
                         padding: const EdgeInsets.only(left: 8.0),
                         child: ElevatedButton(
                           onPressed: () async {
-                            var imageName = await pickImage();
+                            var imageName = await pickImageWEB();
                           },
                           style: ElevatedButtonStyle(),
                           child: const Icon(

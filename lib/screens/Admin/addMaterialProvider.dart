@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 import '../../APIRequests/adminSystem.dart';
 
@@ -59,20 +61,34 @@ class _AddMaterialProviderState extends State<AddMaterialProvider> {
       'https://api.cloudinary.com/v1_1/df1qhofpr/upload';
   final String uploadPreset = 'buildnex';
 
-  Future<void> pickImage() async {
+  Future<void> pickImageWEB() async {
     pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
       File imageFile = File(pickedImage.path);
-      setState(() {
-        image = Image.file(imageFile);
-      });
+      if (MediaQuery.of(context).size.width > 930) {
+        safeSetState;
+      } else {
+        setState(() {
+          image = Image.file(imageFile);
+        });
+      }
     }
-    if (image != null) {
+    if (image != null || pickedImage != null) {
       final url = Uri.parse(cloudinaryUrl);
       final req = http.MultipartRequest('POST', url)
-        ..fields['upload_preset'] = 'buildnex'
-        ..files
-            .add(await http.MultipartFile.fromPath('file', pickedImage.path));
+        ..fields['upload_preset'] = 'buildnex';
+
+      // Read the image file as bytes
+      List<int> imageBytes = await pickedImage.readAsBytes();
+
+      // Convert the image bytes to Uint8List
+      Uint8List uint8List = Uint8List.fromList(imageBytes);
+
+      // Create a MultipartFile using fromBytes
+      final http.MultipartFile file =
+      http.MultipartFile.fromBytes('file', uint8List, filename: 'image.jpg');
+
+      req.files.add(file);
 
       final response = await req.send();
       if (response.statusCode == 200) {
@@ -185,34 +201,39 @@ class _AddMaterialProviderState extends State<AddMaterialProvider> {
               ),
             ),
           if (imageUrl != null)
-            Container(
-              margin: const EdgeInsets.symmetric(
-                  vertical: 10, horizontal: 80),
-              height: 210,
-              width: 250,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-              ),
-              child: ClipOval(
-                child: SizedBox.fromSize(
-                  size: Size.fromRadius(30),
-                  child: pickedImage == null
-                      ? const Icon(
-                          Icons.image,
-                          size: 35,
-                          color: Color(0xFFF3D69B),
-                        )
-                      : Image.network(
-                          imageUrl!,
-                          fit: BoxFit.fill,
-                        ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  margin: const EdgeInsets.symmetric(
+                      vertical: 10, horizontal: 80),
+                  height: 210,
+                  width: 250,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                  ),
+                  child: ClipOval(
+                    child: SizedBox.fromSize(
+                      size: Size.fromRadius(30),
+                      child: pickedImage == null
+                          ? const Icon(
+                              Icons.image,
+                              size: 35,
+                              color: Color(0xFFF3D69B),
+                            )
+                          : Image.network(
+                              imageUrl!,
+                              fit: BoxFit.fill,
+                            ),
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
           Center(
             child: ElevatedButton(
               onPressed: () async {
-                var imageName = await pickImage();
+                var imageName = await pickImageWEB();
               },
               style: ElevatedButtonStyle(),
               child: const Text(

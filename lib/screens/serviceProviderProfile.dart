@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:buildnex/Widgets/serviceProviderData.dart';
 import 'package:buildnex/Widgets/serviceProviderProfileDialog.dart';
 import 'package:flutter/material.dart';
@@ -52,20 +53,34 @@ class _ServiceProviderProfilePageState
       'https://api.cloudinary.com/v1_1/df1qhofpr/upload';
   final String uploadPreset = 'buildnex';
 
-  Future<void> pickImage() async {
+  Future<void> pickImageWEB() async {
     pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
       File imageFile = File(pickedImage.path);
-      setState(() {
-        image = Image.file(imageFile);
-      });
+      if (MediaQuery.of(context).size.width > 930) {
+        safeSetState;
+      } else {
+        setState(() {
+          image = Image.file(imageFile);
+        });
+      }
     }
-    if (image != null) {
+    if (image != null || pickedImage != null) {
       final url = Uri.parse(cloudinaryUrl);
       final req = http.MultipartRequest('POST', url)
-        ..fields['upload_preset'] = 'buildnex'
-        ..files
-            .add(await http.MultipartFile.fromPath('file', pickedImage.path));
+        ..fields['upload_preset'] = 'buildnex';
+
+      // Read the image file as bytes
+      List<int> imageBytes = await pickedImage.readAsBytes();
+
+      // Convert the image bytes to Uint8List
+      Uint8List uint8List = Uint8List.fromList(imageBytes);
+
+      // Create a MultipartFile using fromBytes
+      final http.MultipartFile file =
+      http.MultipartFile.fromBytes('file', uint8List, filename: 'image.jpg');
+
+      req.files.add(file);
 
       final response = await req.send();
       if (response.statusCode == 200) {
@@ -75,7 +90,6 @@ class _ServiceProviderProfilePageState
         setState(() {
           final url = jsonMap['url'];
           imageUrl = url;
-          userPic = url;
         });
       }
     }
@@ -384,7 +398,9 @@ class _ServiceProviderProfilePageState
                 ),
               ),
               Positioned(
-                top: MediaQuery.of(context).size.width / 12,
+                top: MediaQuery.of(context).size.width > 930
+                  ? 70
+                  : MediaQuery.of(context).size.width / 12,
                 left: MediaQuery.of(context).size.width / 3,
                 right: MediaQuery.of(context).size.width / 3,
                 child: Container(
@@ -405,13 +421,16 @@ class _ServiceProviderProfilePageState
                 ),
               ),
               Positioned(
-                top: MediaQuery.of(context).size.width / 9,
+                top: MediaQuery.of(context).size.width > 930
+                    ?
+                80
+                    :MediaQuery.of(context).size.width / 9,
                 left: MediaQuery.of(context).size.width / 2,
                 right: MediaQuery.of(context).size.width / 4,
                 child: GestureDetector(
                   key: editProfileImageKey,
                   onTap: () async {
-                    await pickImage();
+                    await pickImageWEB();
                     if (imageUrl != null) {
                       await ServiceProviderProfilePageAPI.editUserProfileImage(
                           imageUrl!);

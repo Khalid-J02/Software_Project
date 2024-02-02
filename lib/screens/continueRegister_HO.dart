@@ -1,10 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:buildnex/classes/language_constants.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import '../APIRequests/userRegAPI.dart';
 import '../Widgets/customAlertDialog.dart';
 import 'package:http/http.dart' as http;
@@ -204,32 +207,78 @@ class _Forget_PasswordCodePageState extends State<_HomeOwnerRegisterPage> {
   final String cloudinaryUrl = 'https://api.cloudinary.com/v1_1/df1qhofpr/upload';
   final String uploadPreset = 'buildnex';
 
-  Future<void> pickImage() async {
+  Future<void> pickImageWEB() async {
     pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
       File imageFile = File(pickedImage.path);
-      setState(() {
-        image = Image.file(imageFile);
-      });
+      if (MediaQuery.of(context).size.width > 930) {
+        safeSetState;
+      } else {
+        setState(() {
+          image = Image.file(imageFile);
+        });
+      }
     }
-    if (image != null) {
-      final url = Uri.parse(cloudinaryUrl) ;
-      final req = http.MultipartRequest('POST' , url)
-        ..fields['upload_preset'] = 'buildnex'
-        ..files.add(await http.MultipartFile.fromPath('file', pickedImage.path)) ;
+    if (image != null || pickedImage != null) {
+      final url = Uri.parse(cloudinaryUrl);
+      final req = http.MultipartRequest('POST', url)
+        ..fields['upload_preset'] = 'buildnex';
+
+      // Read the image file as bytes
+      List<int> imageBytes = await pickedImage.readAsBytes();
+
+      // Convert the image bytes to Uint8List
+      Uint8List uint8List = Uint8List.fromList(imageBytes);
+
+      // Create a MultipartFile using fromBytes
+      final http.MultipartFile file =
+      http.MultipartFile.fromBytes('file', uint8List, filename: 'image.jpg');
+
+      req.files.add(file);
 
       final response = await req.send();
-      if(response.statusCode == 200){
-        final responseData = await response.stream.toBytes() ;
-        final responseString = String.fromCharCodes(responseData) ;
+      if (response.statusCode == 200) {
+        final responseData = await response.stream.toBytes();
+        final responseString = String.fromCharCodes(responseData);
         final jsonMap = jsonDecode(responseString);
         setState(() {
-          final url = jsonMap['url'] ;
-          imageUrl = url ;
+          final url = jsonMap['url'];
+          imageUrl = url;
         });
       }
     }
   }
+
+  // Future<void> pickImage() async {
+  //   pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+  //   if (pickedImage != null) {
+  //     File imageFile = File(pickedImage.path);
+  //     MediaQuery.of(context).size.width > 930
+  //     ?
+  //     safeSetState
+  //     :
+  //     setState(() {
+  //       image = Image.file(imageFile);
+  //     });
+  //   }
+  //   if (image != null || pickedImage != null) {
+  //     final url = Uri.parse(cloudinaryUrl) ;
+  //     final req = http.MultipartRequest('POST' , url)
+  //       ..fields['upload_preset'] = 'buildnex'
+  //       ..files.add(await http.MultipartFile.fromPath('file', pickedImage.path)) ;
+  //
+  //     final response = await req.send();
+  //     if(response.statusCode == 200){
+  //       final responseData = await response.stream.toBytes() ;
+  //       final responseString = String.fromCharCodes(responseData) ;
+  //       final jsonMap = jsonDecode(responseString);
+  //       setState(() {
+  //         final url = jsonMap['url'] ;
+  //         imageUrl = url ;
+  //       });
+  //     }
+  //   }
+  // }
 
 
   // functions from tala
@@ -286,7 +335,9 @@ class _Forget_PasswordCodePageState extends State<_HomeOwnerRegisterPage> {
             ),
           if (imageUrl != null)
             Container(
-              margin: EdgeInsets.symmetric(
+              margin: MediaQuery.of(context).size.width > 930
+              ?EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 2.5)
+              :EdgeInsets.symmetric(
                   horizontal: MediaQuery.of(context).size.width / 4),
               height: 210,
               decoration: BoxDecoration(
@@ -317,7 +368,7 @@ class _Forget_PasswordCodePageState extends State<_HomeOwnerRegisterPage> {
             EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 4,),
             child: ElevatedButton(
               onPressed: () async {
-                var imageName = await pickImage();
+                var imageName = await pickImageWEB(); //pickImage();
               },
               style: ElevatedButtonStyle(),
               child: Text(

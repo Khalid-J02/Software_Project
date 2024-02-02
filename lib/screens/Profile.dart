@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:buildnex/Widgets/profileData.dart';
 import 'package:buildnex/Widgets/userProfileDataDialog.dart';
@@ -51,29 +52,43 @@ class _ProfilePageState extends State<ProfilePage> {
   final String cloudinaryUrl = 'https://api.cloudinary.com/v1_1/df1qhofpr/upload';
   final String uploadPreset = 'buildnex';
 
-  Future<void> pickImage() async {
+  Future<void> pickImageWEB() async {
     pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
       File imageFile = File(pickedImage.path);
-      setState(() {
-        image = Image.file(imageFile);
-      });
+      if (MediaQuery.of(context).size.width > 930) {
+        safeSetState;
+      } else {
+        setState(() {
+          image = Image.file(imageFile);
+        });
+      }
     }
-    if (image != null) {
-      final url = Uri.parse(cloudinaryUrl) ;
-      final req = http.MultipartRequest('POST' , url)
-        ..fields['upload_preset'] = 'buildnex'
-        ..files.add(await http.MultipartFile.fromPath('file', pickedImage.path)) ;
+    if (image != null || pickedImage != null) {
+      final url = Uri.parse(cloudinaryUrl);
+      final req = http.MultipartRequest('POST', url)
+        ..fields['upload_preset'] = 'buildnex';
+
+      // Read the image file as bytes
+      List<int> imageBytes = await pickedImage.readAsBytes();
+
+      // Convert the image bytes to Uint8List
+      Uint8List uint8List = Uint8List.fromList(imageBytes);
+
+      // Create a MultipartFile using fromBytes
+      final http.MultipartFile file =
+      http.MultipartFile.fromBytes('file', uint8List, filename: 'image.jpg');
+
+      req.files.add(file);
 
       final response = await req.send();
-      if(response.statusCode == 200){
-        final responseData = await response.stream.toBytes() ;
-        final responseString = String.fromCharCodes(responseData) ;
+      if (response.statusCode == 200) {
+        final responseData = await response.stream.toBytes();
+        final responseString = String.fromCharCodes(responseData);
         final jsonMap = jsonDecode(responseString);
         setState(() {
-          final url = jsonMap['url'] ;
-          imageUrl = url ;
-          userPic = url ;
+          final url = jsonMap['url'];
+          imageUrl = url;
         });
       }
     }
@@ -282,7 +297,7 @@ class _ProfilePageState extends State<ProfilePage> {
               child: GestureDetector(
                 key: editProfileImageKey,
                 onTap: () async {
-                  await pickImage() ;
+                  await pickImageWEB() ;
                   await HomeOwnerProfilePageAPI.editUserProfileImage(imageUrl!);
                 },
                 child: Container(

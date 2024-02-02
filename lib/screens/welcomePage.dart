@@ -107,12 +107,12 @@ class _WelcomePageState extends State<WelcomePage> {
                 Positioned(
                   top: MediaQuery.of(context).size.width > 930
                       ?
-                  80
+                  40
                       :
                   MediaQuery.of(context).size.width / 30,
                   left: MediaQuery.of(context).size.width > 930
                       ?
-                  MediaQuery.of(context).size.width / 3 - 40
+                  MediaQuery.of(context).size.width /1.095
                       :
                   MediaQuery.of(context).size.width / 1.6,
                   child: ButtonTheme(

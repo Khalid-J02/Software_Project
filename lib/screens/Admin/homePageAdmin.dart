@@ -342,7 +342,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                                 child: Container(
                                   margin: MediaQuery.of(context).size.width > 930
                                       ?
-                                  EdgeInsets.fromLTRB(12, 0, MediaQuery.of(context).size.width / 3, 0)
+                                  EdgeInsets.fromLTRB(12, 0, 55, 0)
                                       :
                                   const EdgeInsets.fromLTRB(12, 0, 55, 0),
                                   child: const Text('General'),
@@ -481,7 +481,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                                 child: Container(
                                   margin: MediaQuery.of(context).size.width > 930
                                       ?
-                                  EdgeInsets.fromLTRB(12, 0, MediaQuery.of(context).size.width / 3, 0)
+                                  EdgeInsets.fromLTRB(12, 0, 55, 0)
                                       :
                                   const EdgeInsets.fromLTRB(12, 0, 55, 0),
                                   child: const Text('General'),
@@ -607,7 +607,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                                 child: Container(
                                   margin: MediaQuery.of(context).size.width > 930
                                       ?
-                                  EdgeInsets.fromLTRB(12, 0, MediaQuery.of(context).size.width / 3, 0)
+                                  EdgeInsets.fromLTRB(12, 0, 55, 0)
                                       :
                                   const EdgeInsets.fromLTRB(12, 0, 55, 0),
                                   child: const Text('General'),

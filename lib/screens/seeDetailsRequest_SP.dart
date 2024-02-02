@@ -146,7 +146,9 @@ class _ProjectDescriptionSeeDetailsState
               ],
             ),
             Positioned(
-              top: MediaQuery.of(context).size.width / 40,
+              top: MediaQuery.of(context).size.width > 930
+                  ? MediaQuery.of(context).size.width / 120
+                  : MediaQuery.of(context).size.width / 40,
               left: MediaQuery.of(context).size.width / 3,
               right: MediaQuery.of(context).size.width / 3,
               child: Container(

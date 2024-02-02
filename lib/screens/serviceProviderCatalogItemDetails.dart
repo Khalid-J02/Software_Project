@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:clippy_flutter/clippy_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lorem_ipsum/lorem_ipsum.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 import '../APIRequests/serviceProviderCatalogAPI.dart';
 import '../Widgets/ratingBar_ServiceProvider.dart';
@@ -102,20 +104,34 @@ class _SPCatalogItemState extends State<SPCatalogItem> {
       'https://api.cloudinary.com/v1_1/df1qhofpr/upload';
   final String uploadPreset = 'buildnex';
 
-  Future<void> pickImage() async {
+  Future<void> pickImageWEB() async {
     pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
       File imageFile = File(pickedImage.path);
-      setState(() {
-        image = Image.file(imageFile);
-      });
+      if (MediaQuery.of(context).size.width > 930) {
+        safeSetState;
+      } else {
+        setState(() {
+          image = Image.file(imageFile);
+        });
+      }
     }
-    if (image != null) {
+    if (image != null || pickedImage != null) {
       final url = Uri.parse(cloudinaryUrl);
       final req = http.MultipartRequest('POST', url)
-        ..fields['upload_preset'] = 'buildnex'
-        ..files
-            .add(await http.MultipartFile.fromPath('file', pickedImage.path));
+        ..fields['upload_preset'] = 'buildnex';
+
+      // Read the image file as bytes
+      List<int> imageBytes = await pickedImage.readAsBytes();
+
+      // Convert the image bytes to Uint8List
+      Uint8List uint8List = Uint8List.fromList(imageBytes);
+
+      // Create a MultipartFile using fromBytes
+      final http.MultipartFile file =
+      http.MultipartFile.fromBytes('file', uint8List, filename: 'image.jpg');
+
+      req.files.add(file);
 
       final response = await req.send();
       if (response.statusCode == 200) {
@@ -189,7 +205,7 @@ class _SPCatalogItemState extends State<SPCatalogItem> {
                         child: FittedBox(
                           child: FloatingActionButton(
                             onPressed: () async {
-                              var imageName = await pickImage();
+                              var imageName = await pickImageWEB();
                               setState(() {
                                 itemImage = imageUrl!;
                               });
